@@ -1,0 +1,99 @@
+2025-06-17 18:25:24,645 - domain_parser - INFO - Domain "models/corridor/domain.pddl" start initialization.
+2025-06-17 18:25:24,645 - domain_parser - INFO - Domain Parser found "models/corridor/domain.pddl"
+2025-06-17 18:25:24,645 - domain_parser - INFO - Complete file reading.
+2025-06-17 18:25:24,645 - domain_parser - INFO - Domain name found
+2025-06-17 18:25:24,646 - domain_parser - INFO - Domain type found
+2025-06-17 18:25:24,646 - domain_parser - INFO - Domain functions found
+2025-06-17 18:25:24,646 - domain_parser - INFO - Domain actions found
+2025-06-17 18:25:24,647 - domain_parser - DEBUG - Parsed Domain Result:
+================= Domain "(corridor)" Parsing Result ================
+Domain types: ['item', 'agent']
+=================
+Domain functions:
+Function(name:agent_loc, parameters:{'agent': ['?a']}). 
+Function(name:item_loc, parameters:{'item': ['?i']}). 
+Function(name:holding, parameters:{'agent': ['?a']}). 
+Function(name:hold_by, parameters:{'item': ['?i'], 'agent': ['?a']}). 
+Function(name:is_free, parameters:{'item': ['?i']}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: move_right_without_item
+Parameters:
+    agent : ['?a']
+Preconditions:
+1: Precondition(Variable(holding: ['?a']) = 0). 
+2: Precondition(Variable(agent_loc: ['?a']) = 1). 
+Effects:
+1: Effect('increase' Variable(agent_loc: ['?a']) 1). 
+
+-----------------
+Action:
+Name: move_left_without_item
+Parameters:
+    agent : ['?a']
+Preconditions:
+1: Precondition(Variable(holding: ['?a']) = 0). 
+2: Precondition(Variable(agent_loc: ['?a']) = 2). 
+Effects:
+1: Effect('decrease' Variable(agent_loc: ['?a']) 1). 
+
+-----------------
+Action:
+Name: move_right_with_item
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: Precondition(Variable(agent_loc: ['?a']) = 1). 
+2: Precondition(Variable(hold_by: ['?i', '?a']) = 1). 
+3: Precondition(Variable(is_free: ['?i']) = 0). 
+Effects:
+1: Effect('increase' Variable(agent_loc: ['?a']) 1). 
+2: Effect('increase' Variable(item_loc: ['?i']) 1). 
+
+-----------------
+Action:
+Name: move_left_with_item
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: Precondition(Variable(agent_loc: ['?a']) = 2). 
+2: Precondition(Variable(hold_by: ['?i', '?a']) = 1). 
+3: Precondition(Variable(is_free: ['?i']) = 0). 
+Effects:
+1: Effect('decrease' Variable(agent_loc: ['?a']) 1). 
+2: Effect('decrease' Variable(item_loc: ['?i']) 1). 
+
+-----------------
+Action:
+Name: pick_up
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: Precondition(Variable(agent_loc: ['?a']) = Variable(item_loc: ['?i'])). 
+2: Precondition(Variable(holding: ['?a']) = 0). 
+3: Precondition(Variable(is_free: ['?i']) = 1). 
+Effects:
+1: Effect('assign' Variable(holding: ['?a']) 1). 
+2: Effect('assign' Variable(hold_by: ['?i', '?a']) 1). 
+3: Effect('assign' Variable(is_free: ['?i']) 0). 
+
+-----------------
+Action:
+Name: drop_item
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: Precondition(Variable(holding: ['?a']) = 1). 
+2: Precondition(Variable(hold_by: ['?i', '?a']) = 1). 
+Effects:
+1: Effect('assign' Variable(holding: ['?a']) 0). 
+2: Effect('assign' Variable(hold_by: ['?i', '?a']) 0). 
+3: Effect('assign' Variable(is_free: ['?i']) 1). 
+
+
