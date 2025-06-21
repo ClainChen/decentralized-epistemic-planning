@@ -1,11 +1,21 @@
-2025-06-17 18:25:24,645 - domain_parser - INFO - Domain "models/corridor/domain.pddl" start initialization.
-2025-06-17 18:25:24,645 - domain_parser - INFO - Domain Parser found "models/corridor/domain.pddl"
-2025-06-17 18:25:24,645 - domain_parser - INFO - Complete file reading.
-2025-06-17 18:25:24,645 - domain_parser - INFO - Domain name found
-2025-06-17 18:25:24,646 - domain_parser - INFO - Domain type found
-2025-06-17 18:25:24,646 - domain_parser - INFO - Domain functions found
-2025-06-17 18:25:24,646 - domain_parser - INFO - Domain actions found
-2025-06-17 18:25:24,647 - domain_parser - DEBUG - Parsed Domain Result:
+2025-06-21 19:45:24,901 INFO - pddl_handler.model_builder._.main:
+Start building the model, type: "cooperative"
+2025-06-21 19:45:24,901 INFO - pddl_handler.file_parser.DomainParser.run:
+Domain "models/corridor/domain.pddl" start initialization.
+2025-06-21 19:45:24,901 INFO - pddl_handler.file_parser.DomainParser.run:
+Domain Parser found "models/corridor/domain.pddl"
+2025-06-21 19:45:24,901 INFO - pddl_handler.file_parser.DomainParser.run:
+Complete file reading.
+2025-06-21 19:45:24,902 INFO - pddl_handler.file_parser.DomainParser.run:
+Domain name found
+2025-06-21 19:45:24,902 INFO - pddl_handler.file_parser.DomainParser.run:
+Domain type found
+2025-06-21 19:45:24,902 INFO - pddl_handler.file_parser.DomainParser.run:
+Domain functions found
+2025-06-21 19:45:24,903 INFO - pddl_handler.file_parser.DomainParser.run:
+Domain actions found
+2025-06-21 19:45:24,903 DEBUG - pddl_handler.file_parser.DomainParser.run:
+Parsed Domain Result:
 ================= Domain "(corridor)" Parsing Result ================
 Domain types: ['item', 'agent']
 =================
@@ -19,14 +29,22 @@ Function(name:is_free, parameters:{'item': ['?i']}).
 Domain actions:
 -----------------
 Action:
+Name: stay
+Parameters:
+    agent : ['?a']
+Preconditions:
+Effects:
+
+-----------------
+Action:
 Name: move_right_without_item
 Parameters:
     agent : ['?a']
 Preconditions:
-1: Precondition(Variable(holding: ['?a']) = 0). 
-2: Precondition(Variable(agent_loc: ['?a']) = 1). 
+1: Condition(Variable(holding: ['?a']) = 0)
+2: Condition(Variable(agent_loc: ['?a']) = 1)
 Effects:
-1: Effect('increase' Variable(agent_loc: ['?a']) 1). 
+1: Effect('increase' Variable(agent_loc: ['?a']) 1)
 
 -----------------
 Action:
@@ -34,10 +52,10 @@ Name: move_left_without_item
 Parameters:
     agent : ['?a']
 Preconditions:
-1: Precondition(Variable(holding: ['?a']) = 0). 
-2: Precondition(Variable(agent_loc: ['?a']) = 2). 
+1: Condition(Variable(holding: ['?a']) = 0)
+2: Condition(Variable(agent_loc: ['?a']) = 2)
 Effects:
-1: Effect('decrease' Variable(agent_loc: ['?a']) 1). 
+1: Effect('decrease' Variable(agent_loc: ['?a']) 1)
 
 -----------------
 Action:
@@ -46,12 +64,12 @@ Parameters:
     agent : ['?a']
     item : ['?i']
 Preconditions:
-1: Precondition(Variable(agent_loc: ['?a']) = 1). 
-2: Precondition(Variable(hold_by: ['?i', '?a']) = 1). 
-3: Precondition(Variable(is_free: ['?i']) = 0). 
+1: Condition(Variable(agent_loc: ['?a']) = 1)
+2: Condition(Variable(hold_by: ['?i', '?a']) = 1)
+3: Condition(Variable(is_free: ['?i']) = 0)
 Effects:
-1: Effect('increase' Variable(agent_loc: ['?a']) 1). 
-2: Effect('increase' Variable(item_loc: ['?i']) 1). 
+1: Effect('increase' Variable(agent_loc: ['?a']) 1)
+2: Effect('increase' Variable(item_loc: ['?i']) 1)
 
 -----------------
 Action:
@@ -60,12 +78,12 @@ Parameters:
     agent : ['?a']
     item : ['?i']
 Preconditions:
-1: Precondition(Variable(agent_loc: ['?a']) = 2). 
-2: Precondition(Variable(hold_by: ['?i', '?a']) = 1). 
-3: Precondition(Variable(is_free: ['?i']) = 0). 
+1: Condition(Variable(agent_loc: ['?a']) = 2)
+2: Condition(Variable(hold_by: ['?i', '?a']) = 1)
+3: Condition(Variable(is_free: ['?i']) = 0)
 Effects:
-1: Effect('decrease' Variable(agent_loc: ['?a']) 1). 
-2: Effect('decrease' Variable(item_loc: ['?i']) 1). 
+1: Effect('decrease' Variable(agent_loc: ['?a']) 1)
+2: Effect('decrease' Variable(item_loc: ['?i']) 1)
 
 -----------------
 Action:
@@ -74,13 +92,13 @@ Parameters:
     agent : ['?a']
     item : ['?i']
 Preconditions:
-1: Precondition(Variable(agent_loc: ['?a']) = Variable(item_loc: ['?i'])). 
-2: Precondition(Variable(holding: ['?a']) = 0). 
-3: Precondition(Variable(is_free: ['?i']) = 1). 
+1: Condition(Variable(agent_loc: ['?a']) = Variable(item_loc: ['?i']))
+2: Condition(Variable(holding: ['?a']) = 0)
+3: Condition(Variable(is_free: ['?i']) = 1)
 Effects:
-1: Effect('assign' Variable(holding: ['?a']) 1). 
-2: Effect('assign' Variable(hold_by: ['?i', '?a']) 1). 
-3: Effect('assign' Variable(is_free: ['?i']) 0). 
+1: Effect('assign' Variable(holding: ['?a']) 1)
+2: Effect('assign' Variable(hold_by: ['?i', '?a']) 1)
+3: Effect('assign' Variable(is_free: ['?i']) 0)
 
 -----------------
 Action:
@@ -89,11 +107,79 @@ Parameters:
     agent : ['?a']
     item : ['?i']
 Preconditions:
-1: Precondition(Variable(holding: ['?a']) = 1). 
-2: Precondition(Variable(hold_by: ['?i', '?a']) = 1). 
+1: Condition(Variable(holding: ['?a']) = 1)
+2: Condition(Variable(hold_by: ['?i', '?a']) = 1)
 Effects:
-1: Effect('assign' Variable(holding: ['?a']) 0). 
-2: Effect('assign' Variable(hold_by: ['?i', '?a']) 0). 
-3: Effect('assign' Variable(is_free: ['?i']) 1). 
+1: Effect('assign' Variable(holding: ['?a']) 0)
+2: Effect('assign' Variable(hold_by: ['?i', '?a']) 0)
+3: Effect('assign' Variable(is_free: ['?i']) 1)
 
+
+2025-06-21 19:45:24,903 INFO - pddl_handler.file_parser.ProblemParser.run:
+Problem "models/corridor/problem01" start initialization.
+2025-06-21 19:45:24,903 INFO - pddl_handler.file_parser.ProblemParser.get_files:
+Problem folder found "models/corridor/problem01"
+2025-06-21 19:45:24,904 INFO - pddl_handler.file_parser.ProblemParser.run:
+Found 2 agent files:
+"models/corridor/problem01/a.agtpddl"
+"models/corridor/problem01/b.agtpddl"
+2025-06-21 19:45:24,904 INFO - pddl_handler.file_parser.ProblemParser.run:
+Found init file: "models/corridor/problem01/init.envpddl"
+2025-06-21 19:45:24,904 INFO - pddl_handler.file_parser.ProblemParser.run:
+Complete reading environment file.
+2025-06-21 19:45:24,904 INFO - pddl_handler.file_parser.ProblemParser.run:
+Copmlete reading agent file "models/corridor/problem01/a.agtpddl"
+2025-06-21 19:45:24,905 INFO - pddl_handler.file_parser.ProblemParser.run:
+Copmlete reading agent file "models/corridor/problem01/b.agtpddl"
+2025-06-21 19:45:24,905 INFO - pddl_handler.file_parser.ProblemParser.run:
+Problem domain name "corridor" found
+Problem name "corridor01" found
+2025-06-21 19:45:24,905 INFO - pddl_handler.file_parser.ProblemParser.run:
+Problem agents found
+2025-06-21 19:45:24,905 INFO - pddl_handler.file_parser.ProblemParser.run:
+Problem objects found
+2025-06-21 19:45:24,906 INFO - pddl_handler.file_parser.ProblemParser.run:
+Problem ranges found
+2025-06-21 19:45:24,906 INFO - pddl_handler.file_parser.ProblemParser.run:
+Problem initial states found
+2025-06-21 19:45:24,906 INFO - pddl_handler.file_parser.ProblemParser.run:
+Problem goals found
+2025-06-21 19:45:24,906 DEBUG - pddl_handler.file_parser.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(corridor : corridor01)" Parsing Result ===========
+Agents: ['a', 'b']
+=================
+Objects:
+item: ['i']
+=================
+States:
+-----------------
+a:
+State(variable: Variable(agent_loc: ['a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(holding: ['a']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(hold_by: ['i', 'a']), value: 0, target_variable: Variable(None: []))
+-----------------
+b:
+State(variable: Variable(agent_loc: ['b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(holding: ['b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(hold_by: ['i', 'b']), value: 1, target_variable: Variable(None: []))
+-----------------
+unknown:
+State(variable: Variable(item_loc: ['i']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(is_free: ['i']), value: 0, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(hold_by: ['i', 'b']) = 1))
+-----------------
+b:
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(hold_by: ['i', 'b']) = 0))
+=================
+Ranges:
+Range(function_name: agent_loc, type: integer, min: 1, max: 2)
+Range(function_name: item_loc, type: integer, min: 1, max: 2)
+Range(function_name: holding, type: integer, min: 0, max: 1)
+Range(function_name: hold_by, type: integer, min: 0, max: 1)
+Range(function_name: is_free, type: integer, min: 0, max: 1)
 

@@ -1,11 +1,13 @@
 import argparse
 import logging
 import sys
+import traceback
 
 import util
 from . import file_parser as fp
 
-logging_levels = {'critical': logging.CRITICAL,
+THIS_LOGGER_LEVEL = logging.DEBUG
+LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'fatal': logging.FATAL,
                   'error': logging.ERROR,
                   'warning': logging.WARNING,
@@ -39,15 +41,26 @@ def loadParameter():
 
 
 def main():
-    args = loadParameter()
-    c_logging_level = logging.INFO
-    if args.c_logging_level:
-        c_logging_level = logging_levels[args.c_logging_level]
-    c_logging_display = args.c_logging_display
-    handler = util.setup_logger_handlers('log/model_builder.log', log_mode='w',
-                                         c_display=c_logging_display, c_logger_level=c_logging_level)
-    domain_parser = fp.DomainParser(handler)
-    domain_path = util.MODEL_FOLDER_PATH + args.domain_path
-    domain_parser.run(domain_path)
-    
+    try:
+        args = loadParameter()
+        c_logging_level = logging.INFO
+        if args.c_logging_level:
+            c_logging_level = LOGGING_LEVELS[args.c_logging_level]
+        c_logging_display = args.c_logging_display
+        handler = util.setup_logger_handlers('log/model_builder.log', log_mode='w',
+                                             c_display=c_logging_display, c_logger_level=c_logging_level)
+        logger = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
+        logger.info(f"Start building the model, type: \"{args.problem_type}\"")
+
+        domain_parser = fp.DomainParser(handler)
+        domain_path = util.MODEL_FOLDER_PATH + args.domain_path
+        domain: fp.ParsingDomain = domain_parser.run(domain_path)
+
+        problem_parser = fp.ProblemParser(handler)
+        problem_path = util.MODEL_FOLDER_PATH + args.problem_path
+        problem: fp.ParsingProblem = problem_parser.run(problem_path)
+    except Exception as e:
+        logger.error(f"{traceback.format_exc()}\n")
+        print(f"Model building failed.")
+        raise e
 
