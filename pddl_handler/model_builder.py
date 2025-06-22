@@ -4,7 +4,7 @@ import sys
 import traceback
 
 import util
-from . import file_parser as fp
+from . import file_parser
 
 THIS_LOGGER_LEVEL = logging.DEBUG
 LOGGING_LEVELS = {'critical': logging.CRITICAL,
@@ -52,13 +52,19 @@ def main():
         logger = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
         logger.info(f"Start building the model, type: \"{args.problem_type}\"")
 
-        domain_parser = fp.DomainParser(handler)
+        domain_parser = file_parser.DomainParser(handler)
         domain_path = util.MODEL_FOLDER_PATH + args.domain_path
-        domain: fp.ParsingDomain = domain_parser.run(domain_path)
+        domain: file_parser.ParsingDomain = domain_parser.run(domain_path)
 
-        problem_parser = fp.ProblemParser(handler)
+        problem_parser = file_parser.ProblemParser(handler)
         problem_path = util.MODEL_FOLDER_PATH + args.problem_path
-        problem: fp.ParsingProblem = problem_parser.run(problem_path)
+        problem: file_parser.ParsingProblem = problem_parser.run(problem_path)
+
+        checker = file_parser.ModelChecker(domain, problem, handler)
+        check_result = checker.check_validity()
+        if not check_result:
+            logger.error(f"Model is invalid.")
+            raise f"Model did not pass the checker."
     except Exception as e:
         logger.error(f"{traceback.format_exc()}\n")
         print(f"Model building failed.")

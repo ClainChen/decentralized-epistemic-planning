@@ -9,8 +9,11 @@ python entrance.py -h # check the full help of this program
 Progress:
 
 - [x] Domain parser
-- [ ] Problem parser
+- [x] Problem parser
 - [ ] Model builder
+  - [x] Model checker
+  - [ ] Builder
+
 - [ ] Problem Generator
 - [ ] Epistemic Model
 - [ ] Problem Solver

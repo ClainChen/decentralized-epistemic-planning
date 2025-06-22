@@ -1,20 +1,20 @@
-2025-06-21 19:45:24,901 INFO - pddl_handler.model_builder._.main:
+2025-06-23 00:03:13,089 INFO - pddl_handler.model_builder._.main:
 Start building the model, type: "cooperative"
-2025-06-21 19:45:24,901 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 00:03:13,089 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain "models/corridor/domain.pddl" start initialization.
-2025-06-21 19:45:24,901 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 00:03:13,090 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain Parser found "models/corridor/domain.pddl"
-2025-06-21 19:45:24,901 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 00:03:13,090 INFO - pddl_handler.file_parser.DomainParser.run:
 Complete file reading.
-2025-06-21 19:45:24,902 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 00:03:13,090 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain name found
-2025-06-21 19:45:24,902 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 00:03:13,090 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain type found
-2025-06-21 19:45:24,902 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 00:03:13,091 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain functions found
-2025-06-21 19:45:24,903 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 00:03:13,091 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain actions found
-2025-06-21 19:45:24,903 DEBUG - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 00:03:13,092 DEBUG - pddl_handler.file_parser.DomainParser.run:
 Parsed Domain Result:
 ================= Domain "(corridor)" Parsing Result ================
 Domain types: ['item', 'agent']
@@ -115,36 +115,36 @@ Effects:
 3: Effect('assign' Variable(is_free: ['?i']) 1)
 
 
-2025-06-21 19:45:24,903 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem "models/corridor/problem01" start initialization.
-2025-06-21 19:45:24,903 INFO - pddl_handler.file_parser.ProblemParser.get_files:
+2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.get_files:
 Problem folder found "models/corridor/problem01"
-2025-06-21 19:45:24,904 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.run:
 Found 2 agent files:
 "models/corridor/problem01/a.agtpddl"
 "models/corridor/problem01/b.agtpddl"
-2025-06-21 19:45:24,904 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.run:
 Found init file: "models/corridor/problem01/init.envpddl"
-2025-06-21 19:45:24,904 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.run:
 Complete reading environment file.
-2025-06-21 19:45:24,904 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,093 INFO - pddl_handler.file_parser.ProblemParser.run:
 Copmlete reading agent file "models/corridor/problem01/a.agtpddl"
-2025-06-21 19:45:24,905 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,093 INFO - pddl_handler.file_parser.ProblemParser.run:
 Copmlete reading agent file "models/corridor/problem01/b.agtpddl"
-2025-06-21 19:45:24,905 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,093 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem domain name "corridor" found
 Problem name "corridor01" found
-2025-06-21 19:45:24,905 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,093 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem agents found
-2025-06-21 19:45:24,905 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,094 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem objects found
-2025-06-21 19:45:24,906 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,094 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem ranges found
-2025-06-21 19:45:24,906 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,094 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem initial states found
-2025-06-21 19:45:24,906 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,095 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem goals found
-2025-06-21 19:45:24,906 DEBUG - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 00:03:13,095 DEBUG - pddl_handler.file_parser.ProblemParser.run:
 Parsed Problem Result:
 ============ Problem "(corridor : corridor01)" Parsing Result ===========
 Agents: ['a', 'b']
@@ -183,3 +183,17 @@ Range(function_name: holding, type: integer, min: 0, max: 1)
 Range(function_name: hold_by, type: integer, min: 0, max: 1)
 Range(function_name: is_free, type: integer, min: 0, max: 1)
 
+2025-06-23 00:03:13,095 INFO - pddl_handler.file_parser.ModelChecker.check_validity:
+checking the validity...
+2025-06-23 00:03:13,095 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'i', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
+2025-06-23 00:03:13,095 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+Checking the states
+2025-06-23 00:03:13,095 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+Checking the goals
+2025-06-23 00:03:13,096 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+Checking the ranges
+2025-06-23 00:03:13,096 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+Checking the actions
+2025-06-23 00:03:13,096 INFO - pddl_handler.file_parser.ModelChecker.check_validity:
+The domain and problem pass the checker.
