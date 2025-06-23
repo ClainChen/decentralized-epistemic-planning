@@ -1,20 +1,20 @@
-2025-06-23 00:03:13,089 INFO - pddl_handler.model_builder._.main:
+2025-06-23 15:12:10,318 INFO - pddl_handler.model_builder._.main:
 Start building the model, type: "cooperative"
-2025-06-23 00:03:13,089 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 15:12:10,319 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain "models/corridor/domain.pddl" start initialization.
-2025-06-23 00:03:13,090 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 15:12:10,319 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain Parser found "models/corridor/domain.pddl"
-2025-06-23 00:03:13,090 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 15:12:10,319 INFO - pddl_handler.file_parser.DomainParser.run:
 Complete file reading.
-2025-06-23 00:03:13,090 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 15:12:10,320 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain name found
-2025-06-23 00:03:13,090 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 15:12:10,320 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain type found
-2025-06-23 00:03:13,091 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 15:12:10,320 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain functions found
-2025-06-23 00:03:13,091 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 15:12:10,322 INFO - pddl_handler.file_parser.DomainParser.run:
 Domain actions found
-2025-06-23 00:03:13,092 DEBUG - pddl_handler.file_parser.DomainParser.run:
+2025-06-23 15:12:10,322 DEBUG - pddl_handler.file_parser.DomainParser.run:
 Parsed Domain Result:
 ================= Domain "(corridor)" Parsing Result ================
 Domain types: ['item', 'agent']
@@ -115,36 +115,36 @@ Effects:
 3: Effect('assign' Variable(is_free: ['?i']) 1)
 
 
-2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,322 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem "models/corridor/problem01" start initialization.
-2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.get_files:
+2025-06-23 15:12:10,323 INFO - pddl_handler.file_parser.ProblemParser.get_files:
 Problem folder found "models/corridor/problem01"
-2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,323 INFO - pddl_handler.file_parser.ProblemParser.run:
 Found 2 agent files:
 "models/corridor/problem01/a.agtpddl"
 "models/corridor/problem01/b.agtpddl"
-2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,323 INFO - pddl_handler.file_parser.ProblemParser.run:
 Found init file: "models/corridor/problem01/init.envpddl"
-2025-06-23 00:03:13,092 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,323 INFO - pddl_handler.file_parser.ProblemParser.run:
 Complete reading environment file.
-2025-06-23 00:03:13,093 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,324 INFO - pddl_handler.file_parser.ProblemParser.run:
 Copmlete reading agent file "models/corridor/problem01/a.agtpddl"
-2025-06-23 00:03:13,093 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,324 INFO - pddl_handler.file_parser.ProblemParser.run:
 Copmlete reading agent file "models/corridor/problem01/b.agtpddl"
-2025-06-23 00:03:13,093 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,325 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem domain name "corridor" found
 Problem name "corridor01" found
-2025-06-23 00:03:13,093 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,325 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem agents found
-2025-06-23 00:03:13,094 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,325 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem objects found
-2025-06-23 00:03:13,094 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,326 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem ranges found
-2025-06-23 00:03:13,094 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,326 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem initial states found
-2025-06-23 00:03:13,095 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,327 INFO - pddl_handler.file_parser.ProblemParser.run:
 Problem goals found
-2025-06-23 00:03:13,095 DEBUG - pddl_handler.file_parser.ProblemParser.run:
+2025-06-23 15:12:10,327 DEBUG - pddl_handler.file_parser.ProblemParser.run:
 Parsed Problem Result:
 ============ Problem "(corridor : corridor01)" Parsing Result ===========
 Agents: ['a', 'b']
@@ -183,17 +183,240 @@ Range(function_name: holding, type: integer, min: 0, max: 1)
 Range(function_name: hold_by, type: integer, min: 0, max: 1)
 Range(function_name: is_free, type: integer, min: 0, max: 1)
 
-2025-06-23 00:03:13,095 INFO - pddl_handler.file_parser.ModelChecker.check_validity:
+2025-06-23 15:12:10,328 INFO - pddl_handler.file_parser.ModelChecker.check_validity:
 checking the validity...
-2025-06-23 00:03:13,095 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+2025-06-23 15:12:10,328 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
 Valid names: ['a', 'b', 'i', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
-2025-06-23 00:03:13,095 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+2025-06-23 15:12:10,328 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
 Checking the states
-2025-06-23 00:03:13,095 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+2025-06-23 15:12:10,328 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
 Checking the goals
-2025-06-23 00:03:13,096 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+2025-06-23 15:12:10,328 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
 Checking the ranges
-2025-06-23 00:03:13,096 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
+2025-06-23 15:12:10,328 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
 Checking the actions
-2025-06-23 00:03:13,096 INFO - pddl_handler.file_parser.ModelChecker.check_validity:
+2025-06-23 15:12:10,329 INFO - pddl_handler.file_parser.ModelChecker.check_validity:
 The domain and problem pass the checker.
+2025-06-23 15:12:10,330 DEBUG - pddl_handler.model_builder._.build:
+Action:
+Name: stay
+Parameters:
+    agent : ['?a']
+Preconditions:
+Effects:
+
+2025-06-23 15:12:10,330 DEBUG - pddl_handler.model_builder._.build:
+Action:
+Name: move_right_without_item
+Parameters:
+    agent : ['?a']
+Preconditions:
+1: ConditionUnit(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 0)
+2: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+Effects:
+1: Effect('EffectOperator.INCREASE' BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+
+2025-06-23 15:12:10,330 DEBUG - pddl_handler.model_builder._.build:
+Action:
+Name: move_left_without_item
+Parameters:
+    agent : ['?a']
+Preconditions:
+1: ConditionUnit(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 0)
+2: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 2)
+Effects:
+1: Effect('EffectOperator.DECREASE' BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+
+2025-06-23 15:12:10,331 DEBUG - pddl_handler.model_builder._.build:
+Action:
+Name: move_right_with_item
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+2: ConditionUnit(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+3: ConditionUnit(BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) QuantityOperator.EQUAL 0)
+Effects:
+1: Effect('EffectOperator.INCREASE' BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+2: Effect('EffectOperator.INCREASE' BaseState(name: item_loc, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) 1)
+
+2025-06-23 15:12:10,331 DEBUG - pddl_handler.model_builder._.build:
+Action:
+Name: move_left_with_item
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 2)
+2: ConditionUnit(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+3: ConditionUnit(BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) QuantityOperator.EQUAL 0)
+Effects:
+1: Effect('EffectOperator.DECREASE' BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+2: Effect('EffectOperator.DECREASE' BaseState(name: item_loc, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) 1)
+
+2025-06-23 15:12:10,331 DEBUG - pddl_handler.model_builder._.build:
+Action:
+Name: pick_up
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL BaseState(name: BaseState(name: item_loc, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []), require_entities: defaultdict(<class 'list'>, {}), entities: []))
+2: ConditionUnit(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 0)
+3: ConditionUnit(BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) QuantityOperator.EQUAL 1)
+Effects:
+1: Effect('EffectOperator.ASSIGN' BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+2: Effect('EffectOperator.ASSIGN' BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) 1)
+3: Effect('EffectOperator.ASSIGN' BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) 0)
+
+2025-06-23 15:12:10,331 DEBUG - pddl_handler.model_builder._.build:
+Action:
+Name: drop_item
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: ConditionUnit(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+2: ConditionUnit(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+Effects:
+1: Effect('EffectOperator.ASSIGN' BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 0)
+2: Effect('EffectOperator.ASSIGN' BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) 0)
+3: Effect('EffectOperator.ASSIGN' BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) 1)
+
+2025-06-23 15:12:10,332 INFO - pddl_handler.model_builder._.build:
+Model built
+2025-06-23 15:12:10,332 DEBUG - pddl_handler.model_builder._.build:
+Model:
+==================== Model Parsing Result ====================
+Domain name: corridor
+Problem name: corridor01
+=================
+Entities:
+Entity(a - agent)
+Entity(b - agent)
+Entity(i - item)
+=================
+Base States:
+BaseState(name: agent_loc, require_entities: {'agent': ['?a']}, entities: [])
+BaseState(name: item_loc, require_entities: {'item': ['?i']}, entities: [])
+BaseState(name: holding, require_entities: {'agent': ['?a']}, entities: [])
+BaseState(name: hold_by, require_entities: {'item': ['?i'], 'agent': ['?a']}, entities: [])
+BaseState(name: is_free, require_entities: {'item': ['?i']}, entities: [])
+=================
+Actions:
+-----------------
+Action:
+Name: stay
+Parameters:
+    agent : ['?a']
+Preconditions:
+Effects:
+
+-----------------
+Action:
+Name: move_right_without_item
+Parameters:
+    agent : ['?a']
+Preconditions:
+1: ConditionUnit(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 0)
+2: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+Effects:
+1: Effect('EffectOperator.INCREASE' BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+
+-----------------
+Action:
+Name: move_left_without_item
+Parameters:
+    agent : ['?a']
+Preconditions:
+1: ConditionUnit(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 0)
+2: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 2)
+Effects:
+1: Effect('EffectOperator.DECREASE' BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+
+-----------------
+Action:
+Name: move_right_with_item
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+2: ConditionUnit(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+3: ConditionUnit(BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) QuantityOperator.EQUAL 0)
+Effects:
+1: Effect('EffectOperator.INCREASE' BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+2: Effect('EffectOperator.INCREASE' BaseState(name: item_loc, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) 1)
+
+-----------------
+Action:
+Name: move_left_with_item
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 2)
+2: ConditionUnit(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+3: ConditionUnit(BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) QuantityOperator.EQUAL 0)
+Effects:
+1: Effect('EffectOperator.DECREASE' BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+2: Effect('EffectOperator.DECREASE' BaseState(name: item_loc, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) 1)
+
+-----------------
+Action:
+Name: pick_up
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: ConditionUnit(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL BaseState(name: BaseState(name: item_loc, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []), require_entities: defaultdict(<class 'list'>, {}), entities: []))
+2: ConditionUnit(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 0)
+3: ConditionUnit(BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) QuantityOperator.EQUAL 1)
+Effects:
+1: Effect('EffectOperator.ASSIGN' BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 1)
+2: Effect('EffectOperator.ASSIGN' BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) 1)
+3: Effect('EffectOperator.ASSIGN' BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) 0)
+
+-----------------
+Action:
+Name: drop_item
+Parameters:
+    agent : ['?a']
+    item : ['?i']
+Preconditions:
+1: ConditionUnit(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+2: ConditionUnit(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) QuantityOperator.EQUAL 1)
+Effects:
+1: Effect('EffectOperator.ASSIGN' BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {'agent': ['?a']}), entities: []) 0)
+2: Effect('EffectOperator.ASSIGN' BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {'item': ['?i'], 'agent': ['?a']}), entities: []) 0)
+3: Effect('EffectOperator.ASSIGN' BaseState(name: is_free, require_entities: defaultdict(<class 'list'>, {'item': ['?i']}), entities: []) 1)
+
+=================
+Ranges:
+Range(name: agent_loc, type: RangeType.INTEGER, min: 1, max: 2, enumerates: None)
+Range(name: item_loc, type: RangeType.INTEGER, min: 1, max: 2, enumerates: None)
+Range(name: holding, type: RangeType.INTEGER, min: 0, max: 1, enumerates: None)
+Range(name: hold_by, type: RangeType.INTEGER, min: 0, max: 1, enumerates: None)
+Range(name: is_free, type: RangeType.INTEGER, min: 0, max: 1, enumerates: None)
+=================
+Agents:
+-----------------
+Agent: a
+States:
+State(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {}), entities: [Entity(a - agent)]), value: 1)
+State(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {}), entities: [Entity(a - agent)]), value: 0)
+State(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {}), entities: [Entity(i - item), Entity(a - agent)]), value: 0)
+Goals:
+EpistemicConditionUnit(EpistemicTruthOperator.EQUAL ['a'] ConditionUnit(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {}), entities: ['i', 'b']) QuantityOperator.EQUAL 1) EpistemicTruth.TRUE)
+
+-----------------
+Agent: b
+States:
+State(BaseState(name: agent_loc, require_entities: defaultdict(<class 'list'>, {}), entities: [Entity(b - agent)]), value: 1)
+State(BaseState(name: holding, require_entities: defaultdict(<class 'list'>, {}), entities: [Entity(b - agent)]), value: 1)
+State(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {}), entities: [Entity(i - item), Entity(b - agent)]), value: 1)
+Goals:
+EpistemicConditionUnit(EpistemicTruthOperator.EQUAL ['b'] ConditionUnit(BaseState(name: hold_by, require_entities: defaultdict(<class 'list'>, {}), entities: ['i', 'b']) QuantityOperator.EQUAL 0) EpistemicTruth.TRUE)
+
+
