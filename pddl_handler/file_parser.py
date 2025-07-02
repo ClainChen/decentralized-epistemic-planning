@@ -3,7 +3,7 @@ import copy
 import os
 
 import util
-from .epistemic_class import BaseAction
+from .epistemic_class import ActionSchema
 
 DOMAIN_LOG_LEVEL = logging.DEBUG
 PROBLEM_LOG_LEVEL = logging.DEBUG
@@ -47,8 +47,8 @@ class ParsingAction:
     def __init__(self):
         self.name = None
         self.parameters: dict[str, list[str]] = dict()
-        self.pre_condition: list[ParsingCondition] = []
-        self.effect: list[ParsingEffect] = []
+        self.pre_conditions: list[ParsingCondition] = []
+        self.effects: list[ParsingEffect] = []
 
     def __str__(self):
         result = f"Action:\n"
@@ -58,12 +58,12 @@ class ParsingAction:
             result += f"    {param_type} : {params}\n"
         result += "Preconditions:\n"
         count = 1
-        for precondition in self.pre_condition:
+        for precondition in self.pre_conditions:
             result += f"{count}: {precondition}\n"
             count += 1
         count = 1
         result += "Effects:\n"
-        for effect in self.effect:
+        for effect in self.effects:
             result += f"{count}: {effect}\n"
             count += 1
         return result
@@ -200,10 +200,10 @@ class ParsingRange:
     """
     def __init__(self):
         self.function_name = None  # the variable that the range is applied to
-        self.type = None  # the type of the variable, here, only 'integer', 'float', 'enumerate' are plausible
+        self.type = None  # the type of the variable, here, only 'integer', 'enumerate' are plausible
         self.enumerates: list[str] = None  # the enumerates of the function
-        self.min: float | int = None # the minimum value of the range
-        self.max: float | int = None # the maximum value of the range
+        self.min: int = None # the minimum value of the range
+        self.max: int = None # the maximum value of the range
     
     def __str__(self):
         if self.type == 'enumerate':
@@ -255,7 +255,7 @@ class ParsingProblem:
         self.objects: dict[str, list[str]] = dict()
         self.states: dict[str, list[ParsingState]] = dict()
         self.ranges: list[ParsingRange] = []
-        self.goals: dict[str, list[ParsingCondition]] = dict()
+        self.goals: dict[str, list[ParsingCondition | ParsingEpistemicCondition]] = dict()
     
     def __str__(self):
         result = f"============ Problem \"({self.domain_name} : {self.problem_name})\" Parsing Result ===========\n"
@@ -295,6 +295,7 @@ def convert_str_to_parsing_variable(variable_line: str, logger) -> ParsingVariab
     var.name = var_name
     var.parameters = var_params.split()
     return var
+
 
 def convert_state_line_to_parsing_state(state_pair: tuple[str, str], logger) -> ParsingState:
     function_line, value = state_pair
@@ -347,6 +348,7 @@ def convert_str_to_parsing_condition(condition_str: str, logger) -> ParsingCondi
         precondition.condition = precondition
         precondition.epistemic_truth = epistemic_truth
     return precondition
+
 
 class DomainParser:
     def __init__(self, handlers, log_level=DOMAIN_LOG_LEVEL):
@@ -439,10 +441,10 @@ class DomainParser:
             action.parameters = self.get_action_parameters(parameter_part)
             
             # parse the action preconditions
-            action.pre_condition = self.get_action_preconditions(precondition_part)
+            action.pre_conditions = self.get_action_preconditions(precondition_part)
             
             # parse the action effects
-            action.effect = self.get_action_effects(effect_part)
+            action.effects = self.get_action_effects(effect_part)
             
             actions.append(action)
         return actions
@@ -721,6 +723,7 @@ class ProblemParser:
                 goals[agt].append(convert_str_to_parsing_condition(goal_line, self.logger))
         return goals
 
+
 class ModelChecker:
     """
     This class use to check the validity of the given parsing domain and problem.
@@ -787,7 +790,7 @@ class ModelChecker:
         self.logger.debug(f"Checking the actions")
         # check the actions
         for action in self.domain.actions:
-            for condition in action.pre_condition:
+            for condition in action.pre_conditions:
                 this_condition = copy.deepcopy(condition)
                 variable = this_condition.state.variable
                 target_variable = this_condition.state.target_variable
@@ -818,4 +821,4 @@ class ModelChecker:
         return result
 
 
-    
+

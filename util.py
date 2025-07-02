@@ -1,8 +1,14 @@
 import logging
 import inspect
 import re
+from pddl_handler.file_parser import *
+from pddl_handler.epistemic_class import *
+from absract_observation_function import AbsractObservationFunction
+import importlib.util
+from pathlib import Path
 
 BIG_DIVIDER = "=================\n"
+MEDIUM_DIVIDER = "*****************\n"
 SMALL_DIVIDER = "-----------------\n"
 
 MODEL_FOLDER_PATH = "models/"
@@ -68,4 +74,30 @@ def regex_match(regex, string, logger=None):
         raise Exception(f"result not found: \"{regex}\"")
     return True if result else False
 
+def swap_param_orders(function_schema: FunctionSchema, variable: ParsingVariable):
+    new_param_orders = variable.parameters
+    old_param_orders = list(function_schema.require_parameters.keys())
+    for old, new in zip(old_param_orders, new_param_orders):
+        if old != new:
+            function_schema.require_parameters[new] = function_schema.require_parameters.pop(old)
 
+def check_duplication(list: list | tuple):
+    return len(list) != len(set(list))
+
+def load_observation_function(observation_function_path: str, abstract_observation_function: AbsractObservationFunction, logger):
+    path = Path(observation_function_path)
+
+    spec = importlib.util.spec_from_file_location("observation_function", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    valid_classes = [cls for cls in module.__dict__.values() 
+                     if inspect.isclass(cls) 
+                     and issubclass(cls, abstract_observation_function)
+                     and cls != abstract_observation_function]
+
+    if not valid_classes:
+        logger.error(f"No valid observation function class found in {path}")
+        raise ValueError(f"file {path} do not have a subclass of {abstract_observation_function.__name__}")
+    
+    return valid_classes[0]

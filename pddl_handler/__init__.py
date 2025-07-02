@@ -1,4 +1,3 @@
-__all__ = ['file_parser', 'model_builder']
+__all__ = ['file_parser', 'epistemic_class']
 
-from . import model_builder
-from . import file_parser
+from . import file_parser, epistemic_class

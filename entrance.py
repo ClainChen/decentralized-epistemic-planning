@@ -1,4 +1,4 @@
-from pddl_handler import *
+from models.corridor import *
 
 if __name__ == '__main__':
     try:

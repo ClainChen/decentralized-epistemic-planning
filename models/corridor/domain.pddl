@@ -16,7 +16,7 @@
     )
 
     (:action stay
-        :parameters (?a - agent)
+        :parameters (?self - agent)
         :precondition (
         )
         :effect (
@@ -24,76 +24,76 @@
     )
 
     (:action move_right_without_item
-        :parameters (?a - agent)
+        :parameters (?self - agent)
         :precondition (
-            (= (holding ?a) 0)
-            (= (agent_loc ?a) 1)
+            (= (holding ?self) 0)
+            (= (agent_loc ?self) 1)
         )
         :effect (
-            (increase (agent_loc ?a) 1)
+            (increase (agent_loc ?self) 1)
         )
     )
 
     (:action move_left_without_item
-        :parameters (?a - agent)
+        :parameters (?self - agent)
         :precondition (
-            (= (holding ?a) 0)
-            (= (agent_loc ?a) 2)
+            (= (holding ?self) 0)
+            (= (agent_loc ?self) 2)
         )
         :effect (
-            (decrease (agent_loc ?a) 1)
+            (decrease (agent_loc ?self) 1)
         )
     )
 
     (:action move_right_with_item
-        :parameters (?a - agent ?i - item)
+        :parameters (?self - agent ?i - item)
         :precondition (
-            (= (agent_loc ?a) 1)
-            (= (hold_by ?i ?a) 1)
+            (= (agent_loc ?self) 1)
+            (= (hold_by ?i ?self) 1)
             (= (is_free ?i) 0)
         )
         :effect (
-            (increase (agent_loc ?a) 1)
+            (increase (agent_loc ?self) 1)
             (increase (item_loc ?i) 1)
         )
     )
 
     (:action move_left_with_item
-        :parameters (?a - agent ?i - item)
+        :parameters (?self - agent ?i - item)
         :precondition (
-            (= (agent_loc ?a) 2)
-            (= (hold_by ?i ?a) 1)
+            (= (agent_loc ?self) 2)
+            (= (hold_by ?i ?self) 1)
             (= (is_free ?i) 0)
         )
         :effect (
-            (decrease (agent_loc ?a) 1)
+            (decrease (agent_loc ?self) 1)
             (decrease (item_loc ?i) 1)
         )
     )
 
     (:action pick_up
-        :parameters (?a - agent ?i - item)
+        :parameters (?self - agent ?i - item)
         :precondition (
-            (= (agent_loc ?a) (item_loc ?i))
-            (= (holding ?a) 0)
+            (= (agent_loc ?self) (item_loc ?i))
+            (= (holding ?self) 0)
             (= (is_free ?i) 1)
         )
         :effect (
-            (assign (holding ?a) 1)
-            (assign (hold_by ?i ?a) 1)
+            (assign (holding ?self) 1)
+            (assign (hold_by ?i ?self) 1)
             (assign (is_free ?i) 0)
         )
     )
 
     (:action drop_item
-        :parameters (?a - agent ?i - item)
+        :parameters (?self - agent ?i - item)
         :precondition (
-            (= (holding ?a) 1)
-            (= (hold_by ?i ?a) 1)
+            (= (holding ?self) 1)
+            (= (hold_by ?i ?self) 1)
         )
         :effect (
-            (assign (holding ?a) 0)
-            (assign (hold_by ?i ?a) 0)
+            (assign (holding ?self) 0)
+            (assign (hold_by ?i ?self) 0)
             (assign (is_free ?i) 1)
         )
     )
