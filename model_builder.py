@@ -1,85 +1,43 @@
-import argparse
-import logging
-import sys
-import traceback
-
 import util
-from pddl_handler.file_parser import *
-from pddl_handler.epistemic_class import *
-from .problem_builder import *
+from file_parser import *
+from epistemic_handler.epistemic_class import *
 
-THIS_LOGGER_LEVEL = logging.DEBUG
-LOGGING_LEVELS = {'critical': logging.CRITICAL,
-                  'fatal': logging.FATAL,
-                  'error': logging.ERROR,
-                  'warning': logging.WARNING,
-                  'warn': logging.WARN,
-                  'info': logging.INFO,
-                  'debug': logging.DEBUG,
-                  'notset': logging.NOTSET}
+LOGGER_LEVEL = logging.INFO
 
-class CustomHelpFormatter(argparse.RawTextHelpFormatter, argparse.ArgumentDefaultsHelpFormatter):
-    pass
-
-
-def loadParameter():
-    parser = argparse.ArgumentParser(description='HELP of model-builder parser', formatter_class=CustomHelpFormatter)
-
-    parser.add_argument('-d', '--domain', dest='domain_path', help='domain file path', required=True)
-    parser.add_argument('-p', '--problem', dest='problem_path', help='problem folder path, please make sure all of your distributed problem files are in the folder', required=True)
-    parser.add_argument('-ob', '--observation-function', dest='observation_function_path', help='observation function file path', required=True)
-
-    debug_mode_help = ('set the console logging level, the strength ordered by:\n'
-                       'debug > info > warning > error > critical')
-
-    parser.add_argument('--log-level', dest='c_logging_level', type=str.lower, help=debug_mode_help, default='info')
-    parser.add_argument('--log-display', dest='c_logging_display', action='store_true',
-                        help='add this argument will display the full log in the console')
-    
-    parser.add_argument('-t', '--type', dest='problem_type', type=str.lower, help='The type of problem, only allows COOPERATIVE or NATURAL', choices=['cooperative', 'natural'], default='cooperative')
-
-    options = parser.parse_args(sys.argv[1:])
-
-    return options
-
-
-def main():
+def build(args, handler) -> Model:
     try:
-        args = loadParameter()
-        c_logging_level = logging.INFO
-        if args.c_logging_level:
-            c_logging_level = LOGGING_LEVELS[args.c_logging_level]
-        c_logging_display = args.c_logging_display
-        handler = util.setup_logger_handlers('log/model_builder.log', log_mode='w',
-                                             c_display=c_logging_display, c_logger_level=c_logging_level)
-        logger = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
+        logger = util.setup_logger(__name__, handlers=handler, logger_level=LOGGER_LEVEL)
         logger.info(f"Start building the model, type: \"{args.problem_type}\"")
 
-        domain_parser = DomainParser(handler)
-        domain_path = util.MODEL_FOLDER_PATH + args.domain_path
-        domain: ParsingDomain = domain_parser.run(domain_path)
-
-        problem_parser = ProblemParser(handler)
-        problem_path = util.MODEL_FOLDER_PATH + args.problem_path
-        problem: ParsingProblem = problem_parser.run(problem_path)
-
-        checker = ModelChecker(domain, problem, handler)
-        check_result = checker.check_validity()
-        if not check_result:
-            logger.error(f"Model is invalid.")
-            raise f"Model did not pass the checker."
-        
-        model = build(domain, problem, args.problem_type, args.observation_function_path, logger, handler)
-        model.run_a_round()
-
+        domain, problem = parse_file(args, handler, logger)
+        model = build_model(domain, problem, handler, logger, args)
+        return model
     except Exception as e:
-        logger.error(f"{traceback.format_exc()}\n")
-        print(f"Model building failed.")
         raise e
 
+def parse_file(args, handler, logger):
+    domain_parser = DomainParser(handler)
+    domain_path = util.MODEL_FOLDER_PATH + args.domain_path
+    domain: ParsingDomain = domain_parser.run(domain_path)
 
-def build(domain: ParsingDomain, problem: ParsingProblem, problem_type: str, observation_function_path: str, logger, handler) -> Model:
-    model = Model(handler, util.MODEL_FOLDER_PATH + observation_function_path)
+    problem_parser = ProblemParser(handler)
+    problem_path = util.MODEL_FOLDER_PATH + args.problem_path
+    problem: ParsingProblem = problem_parser.run(problem_path)
+
+    checker = ModelChecker(domain, problem, handler)
+    check_result = checker.check_validity()
+    if not check_result:
+        logger.error(f"Model is invalid.")
+        raise f"Model did not pass the checker."
+    
+    return domain, problem
+
+
+def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger, args):
+    model = Model(handler, 
+                  args.problem_type, 
+                  util.MODEL_FOLDER_PATH + args.observation_function_path, 
+                  util.STRATEGY_FOLDER_PATH + args.strategy)
     model.domain_name = domain.name
     model.problem_name = problem.problem_name
 
@@ -173,6 +131,11 @@ def build(domain: ParsingDomain, problem: ParsingProblem, problem_type: str, obs
     for agent in problem.agents:
         new_agent = Agent()
         new_agent.name = agent
+        for other_agent in problem.agents:
+            if agent != other_agent:
+                belief_of_other_agent = Agent()
+                belief_of_other_agent.name = other_agent
+                new_agent.belief_to_other_agents.append(belief_of_other_agent)
         parsing_states = problem.states[agent]
         for parsing_state in parsing_states:
             function_schema = model.get_function_schema_by_name(parsing_state.variable.name)
@@ -198,14 +161,11 @@ def build(domain: ParsingDomain, problem: ParsingProblem, problem_type: str, obs
             else:
                 new_goal.target_function_name = parsing_goal.state.target_variable.name
                 new_goal.target_function_parameters = parsing_goal.state.target_variable.parameters
-            new_agent.Goals.append(new_goal)
+            new_agent.goals.append(new_goal)
         model.agents.append(new_agent)
 
     logger.debug(f"Model:\n{model}")
     return model
 
 
-
-
-
-
+    

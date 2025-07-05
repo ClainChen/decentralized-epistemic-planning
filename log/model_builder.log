@@ -1,444 +1,55 @@
-2025-07-02 16:17:12,354 INFO - models.corridor.model_builder._.main:
+2025-07-05 19:18:26,402 INFO - __main__._.<module>:
 Start building the model, type: "cooperative"
-2025-07-02 16:17:12,355 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-07-05 19:18:26,402 INFO - model_builder._.build:
+Start building the model, type: "cooperative"
+2025-07-05 19:18:26,402 INFO - file_parser.DomainParser.run:
 Domain "models/corridor/domain.pddl" start initialization.
-2025-07-02 16:17:12,355 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-07-05 19:18:26,402 INFO - file_parser.DomainParser.run:
 Domain Parser found "models/corridor/domain.pddl"
-2025-07-02 16:17:12,355 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-07-05 19:18:26,402 INFO - file_parser.DomainParser.run:
 Complete file reading.
-2025-07-02 16:17:12,355 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-07-05 19:18:26,403 INFO - file_parser.DomainParser.run:
 Domain name found
-2025-07-02 16:17:12,356 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-07-05 19:18:26,403 INFO - file_parser.DomainParser.run:
 Domain type found
-2025-07-02 16:17:12,356 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-07-05 19:18:26,403 INFO - file_parser.DomainParser.run:
 Domain functions found
-2025-07-02 16:17:12,358 INFO - pddl_handler.file_parser.DomainParser.run:
+2025-07-05 19:18:26,405 INFO - file_parser.DomainParser.run:
 Domain actions found
-2025-07-02 16:17:12,359 DEBUG - pddl_handler.file_parser.DomainParser.run:
-Parsed Domain Result:
-================= Domain "(corridor)" Parsing Result ================
-Domain types: ['item', 'agent']
-=================
-Domain functions:
-Function(name:agent_loc, parameters:{'agent': ['?a']}). 
-Function(name:item_loc, parameters:{'item': ['?i']}). 
-Function(name:holding, parameters:{'agent': ['?a']}). 
-Function(name:hold_by, parameters:{'item': ['?i'], 'agent': ['?a']}). 
-Function(name:is_free, parameters:{'item': ['?i']}). 
-=================
-Domain actions:
------------------
-Action:
-Name: stay
-Parameters:
-    agent : ['?self']
-Preconditions:
-Effects:
-
------------------
-Action:
-Name: move_right_without_item
-Parameters:
-    agent : ['?self']
-Preconditions:
-1: Condition(Variable(holding: ['?self']) = 0)
-2: Condition(Variable(agent_loc: ['?self']) = 1)
-Effects:
-1: Effect('increase' Variable(agent_loc: ['?self']) 1)
-
------------------
-Action:
-Name: move_left_without_item
-Parameters:
-    agent : ['?self']
-Preconditions:
-1: Condition(Variable(holding: ['?self']) = 0)
-2: Condition(Variable(agent_loc: ['?self']) = 2)
-Effects:
-1: Effect('decrease' Variable(agent_loc: ['?self']) 1)
-
------------------
-Action:
-Name: move_right_with_item
-Parameters:
-    agent : ['?self']
-    item : ['?i']
-Preconditions:
-1: Condition(Variable(agent_loc: ['?self']) = 1)
-2: Condition(Variable(hold_by: ['?i', '?self']) = 1)
-3: Condition(Variable(is_free: ['?i']) = 0)
-Effects:
-1: Effect('increase' Variable(agent_loc: ['?self']) 1)
-2: Effect('increase' Variable(item_loc: ['?i']) 1)
-
------------------
-Action:
-Name: move_left_with_item
-Parameters:
-    agent : ['?self']
-    item : ['?i']
-Preconditions:
-1: Condition(Variable(agent_loc: ['?self']) = 2)
-2: Condition(Variable(hold_by: ['?i', '?self']) = 1)
-3: Condition(Variable(is_free: ['?i']) = 0)
-Effects:
-1: Effect('decrease' Variable(agent_loc: ['?self']) 1)
-2: Effect('decrease' Variable(item_loc: ['?i']) 1)
-
------------------
-Action:
-Name: pick_up
-Parameters:
-    agent : ['?self']
-    item : ['?i']
-Preconditions:
-1: Condition(Variable(agent_loc: ['?self']) = Variable(item_loc: ['?i']))
-2: Condition(Variable(holding: ['?self']) = 0)
-3: Condition(Variable(is_free: ['?i']) = 1)
-Effects:
-1: Effect('assign' Variable(holding: ['?self']) 1)
-2: Effect('assign' Variable(hold_by: ['?i', '?self']) 1)
-3: Effect('assign' Variable(is_free: ['?i']) 0)
-
------------------
-Action:
-Name: drop_item
-Parameters:
-    agent : ['?self']
-    item : ['?i']
-Preconditions:
-1: Condition(Variable(holding: ['?self']) = 1)
-2: Condition(Variable(hold_by: ['?i', '?self']) = 1)
-Effects:
-1: Effect('assign' Variable(holding: ['?self']) 0)
-2: Effect('assign' Variable(hold_by: ['?i', '?self']) 0)
-3: Effect('assign' Variable(is_free: ['?i']) 1)
-
-
-2025-07-02 16:17:12,359 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,405 INFO - file_parser.ProblemParser.run:
 Problem "models/corridor/problem01" start initialization.
-2025-07-02 16:17:12,359 INFO - pddl_handler.file_parser.ProblemParser.get_files:
+2025-07-05 19:18:26,405 INFO - file_parser.ProblemParser.get_files:
 Problem folder found "models/corridor/problem01"
-2025-07-02 16:17:12,359 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,405 INFO - file_parser.ProblemParser.run:
 Found 2 agent files:
 "models/corridor/problem01/a.agtpddl"
 "models/corridor/problem01/b.agtpddl"
-2025-07-02 16:17:12,359 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,405 INFO - file_parser.ProblemParser.run:
 Found init file: "models/corridor/problem01/init.envpddl"
-2025-07-02 16:17:12,359 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,406 INFO - file_parser.ProblemParser.run:
 Complete reading environment file.
-2025-07-02 16:17:12,360 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,406 INFO - file_parser.ProblemParser.run:
 Copmlete reading agent file "models/corridor/problem01/a.agtpddl"
-2025-07-02 16:17:12,360 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,406 INFO - file_parser.ProblemParser.run:
 Copmlete reading agent file "models/corridor/problem01/b.agtpddl"
-2025-07-02 16:17:12,361 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,406 INFO - file_parser.ProblemParser.run:
 Problem domain name "corridor" found
 Problem name "corridor01" found
-2025-07-02 16:17:12,361 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,407 INFO - file_parser.ProblemParser.run:
 Problem agents found
-2025-07-02 16:17:12,361 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,407 INFO - file_parser.ProblemParser.run:
 Problem objects found
-2025-07-02 16:17:12,362 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,407 INFO - file_parser.ProblemParser.run:
 Problem ranges found
-2025-07-02 16:17:12,362 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,407 INFO - file_parser.ProblemParser.run:
 Problem initial states found
-2025-07-02 16:17:12,363 INFO - pddl_handler.file_parser.ProblemParser.run:
+2025-07-05 19:18:26,408 INFO - file_parser.ProblemParser.run:
 Problem goals found
-2025-07-02 16:17:12,363 DEBUG - pddl_handler.file_parser.ProblemParser.run:
-Parsed Problem Result:
-============ Problem "(corridor : corridor01)" Parsing Result ===========
-Agents: ['a', 'b']
-=================
-Objects:
-item: ['i']
-=================
-States:
------------------
-a:
-State(variable: Variable(agent_loc: ['a']), value: 1, target_variable: Variable(None: []))
-State(variable: Variable(holding: ['a']), value: 0, target_variable: Variable(None: []))
-State(variable: Variable(hold_by: ['i', 'a']), value: 0, target_variable: Variable(None: []))
------------------
-b:
-State(variable: Variable(agent_loc: ['b']), value: 1, target_variable: Variable(None: []))
-State(variable: Variable(holding: ['b']), value: 1, target_variable: Variable(None: []))
-State(variable: Variable(hold_by: ['i', 'b']), value: 1, target_variable: Variable(None: []))
------------------
-unknown:
-State(variable: Variable(item_loc: ['i']), value: 1, target_variable: Variable(None: []))
-State(variable: Variable(is_free: ['i']), value: 0, target_variable: Variable(None: []))
-=================
-Goals:
------------------
-a:
-EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(hold_by: ['i', 'b']) = 1))
------------------
-b:
-EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(hold_by: ['i', 'b']) = 0))
-=================
-Ranges:
-Range(function_name: agent_loc, type: integer, min: 1, max: 2)
-Range(function_name: item_loc, type: integer, min: 1, max: 2)
-Range(function_name: holding, type: integer, min: 0, max: 1)
-Range(function_name: hold_by, type: integer, min: 0, max: 1)
-Range(function_name: is_free, type: integer, min: 0, max: 1)
-
-2025-07-02 16:17:12,363 INFO - pddl_handler.file_parser.ModelChecker.check_validity:
+2025-07-05 19:18:26,408 INFO - file_parser.ModelChecker.check_validity:
 checking the validity...
-2025-07-02 16:17:12,363 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
-Valid names: ['a', 'b', 'i', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
-2025-07-02 16:17:12,364 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
-Checking the states
-2025-07-02 16:17:12,364 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
-Checking the goals
-2025-07-02 16:17:12,364 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
-Checking the ranges
-2025-07-02 16:17:12,364 DEBUG - pddl_handler.file_parser.ModelChecker.check_validity:
-Checking the actions
-2025-07-02 16:17:12,365 INFO - pddl_handler.file_parser.ModelChecker.check_validity:
+2025-07-05 19:18:26,409 INFO - file_parser.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-07-02 16:17:12,367 DEBUG - models.corridor.model_builder._.build:
-Model:
-================= Model Result================
-Domain name: corridor
-Problem name: corridor01
-=================
-Entities:
-Entity(name='a', type='agent')
-Entity(name='b', type='agent')
-Entity(name='i', type='item')
-=================
-Function Schemas:
-FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?a': 'agent'})
-FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
-FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?a': 'agent'})
-FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?a': 'agent'})
-FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
-=================
-Ontic Functions:
-Function(name='agent_loc', range=(1, 2), type="INTEGER", parameters={'?a': 'a'}, _value=1)
-Function(name='holding', range=(0, 1), type="INTEGER", parameters={'?a': 'a'}, _value=0)
-Function(name='hold_by', range=(0, 1), type="INTEGER", parameters={'?i': 'i', '?a': 'a'}, _value=0)
-Function(name='agent_loc', range=(1, 2), type="INTEGER", parameters={'?a': 'b'}, _value=1)
-Function(name='holding', range=(0, 1), type="INTEGER", parameters={'?a': 'b'}, _value=1)
-Function(name='hold_by', range=(0, 1), type="INTEGER", parameters={'?i': 'i', '?a': 'b'}, _value=1)
-Function(name='item_loc', range=(1, 2), type="INTEGER", parameters={'?i': 'i'}, _value=1)
-Function(name='is_free', range=(0, 1), type="INTEGER", parameters={'?i': 'i'}, _value=0)
-=================
-Action Schemas:
-*****************
-Action Schema: stay
-Parameters: {'?self': 'agent'}
-Precondition Schemas:
-Effect Schemas:
-
-*****************
-Action Schema: move_right_without_item
-Parameters: {'?self': 'agent'}
-Precondition Schemas:
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 0 / target_function_schema: None
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 1 / target_function_schema: None
-Effect Schemas:
------------------
-EffectSchema:
-effect_type: "INCREASE"
-effect_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 1
-
-*****************
-Action Schema: move_left_without_item
-Parameters: {'?self': 'agent'}
-Precondition Schemas:
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 0 / target_function_schema: None
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 2 / target_function_schema: None
-Effect Schemas:
------------------
-EffectSchema:
-effect_type: "DECREASE"
-effect_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 1
-
-*****************
-Action Schema: move_right_with_item
-Parameters: {'?self': 'agent', '?i': 'item'}
-Precondition Schemas:
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 1 / target_function_schema: None
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'})
-value: 1 / target_function_schema: None
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
-value: 0 / target_function_schema: None
-Effect Schemas:
------------------
-EffectSchema:
-effect_type: "INCREASE"
-effect_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 1
------------------
-EffectSchema:
-effect_type: "INCREASE"
-effect_function_schema: FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
-value: 1
-
-*****************
-Action Schema: move_left_with_item
-Parameters: {'?self': 'agent', '?i': 'item'}
-Precondition Schemas:
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 2 / target_function_schema: None
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'})
-value: 1 / target_function_schema: None
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
-value: 0 / target_function_schema: None
-Effect Schemas:
------------------
-EffectSchema:
-effect_type: "DECREASE"
-effect_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 1
------------------
-EffectSchema:
-effect_type: "DECREASE"
-effect_function_schema: FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
-value: 1
-
-*****************
-Action Schema: pick_up
-Parameters: {'?self': 'agent', '?i': 'item'}
-Precondition Schemas:
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: None / target_function_schema: FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 0 / target_function_schema: None
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
-value: 1 / target_function_schema: None
-Effect Schemas:
------------------
-EffectSchema:
-effect_type: "ASSIGN"
-effect_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 1
------------------
-EffectSchema:
-effect_type: "ASSIGN"
-effect_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'})
-value: 1
------------------
-EffectSchema:
-effect_type: "ASSIGN"
-effect_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
-value: 0
-
-*****************
-Action Schema: drop_item
-Parameters: {'?self': 'agent', '?i': 'item'}
-Precondition Schemas:
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 1 / target_function_schema: None
------------------
-Condition:
-ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE"
-condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'})
-value: 1 / target_function_schema: None
-Effect Schemas:
------------------
-EffectSchema:
-effect_type: "ASSIGN"
-effect_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'})
-value: 0
------------------
-EffectSchema:
-effect_type: "ASSIGN"
-effect_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'})
-value: 0
------------------
-EffectSchema:
-effect_type: "ASSIGN"
-effect_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
-value: 1
-
-=================
-Agents:
-*****************
-Agent: a
-*****************
-Functions:
-Function(name='agent_loc', range=(1, 2), type="INTEGER", parameters={'?a': 'a'}, _value=1)
-Function(name='holding', range=(0, 1), type="INTEGER", parameters={'?a': 'a'}, _value=0)
-Function(name='hold_by', range=(0, 1), type="INTEGER", parameters={'?i': 'i', '?a': 'a'}, _value=0)
-*****************
-Goals:
------------------
-Goal:
-ep_operator: "EQUAL", belief_sequence: ['a'], ep_truth: "TRUE"
-condition_operator: "EQUAL", goal_function_name: hold_by, goal_function_parameters: ['i', 'b']
-value: 1 / target_function_name: None, target_function_parameters: []
-
-
-*****************
-Agent: b
-*****************
-Functions:
-Function(name='agent_loc', range=(1, 2), type="INTEGER", parameters={'?a': 'b'}, _value=1)
-Function(name='holding', range=(0, 1), type="INTEGER", parameters={'?a': 'b'}, _value=1)
-Function(name='hold_by', range=(0, 1), type="INTEGER", parameters={'?i': 'i', '?a': 'b'}, _value=1)
-*****************
-Goals:
------------------
-Goal:
-ep_operator: "EQUAL", belief_sequence: ['b'], ep_truth: "TRUE"
-condition_operator: "EQUAL", goal_function_name: hold_by, goal_function_parameters: ['i', 'b']
-value: 0 / target_function_name: None, target_function_parameters: []
-
-
-
-2025-07-02 16:17:12,367 DEBUG - observation_function.ObservationFunction.get_observable_functions:
-at room: {'a': 1, 'b': 1, 'i': 1}
-2025-07-02 16:17:12,368 DEBUG - observation_function.ObservationFunction.get_observable_functions:
-at room: {'a': 1, 'b': 1, 'i': 1}
+2025-07-05 19:18:26,410 INFO - epistemic_handler.epistemic_class.Model.__init__:
+Loaded observation function: CorridorObsFunc
+2025-07-05 19:18:26,415 INFO - epistemic_handler.epistemic_class.Model.__init__:
+Loaded policy strategy: MonteCarlo

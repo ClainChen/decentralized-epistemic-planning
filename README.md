@@ -15,7 +15,7 @@ Progress:
   - [x] Builder
 
 - [ ] Problem Generator
-- [ ] Epistemic Model
+- [x] Epistemic Model
 - [ ] Problem Solver
 
 

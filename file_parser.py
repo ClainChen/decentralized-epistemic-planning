@@ -3,11 +3,10 @@ import copy
 import os
 
 import util
-from .epistemic_class import ActionSchema
 
-DOMAIN_LOG_LEVEL = logging.DEBUG
-PROBLEM_LOG_LEVEL = logging.DEBUG
-MODEL_CHECKER_LOG_LEVEL = logging.DEBUG
+DOMAIN_LOG_LEVEL = logging.INFO
+PROBLEM_LOG_LEVEL = logging.INFO
+MODEL_CHECKER_LOG_LEVEL = logging.INFO
 
 # Domain related regexes
 DOMAIN_NAME_REGEX = r"\(domain (\w+)\)"

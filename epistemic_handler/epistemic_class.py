@@ -6,6 +6,9 @@ import copy
 from dataclasses import dataclass, field
 
 MODEL_LOGGER_LEVEL = logging.DEBUG
+class ProblemType(Enum):
+    COOPERATIVE = 1
+    NATURAL = 2
 
 class EpistemicOperator(Enum):
     EQUAL = 1
@@ -67,6 +70,11 @@ class ValueType(Enum):
 
     def __repr__(self):
         return self.__str__()
+
+PROBLEM_TYPE_MAPS = {
+    "cooperative": ProblemType.COOPERATIVE,
+    "natural": ProblemType.NATURAL
+}
 
 EPISTEMIC_OPERATOR_MAPS = {
     "=": EpistemicOperator.EQUAL,
@@ -172,10 +180,7 @@ class ConditionSchema:
         self.target_function_schema: FunctionSchema = None
     
     def __str__(self):
-        result = "Condition:\n"
-        result += f"ep_operator: {self.ep_operator}, belief_sequence: {self.belief_sequence}, ep_truth: {self.ep_truth}\n"
-        result += f"condition_operator: {self.condition_operator}, condition_function_schema: {self.condition_function_schema}\n"
-        result += f"value: {self.value} / target_function_schema: {self.target_function_schema}"
+        result = f"Condition(ep_operator: {self.ep_operator}, belief_sequence: {self.belief_sequence}, ep_truth: {self.ep_truth}, condition_operator: {self.condition_operator}, condition_function_schema: {self.condition_function_schema}, value: {self.value} / target_function_schema: {self.target_function_schema})\n"
         return result
 
     def __repr__(self):
@@ -212,15 +217,11 @@ class EffectSchema:
         self.target_function_schema: FunctionSchema = None
 
     def __str__(self):
-        result = "EffectSchema:\n"
-        result += f"effect_type: {self.effect_type}\n"
-        result += f"effect_function_schema: {self.effect_function_schema}\n"
-        result += f"value: {self.value}"
+        result = f"EffectSchema(effect_type: {self.effect_type}, effect_function_schema: {self.effect_function_schema}, value: {self.value})"
         return result
     
     def __repr__(self):
         return self.__str__()
-    
 
 class Effect:
     def __init__(self, effect_schema: EffectSchema, parameters: dict[str, Entity]):
@@ -263,18 +264,17 @@ class ActionSchema:
         # result += util.MEDIUM_DIVIDER
         result += f"Precondition Schemas:\n"
         for pre_condition_schema in self.pre_condition_schemas:
-            result += util.SMALL_DIVIDER
+            # result += util.SMALL_DIVIDER
             result += f"{pre_condition_schema}\n"
         # result += util.MEDIUM_DIVIDER
         result += f"Effect Schemas:\n"
         for effect_schema in self.effect_schemas:
-            result += util.SMALL_DIVIDER
+            # result += util.SMALL_DIVIDER
             result += f"{effect_schema}\n"
         return result
 
     def __repr__(self):
         return self.__str__()
-
 
 class Action:
     def __init__(self, action_schema: ActionSchema, parameters: dict[str, str]):
@@ -314,10 +314,7 @@ class Goal:
         self.target_function_parameters: list[str] = []
 
     def __str__(self):
-        result = "Goal:\n"
-        result += f"ep_operator: {self.ep_operator}, belief_sequence: {self.belief_sequence}, ep_truth: {self.ep_truth}\n"
-        result += f"condition_operator: {self.condition_operator}, goal_function_name: {self.goal_function_name}, goal_function_parameters: {self.goal_function_parameters}\n"
-        result += f"value: {self.value} / target_function_name: {self.target_function_name}, target_function_parameters: {self.target_function_parameters}\n"
+        result = f"Goal(ep_operator: {self.ep_operator}, belief_sequence: {self.belief_sequence}, ep_truth: {self.ep_truth}, condition_operator: {self.condition_operator}, goal_function_name: {self.goal_function_name}, goal_function_parameters: {self.goal_function_parameters}, value: {self.value} / target_function_name: {self.target_function_name}, target_function_parameters: {self.target_function_parameters})"
         return result
 
     def __repr__(self):
@@ -327,31 +324,19 @@ class Agent:
     def __init__(self):
         self.name: str = None
         self.functions: list[Function] = []
-        self.Goals: list[Goal] = []
+        self.goals: list[Goal] = []
+        self.history_functions: list[list[Function]] = []
+        self.belief_to_other_agents: list[Agent] = []
     
-    def is_valid_action(self, action: Action) -> bool:
-        for condition in action.pre_condition:
-            # TODO: 这里要加关于epistemic条件的判断
-            checking_function = self.get_function_with_locator(condition.condition_function_locator)
-            if checking_function is None:
-                return False
-            if condition.value is not None:
-                if condition.value != checking_function.value:
-                    return False
-            else:
-                target_function = self.get_function_with_locator(condition.target_function_locator)
-                if target_function is None or checking_function.value != target_function.value:    
-                    return False
-            
-        return True
+    def get_belief_of_agent(self, agent_name: str):
+        """
+        get the agent from belief_to_other_agents based on the given agent_name
+        """
+        return next((agent for agent in self.belief_to_other_agents if agent.name == agent_name), None)
 
-    def get_function_with_locator(self, locator: FunctionLocator):
-        for function in self.functions:
-            if function.name == locator.name and list(function.parameters.values()) == list(locator.parameters.values()):
-                return function
-        return None
-    
     def update_functions(self, functions: list[Function]):
+        self.history_functions.append(copy.deepcopy(self.functions))
+
         for function in functions:
             updating_function = None
             for agent_function in self.functions:
@@ -363,28 +348,68 @@ class Agent:
             else:
                 agent_function.value = function.value
 
+    def is_complete(self):
+        for goal in self.goals:
+            function = self.get_function_with_name_and_params(goal.goal_function_name, goal.goal_function_parameters)
+            if function is None:
+                return False
+            else:
+                if goal.value is not None:
+                    if goal.value != function.value:
+                        return False
+                else:
+                    target_function = self.get_function_with_name_and_params(goal.target_function_name, goal.target_function_parameters)
+                    if target_function is None or function.value != target_function.value:
+                        return False
+        return True
+
+    def get_function_with_name_and_params(self, name: str, params: list[str]):
+        for function in self.functions:
+            if function.name == name and list(function.parameters.values()) == params:
+                return function
+        return None
+
     def __str__(self):
         result = f"Agent: {self.name}\n"
-        result += util.MEDIUM_DIVIDER
         result += f"Functions:\n"
         for function in self.functions:
             result += f"{function}\n"
-        result += util.MEDIUM_DIVIDER
         result += f"Goals:\n"
-        for goal in self.Goals:
+        for goal in self.goals:
             result += util.SMALL_DIVIDER
             result += f"{goal}\n"
+        result += util.MEDIUM_DIVIDER
+        result += f"History Functions:\n"
+        round = 1
+        for functions in self.history_functions:
+            result += util.SMALL_DIVIDER
+            result += f"{round}:\n"
+            for function in functions:
+                result += f"{function}\n"
+        result += util.MEDIUM_DIVIDER
+        result += f"Belief to other agents:\n"
+        for agent in self.belief_to_other_agents:
+            result += util.SMALL_DIVIDER
+            result += f"{agent}:\n"
         return result
 
     def __repr__(self):
         return self.__str__()
 
 class Model:
-    def __init__(self, handler, observation_function_path):
-        from absract_observation_function import AbsractObservationFunction
+    def __init__(self, handler, problem_type, observation_function_path, policy_strategy_path):
+        from abstracts import AbstractObservationFunction, AbstractPolicyStrategy
         self.logger = util.setup_logger(__name__, handler, logger_level=MODEL_LOGGER_LEVEL)
-        ObsFunc = util.load_observation_function(observation_function_path, AbsractObservationFunction, self.logger)
-        self.observation_function: AbsractObservationFunction = ObsFunc(handler)
+        
+        ObsFunc = util.load_observation_function(observation_function_path, self.logger)
+        self.observation_function: AbstractObservationFunction = ObsFunc(handler)
+        self.logger.info(f"Loaded observation function: {ObsFunc.__name__}")
+
+        Strategy = util.load_policy_strategy(policy_strategy_path, self.logger)
+        self.strategy: AbstractPolicyStrategy = Strategy(handler)
+        self.logger.info(f"Loaded policy strategy: {Strategy.__name__}")
+
+        self.problem_type: ProblemType = PROBLEM_TYPE_MAPS[problem_type]
 
         self.domain_name: str = None
         self.problem_name: str = None
@@ -403,17 +428,108 @@ class Model:
         """
         return [entity.name for entity in self.entities if entity.type == type]
 
-    def run_a_round(self):
-        for agent in self.agents:
-            observe_functions = self.observation_function.get_observable_functions(model=self, agent=agent)
-            # update agent's functions
-            agent.update_functions(observe_functions)
-            
-            # get agent's successors
-            agent_successors = self.get_agent_successors(agent)
+    def get_agent_by_name(self, name: str) -> Agent:
+        """
+        get agent by name
+        """
+        return next((agent for agent in self.agents if agent.name == name), None)
 
+    def get_agent_index_by_name(self, name: str) -> int:
+        """
+        get agent index by name
+        """
+        return self.agents.index(self.get_agent_by_name(name))
 
-    def get_agent_successors(self, agent: Agent) -> list[Action]:
+    def simulate(self):
+        """
+        SImulate the model until all agents have reached a terminal state
+        """
+        agent_index = 0
+        agent_count = len(self.agents)
+        while not self.full_goal_complete():
+            self.agent_move(self.agents[agent_index].name)
+            agent_index = (agent_index + 1) % agent_count
+
+    def agent_move(self, agent_name: str):
+        """
+        The processes that happens when an agent wants to move
+        """
+        self.observe_and_update_agent(agent_name)
+        action = self.strategy.get_policy(self, agent_name)
+        if action is not None and util.is_valid_action(self.ontic_functions, action):
+            self.do_action(agent_name, action)
+            print(f"{agent_name} takes action: {action.name}")
+        else:
+            self.do_action(agent_name, None)
+            print(f"{agent_name} takes action: stay")
+        # TODO: 需要思考一下如何进行intention prediction
+
+    def observe_and_update_agent(self, agent_name: str):
+        agent = self.get_agent_by_name(agent_name)
+        observe_functions = self.observation_function.get_observable_functions(model=self, agent_name=agent_name)
+        # update agent's functions
+        for agent_name, functions in observe_functions.items():
+            if agent_name == agent.name:
+                agent.update_functions(functions)
+            else:
+                belief_of_agent = agent.get_belief_of_agent(agent_name)
+                belief_of_agent.update_functions(functions)
+
+    def do_action(self, agent_name: str, action: Action) -> bool:
+        if action is None:
+            return True
+        agent = self.get_agent_by_name(agent_name)
+        
+        if not util.is_valid_action(self.ontic_functions, action):
+            return False
+        for effect in action.effect:
+            # update agent's function
+            self._update_functions(agent.functions, effect)
+
+            # update ontic functions
+            self._update_functions(self.ontic_functions, effect)
+        return True
+
+    def _update_functions(self, functions: list[Function], effect: Effect):
+        function = util.get_function_with_locator(functions, effect.effect_function_locator)
+        if function is not None:
+            if effect.value is not None:
+                function.value = util.effect_values(function.value, effect.value, effect.   effect_type)
+            else:
+                target_function = util.get_function_with_locator(self.ontic_functions, effect.   target_function_locator)
+                function.value = util.effect_values(function.value, target_function.value, effect.  effect_type)
+        else:
+            if effect.effect_type != EffectType.ASSIGN:
+                self.logger.error(f"Trying to change a function that not exist in agent's functions or ontic world functions")
+                raise ValueError("Trying to change a function that not exist in agent's functions or ontic world functions")
+            if effect.value is not None:
+                function = Function()
+                function.name = effect.effect_function_locator.name
+                function.range = effect.effect_function_locator.range
+                function.type = effect.effect_function_locator.type
+                function.parameters = effect.effect_function_locator.parameters
+                function.value = effect.value
+                functions.append(function)
+            else:
+                target_function = util.get_function_with_locator(self.ontic_functions, effect.  target_function_locator)
+                if target_function is None:
+                    self.logger.error(f"Target function {effect.target_function_locator.name} not found in effect phase")
+                    raise ValueError(f"Target function {effect.target_function_locator.name} not found in effect phase")
+
+                function = Function()
+                function.name = effect.effect_function_locator.name
+                function.range = effect.effect_function_locator.range
+                function.type = effect.effect_function_locator.type
+                function.parameters = effect.effect_function_locator.parameters
+                function.value = target_function.value
+                functions.append(function)
+        assert util.check_in_range(function)
+
+    def get_agent_successors(self, agent_name: str) -> list[Action]:
+        if self.agent_goal_complete(agent_name):
+            return []
+
+        agent = self.get_agent_by_name(agent_name)
         candidates = []
         for action_schema in self.action_schemas:
             poss_params = []
@@ -429,34 +545,46 @@ class Model:
                 candidates.append(successor)
         result = []
         for action in candidates:
-            if agent.is_valid_action(action):
+            if util.is_valid_action(agent.functions, action):
                 result.append(action)
         return result
+
+    def agent_goal_complete(self, agent_name: str):
+        agent = self.get_agent_by_name(agent_name)
+        return agent.is_complete()
+    
+    def full_goal_complete(self):
+        for agent in self.agents:
+            if not agent.is_complete():
+                return False
+        return True
 
     def __str__(self):
         result = f"================= Model Result================\n"
         result += f"Domain name: {self.domain_name}\nProblem name: {self.problem_name}\n"
+        # result += util.BIG_DIVIDER
+        result += f"Problem type: {self.problem_type}\n"
         result += util.BIG_DIVIDER
-        result += f"Entities:\n"
+        # result += f"Entities:\n"
         for entity in self.entities:
             result += f"{entity}\n"
         result += util.BIG_DIVIDER
-        result += f"Function Schemas:\n"
+        # result += f"Function Schemas:\n"
         for function_schema in self.function_schemas:
             result += f"{function_schema}\n"
         result += util.BIG_DIVIDER
-        result += f"Ontic Functions:\n"
+        # result += f"Ontic Functions:\n"
         for ontic_function in self.ontic_functions:
             result += f"{ontic_function}\n"
         result += util.BIG_DIVIDER
-        result += f"Action Schemas:\n"
+        # result += f"Action Schemas:\n"
         for action_schema in self.action_schemas:
-            result += util.MEDIUM_DIVIDER
+            result += util.SMALL_DIVIDER
             result += f"{action_schema}\n"
         result += util.BIG_DIVIDER
-        result += f"Agents:\n"
+        # result += f"Agents:\n"
         for agent in self.agents:
-            result += util.MEDIUM_DIVIDER
+            # result += util.SMALL_DIVIDER
             result += f"{agent}\n"
         return result
 
