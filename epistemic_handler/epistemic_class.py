@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 MODEL_LOGGER_LEVEL = logging.DEBUG
 class ProblemType(Enum):
     COOPERATIVE = 1
-    NATURAL = 2
+    NEUTRAL = 2
 
 class EpistemicOperator(Enum):
     EQUAL = 1
@@ -73,7 +73,7 @@ class ValueType(Enum):
 
 PROBLEM_TYPE_MAPS = {
     "cooperative": ProblemType.COOPERATIVE,
-    "natural": ProblemType.NATURAL
+    "neutral": ProblemType.NEUTRAL
 }
 
 EPISTEMIC_OPERATOR_MAPS = {
@@ -146,6 +146,13 @@ class Function:
 
     def compare(self, other: 'Function'):
         return self.name == other.name and self.parameters == other.parameters
+
+    def __str__(self):
+        params = [f"{key} - {value}" for key, value in self.parameters.items()]
+        return f"Function({self.name} {params} = {self.value})"
+
+    def __repr__(self):
+        return self.__str__()
 
 class FunctionLocator:
     """
@@ -327,6 +334,16 @@ class Agent:
         self.goals: list[Goal] = []
         self.history_functions: list[list[Function]] = []
         self.belief_to_other_agents: list[Agent] = []
+
+    def copy(self):
+        new_agent = Agent()
+        new_agent.name = self.name
+        new_agent.goals = self.goals
+        new_agent.functions = copy.deepcopy(self.functions)
+        new_agent.history_functions = copy.deepcopy(self.history_functions)
+        for agent in self.belief_to_other_agents:
+            new_agent.belief_to_other_agents.append(agent.copy())
+        return new_agent
     
     def get_belief_of_agent(self, agent_name: str):
         """
@@ -349,17 +366,18 @@ class Agent:
                 agent_function.value = function.value
 
     def is_complete(self):
+        # TODO: #4 这里要加epistemic条件的判断
         for goal in self.goals:
             function = self.get_function_with_name_and_params(goal.goal_function_name, goal.goal_function_parameters)
             if function is None:
                 return False
             else:
                 if goal.value is not None:
-                    if goal.value != function.value:
+                    if not util.compare_condition_values(goal.value, function.value, goal.condition_operator):
                         return False
                 else:
                     target_function = self.get_function_with_name_and_params(goal.target_function_name, goal.target_function_parameters)
-                    if target_function is None or function.value != target_function.value:
+                    if target_function is None or not util.compare_condition_values(goal.value, target_function.value, goal.condition_operator):
                         return False
         return True
 
@@ -386,6 +404,7 @@ class Agent:
             result += f"{round}:\n"
             for function in functions:
                 result += f"{function}\n"
+            round += 1
         result += util.MEDIUM_DIVIDER
         result += f"Belief to other agents:\n"
         for agent in self.belief_to_other_agents:
@@ -397,7 +416,22 @@ class Agent:
         return self.__str__()
 
 class Model:
-    def __init__(self, handler, problem_type, observation_function_path, policy_strategy_path):
+    def __init__(self):
+        from abstracts import AbstractObservationFunction, AbstractPolicyStrategy
+        self.logger = None
+        self.observation_function: AbstractObservationFunction = None
+        self.strategy: AbstractPolicyStrategy = None
+        self.problem_type: ProblemType = None
+
+        self.domain_name: str = None
+        self.problem_name: str = None
+        self.function_schemas: list[FunctionSchema] = []
+        self.ontic_functions: list[Function] = []
+        self.entities: list[Entity] = []
+        self.action_schemas: list[ActionSchema] = []
+        self.agents: list[Agent] = []
+    
+    def init(self, handler, problem_type, observation_function_path, policy_strategy_path):
         from abstracts import AbstractObservationFunction, AbstractPolicyStrategy
         self.logger = util.setup_logger(__name__, handler, logger_level=MODEL_LOGGER_LEVEL)
         
@@ -410,14 +444,6 @@ class Model:
         self.logger.info(f"Loaded policy strategy: {Strategy.__name__}")
 
         self.problem_type: ProblemType = PROBLEM_TYPE_MAPS[problem_type]
-
-        self.domain_name: str = None
-        self.problem_name: str = None
-        self.function_schemas: list[FunctionSchema] = []
-        self.ontic_functions: list[Function] = []
-        self.entities: list[Entity] = []
-        self.action_schemas: list[ActionSchema] = []
-        self.agents: list[Agent] = []
     
     def get_function_schema_by_name(self, name: str) -> FunctionSchema:
         return copy.deepcopy(next((function_schema for function_schema in self.function_schemas if function_schema.name == name), None))
@@ -442,7 +468,7 @@ class Model:
 
     def simulate(self):
         """
-        SImulate the model until all agents have reached a terminal state
+        Simulate the model until all agents have reached a terminal state
         """
         agent_index = 0
         agent_count = len(self.agents)
@@ -462,17 +488,17 @@ class Model:
         else:
             self.do_action(agent_name, None)
             print(f"{agent_name} takes action: stay")
-        # TODO: 需要思考一下如何进行intention prediction
+        # TODO: #5 需要思考一下如何进行intention prediction
 
     def observe_and_update_agent(self, agent_name: str):
         agent = self.get_agent_by_name(agent_name)
         observe_functions = self.observation_function.get_observable_functions(model=self, agent_name=agent_name)
         # update agent's functions
-        for agent_name, functions in observe_functions.items():
-            if agent_name == agent.name:
+        for agt_name, functions in observe_functions.items():
+            if agt_name == agent.name:
                 agent.update_functions(functions)
             else:
-                belief_of_agent = agent.get_belief_of_agent(agent_name)
+                belief_of_agent = agent.get_belief_of_agent(agt_name)
                 belief_of_agent.update_functions(functions)
 
     def do_action(self, agent_name: str, action: Action) -> bool:
@@ -494,10 +520,10 @@ class Model:
         function = util.get_function_with_locator(functions, effect.effect_function_locator)
         if function is not None:
             if effect.value is not None:
-                function.value = util.effect_values(function.value, effect.value, effect.   effect_type)
+                function.value = util.compare_effect_values(function.value, effect.value, effect.   effect_type)
             else:
                 target_function = util.get_function_with_locator(self.ontic_functions, effect.   target_function_locator)
-                function.value = util.effect_values(function.value, target_function.value, effect.  effect_type)
+                function.value = util.compare_effect_values(function.value, target_function.value, effect.  effect_type)
         else:
             if effect.effect_type != EffectType.ASSIGN:
                 self.logger.error(f"Trying to change a function that not exist in agent's functions or ontic world functions")
@@ -559,6 +585,40 @@ class Model:
                 return False
         return True
 
+    def generate_all_possible_functions(self) -> list[Function]:
+        functions = []
+        for function_schema in self.function_schemas:
+            # get all possible values
+            values = []
+            if function_schema.type == ValueType.ENUMERATE:
+                values = function_schema.range
+            else:
+                min, max = function_schema.range
+                values = list(range(min, max + 1))
+            
+            # get all possible parameters
+            all_entities = {}
+            for key_word, type in function_schema.require_parameters.items():
+                all_entities[key_word] = self.get_all_entity_name_by_type(type)
+            
+            keys = all_entities.keys()
+            entities = all_entities.values()
+            combinations = [comb for comb in product(*entities) if len(set(comb)) == len(comb)]
+            all_entities = [dict(zip(keys, comb)) for comb in combinations]
+
+            for value in values:
+                for entity in all_entities:
+                    new_function = Function()
+                    new_function.name = function_schema.name
+                    new_function.range = function_schema.range
+                    new_function.type = function_schema.type
+                    new_function.value = value
+                    new_function.parameters = entity
+                    functions.append(new_function)
+
+        return functions
+
+
     def __str__(self):
         result = f"================= Model Result================\n"
         result += f"Domain name: {self.domain_name}\nProblem name: {self.problem_name}\n"
@@ -590,3 +650,21 @@ class Model:
 
     def __repr__(self):
         return self.__str__()
+    
+    def copy(self):
+        new_model = Model()
+        new_model.logger = self.logger
+        new_model.observation_function = self.observation_function
+        new_model.strategy = self.strategy
+        new_model.problem_type = self.problem_type
+
+        new_model.domain_name = self.domain_name
+        new_model.problem_name = self.problem_name
+        new_model.function_schemas = self.function_schemas
+        new_model.action_schemas = self.action_schemas
+        new_model.entities = self.entities
+        new_model.ontic_functions = copy.deepcopy(self.ontic_functions)
+        for agent in self.agents:
+            new_model.agents.append(agent.copy())
+        
+        return new_model

@@ -1,5 +1,5 @@
 from epistemic_handler.epistemic_class import *
-from file_parser import *
+from epistemic_handler.file_parser import *
 import logging
 from itertools import combinations, permutations, product
 

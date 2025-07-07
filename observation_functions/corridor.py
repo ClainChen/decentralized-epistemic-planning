@@ -73,11 +73,14 @@ class CorridorObsFunc(AbstractObservationFunction):
                     belief_in_another_room.append(function)
                 elif (all_item_in_same_room 
                       and function.name == 'holding'):
-                    belief_in_another_room.append(function)
+                    func_agt_name = function.parameters['?a']
+                    if agent_at_room[func_agt_name] != agent_at_room[agent.name]:
+                        belief_in_another_room.append(function)
                 elif (all_item_in_same_room 
-                      and function.name == 'hold_by' 
-                      and function.parameters['?a'] != agent_at_room[agent.name]):
-                    belief_in_another_room.append(function)
+                      and function.name == 'hold_by'):
+                    func_agt_name = function.parameters['?a']
+                    if agent_at_room[func_agt_name] != agent_at_room[agent.name]:
+                        belief_in_another_room.append(function)
             for other_agent in model.agents:
                 if agent_at_room[other_agent.name] == agent_at_room[agent.name]:
                     result[other_agent.name] = observable_functions

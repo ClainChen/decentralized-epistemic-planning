@@ -3,7 +3,7 @@ import logging
 import sys
 import traceback
 import util
-import model_builder
+from epistemic_handler import model_builder
 
 c_logging_level = logging.INFO
 THIS_LOGGER_LEVEL = logging.DEBUG
@@ -35,7 +35,7 @@ def loadParameter():
     parser.add_argument('--log-display', dest='c_logging_display', action='store_true',
                         help='add this argument will display the full log in the console')
     
-    parser.add_argument('-t', '--type', dest='problem_type', type=str.lower, help='The type of problem, only allows COOPERATIVE or NATURAL', choices=['cooperative', 'natural'], default='cooperative')
+    parser.add_argument('--cooperative', dest='problem_type', help='problem type controller, without this key word will set the problem type to neutral', action='store_true')
 
     options = parser.parse_args(sys.argv[1:])
 
@@ -53,7 +53,10 @@ if __name__ == '__main__':
         logger.info(f"Start building the model, type: \"{args.problem_type}\"")
         
         model = model_builder.build(args, handler)
+        logger.info(f"Model built successfully.")
+        all_functions = model.generate_all_possible_functions()
         model.simulate()
+
         print("Done.")
     except Exception as e:
         logger.error(f"{traceback.format_exc()}\n")

@@ -1,5 +1,5 @@
 from abstracts import AbstractPolicyStrategy
-from epistemic_handler.epistemic_class import Model, Agent, Function, Action
+from epistemic_handler.epistemic_class import Model, Action
 import random
 import util
 import logging
@@ -15,4 +15,5 @@ class Random(AbstractPolicyStrategy):
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
         successors = model.get_agent_successors(agent_name)
-        return random.choice(successors) if successors else None
+        action = random.choice(successors) if successors else None
+        return action if util.is_valid_action(model.ontic_functions, action) else None

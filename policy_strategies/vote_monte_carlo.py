@@ -2,7 +2,7 @@ from abstracts import AbstractPolicyStrategy
 from epistemic_handler.epistemic_class import Model, Agent, Action
 import util
 import logging
-from policy_strategies import random
+from policy_strategies import random as ps_random
 import math
 
 LOGGER_LEVEL = logging.DEBUG
@@ -11,10 +11,10 @@ ITERATION_LIMIT = 50
 STEP_LIMIT = 20
 SIMULATE_MULTIPLER = 3
 
-class MonteCarlo(AbstractPolicyStrategy):
+class VoteMonteCarlo(AbstractPolicyStrategy):
     """
-    This is a regular monte carlo strategy.
-
+    This MonteCarlo will self simulate multiple times to format a voting result.
+    
     Strategy based on monte carlo\n
     1. Selection
     2. Expansion
@@ -23,24 +23,72 @@ class MonteCarlo(AbstractPolicyStrategy):
     """
     def __init__(self, handler, logger_level=LOGGER_LEVEL):
         self.logger = util.setup_logger(__name__, handler, logger_level=logger_level)
-        self.simulation_strategy = random.Random(handler, logger_level=LOGGER_LEVEL)
+        self.simulation_strategy = ps_random.Random(handler, logger_level=LOGGER_LEVEL)
         self.root: Node = None
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
         successors = model.get_agent_successors(agent_name)
 
-        # agent can only do the simulation based on their own perspective
         if len(successors) > 1:
-            action = self.search(model, agent_name)
+            vote = self.voting(model, agent_name)
+            succ_name = ""
+            min_score = float("inf")
+            for name, votes in vote.items():
+                if votes[1] > 0:
+                    score = votes[0] / votes[1]
+                    if score < min_score:
+                        min_score = score
+                        succ_name = name
+            action = next(succ for succ in successors if succ.name == succ_name)
             return action if util.is_valid_action(model.ontic_functions, action) else None
         elif len(successors) == 1:
             return successors[0]
         else:
             return None
 
+    def voting(self, model: Model, agent_name: str) -> dict[str, int]:
+        vote = {}
+        successors = model.get_agent_successors(agent_name)
+        for succ in successors:
+            vote[succ.name] = [0, 0]
+        """
+        re-show the regualr process of model with monte carlo search
+        """
+        sim_times = len(successors) * SIMULATE_MULTIPLER
+        agent_count = len(model.agents)
+        for i in range(sim_times):
+            sim_model = util.generate_virtual_model(model, agent_name)
+            agent_index = sim_model.get_agent_index_by_name(agent_name)
+            start_move = ""
+            moves = 0
+            while not sim_model.full_goal_complete():
+                sim_agent = sim_model.agents[agent_index].name
+                sim_model.observe_and_update_agent(sim_agent)
+                sim_succ = sim_model.get_agent_successors(sim_agent)
+                if len(sim_succ) > 1:
+                    action = self.search(sim_model, sim_agent)
+                elif len(sim_succ) == 1:
+                    action = sim_succ[0]
+                else:
+                    action = None
+                if moves == 0:
+                    start_move = action.name
+                if util.is_valid_action(sim_model.ontic_functions, action):
+                    sim_model.do_action(sim_agent, action)
+                else:
+                    sim_model.do_action(sim_agent, None)
+                moves += 1
+                agent_index = (agent_index + 1) % agent_count
+            vote[start_move][0] += moves
+            vote[start_move][1] += 1
+            # print(f"Simulate Time: {i}, {vote}")
+        return vote
+                
+
+
+
     def search(self, model: Model, agent_name: str):
-        virtual_model = util.generate_virtual_model(model, agent_name)
-        self.root = Node(virtual_model, agent_name)
+        self.root = Node(model, agent_name)
 
         for i in range(ITERATION_LIMIT):
             node = self.select_node(self.root, agent_name)
@@ -136,7 +184,3 @@ class Node:
         child_node = Node(new_model, new_model.agents[agent_index].name, action=action, parent=self)
         self.children.append(child_node)
         return child_node
-
-
-        
-        

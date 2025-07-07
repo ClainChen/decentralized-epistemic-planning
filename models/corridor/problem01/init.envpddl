@@ -14,7 +14,7 @@
     )
 
     (:unshared-init
-        (assign (item_loc i) 1)
+        (assign (item_loc i) 2)
         (assign (is_free i) 0)
     )
 

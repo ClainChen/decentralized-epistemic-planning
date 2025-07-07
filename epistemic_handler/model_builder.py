@@ -1,8 +1,9 @@
 import util
-from file_parser import *
+from epistemic_handler.file_parser import *
 from epistemic_handler.epistemic_class import *
+from epistemic_handler.model_checker import *
 
-LOGGER_LEVEL = logging.INFO
+LOGGER_LEVEL = logging.DEBUG
 
 def build(args, handler) -> Model:
     try:
@@ -10,6 +11,10 @@ def build(args, handler) -> Model:
         logger.info(f"Start building the model, type: \"{args.problem_type}\"")
 
         domain, problem = parse_file(args, handler, logger)
+        checker = ModelChecker(domain, problem, handler)
+        if not checker.check_validity():
+            logger.error("Model is invalid")
+            exit(1)
         model = build_model(domain, problem, handler, logger, args)
         return model
     except Exception as e:
@@ -28,16 +33,17 @@ def parse_file(args, handler, logger):
     check_result = checker.check_validity()
     if not check_result:
         logger.error(f"Model is invalid.")
-        raise f"Model did not pass the checker."
+        raise Exception("Model did not pass the checker.")
     
     return domain, problem
 
 
 def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger, args):
-    model = Model(handler, 
-                  args.problem_type, 
-                  util.MODEL_FOLDER_PATH + args.observation_function_path, 
-                  util.STRATEGY_FOLDER_PATH + args.strategy)
+    model = Model()
+    model.init(handler, 
+               "cooperative" if args.problem_type else "neutral", 
+               util.OBS_FUNC_FOLER_PATH + args.observation_function_path, 
+               util.STRATEGY_FOLDER_PATH + args.strategy)
     model.domain_name = domain.name
     model.problem_name = problem.problem_name
 
@@ -164,7 +170,18 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
             new_agent.goals.append(new_goal)
         model.agents.append(new_agent)
 
+    if model.problem_type == ProblemType.COOPERATIVE:
+        all_goals = []
+        for agent in model.agents:
+            all_goals.extend(agent.goals)
+        for agent in model.agents:
+            agent.goals = all_goals
+
     logger.debug(f"Model:\n{model}")
+    # if not check_goal_conflicts(model):
+    #     logger.error("Goal conflicts found")
+    #     raise Exception("Goal conflicts found")
+    # logger.info(f"Pass goal conflict check")
     return model
 
 

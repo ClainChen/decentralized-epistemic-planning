@@ -4,7 +4,7 @@ from epistemic_handler.epistemic_class import Model, Agent, Function, Action
 class AbstractObservationFunction(ABC):
     """
     Abstract class for observation function\n
-    1. Make sure your new observation function file is locate at the children paths in 'models' folder\n
+    1. Make sure put the new observation function file in the observation_functions folder\n
     2. Make sure to extend this class and implement the abstract method when you are defining a new observation function class, that is really important\n
     """
     def __init__(self, handler, logger_level):

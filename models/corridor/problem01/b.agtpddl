@@ -5,12 +5,12 @@
 
     (:init
         (assign (agent_loc b) 1)
-        (assign (holding b) 1)
-        (assign (hold_by i b) 1)
+        (assign (holding b) 0)
+        (assign (hold_by i b) 0)
     )
 
     (:goal (and
-        (= (@ep ("+ b [b]") (= (hold_by i b) 0)) ep.true)
+        (= (@ep ("+ b [b]") (= (hold_by i b) 1)) ep.true)
         )
     )
 )

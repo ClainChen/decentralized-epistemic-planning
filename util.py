@@ -1,16 +1,18 @@
 import logging
 import inspect
 import re
-from file_parser import *
+from epistemic_handler.file_parser import *
 from epistemic_handler.epistemic_class import *
 import importlib.util
 from pathlib import Path
+import random
 
 BIG_DIVIDER = "=================\n"
 MEDIUM_DIVIDER = "*****************\n"
 SMALL_DIVIDER = "-----------------\n"
 
 MODEL_FOLDER_PATH = "models/"
+OBS_FUNC_FOLER_PATH = "observation_functions/"
 STRATEGY_FOLDER_PATH = "policy_strategies/"
 
 
@@ -129,7 +131,7 @@ def load_policy_strategy(policy_strategy_path: str, logger):
         raise ValueError(f"Failed to load strategy class from {path}")
 
 
-def compare_values(a: int | str, b: int | str, strategy: ConditionOperator) -> bool:
+def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOperator) -> bool:
     strategies = {
         ConditionOperator.EQUAL: lambda a, b: a == b,
         ConditionOperator.NOT_EQUAL: lambda a, b: a != b,
@@ -145,7 +147,7 @@ def compare_values(a: int | str, b: int | str, strategy: ConditionOperator) -> b
         raise ValueError(f"strategy {strategy} is not supported for type {type(a)} and {type(b)}")
     return strategies[strategy](a, b)
 
-def effect_values(a: int | str, b: int | str, strategy: EffectType) -> int | str:
+def compare_effect_values(a: int | str, b: int | str, strategy: EffectType) -> int | str:
     strategies = {
         EffectType.ASSIGN: lambda a, b: b,
         EffectType.INCREASE: lambda a, b: a + b,
@@ -158,9 +160,11 @@ def effect_values(a: int | str, b: int | str, strategy: EffectType) -> int | str
         raise ValueError(f"strategy {strategy} is not supported for string value")
     return strategies[strategy](a, b)
 
+
+
 def check_in_range(function: Function):
     if isinstance(function.range, list):
-        return function.value in range
+        return function.value in function.range
     else:
         min, max = function.range
         return min <= function.value <= max
@@ -169,13 +173,15 @@ def is_valid_action(functions: list[Function], action: Action) -> bool:
     """
     to check whether the action is valid in realm of given functions
     """
+    if action is None:
+        return True
     for condition in action.pre_condition:
-        # TODO: 这里要加关于epistemic条件的判断
+        # TODO: #2 这里要加关于epistemic条件的判断
         checking_function = util.get_function_with_locator(functions, condition.condition_function_locator)
         if checking_function is None:
             return False
         if condition.value is not None:
-            if not compare_values(checking_function.value, condition.value, condition.condition_operator):
+            if not compare_condition_values(checking_function.value, condition.value, condition.condition_operator):
                 return False
         else:
             target_function = get_function_with_locator(functions, condition.target_function_locator)
@@ -192,3 +198,97 @@ def get_function_with_locator(functions: list[Function], locator: FunctionLocato
         if function.name == locator.name and list(function.parameters.values()) == list(locator.parameters.values()):
             return function
     return None
+
+def is_conflict_functions(function1: Function, function2: Function) -> bool:
+    """
+    check whether two functions are conflict with each other
+    """
+    if function1.name == function2.name and function1.parameters == function2.parameters:
+        if function1.value != function2.value:
+            return True
+    return False
+
+def get_agent_unknown_functions(model: Model, agent_name: str) -> list[Function]:
+    """
+    get agent's unknown functions based on what agent knows
+    """
+    all_functions = model.generate_all_possible_functions()
+    current_agent = model.get_agent_by_name(agent_name)
+    # remove the functions that agent already knows
+    all_functions = [function for function in all_functions if function not in current_agent.functions]
+    unknown_functions = []
+    # filter the functions that are conflict with what agent knows
+    for func in all_functions:
+        is_conflict = False
+        for known_func in current_agent.functions:
+            if util.is_conflict_functions(func, known_func):
+                is_conflict = True
+                break
+        if not is_conflict:
+            unknown_functions.append(func)
+    return unknown_functions
+
+def function_belongs_to(model: Model, function: Function) -> str:
+    """
+    Normally, an agent will know a function if it is clearly belongs to it.\n
+    For example, agent_loc a = 1 is clearly belongs to agent a.\n
+    If there are multiple agent parameters in the function, then we assume the function belongs to the first agent.\n
+    For exmpale, has_secret a b means a has b's secret, then this function belongs to agent a.
+    """
+    for _, param_name in function.parameters.items():
+        agent = model.get_agent_by_name(param_name)
+        if agent is not None:
+            return agent.name
+    return None
+
+def generate_virtual_model(model: Model, agent_name: str) -> Model:
+    """
+    Generate a virtual model based on agent_name's perspective.\n
+    agent_name's functions will become model's ontic functions, agent_name's belief to other agents will become model's agents.\n
+    For unknown functions, this function will find all unknwon functions, group them with their name and parameters, and randomly pick one of them in each group as the ontic function. This will also input in agent_name's functions.\n
+    If the generated unknwon function is clearly belongs to an agent, then this function will add to that agent's functions.\n
+    """
+    # TODO: #1 有rules冲突问题需要解决。如当hold_by i a = 1时， holding a = 1 和 is_free i = 0 必然同时成立。这部分应该写到domain.pddl中，建立一个rules部分，在模型生成阶段进行读取解析。
+    unknown_functions = get_agent_unknown_functions(model, agent_name)
+    # group the functions by name and parameters
+    group_functions = {}
+    for func in unknown_functions:
+        key = func.name + func.parameters.__str__()
+        if key not in group_functions:
+            group_functions[key] = []
+        group_functions[key].append(func)
+    unknown_functions = []
+    for funcs in group_functions.values():
+        unknown_functions.append(funcs)
+    # randomly pick one of the function in each group as a part of ontic function
+    assume_ontic_functions = []
+    for funcs in unknown_functions:
+        assume_ontic_functions.append(random.choice(funcs))
+    
+    virtual_model = model.copy()
+    current_agent = virtual_model.get_agent_by_name(agent_name)
+    # allocate the functions and the goals to each agents
+    for agent in current_agent.belief_to_other_agents:
+        index = virtual_model.get_agent_index_by_name(agent.name)
+        virtual_model.agents[index] = agent.copy()
+        # TODO: #3 在添加了intention prediction之后，对neutral问题下的虚拟世界生成的其他代理的目标分配分体将会直接解决。
+        if virtual_model.problem_type == ProblemType.COOPERATIVE:
+            virtual_model.agents[index].goals = current_agent.goals
+    for agent in virtual_model.agents:
+        if len(agent.belief_to_other_agents) != len(model.agents) - 1:
+            for agt in model.agents:
+                if (agt.name != agent.name
+                    and agent.name not in [k.name for k in agent.belief_to_other_agents]):
+                    new_agt = Agent()
+                    new_agt.name = agt.name
+                    agent.belief_to_other_agents.append(new_agt)
+
+    virtual_model.ontic_functions = copy.deepcopy(current_agent.functions)
+    for func in assume_ontic_functions:
+        virtual_model.ontic_functions.append(func)
+        current_agent.functions.append(func)
+        belongs_to = util.function_belongs_to(virtual_model, func)
+        if belongs_to is not None:
+            virtual_model.get_agent_by_name(belongs_to).functions.append(func)
+    
+    return virtual_model
