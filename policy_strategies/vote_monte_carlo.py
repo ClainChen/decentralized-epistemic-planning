@@ -83,9 +83,6 @@ class VoteMonteCarlo(AbstractPolicyStrategy):
             vote[start_move][1] += 1
             # print(f"Simulate Time: {i}, {vote}")
         return vote
-                
-
-
 
     def search(self, model: Model, agent_name: str):
         self.root = Node(model, agent_name)

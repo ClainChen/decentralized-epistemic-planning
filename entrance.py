@@ -23,10 +23,14 @@ class CustomHelpFormatter(argparse.RawTextHelpFormatter, argparse.ArgumentDefaul
 def loadParameter():
     parser = argparse.ArgumentParser(description='HELP of model-builder parser', formatter_class=CustomHelpFormatter)
 
-    parser.add_argument('-d', '--domain', dest='domain_path', help='domain file path', required=True)
-    parser.add_argument('-p', '--problem', dest='problem_path', help='problem folder path, please make sure all of your distributed problem files are in the folder', required=True)
-    parser.add_argument('-ob', '--observation-function', dest='observation_function_path', help='observation function file path', required=True)
+    parser.add_argument('-d', '--domain', dest='domain_path', type=str.lower, help='domain file path', required=True)
+    parser.add_argument('-p', '--problem', dest='problem_path', type=str.lower, help='problem folder path, please make sure all of your distributed problem files are in the folder', required=True)
+
+    parser.add_argument('-ob', '--observation-function', dest='observation_function', type=str.lower, help='observation function file path, the observation functions are locate in observation_function folder, the name of observation function will be as same as the file name', required=True)
+
     parser.add_argument('--strategy', dest='strategy', type=str.lower, help='The strategy you want to use, the strategies are locate in policy_strategies folder, the name of strategy will be same as the file name', default='random.py')
+
+    parser.add_argument('--rules', dest='rules', type=str.lower, help='rules file path, the rules are locate in rules folder, the name of rules will be same as the file name.', required=True)
 
     debug_mode_help = ('set the console logging level, the strength ordered by:\n'
                        'debug > info > warning > error > critical')
@@ -53,6 +57,9 @@ if __name__ == '__main__':
         logger.info(f"Start building the model, type: \"{args.problem_type}\"")
         
         model = model_builder.build(args, handler)
+        if not model.rules.check_model(model):
+            logger.error(f"Model's functions are not following the rules.")
+            raise Exception("Model's functions are not following the rules.")
         logger.info(f"Model built successfully.")
         all_functions = model.generate_all_possible_functions()
         model.simulate()
@@ -60,6 +67,6 @@ if __name__ == '__main__':
         print("Done.")
     except Exception as e:
         logger.error(f"{traceback.format_exc()}\n")
-        print("Model building failed.")
+        print(f"{traceback.format_exc()}\n")
         print("Program failed caused by some reason. Please check the log file for more details.")
 

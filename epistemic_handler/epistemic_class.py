@@ -417,10 +417,11 @@ class Agent:
 
 class Model:
     def __init__(self):
-        from abstracts import AbstractObservationFunction, AbstractPolicyStrategy
+        from abstracts import AbstractObservationFunction, AbstractPolicyStrategy, AbstractRules
         self.logger = None
         self.observation_function: AbstractObservationFunction = None
         self.strategy: AbstractPolicyStrategy = None
+        self.rules: AbstractRules = None
         self.problem_type: ProblemType = None
 
         self.domain_name: str = None
@@ -431,8 +432,8 @@ class Model:
         self.action_schemas: list[ActionSchema] = []
         self.agents: list[Agent] = []
     
-    def init(self, handler, problem_type, observation_function_path, policy_strategy_path):
-        from abstracts import AbstractObservationFunction, AbstractPolicyStrategy
+    def init(self, handler, problem_type, observation_function_path, policy_strategy_path, rules_path):
+        from abstracts import AbstractObservationFunction, AbstractPolicyStrategy, AbstractRules
         self.logger = util.setup_logger(__name__, handler, logger_level=MODEL_LOGGER_LEVEL)
         
         ObsFunc = util.load_observation_function(observation_function_path, self.logger)
@@ -442,6 +443,10 @@ class Model:
         Strategy = util.load_policy_strategy(policy_strategy_path, self.logger)
         self.strategy: AbstractPolicyStrategy = Strategy(handler)
         self.logger.info(f"Loaded policy strategy: {Strategy.__name__}")
+
+        Rules = util.load_rules(rules_path, self.logger)
+        self.rules: AbstractRules = Rules(handler)
+        self.logger.info(f"Loaded rules: {Rules.__name__}")
 
         self.problem_type: ProblemType = PROBLEM_TYPE_MAPS[problem_type]
     
@@ -656,6 +661,7 @@ class Model:
         new_model.logger = self.logger
         new_model.observation_function = self.observation_function
         new_model.strategy = self.strategy
+        new_model.rules = self.rules
         new_model.problem_type = self.problem_type
 
         new_model.domain_name = self.domain_name

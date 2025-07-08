@@ -28,3 +28,22 @@ class AbstractPolicyStrategy(ABC):
     @abstractmethod
     def get_policy(self, model: Model, agent_name: str) -> Action:
         pass
+
+
+class AbstractRules(ABC):
+    """
+    Abstract class for rules, if you needs to use virtual world generator or problem generator, then make sure you build a rule class for specific problem.\n
+    This class is used to check whether the functions of the model or a set of functions is following the rules.\n
+    1. Make sure put the new rules class in the rules folder.\n
+    2. Make sure to extend this class and implement the abstract method when you are defining a new rules class, that is really important\n
+    """
+
+    def __init__(self, handler, logger_level):
+        self.logger = None
+
+    def check_model(self, model: Model):
+        return self.check_functions(model.ontic_functions)
+    
+    @abstractmethod
+    def check_functions(self, functions: list[Function]) -> bool:
+        pass

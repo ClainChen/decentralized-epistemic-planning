@@ -90,6 +90,7 @@
         :precondition (
             (= (holding ?self) 1)
             (= (hold_by ?i ?self) 1)
+            (= (is_free ?i) 0)
         )
         :effect (
             (assign (holding ?self) 0)

@@ -14,6 +14,7 @@ SMALL_DIVIDER = "-----------------\n"
 MODEL_FOLDER_PATH = "models/"
 OBS_FUNC_FOLER_PATH = "observation_functions/"
 STRATEGY_FOLDER_PATH = "policy_strategies/"
+RULES_FOLDER_PATH = "rules/"
 
 
 class ClassNameFormatter(logging.Formatter):
@@ -31,7 +32,6 @@ class ClassNameFormatter(logging.Formatter):
             frame = frame.f_back
         
         return super().format(record)
-
 
 def setup_logger_handlers(log_filename, log_mode='a', c_display=False, c_logger_level=logging.INFO):
     f_handler = logging.FileHandler(log_filename, mode=log_mode)
@@ -51,7 +51,6 @@ def setup_logger_handlers(log_filename, log_mode='a', c_display=False, c_logger_
     if c_display:
         handlers.append(c_handler)
     return handlers
-
 
 def setup_logger(name, handlers=[], logger_level=logging.INFO):
     """To setup as many loggers as you want"""
@@ -130,6 +129,29 @@ def load_policy_strategy(policy_strategy_path: str, logger):
         logger.error(f"Failed to load strategy class from {path}")
         raise ValueError(f"Failed to load strategy class from {path}")
 
+def load_rules(rules_path: str, logger):
+    from abstracts import AbstractRules
+    try:
+        path = Path(rules_path)
+        module_name = path.stem
+
+        spec = importlib.util.spec_from_file_location(f"{module_name}_strategy", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        valid_classes = [cls for cls in module.__dict__.values() 
+                        if inspect.isclass(cls) 
+                        and issubclass(cls, AbstractRules)
+                        and cls != AbstractRules]
+
+        if not valid_classes:
+            logger.error(f"No valid rules class found in {path}")
+            raise ValueError(f"file {path} do not have a subclass of {AbstractRules.__name__}")
+    
+        return valid_classes[0]
+    except:
+        logger.error(f"Failed to load rules class from {path}")
+        raise ValueError(f"Failed to load rules class from {path}")
 
 def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOperator) -> bool:
     strategies = {
@@ -159,8 +181,6 @@ def compare_effect_values(a: int | str, b: int | str, strategy: EffectType) -> i
     if not isinstance(a, type(b)) or (isinstance(a, str) and strategy != EffectType.ASSIGN):
         raise ValueError(f"strategy {strategy} is not supported for string value")
     return strategies[strategy](a, b)
-
-
 
 def check_in_range(function: Function):
     if isinstance(function.range, list):
@@ -241,6 +261,13 @@ def function_belongs_to(model: Model, function: Function) -> str:
             return agent.name
     return None
 
+def function_is_exist(functions: list[Function], func_name: str, func_params: dict[str, str]) -> int:
+    count = 0
+    for function in functions:
+        if function.name == func_name and function.parameters == func_params:
+            count += 1
+    return count
+
 def generate_virtual_model(model: Model, agent_name: str) -> Model:
     """
     Generate a virtual model based on agent_name's perspective.\n
@@ -260,13 +287,25 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     unknown_functions = []
     for funcs in group_functions.values():
         unknown_functions.append(funcs)
-    # randomly pick one of the function in each group as a part of ontic function
-    assume_ontic_functions = []
-    for funcs in unknown_functions:
-        assume_ontic_functions.append(random.choice(funcs))
     
     virtual_model = model.copy()
     current_agent = virtual_model.get_agent_by_name(agent_name)
+    choosen_paris = []
+    while True:
+        # randomly pick one of the function in each group as a part of ontic function
+        assume_ontic_functions = []
+        this_pairs = []
+        for funcs in unknown_functions:
+            f = random.choice(funcs)
+            i = funcs.index(f)
+            assume_ontic_functions.append(f)
+            this_pairs.append(i)
+        # check the validity of the assume ontic functions with current ontic functions by using the rules
+        if this_pairs not in choosen_paris:
+            choosen_paris.append(this_pairs)
+            if virtual_model.rules.check_functions(current_agent.functions + assume_ontic_functions):
+                break
+    
     # allocate the functions and the goals to each agents
     for agent in current_agent.belief_to_other_agents:
         index = virtual_model.get_agent_index_by_name(agent.name)

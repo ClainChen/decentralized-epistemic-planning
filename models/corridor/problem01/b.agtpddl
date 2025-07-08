@@ -10,7 +10,7 @@
     )
 
     (:goal (and
-        (= (@ep ("+ b [b]") (= (hold_by i b) 1)) ep.true)
+        (= (hold_by i b) 1)
         )
     )
 )
