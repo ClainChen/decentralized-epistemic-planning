@@ -32,10 +32,11 @@ python entrance.py -h # check the full help of this program
 - [x] Epistemic Model
 - [x] Problem Solver
 - [ ] Intention prediction
-- [ ] Virtual World generator
-  - [ ] Rules implementation
+- [x] Virtual World generator
+  - [x] Rules implementation
   - [x] All functions generator
   - [x] Filter the functions based on agent's own perspective
+- [x] Epistemic Logics
 
 
 
