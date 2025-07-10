@@ -5,7 +5,8 @@ import util
 import logging
 
 LOGGER_LEVEL = logging.DEBUG
-SIMULATE_TIMES = 10
+SIMULATE_TIMES = 100
+MAX_RANDOM_MOVES = 100
 class VoteRandom(AbstractPolicyStrategy):
     """
     Agent will choose a random action
@@ -43,9 +44,9 @@ class VoteRandom(AbstractPolicyStrategy):
             moves = 0
             for i in range(SIMULATE_TIMES):
                 sim_model = util.generate_virtual_model(model, agent_name)
-                self.logger.debug(sim_model)
                 agent_index = sim_model.get_agent_index_by_name(agent_name)
-                while not sim_model.full_goal_complete():
+                this_moves = 0
+                while not sim_model.full_goal_complete() and this_moves <= MAX_RANDOM_MOVES:
                     sim_agent = sim_model.agents[agent_index].name
                     sim_model.observe_and_update_agent(sim_agent)
                     sim_succ = sim_model.get_agent_successors(sim_agent)
@@ -55,10 +56,7 @@ class VoteRandom(AbstractPolicyStrategy):
                     else:
                         sim_model.do_action(sim_agent, None)
                     moves += 1
+                    this_moves += 1
                     agent_index = (agent_index + 1) % agent_count
-                    self.logger.debug(f"{moves} {sim_agent}: {action.name if action else 'None'}")
-                self.logger.debug(f"Simulate {i} end")
             vote[start_move] = moves / SIMULATE_TIMES
-            self.logger.debug(f"{start_move}: {vote[start_move]}")
-            self.logger.debug("---------------------")
         return vote

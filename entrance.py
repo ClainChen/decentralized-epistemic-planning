@@ -61,8 +61,26 @@ if __name__ == '__main__':
             logger.error(f"Model's functions are not following the rules.")
             raise Exception("Model's functions are not following the rules.")
         logger.info(f"Model built successfully.")
-        all_functions = model.generate_all_possible_functions()
+        # model.observe_and_update_agent('a')
+        # model.observe_and_update_agent('b')
+        # successors_a = model.get_agent_successors('a')
+        # for succ in successors_a:
+        #     if succ.name == 'drop_item':
+        #         action = succ
+        # model.agent_move('a', action)
+        # print(model)
+        # model.observe_and_update_agent('b')
+        # successors_b = model.get_agent_successors('b')
+        # print(f"{[succ.name for succ in successors_b]}")
         model.simulate()
+        # a_view = model.observation_function.get_observable_functions(model.ontic_functions, 'a')
+        # print(a_view)
+        
+        # a_b_view = model.observation_function.get_observable_functions(a_view, 'b')
+        # print(a_b_view)
+
+        # a_b_a_view = model.observation_function.get_observable_functions(a_b_view, 'a')
+        # print(a_b_a_view)
 
         print("Done.")
     except Exception as e:

@@ -10,13 +10,19 @@ class ProblemType(Enum):
     COOPERATIVE = 1
     NEUTRAL = 2
 
+    def __str__(self):
+        return f"\"{self.name}\""
+    
+    def __repr__(self):
+        return self.__str__()
+
 class EpistemicOperator(Enum):
     EQUAL = 1
     NOT_EQUAL = 2
     NONE = 0
 
     def __str__(self):
-        return f"\"{self.name}\""
+        return f"\"EP_{self.name}\""
 
     def __repr__(self):
         return self.__str__()
@@ -28,7 +34,7 @@ class EpistemicTruth(Enum):
     NONE = 0
 
     def __str__(self):
-        return f"\"{self.name}\""
+        return f"\"EP_{self.name}\""
 
     def __repr__(self):
         return self.__str__()
@@ -105,6 +111,9 @@ EFFECT_TYPE_MAPS = {
 class Entity:
     name: str = None
     type: str = None
+
+    def __str__(self):
+        return f"Entity({self.name} - {self.type})"
     
 class FunctionSchema:
     def __init__(self):
@@ -154,28 +163,6 @@ class Function:
     def __repr__(self):
         return self.__str__()
 
-class FunctionLocator:
-    """
-    Use in the condition phase, this will not include the value, the value of this function is always in the upper layer: Condition
-    """
-    def __init__(self):
-        self.name: str = None
-        self.range: tuple[int, int] | list = None
-        self.type: ValueType = ValueType.NONE
-        self.parameters: dict[str, str] = []
-    
-    @classmethod
-    def proper_build(cls, function_schema: FunctionSchema, parameters: dict[str, Entity]) -> 'FunctionLocator':
-        locator = cls()
-        locator.name = function_schema.name
-        locator.range = function_schema.range
-        locator.type = function_schema.type
-        locator.parameters = {key: parameters[key] for key in function_schema.require_parameters.keys()}
-        return locator
-
-    def __str__(self):
-        return f"FunctionLocator(name: {self.name}, range: {self.range}, type: {self.type}, parameters: {self.parameters})"
-
 class ConditionSchema:
     def __init__(self):
         self.ep_operator: EpistemicOperator = EpistemicOperator.NONE
@@ -187,30 +174,51 @@ class ConditionSchema:
         self.target_function_schema: FunctionSchema = None
     
     def __str__(self):
-        result = f"Condition(ep_operator: {self.ep_operator}, belief_sequence: {self.belief_sequence}, ep_truth: {self.ep_truth}, condition_operator: {self.condition_operator}, condition_function_schema: {self.condition_function_schema}, value: {self.value} / target_function_schema: {self.target_function_schema})\n"
+        if not self.value is None:
+            result = f"ConditionSchema(({self.ep_operator} {self.belief_sequence} {self.ep_truth}) {self.condition_operator} ({self.condition_function_schema.name} {self.condition_function_schema.require_parameters}) = {self.value})"
+        else:
+            result = f"ConditionSchema(({self.ep_operator} {self.belief_sequence} {self.ep_truth}) {self.condition_operator} ({self.condition_function_schema.name} {self.condition_function_schema.require_parameters}) = ({self.target_function_schema.name} {self.target_function_schema.require_parameters}))"
+        
         return result
 
     def __repr__(self):
         return self.__str__()
 
 class Condition:
-    def __init__(self, condition_schema: ConditionSchema, parameters: dict[str, str]):
-        self.ep_operator: EpistemicOperator = condition_schema.ep_operator
-        self.belief_sequence: list[str] = condition_schema.belief_sequence
-        self.ep_truth: EpistemicTruth = condition_schema.ep_truth
-        self.condition_operator: ConditionOperator = condition_schema.condition_operator
-        self.condition_function_locator: FunctionLocator = FunctionLocator.proper_build(condition_schema.condition_function_schema, parameters)
-        self.value: int | str = condition_schema.value
-        if condition_schema.target_function_schema is not None:
-            self.target_function_locator: FunctionLocator = FunctionLocator.proper_build(condition_schema.target_function_schema, parameters)
+    def __init__(self):
+        self.ep_operator: EpistemicOperator = EpistemicOperator.NONE
+        self.belief_sequence: list[str] = []
+        self.ep_truth: EpistemicTruth = EpistemicTruth.NONE
+        self.condition_operator: ConditionOperator = ConditionOperator.NONE
+        self.condition_function_name: str = None
+        self.condition_function_parameters: dict[str, str] = None
+        self.target_function_name: str = None
+        self.target_function_parameters: dict[str, str] = None
+        self.value: int | str = None
+
+    @classmethod
+    def init_with_schema_and_params(cls, condition_schema: ConditionSchema, parameters: dict[str, str]):
+        condition = cls()
+        condition.ep_operator = condition_schema.ep_operator
+        condition.belief_sequence = condition_schema.belief_sequence
+        condition.ep_truth = condition_schema.ep_truth
+        condition.condition_operator = condition_schema.condition_operator
+        condition.condition_function_name = condition_schema.condition_function_schema.name
+        condition.condition_function_parameters = {key: parameters[key] for key in condition_schema.condition_function_schema.require_parameters.keys()}
+        if not condition_schema.value is None:
+            condition.value = condition_schema.value
         else:
-            self.target_function_locator = None
+            condition.target_function_name = condition_schema.target_function_schema.name
+            condition.target_function_parameters = {key: parameters[key] for key in condition_schema.target_function_schema.require_parameters.keys()}
+        return condition
 
     def __str__(self):
-        result = "Condition:\n"
-        result += f"ep_operator: {self.ep_operator}, belief_sequence: {self.belief_sequence}, ep_truth: {self.ep_truth}\n"
-        result += f"condition_operator: {self.condition_operator}, condition_function_locator: {self.condition_function_locator}\n"
-        result += f"value: {self.value} / target_function_locator: {self.target_function_locator}"
+        if not self.value is None:
+            result = f"Condition(({self.ep_operator} {self.belief_sequence} {self.ep_truth}) {self.condition_operator} {self.condition_function_name} {self.condition_function_parameters} = {self.value})"
+        else:
+            result = f"Condition(({self.ep_operator} {self.belief_sequence} {self.ep_truth}) {self.condition_operator} ({self.condition_function_name} {self.condition_function_parameters}) = ({self.target_function_name} {self.target_function_parameters}))"
+
+        
         return result
 
     def __repr__(self):
@@ -224,27 +232,42 @@ class EffectSchema:
         self.target_function_schema: FunctionSchema = None
 
     def __str__(self):
-        result = f"EffectSchema(effect_type: {self.effect_type}, effect_function_schema: {self.effect_function_schema}, value: {self.value})"
+        if not self.value is None:
+            result = f"EffectSchema({self.effect_type} ({self.effect_function_schema.name} {self.effect_function_schema.require_parameters}) = {self.value})"
+        else:
+            result = f"EffectSchema({self.effect_type} ({self.effect_function_schema.name} {self.effect_function_schema.require_parameters}) = ({self.target_function_schema.name} {self.target_function_schema.require_parameters}))"
         return result
     
     def __repr__(self):
         return self.__str__()
 
 class Effect:
-    def __init__(self, effect_schema: EffectSchema, parameters: dict[str, Entity]):
-        self.effect_type: EffectType = effect_schema.effect_type
-        self.effect_function_locator: FunctionLocator = FunctionLocator.proper_build(effect_schema.effect_function_schema, parameters)
-        self.value: int | str = effect_schema.value
-        if effect_schema.target_function_schema is not None:
-            self.target_function_locator: FunctionLocator = FunctionLocator.proper_build(effect_schema.target_function_schema, parameters)
+    def __init__(self):
+        self.effect_type: EffectType = EffectType.NONE
+        self.effect_function_name: str = None
+        self.effect_function_parameters: dict[str, Entity] = {}
+        self.target_function_name: str = None
+        self.target_function_parameters: dict[str, Entity] = {}
+        self.value: int | str = None
+    
+    @classmethod
+    def init_with_schema_and_params(cls, effect_schema: EffectSchema, parameters: dict[str, Entity]):
+        effect = cls()
+        effect.effect_type = effect_schema.effect_type
+        effect.effect_function_name = effect_schema.effect_function_schema.name
+        effect.effect_function_parameters = {key: parameters[key] for key in effect_schema.effect_function_schema.require_parameters.keys()}
+        if not effect_schema.value is None:
+            effect.value = effect_schema.value
         else:
-            self.target_function_locator = None
+            effect.target_function_name = effect_schema.target_function_schema.name
+            effect.target_function_parameters = {key: parameters[key] for key in effect_schema.target_function_schema.require_parameters.keys()}
+        return effect
+
     def __str__(self):
-        result = "EffectSchema:\n"
-        result += f"effect_type: {self.effect_type}\n"
-        result += f"effect_function_locator: {self.effect_function_locator}\n"
-        result += f"value: {self.value}"
-        result += f"target_function_locator: {self.target_function_locator}\n"
+        if not self.value is None:
+            result = f"Effect({self.effect_type} ({self.effect_function_name} {self.effect_function_parameters}) = {self.value})"
+        else:
+            result = f"Effect({self.effect_type} ({self.effect_function_name} {self.effect_function_parameters}) = ({self.target_function_name} {self.target_function_parameters}))"
         return result
 
 class ActionSchema:
@@ -289,10 +312,10 @@ class Action:
         self.parameters: dict[str, str] = parameters
         self.pre_condition: list[Condition] = []
         for condition_schema in action_schema.pre_condition_schemas:
-            self.pre_condition.append(Condition(condition_schema, parameters))
+            self.pre_condition.append(Condition.init_with_schema_and_params(condition_schema, parameters))
         self.effect: list[Effect] = []
         for effect_schema in action_schema.effect_schemas:
-            self.effect.append(Effect(effect_schema, parameters))
+            self.effect.append(Effect.init_with_schema_and_params(effect_schema, parameters))
 
     def __str__(self):
         result = f"Action:\n"
@@ -308,32 +331,12 @@ class Action:
     def __repr__(self):
         return self.__str__()
 
-class Goal:
-    def __init__(self):
-        self.ep_operator: EpistemicOperator = EpistemicOperator.NONE
-        self.belief_sequence: list[str] = []
-        self.ep_truth: EpistemicTruth = EpistemicTruth.NONE
-        self.condition_operator: ConditionOperator = ConditionOperator.NONE
-        self.goal_function_name: str = None
-        self.goal_function_parameters: list[str] = []
-        self.value: int | str = None
-        self.target_function_name: str = None
-        self.target_function_parameters: list[str] = []
-
-    def __str__(self):
-        result = f"Goal(ep_operator: {self.ep_operator}, belief_sequence: {self.belief_sequence}, ep_truth: {self.ep_truth}, condition_operator: {self.condition_operator}, goal_function_name: {self.goal_function_name}, goal_function_parameters: {self.goal_function_parameters}, value: {self.value} / target_function_name: {self.target_function_name}, target_function_parameters: {self.target_function_parameters})"
-        return result
-
-    def __repr__(self):
-        return self.__str__()
-
 class Agent:
     def __init__(self):
         self.name: str = None
         self.functions: list[Function] = []
-        self.goals: list[Goal] = []
+        self.goals: list[Condition] = []
         self.history_functions: list[list[Function]] = []
-        self.belief_to_other_agents: list[Agent] = []
 
     def copy(self):
         new_agent = Agent()
@@ -341,18 +344,12 @@ class Agent:
         new_agent.goals = self.goals
         new_agent.functions = copy.deepcopy(self.functions)
         new_agent.history_functions = copy.deepcopy(self.history_functions)
-        for agent in self.belief_to_other_agents:
-            new_agent.belief_to_other_agents.append(agent.copy())
         return new_agent
-    
-    def get_belief_of_agent(self, agent_name: str):
-        """
-        get the agent from belief_to_other_agents based on the given agent_name
-        """
-        return next((agent for agent in self.belief_to_other_agents if agent.name == agent_name), None)
 
     def update_functions(self, functions: list[Function]):
         self.history_functions.append(copy.deepcopy(self.functions))
+        if len(self.history_functions) >= 20:
+            self.history_functions.pop(0)
 
         for function in functions:
             updating_function = None
@@ -365,20 +362,10 @@ class Agent:
             else:
                 agent_function.value = function.value
 
-    def is_complete(self):
-        # TODO: #4 这里要加epistemic条件的判断
+    def is_complete(self, obs_func):
         for goal in self.goals:
-            function = self.get_function_with_name_and_params(goal.goal_function_name, goal.goal_function_parameters)
-            if function is None:
+            if not util.check_condition(goal, self.functions, self.history_functions, obs_func):
                 return False
-            else:
-                if goal.value is not None:
-                    if not util.compare_condition_values(goal.value, function.value, goal.condition_operator):
-                        return False
-                else:
-                    target_function = self.get_function_with_name_and_params(goal.target_function_name, goal.target_function_parameters)
-                    if target_function is None or not util.compare_condition_values(goal.value, target_function.value, goal.condition_operator):
-                        return False
         return True
 
     def get_function_with_name_and_params(self, name: str, params: list[str]):
@@ -394,7 +381,6 @@ class Agent:
             result += f"{function}\n"
         result += f"Goals:\n"
         for goal in self.goals:
-            result += util.SMALL_DIVIDER
             result += f"{goal}\n"
         result += util.MEDIUM_DIVIDER
         result += f"History Functions:\n"
@@ -405,11 +391,6 @@ class Agent:
             for function in functions:
                 result += f"{function}\n"
             round += 1
-        result += util.MEDIUM_DIVIDER
-        result += f"Belief to other agents:\n"
-        for agent in self.belief_to_other_agents:
-            result += util.SMALL_DIVIDER
-            result += f"{agent}:\n"
         return result
 
     def __repr__(self):
@@ -471,40 +452,44 @@ class Model:
         """
         return self.agents.index(self.get_agent_by_name(name))
 
+    def get_all_agent_names(self) -> list[str]:
+        return [agent.name for agent in self.agents]
+
     def simulate(self):
         """
         Simulate the model until all agents have reached a terminal state
         """
         agent_index = 0
         agent_count = len(self.agents)
+        # let all agent observe once to get the initial observation
+        for agent in self.agents:
+            self.observe_and_update_agent(agent.name)
         while not self.full_goal_complete():
-            self.agent_move(self.agents[agent_index].name)
+            self.agent_decide_action_and_move(self.agents[agent_index].name)
             agent_index = (agent_index + 1) % agent_count
 
-    def agent_move(self, agent_name: str):
-        """
-        The processes that happens when an agent wants to move
-        """
+    def agent_decide_action_and_move(self, agent_name: str):
+        self.logger.debug(f"{agent_name} moving:\n{self}")
         self.observe_and_update_agent(agent_name)
         action = self.strategy.get_policy(self, agent_name)
+        self.agent_move(agent_name, action)
+        # TODO: #5 需要思考一下如何进行intention prediction
+    
+    def agent_move(self, agent_name: str, action: Action):
         if action is not None and util.is_valid_action(self.ontic_functions, action):
-            self.do_action(agent_name, action)
-            print(f"{agent_name} takes action: {action.name}")
+            if not self.do_action(agent_name, action):
+                print(f"{agent_name} cannot take action: {action.name}, takes action: stay")
+            else:
+                print(f"{agent_name} takes action: {action.name}")
         else:
             self.do_action(agent_name, None)
             print(f"{agent_name} takes action: stay")
-        # TODO: #5 需要思考一下如何进行intention prediction
 
     def observe_and_update_agent(self, agent_name: str):
         agent = self.get_agent_by_name(agent_name)
-        observe_functions = self.observation_function.get_observable_functions(model=self, agent_name=agent_name)
+        observe_functions = self.observation_function.get_observable_functions(self.ontic_functions, agent_name)
         # update agent's functions
-        for agt_name, functions in observe_functions.items():
-            if agt_name == agent.name:
-                agent.update_functions(functions)
-            else:
-                belief_of_agent = agent.get_belief_of_agent(agt_name)
-                belief_of_agent.update_functions(functions)
+        agent.update_functions(observe_functions)
 
     def do_action(self, agent_name: str, action: Action) -> bool:
         if action is None:
@@ -522,39 +507,39 @@ class Model:
         return True
 
     def _update_functions(self, functions: list[Function], effect: Effect):
-        function = util.get_function_with_locator(functions, effect.effect_function_locator)
+        function = util.get_function_with_name_and_params(functions, effect.effect_function_name, effect.effect_function_parameters)
         if function is not None:
-            if effect.value is not None:
-                function.value = util.compare_effect_values(function.value, effect.value, effect.   effect_type)
+            if not effect.value is None:
+                function.value = util.update_effect_value(function.value, effect.value, effect.effect_type)
             else:
-                target_function = util.get_function_with_locator(self.ontic_functions, effect.   target_function_locator)
-                function.value = util.compare_effect_values(function.value, target_function.value, effect.  effect_type)
+                target_function = util.get_function_with_name_and_params(self.ontic_functions, effect.target_function_name, effect.target_function_parameters)
+                function.value = util.update_effect_value(function.value, target_function.value, effect.effect_type)
         else:
             if effect.effect_type != EffectType.ASSIGN:
                 self.logger.error(f"Trying to change a function that not exist in agent's functions or ontic world functions")
                 raise ValueError("Trying to change a function that not exist in agent's functions or ontic world functions")
-            if effect.value is not None:
-                function = Function()
-                function.name = effect.effect_function_locator.name
-                function.range = effect.effect_function_locator.range
-                function.type = effect.effect_function_locator.type
-                function.parameters = effect.effect_function_locator.parameters
+            function = Function()
+            func_schema = self.get_function_schema_by_name(effect.effect_function_name)
+            function.name = effect.effect_function_name
+            function.parameters = effect.effect_function_parameters
+            function.range = func_schema.range
+            function.type = func_schema.type
+
+            if not effect.value is None:
                 function.value = effect.value
                 functions.append(function)
             else:
-                target_function = util.get_function_with_locator(self.ontic_functions, effect.  target_function_locator)
+                target_function = util.get_function_with_name_and_params(self.ontic_functions, effect.effect_function_name, effect.effect_function_parameters)
                 if target_function is None:
                     self.logger.error(f"Target function {effect.target_function_locator.name} not found in effect phase")
                     raise ValueError(f"Target function {effect.target_function_locator.name} not found in effect phase")
 
-                function = Function()
-                function.name = effect.effect_function_locator.name
-                function.range = effect.effect_function_locator.range
-                function.type = effect.effect_function_locator.type
-                function.parameters = effect.effect_function_locator.parameters
                 function.value = target_function.value
                 functions.append(function)
-        assert util.check_in_range(function)
+        if not util.check_in_range(function):
+            print(functions)
+            print(effect)
+            raise ValueError(f"{function.name} is out of range")
 
     def get_agent_successors(self, agent_name: str) -> list[Action]:
         if self.agent_goal_complete(agent_name):
@@ -576,19 +561,34 @@ class Model:
                 candidates.append(successor)
         result = []
         for action in candidates:
-            if util.is_valid_action(agent.functions, action):
+            if util.is_valid_action(agent.functions, action, agent.history_functions, self.observation_function, is_ontic_checking=False):
                 result.append(action)
         return result
 
     def agent_goal_complete(self, agent_name: str):
         agent = self.get_agent_by_name(agent_name)
-        return agent.is_complete()
+        return agent.is_complete(self.observation_function)
     
     def full_goal_complete(self):
-        for agent in self.agents:
-            if not agent.is_complete():
-                return False
-        return True
+        if not self.agents:
+            raise ValueError("No agents in the model")
+    
+        if self.observation_function is None:
+            raise ValueError("Observation function is not initialized")
+    
+        if self.problem_type == ProblemType.COOPERATIVE:
+            return any(agent.is_complete(self.observation_function) for agent in self.agents)
+        else:
+            return all(agent.is_complete(self.observation_function) for agent in self.agents)
+
+    def get_belief_functions_of_agent_with_belief_sequence(self, agent_name: str, belief_sequence: list[str]) -> list[Function]:
+        ontic_functions = self.ontic_functions
+        belief_sequence = [agent_name] + belief_sequence
+        current_agent = agent_name
+        for agent in belief_sequence:
+            observe_result = self.observation_function.get_observable_functions(ontic_functions, current_agent)
+            ontic_functions = observe_result[current_agent]
+            current_agent = agent
 
     def generate_all_possible_functions(self) -> list[Function]:
         functions = []
@@ -622,7 +622,6 @@ class Model:
                     functions.append(new_function)
 
         return functions
-
 
     def __str__(self):
         result = f"================= Model Result================\n"

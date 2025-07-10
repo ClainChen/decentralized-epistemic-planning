@@ -10,7 +10,7 @@
     )
 
     (:goal (and
-        (= (hold_by i b) 1)
+        (= (hold_by i b) 0)
         )
     )
 )

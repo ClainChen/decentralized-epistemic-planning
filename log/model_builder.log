@@ -1,94 +1,94 @@
-2025-07-08 13:45:28,703 INFO - __main__._.<module>:
+2025-07-10 13:51:14,676 INFO - __main__._.<module>:
 Start building the model, type: "True"
-2025-07-08 13:45:28,703 INFO - epistemic_handler.model_builder._.build:
+2025-07-10 13:51:14,676 INFO - epistemic_handler.model_builder._.build:
 Start building the model, type: "True"
-2025-07-08 13:45:28,703 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-07-10 13:51:14,676 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain "models/corridor/domain.pddl" start initialization.
-2025-07-08 13:45:28,703 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-07-10 13:51:14,676 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain Parser found "models/corridor/domain.pddl"
-2025-07-08 13:45:28,704 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-07-10 13:51:14,676 INFO - epistemic_handler.file_parser.DomainParser.run:
 Complete file reading.
-2025-07-08 13:45:28,704 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-07-10 13:51:14,677 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain name found
-2025-07-08 13:45:28,704 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-07-10 13:51:14,677 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain type found
-2025-07-08 13:45:28,705 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-07-10 13:51:14,677 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain functions found
-2025-07-08 13:45:28,706 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-07-10 13:51:14,678 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain actions found
-2025-07-08 13:45:28,706 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,678 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem "models/corridor/problem01" start initialization.
-2025-07-08 13:45:28,706 INFO - epistemic_handler.file_parser.ProblemParser.get_files:
+2025-07-10 13:51:14,678 INFO - epistemic_handler.file_parser.ProblemParser.get_files:
 Problem folder found "models/corridor/problem01"
-2025-07-08 13:45:28,706 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,678 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Found 2 agent files:
 "models/corridor/problem01/a.agtpddl"
 "models/corridor/problem01/b.agtpddl"
-2025-07-08 13:45:28,706 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,678 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Found init file: "models/corridor/problem01/init.envpddl"
-2025-07-08 13:45:28,707 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,678 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Complete reading environment file.
-2025-07-08 13:45:28,707 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,678 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Copmlete reading agent file "models/corridor/problem01/a.agtpddl"
-2025-07-08 13:45:28,707 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,680 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Copmlete reading agent file "models/corridor/problem01/b.agtpddl"
-2025-07-08 13:45:28,708 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,680 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem domain name "corridor" found
 Problem name "corridor01" found
-2025-07-08 13:45:28,708 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,680 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem agents found
-2025-07-08 13:45:28,708 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,680 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem objects found
-2025-07-08 13:45:28,709 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,680 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem ranges found
-2025-07-08 13:45:28,709 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,681 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem initial states found
-2025-07-08 13:45:28,710 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-07-10 13:51:14,681 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem goals found
-2025-07-08 13:45:28,710 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,682 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 checking the validity...
-2025-07-08 13:45:28,710 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,682 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Valid names: ['a', 'b', 'i', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
-2025-07-08 13:45:28,710 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,682 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the states
-2025-07-08 13:45:28,710 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,682 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the goals
-2025-07-08 13:45:28,710 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,682 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the ranges
-2025-07-08 13:45:28,710 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,682 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the actions
-2025-07-08 13:45:28,711 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,683 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-07-08 13:45:28,711 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,683 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 checking the validity...
-2025-07-08 13:45:28,711 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,683 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Valid names: ['a', 'b', 'i', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
-2025-07-08 13:45:28,711 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,683 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the states
-2025-07-08 13:45:28,712 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,683 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the goals
-2025-07-08 13:45:28,712 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,683 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the ranges
-2025-07-08 13:45:28,712 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,683 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the actions
-2025-07-08 13:45:28,712 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-07-10 13:51:14,683 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-07-08 13:45:28,714 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-07-10 13:51:14,685 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded observation function: CorridorObsFunc
-2025-07-08 13:45:28,717 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-07-10 13:51:14,692 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded policy strategy: VoteMonteCarlo
-2025-07-08 13:45:28,718 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-07-10 13:51:14,693 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded rules: Corridor01Rules
-2025-07-08 13:45:28,719 DEBUG - epistemic_handler.model_builder._.build_model:
+2025-07-10 13:51:14,694 DEBUG - epistemic_handler.model_builder._.build_model:
 Model:
 ================= Model Result================
 Domain name: corridor
 Problem name: corridor01
-Problem type: ProblemType.COOPERATIVE
+Problem type: "COOPERATIVE"
 =================
-Entity(name='a', type='agent')
-Entity(name='b', type='agent')
-Entity(name='i', type='item')
+Entity(a - agent)
+Entity(b - agent)
+Entity(i - item)
 =================
 FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?a': 'agent'})
 FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
@@ -115,81 +115,65 @@ Effect Schemas:
 Action Schema: move_right_without_item
 Parameters: {'?self': 'agent'}
 Precondition Schemas:
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 0 / target_function_schema: None)
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 1 / target_function_schema: None)
-
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
 Effect Schemas:
-EffectSchema(effect_type: "INCREASE", effect_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 1)
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
 
 -----------------
 Action Schema: move_left_without_item
 Parameters: {'?self': 'agent'}
 Precondition Schemas:
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 0 / target_function_schema: None)
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 2 / target_function_schema: None)
-
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
 Effect Schemas:
-EffectSchema(effect_type: "DECREASE", effect_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 1)
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
 
 -----------------
 Action Schema: move_right_with_item
 Parameters: {'?self': 'agent', '?i': 'item'}
 Precondition Schemas:
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 1 / target_function_schema: None)
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'}), value: 1 / target_function_schema: None)
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'}), value: 0 / target_function_schema: None)
-
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
 Effect Schemas:
-EffectSchema(effect_type: "INCREASE", effect_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 1)
-EffectSchema(effect_type: "INCREASE", effect_function_schema: FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'}), value: 1)
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("INCREASE" (item_loc {'?i': 'item'}) = 1)
 
 -----------------
 Action Schema: move_left_with_item
 Parameters: {'?self': 'agent', '?i': 'item'}
 Precondition Schemas:
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 2 / target_function_schema: None)
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'}), value: 1 / target_function_schema: None)
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'}), value: 0 / target_function_schema: None)
-
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
 Effect Schemas:
-EffectSchema(effect_type: "DECREASE", effect_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 1)
-EffectSchema(effect_type: "DECREASE", effect_function_schema: FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'}), value: 1)
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("DECREASE" (item_loc {'?i': 'item'}) = 1)
 
 -----------------
 Action Schema: pick_up
 Parameters: {'?self': 'agent', '?i': 'item'}
 Precondition Schemas:
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: None / target_function_schema: FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'}))
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 0 / target_function_schema: None)
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'}), value: 1 / target_function_schema: None)
-
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (item_loc {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 1)
 Effect Schemas:
-EffectSchema(effect_type: "ASSIGN", effect_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 1)
-EffectSchema(effect_type: "ASSIGN", effect_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'}), value: 1)
-EffectSchema(effect_type: "ASSIGN", effect_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'}), value: 0)
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 0)
 
 -----------------
 Action Schema: drop_item
 Parameters: {'?self': 'agent', '?i': 'item'}
 Precondition Schemas:
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 1 / target_function_schema: None)
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'}), value: 1 / target_function_schema: None)
-
-Condition(ep_operator: "NONE", belief_sequence: [], ep_truth: "NONE", condition_operator: "EQUAL", condition_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'}), value: 0 / target_function_schema: None)
-
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
 Effect Schemas:
-EffectSchema(effect_type: "ASSIGN", effect_function_schema: FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?self': 'agent'}), value: 0)
-EffectSchema(effect_type: "ASSIGN", effect_function_schema: FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?self': 'agent'}), value: 0)
-EffectSchema(effect_type: "ASSIGN", effect_function_schema: FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'}), value: 1)
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 1)
 
 =================
 Agent: a
@@ -198,23 +182,10 @@ Function(agent_loc ['?a - a'] = 1)
 Function(holding ['?a - a'] = 1)
 Function(hold_by ['?i - i', '?a - a'] = 1)
 Goals:
------------------
-Goal(ep_operator: "EQUAL", belief_sequence: ['a'], ep_truth: "TRUE", condition_operator: "EQUAL", goal_function_name: hold_by, goal_function_parameters: ['i', 'b'], value: 1 / target_function_name: None, target_function_parameters: [])
------------------
-Goal(ep_operator: "EQUAL", belief_sequence: ['b'], ep_truth: "TRUE", condition_operator: "EQUAL", goal_function_name: hold_by, goal_function_parameters: ['i', 'b'], value: 1 / target_function_name: None, target_function_parameters: [])
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
 *****************
 History Functions:
-*****************
-Belief to other agents:
------------------
-Agent: b
-Functions:
-Goals:
-*****************
-History Functions:
-*****************
-Belief to other agents:
-:
 
 Agent: b
 Functions:
@@ -222,24 +193,631 @@ Function(agent_loc ['?a - b'] = 1)
 Function(holding ['?a - b'] = 0)
 Function(hold_by ['?i - i', '?a - b'] = 0)
 Goals:
------------------
-Goal(ep_operator: "EQUAL", belief_sequence: ['a'], ep_truth: "TRUE", condition_operator: "EQUAL", goal_function_name: hold_by, goal_function_parameters: ['i', 'b'], value: 1 / target_function_name: None, target_function_parameters: [])
------------------
-Goal(ep_operator: "EQUAL", belief_sequence: ['b'], ep_truth: "TRUE", condition_operator: "EQUAL", goal_function_name: hold_by, goal_function_parameters: ['i', 'b'], value: 1 / target_function_name: None, target_function_parameters: [])
+Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
 *****************
 History Functions:
-*****************
-Belief to other agents:
+
+
+2025-07-10 13:51:14,694 INFO - __main__._.<module>:
+Model built successfully.
+2025-07-10 13:51:14,695 DEBUG - epistemic_handler.epistemic_class.Model.agent_decide_action_and_move:
+a moving:
+================= Model Result================
+Domain name: corridor
+Problem name: corridor01
+Problem type: "COOPERATIVE"
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(i - item)
+=================
+FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?a': 'agent'})
+FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
+FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?a': 'agent'})
+FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?a': 'agent'})
+FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
+=================
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(item_loc ['?i - i'] = 1)
+Function(is_free ['?i - i'] = 0)
+=================
 -----------------
+Action Schema: stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+Effect Schemas:
+
+-----------------
+Action Schema: move_right_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_left_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_right_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("INCREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: move_left_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("DECREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: pick_up
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (item_loc {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 0)
+
+-----------------
+Action Schema: drop_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 1)
+
+=================
 Agent: a
 Functions:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+Function(agent_loc ['?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(is_free ['?i - i'] = 0)
 Goals:
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
 *****************
 History Functions:
+-----------------
+1:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+
+Agent: b
+Functions:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(agent_loc ['?a - a'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+Function(is_free ['?i - i'] = 0)
+Goals:
+Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
 *****************
-Belief to other agents:
-:
+History Functions:
+-----------------
+1:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
 
 
-2025-07-08 13:45:28,719 INFO - __main__._.<module>:
-Model built successfully.
+2025-07-10 13:53:24,434 DEBUG - epistemic_handler.epistemic_class.Model.agent_decide_action_and_move:
+b moving:
+================= Model Result================
+Domain name: corridor
+Problem name: corridor01
+Problem type: "COOPERATIVE"
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(i - item)
+=================
+FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?a': 'agent'})
+FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
+FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?a': 'agent'})
+FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?a': 'agent'})
+FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
+=================
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 0)
+Function(hold_by ['?i - i', '?a - a'] = 0)
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(item_loc ['?i - i'] = 1)
+Function(is_free ['?i - i'] = 1)
+=================
+-----------------
+Action Schema: stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+Effect Schemas:
+
+-----------------
+Action Schema: move_right_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_left_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_right_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("INCREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: move_left_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("DECREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: pick_up
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (item_loc {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 0)
+
+-----------------
+Action Schema: drop_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 1)
+
+=================
+Agent: a
+Functions:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 0)
+Function(hold_by ['?i - i', '?a - a'] = 0)
+Function(agent_loc ['?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(is_free ['?i - i'] = 1)
+Goals:
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
+*****************
+History Functions:
+-----------------
+1:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+-----------------
+2:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+Function(agent_loc ['?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(is_free ['?i - i'] = 0)
+
+Agent: b
+Functions:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(agent_loc ['?a - a'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+Function(is_free ['?i - i'] = 0)
+Goals:
+Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
+*****************
+History Functions:
+-----------------
+1:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+
+
+2025-07-10 13:55:09,985 DEBUG - epistemic_handler.epistemic_class.Model.agent_decide_action_and_move:
+a moving:
+================= Model Result================
+Domain name: corridor
+Problem name: corridor01
+Problem type: "COOPERATIVE"
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(i - item)
+=================
+FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?a': 'agent'})
+FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
+FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?a': 'agent'})
+FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?a': 'agent'})
+FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
+=================
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 0)
+Function(hold_by ['?i - i', '?a - a'] = 0)
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 1)
+Function(hold_by ['?i - i', '?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(is_free ['?i - i'] = 0)
+=================
+-----------------
+Action Schema: stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+Effect Schemas:
+
+-----------------
+Action Schema: move_right_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_left_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_right_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("INCREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: move_left_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("DECREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: pick_up
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (item_loc {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 0)
+
+-----------------
+Action Schema: drop_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 1)
+
+=================
+Agent: a
+Functions:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 0)
+Function(hold_by ['?i - i', '?a - a'] = 0)
+Function(agent_loc ['?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(is_free ['?i - i'] = 1)
+Goals:
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
+*****************
+History Functions:
+-----------------
+1:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+-----------------
+2:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+Function(agent_loc ['?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(is_free ['?i - i'] = 0)
+
+Agent: b
+Functions:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 1)
+Function(hold_by ['?i - i', '?a - b'] = 1)
+Function(agent_loc ['?a - a'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - a'] = 0)
+Function(hold_by ['?i - i', '?a - a'] = 0)
+Function(is_free ['?i - i'] = 0)
+Goals:
+Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
+*****************
+History Functions:
+-----------------
+1:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+-----------------
+2:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(agent_loc ['?a - a'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+Function(is_free ['?i - i'] = 0)
+
+
+2025-07-10 13:55:21,678 DEBUG - epistemic_handler.epistemic_class.Model.agent_decide_action_and_move:
+b moving:
+================= Model Result================
+Domain name: corridor
+Problem name: corridor01
+Problem type: "COOPERATIVE"
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(i - item)
+=================
+FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?a': 'agent'})
+FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
+FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?a': 'agent'})
+FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?a': 'agent'})
+FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
+=================
+Function(agent_loc ['?a - a'] = 2)
+Function(holding ['?a - a'] = 0)
+Function(hold_by ['?i - i', '?a - a'] = 0)
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 1)
+Function(hold_by ['?i - i', '?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(is_free ['?i - i'] = 0)
+=================
+-----------------
+Action Schema: stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+Effect Schemas:
+
+-----------------
+Action Schema: move_right_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_left_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_right_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("INCREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: move_left_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("DECREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: pick_up
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (item_loc {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 0)
+
+-----------------
+Action Schema: drop_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 1)
+
+=================
+Agent: a
+Functions:
+Function(agent_loc ['?a - a'] = 2)
+Function(holding ['?a - a'] = 0)
+Function(hold_by ['?i - i', '?a - a'] = 0)
+Function(agent_loc ['?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - b'] = 1)
+Function(hold_by ['?i - i', '?a - b'] = 1)
+Function(is_free ['?i - i'] = 0)
+Goals:
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
+*****************
+History Functions:
+-----------------
+1:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+-----------------
+2:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+Function(agent_loc ['?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(is_free ['?i - i'] = 0)
+-----------------
+3:
+Function(agent_loc ['?a - a'] = 1)
+Function(holding ['?a - a'] = 0)
+Function(hold_by ['?i - i', '?a - a'] = 0)
+Function(agent_loc ['?a - b'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(is_free ['?i - i'] = 1)
+
+Agent: b
+Functions:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 1)
+Function(hold_by ['?i - i', '?a - b'] = 1)
+Function(agent_loc ['?a - a'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - a'] = 0)
+Function(hold_by ['?i - i', '?a - a'] = 0)
+Function(is_free ['?i - i'] = 0)
+Goals:
+Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
+Condition(("EP_NONE" [] "EP_NONE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
+*****************
+History Functions:
+-----------------
+1:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+-----------------
+2:
+Function(agent_loc ['?a - b'] = 1)
+Function(holding ['?a - b'] = 0)
+Function(hold_by ['?i - i', '?a - b'] = 0)
+Function(agent_loc ['?a - a'] = 1)
+Function(item_loc ['?i - i'] = 1)
+Function(holding ['?a - a'] = 1)
+Function(hold_by ['?i - i', '?a - a'] = 1)
+Function(is_free ['?i - i'] = 0)
+
+

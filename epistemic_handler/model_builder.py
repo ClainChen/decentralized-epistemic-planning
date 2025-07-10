@@ -139,11 +139,6 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
         for agent in problem.agents:
             new_agent = Agent()
             new_agent.name = agent
-            for other_agent in problem.agents:
-                if agent != other_agent:
-                    belief_of_other_agent = Agent()
-                    belief_of_other_agent.name = other_agent
-                    new_agent.belief_to_other_agents.append(belief_of_other_agent)
             parsing_states = problem.states[agent]
             for parsing_state in parsing_states:
                 function_schema = model.get_function_schema_by_name(parsing_state.variable.name)
@@ -156,28 +151,32 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 new_agent.functions.append(new_function)
             parsing_goals = problem.goals[agent]
             for parsing_goal in parsing_goals:
-                new_goal = Goal()
+                
+                new_goal = Condition()
                 if isinstance(parsing_goal, ParsingEpistemicCondition):
                     new_goal.ep_operator = EPISTEMIC_OPERATOR_MAPS[parsing_goal.epistemic_logic_operator]
                     new_goal.belief_sequence = parsing_goal.belief_sequence
                     new_goal.ep_truth = EPISTEMIC_TRUTH_MAPS[parsing_goal.epistemic_truth]
                 new_goal.condition_operator = CONDITION_OPERATOR_MAPS[parsing_goal.logic_operator]
-                new_goal.goal_function_name = parsing_goal.state.variable.name
-                new_goal.goal_function_parameters = parsing_goal.state.variable.parameters
-                if parsing_goal.state.value is not None:
+                condition_function_schema = model.get_function_schema_by_name(parsing_goal.state.variable.name)
+                new_goal.condition_function_name = parsing_goal.state.variable.name
+                new_goal.condition_function_parameters = dict(zip(condition_function_schema.require_parameters.keys(), parsing_goal.state.variable.parameters))
+                if not parsing_goal.state.value is None:
                     new_goal.value = parsing_goal.state.value
                 else:
+                    target_function_schema = model.get_function_schema_by_name(parsing_goal.state.target_variable.name)
                     new_goal.target_function_name = parsing_goal.state.target_variable.name
-                    new_goal.target_function_parameters = parsing_goal.state.target_variable.parameters
+                    new_goal.target_function_parameters = dict(zip(target_function_schema.require_parameters.keys(), parsing_goal.state.target_variable.parameters))
                 new_agent.goals.append(new_goal)
             model.agents.append(new_agent)
 
         if model.problem_type == ProblemType.COOPERATIVE:
+            cooperative_goals = {}
             for agent1 in model.agents:
-                all_goals = []
+                cooperative_goals[agent1.name] = []
                 for agent2 in model.agents:
                     if agent1.name == agent2.name:
-                        all_goals.extend(agent.goals)
+                        cooperative_goals[agent1.name].extend(agent2.goals)
                     else:
                         epistemic_goals = []
                         for goal in agent2.goals:
@@ -187,8 +186,9 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                                 ep_goal.ep_operator = EpistemicOperator.EQUAL
                                 ep_goal.ep_truth = EpistemicTruth.TRUE
                             epistemic_goals.append(ep_goal)
-                        all_goals.extend(epistemic_goals)
-                agent1.goals = all_goals
+                        cooperative_goals[agent1.name].extend(epistemic_goals)
+            for agent in model.agents:
+                agent.goals = cooperative_goals[agent.name]
 
         logger.debug(f"Model:\n{model}")
         # if not check_goal_conflicts(model):

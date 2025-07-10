@@ -1,5 +1,5 @@
 from abstracts import AbstractPolicyStrategy
-from epistemic_handler.epistemic_class import Model, Agent, Action
+from epistemic_handler.epistemic_class import Model, Agent, Action, ProblemType
 import util
 import logging
 from policy_strategies import random as ps_random
@@ -7,7 +7,7 @@ import math
 
 LOGGER_LEVEL = logging.DEBUG
 EXPLORATION_RATE = 1
-ITERATION_LIMIT = 50
+ITERATION_LIMIT = 20
 STEP_LIMIT = 20
 SIMULATE_MULTIPLER = 3
 
@@ -28,7 +28,7 @@ class VoteMonteCarlo(AbstractPolicyStrategy):
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
         successors = model.get_agent_successors(agent_name)
-
+        print(f"Successors for {agent_name}: {[succ.name for succ in successors]}")
         if len(successors) > 1:
             vote = self.voting(model, agent_name)
             succ_name = ""
@@ -61,6 +61,7 @@ class VoteMonteCarlo(AbstractPolicyStrategy):
             agent_index = sim_model.get_agent_index_by_name(agent_name)
             start_move = ""
             moves = 0
+            # self.logger.debug(f"{sim_model}")
             while not sim_model.full_goal_complete():
                 sim_agent = sim_model.agents[agent_index].name
                 sim_model.observe_and_update_agent(sim_agent)
@@ -79,9 +80,11 @@ class VoteMonteCarlo(AbstractPolicyStrategy):
                     sim_model.do_action(sim_agent, None)
                 moves += 1
                 agent_index = (agent_index + 1) % agent_count
-            vote[start_move][0] += moves
-            vote[start_move][1] += 1
-            # print(f"Simulate Time: {i}, {vote}")
+            if start_move != "":
+                vote[start_move][0] += moves
+                vote[start_move][1] += 1
+            # self.logger.debug(f"{agent_name}: {start_move}")
+            print(f"Simulate Time: {i}, {vote}")
         return vote
 
     def search(self, model: Model, agent_name: str):
@@ -117,16 +120,24 @@ class VoteMonteCarlo(AbstractPolicyStrategy):
 
         reward = 1
         steps = 0
-        while not simulate_model.agent_goal_complete(agent_name) and steps < STEP_LIMIT:
+        while ((
+            (simulate_model.problem_type == ProblemType.COOPERATIVE
+                and not simulate_model.full_goal_complete()
+            )
+            or 
+            (simulate_model.problem_type == ProblemType.NEUTRAL
+                and not simulate_model.agent_goal_complete(current_agent_name)
+            ))
+            and steps < STEP_LIMIT):
             current_agent_name = simulate_model.agents[current_agent_index].name
             simulate_model.observe_and_update_agent(current_agent_name)
             action = self.simulation_strategy.get_policy(simulate_model, current_agent_name)
+            actions = simulate_model.get_agent_successors(current_agent_name)
             simulate_model.do_action(current_agent_name, action)
             # TODO: 这里也许要添加一个intention prediction的步骤
             current_agent_index = (current_agent_index + 1) % agents_count
             steps += 1
         reward = reward / max(math.ceil(steps / agents_count), 1)
-        # print(reward)
         return reward
             
     def back_propagate(self, node: 'Node', reward: float):

@@ -169,7 +169,7 @@ def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOper
         raise ValueError(f"strategy {strategy} is not supported for type {type(a)} and {type(b)}")
     return strategies[strategy](a, b)
 
-def compare_effect_values(a: int | str, b: int | str, strategy: EffectType) -> int | str:
+def update_effect_value(a: int | str, b: int | str, strategy: EffectType) -> int | str:
     strategies = {
         EffectType.ASSIGN: lambda a, b: b,
         EffectType.INCREASE: lambda a, b: a + b,
@@ -189,33 +189,85 @@ def check_in_range(function: Function):
         min, max = function.range
         return min <= function.value <= max
 
-def is_valid_action(functions: list[Function], action: Action) -> bool:
+def is_valid_action(functions: list[Function], action: Action, agent_history: list[list[Function]] = [], obs_func = None, is_ontic_checking: bool = True) -> bool:
     """
     to check whether the action is valid in realm of given functions
     """
     if action is None:
         return True
     for condition in action.pre_condition:
-        # TODO: #2 这里要加关于epistemic条件的判断
-        checking_function = util.get_function_with_locator(functions, condition.condition_function_locator)
-        if checking_function is None:
-            return False
-        if condition.value is not None:
-            if not compare_condition_values(checking_function.value, condition.value, condition.condition_operator):
-                return False
+        if is_ontic_checking:
+            if len(condition.belief_sequence) == 0:
+                if not check_regular_condition(condition, functions):
+                    return False
         else:
-            target_function = get_function_with_locator(functions, condition.target_function_locator)
-            if target_function is None or checking_function.value != target_function.value:    
+            if not check_condition(condition, functions, agent_history, obs_func):
                 return False
-        
     return True
 
-def get_function_with_locator(functions: list[Function], locator: FunctionLocator):
+def check_condition(condition: Condition, functions: list[Function], agent_history: list[list[Function]], obs_func):
+    if len(condition.belief_sequence) == 0:
+        return check_regular_condition(condition, functions)
+    else:
+        return check_epistemic_condition(condition, functions, agent_history, obs_func)
+
+def check_regular_condition(condition: Condition, functions: list[Function]) -> bool:
+    """
+    check whether the given functions is able to satisfy the given condition
+    This will return the check result and the 
+    """
+    checking_function = get_function_with_name_and_params(
+        functions, condition.condition_function_name, condition.condition_function_parameters
+    )
+    if checking_function is None:
+        return False
+
+    if not condition.value is None:
+        if not compare_condition_values(checking_function.value, condition.value, condition.condition_operator):
+            return False
+    else:
+        target_function = get_function_with_name_and_params(
+            functions, condition.target_function_name, condition.target_function_parameters
+        )
+        if target_function is None:
+            return False
+        if not compare_condition_values(checking_function.value, target_function.value, condition.condition_operator):
+            return False
+
+    return True
+
+def check_epistemic_condition(condition: Condition, functions: list[Function], agent_history: list[list[Function]], obs_func) -> bool:
+    history = agent_history + [functions]
+    for history_functions in reversed(history):
+        belief_functions = get_functions_with_belief_sequence(
+            history_functions, condition.belief_sequence, obs_func
+        )
+        check_result = util.check_regular_condition(condition, belief_functions)
+        if check_result:
+            return True
+        find_func = get_function_with_name_and_params(
+            belief_functions, condition.condition_function_name, condition.condition_function_parameters
+        )
+        if find_func is not None:
+            return False
+    return False
+
+def get_functions_with_belief_sequence(functions: list[Function], belief_sequence: list[str], obs_func) -> list[Function]:
+    if len(belief_sequence) == 0:
+        return functions
+    ontic_functions = copy.deepcopy(functions)
+    for agent_name in belief_sequence:
+        ontic_functions = obs_func.get_observable_functions(ontic_functions, agent_name)
+    return ontic_functions
+
+
+
+def get_function_with_name_and_params(functions: list[Function], name: str, params: dict[str, str]):
     """
     get the function with the given locator
     """
     for function in functions:
-        if function.name == locator.name and list(function.parameters.values()) == list(locator.parameters.values()):
+        if function.name == name and list(function.parameters.values()) == list(params.values()):
             return function
     return None
 
@@ -275,7 +327,6 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     For unknown functions, this function will find all unknwon functions, group them with their name and parameters, and randomly pick one of them in each group as the ontic function. This will also input in agent_name's functions.\n
     If the generated unknwon function is clearly belongs to an agent, then this function will add to that agent's functions.\n
     """
-    # TODO: #1 有rules冲突问题需要解决。如当hold_by i a = 1时， holding a = 1 和 is_free i = 0 必然同时成立。这部分应该写到domain.pddl中，建立一个rules部分，在模型生成阶段进行读取解析。
     unknown_functions = get_agent_unknown_functions(model, agent_name)
     # group the functions by name and parameters
     group_functions = {}
@@ -290,7 +341,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     
     virtual_model = model.copy()
     current_agent = virtual_model.get_agent_by_name(agent_name)
-    choosen_paris = []
+    choosen_pairs = []
     while True:
         # randomly pick one of the function in each group as a part of ontic function
         assume_ontic_functions = []
@@ -301,33 +352,43 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
             assume_ontic_functions.append(f)
             this_pairs.append(i)
         # check the validity of the assume ontic functions with current ontic functions by using the rules
-        if this_pairs not in choosen_paris:
-            choosen_paris.append(this_pairs)
+        if this_pairs not in choosen_pairs:
+            choosen_pairs.append(this_pairs)
+            # print(f"{choosen_pairs}")
             if virtual_model.rules.check_functions(current_agent.functions + assume_ontic_functions):
                 break
     
-    # allocate the functions and the goals to each agents
-    for agent in current_agent.belief_to_other_agents:
-        index = virtual_model.get_agent_index_by_name(agent.name)
-        virtual_model.agents[index] = agent.copy()
-        # TODO: #3 在添加了intention prediction之后，对neutral问题下的虚拟世界生成的其他代理的目标分配分体将会直接解决。
-        if virtual_model.problem_type == ProblemType.COOPERATIVE:
-            virtual_model.agents[index].goals = current_agent.goals
+    # TODO: allocate the functions and the goals to each agents
+    # the functions of current agent will not change, other agent's functions will set to the observation functions based on current agent's functions
     for agent in virtual_model.agents:
-        if len(agent.belief_to_other_agents) != len(model.agents) - 1:
-            for agt in model.agents:
-                if (agt.name != agent.name
-                    and agent.name not in [k.name for k in agent.belief_to_other_agents]):
-                    new_agt = Agent()
-                    new_agt.name = agt.name
-                    agent.belief_to_other_agents.append(new_agt)
+        if agent.name != agent_name:
+            agent.functions = virtual_model.observation_function.get_observable_functions(current_agent.functions, agent.name)
+            if virtual_model.problem_type == ProblemType.COOPERATIVE:
+                this_goals = []
+                for goal in current_agent.goals:
+                    new_goal = copy.deepcopy(goal)
+                    if len(new_goal.belief_sequence) == 0:
+                        new_goal.belief_sequence = [current_agent.name]
+                        new_goal.ep_operator = EpistemicOperator.EQUAL
+                        new_goal.ep_truth = EpistemicTruth.TRUE
+                    else:
+                        if new_goal.belief_sequence[-1] == agent.name:
+                            new_goal.belief_sequence = new_goal.belief_sequence[:-1]
+                            if len(new_goal.belief_sequence) == 0:
+                                new_goal.ep_operator = EpistemicOperator.NONE
+                                new_goal.ep_truth = EpistemicTruth.NONE
+                    this_goals.append(new_goal)
+                agent.goals = this_goals
+            else:
+                # TODO: this part will be added after implement the intention prediction method
+                raise Exception("Intention prediction is not implemented yet")
 
     virtual_model.ontic_functions = copy.deepcopy(current_agent.functions)
     for func in assume_ontic_functions:
         virtual_model.ontic_functions.append(func)
         current_agent.functions.append(func)
         belongs_to = util.function_belongs_to(virtual_model, func)
-        if belongs_to is not None:
+        if not belongs_to is None:
             virtual_model.get_agent_by_name(belongs_to).functions.append(func)
     
     return virtual_model

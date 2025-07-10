@@ -1,6 +1,6 @@
 import logging
 from epistemic_handler.file_parser import *
-from epistemic_handler.epistemic_class import Model, ProblemType, Goal
+from epistemic_handler.epistemic_class import Model, ProblemType, Condition
 
 
 MODEL_CHECKER_LOG_LEVEL = logging.DEBUG
@@ -111,7 +111,7 @@ def check_goal_conflicts(model: Model):
             if not check_conflict(agent.goals): return False
         return True
 
-def get_low_level_goal_set(goals: list[Goal]) -> list[Goal]:
+def get_low_level_goal_set(goals: list[Condition]) -> list[Condition]:
     result = []
     for goal in goals:
         result.append(goal)
@@ -119,16 +119,16 @@ def get_low_level_goal_set(goals: list[Goal]) -> list[Goal]:
         if low_level_goal is not None: result.append(low_level_goal)
     return result
 
-def get_low_level_goal(goal: Goal) -> Goal:
+def get_low_level_goal(goal: Condition) -> Condition:
     if len(goal.belief_sequence) > 0:
-        low_level_goal = Goal()
+        low_level_goal = Condition()
         low_level_goal.belief_sequence = goal.belief_sequence[1:]
         if len(low_level_goal.belief_sequence) > 0:
             low_level_goal.ep_operator = goal.ep_operator
             low_level_goal.ep_truth = goal.ep_truth
         low_level_goal.condition_operator = goal.condition_operator
-        low_level_goal.goal_function_name = goal.goal_function_name
-        low_level_goal.goal_function_parameters = goal.goal_function_parameters
+        low_level_goal.condition_function_name = goal.condition_function_name
+        low_level_goal.condition_function_parameters = goal.condition_function_parameters
         low_level_goal.value = goal.value
         low_level_goal.target_function_name = goal.target_function_name
         low_level_goal.target_function_parameters = goal.target_function_parameters
@@ -136,14 +136,14 @@ def get_low_level_goal(goal: Goal) -> Goal:
     else:
         return None
 
-def check_conflict(goals: list[Goal]):
+def check_conflict(goals: list[Condition]):
     for i in range(len(goals) - 1):
         for j in range(i + 1, len(goals)):
             goal1 = goals[i]
             goal2 = goals[j]
             if (goal1.belief_sequence == goal2.belief_sequence
-                and goal1.goal_function_name == goal2.goal_function_name
-                and goal1.goal_function_parameters == goal2.goal_function_parameters):
+                and goal1.condition_function_name == goal2.condition_function_name
+                and goal1.condition_function_parameters == goal2.condition_function_parameters):
                 # two goals with different ontic value or target function
                 if (goal1.ep_operator == goal2.ep_operator
                     and goal1.ep_truth == goal2.ep_truth
@@ -152,13 +152,13 @@ def check_conflict(goals: list[Goal]):
                         if goal1.value != goal2.value:
                             return False
                     else:
-                        if (goal1.goal_function_name != goal2.goal_function_name
-                            or goal1.goal_function_parameters != goal2.goal_function_parameters):
+                        if (goal1.goal_function_name != goal2.condition_function_name
+                            or goal1.goal_function_parameters != goal2.condition_function_parameters):
                             return False
                 # two goals with same ontic value or target function, but with different epistemic logics
                 elif (goal1.value == goal2.value
-                      and goal1.goal_function_name == goal2.goal_function_name
-                      and goal1.goal_function_parameters == goal2.goal_function_parameters):
+                      and goal1.condition_function_name == goal2.condition_function_name
+                      and goal1.condition_function_parameters == goal2.condition_function_parameters):
                     # ep operator and truth are the same but condition operator is different
                     if (goal1.ep_operator == goal2.ep_operator
                         and goal1.ep_truth == goal2.ep_truth
