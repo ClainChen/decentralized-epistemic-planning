@@ -1,5 +1,5 @@
-a = [1,2,3]
-b = a
-b = [2,3]
-print(a)
-print(b)
+from collections import Counter
+
+a = [1,2,3,4,5]
+b = [2,3,4,1]
+print(Counter(a) == Counter(b))

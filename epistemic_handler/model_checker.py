@@ -104,11 +104,11 @@ class ModelChecker:
 def check_goal_conflicts(model: Model):
     if model.problem_type == ProblemType.COOPERATIVE:
         # low_level_goals = get_low_level_goal_set(model.agents[0].goals)
-        return check_conflict(model.agents[0].goals)
+        return check_conflict(model.agents[0].own_goals)
     else:
         for agent in model.agents:
             # low_level_goals = get_low_level_goal_set(agent.goals)
-            if not check_conflict(agent.goals): return False
+            if not check_conflict(agent.own_goals): return False
         return True
 
 def get_low_level_goal_set(goals: list[Condition]) -> list[Condition]:

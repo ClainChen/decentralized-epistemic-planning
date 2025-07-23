@@ -253,9 +253,9 @@ def check_epistemic_condition(condition: Condition, functions: list[Function], a
     return False
 
 def get_functions_with_belief_sequence(functions: list[Function], belief_sequence: list[str], obs_func) -> list[Function]:
-    if len(belief_sequence) == 0:
+    if len(belief_sequence) == 1:
         return functions
-    ontic_functions = copy.deepcopy(functions)
+    ontic_functions = functions
     for agent_name in belief_sequence:
         ontic_functions = obs_func.get_observable_functions(ontic_functions, agent_name)
     return ontic_functions
@@ -363,22 +363,19 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     for agent in virtual_model.agents:
         if agent.name != agent_name:
             agent.functions = virtual_model.observation_function.get_observable_functions(current_agent.functions, agent.name)
+            # history functions
+            agent.history_functions = []
+            for history_function in current_agent.history_functions:
+                his_func = virtual_model.observation_function.get_observable_functions(history_function, agent.name)
+                if his_func:
+                    agent.history_functions.append(his_func)
+
             if virtual_model.problem_type == ProblemType.COOPERATIVE:
-                this_goals = []
-                for goal in current_agent.goals:
-                    new_goal = copy.deepcopy(goal)
-                    if len(new_goal.belief_sequence) == 0:
-                        new_goal.belief_sequence = [current_agent.name]
-                        new_goal.ep_operator = EpistemicOperator.EQUAL
-                        new_goal.ep_truth = EpistemicTruth.TRUE
-                    else:
-                        if new_goal.belief_sequence[-1] == agent.name:
-                            new_goal.belief_sequence = new_goal.belief_sequence[:-1]
-                            if len(new_goal.belief_sequence) == 0:
-                                new_goal.ep_operator = EpistemicOperator.NONE
-                                new_goal.ep_truth = EpistemicTruth.NONE
-                    this_goals.append(new_goal)
-                agent.goals = this_goals
+                goals = current_agent.other_goals
+                goals[current_agent.name] = current_agent.own_goals
+                for agent in virtual_model.agents:
+                    agent.own_goals = goals[agent.name]
+                    agent.other_goals = {key: value for key, value in goals.items() if key != agent.name}
             else:
                 # TODO: this part will be added after implement the intention prediction method
                 raise Exception("Intention prediction is not implemented yet")

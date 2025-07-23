@@ -58,7 +58,10 @@ class CorridorObsFunc(AbstractObservationFunction):
                         observable_functions.append(copy.deepcopy(function))
             
             return observable_functions
+        except KeyError as e:
+            return False
         except Exception as e:
             self.logger.error(e)
             raise e
+        
         

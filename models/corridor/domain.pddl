@@ -15,14 +15,6 @@
         (is_free ?i - item)
     )
 
-    (:action stay
-        :parameters (?self - agent)
-        :precondition (
-        )
-        :effect (
-        )
-    )
-
     (:action move_right_without_item
         :parameters (?self - agent)
         :precondition (

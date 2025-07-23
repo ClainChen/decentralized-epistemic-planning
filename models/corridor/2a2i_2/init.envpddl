@@ -1,5 +1,5 @@
 (define
-    (problem corridor01)
+    (problem corridor_2a2i_2)
     (:domain corridor)
 
     (:agents 
@@ -7,7 +7,7 @@
     )
 
     (:objects
-        i - item
+        i j - item
     )
 
     (:shared-init
@@ -15,7 +15,9 @@
 
     (:unshared-init
         (assign (item_loc i) 1)
+        (assign (item_loc j) 1)
         (assign (is_free i) 0)
+        (assign (is_free j) 0)
     )
 
     (:ranges

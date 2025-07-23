@@ -1,5 +1,5 @@
 (define
-    (problem corridor01)
+    (problem corridor_2a1i_1)
     (:domain corridor)
     (:agent b)
 
@@ -10,7 +10,7 @@
     )
 
     (:goal (and
-        (= (hold_by i b) 0)
+        (= (@ep (" b [b]") (= (hold_by i b) 0)) ep.true)
         )
     )
 )

@@ -132,7 +132,6 @@ class VoteMonteCarlo(AbstractPolicyStrategy):
             current_agent_name = simulate_model.agents[current_agent_index].name
             simulate_model.observe_and_update_agent(current_agent_name)
             action = self.simulation_strategy.get_policy(simulate_model, current_agent_name)
-            actions = simulate_model.get_agent_successors(current_agent_name)
             simulate_model.do_action(current_agent_name, action)
             # TODO: 这里也许要添加一个intention prediction的步骤
             current_agent_index = (current_agent_index + 1) % agents_count

@@ -162,6 +162,10 @@ class Function:
 
     def __repr__(self):
         return self.__str__()
+    
+    def __hash__(self):
+        return hash((self.name, frozenset(self.parameters.items()), self._value))
+        
 
 class ConditionSchema:
     def __init__(self):
@@ -306,16 +310,33 @@ class ActionSchema:
     def __repr__(self):
         return self.__str__()
 
+
 class Action:
-    def __init__(self, action_schema: ActionSchema, parameters: dict[str, str]):
-        self.name = action_schema.name
-        self.parameters: dict[str, str] = parameters
+    def __init__(self):
+        self.name = ""
+        self.parameters: dict[str, str] = {}
         self.pre_condition: list[Condition] = []
-        for condition_schema in action_schema.pre_condition_schemas:
-            self.pre_condition.append(Condition.init_with_schema_and_params(condition_schema, parameters))
         self.effect: list[Effect] = []
+
+    @classmethod
+    def stay_action(cls, agent_name: str):
+        result = cls()
+        result.name = "stay"
+        result.parameters['?self'] = agent_name
+        return result
+    
+    @classmethod
+    def create_action(cls, action_schema: ActionSchema, parameters: dict[str, str]) -> 'Action':
+        result = cls()
+        result.name = action_schema.name
+        result.parameters = parameters
+        result.pre_condition = []
+        for condition_schema in action_schema.pre_condition_schemas:
+            result.pre_condition.append(Condition.init_with_schema_and_params(condition_schema, parameters))
+        result.effect = []
         for effect_schema in action_schema.effect_schemas:
-            self.effect.append(Effect.init_with_schema_and_params(effect_schema, parameters))
+            result.effect.append(Effect.init_with_schema_and_params(effect_schema, parameters))
+        return result
 
     def __str__(self):
         result = f"Action:\n"
@@ -335,15 +356,17 @@ class Agent:
     def __init__(self):
         self.name: str = None
         self.functions: list[Function] = []
-        self.goals: list[Condition] = []
+        self.own_goals: list[Condition] = []
+        self.other_goals: dict[str, list[Condition]] = {}
         self.history_functions: list[list[Function]] = []
 
     def copy(self):
         new_agent = Agent()
         new_agent.name = self.name
-        new_agent.goals = self.goals
+        new_agent.own_goals = self.own_goals
+        new_agent.other_goals = self.other_goals
         new_agent.functions = copy.deepcopy(self.functions)
-        new_agent.history_functions = copy.deepcopy(self.history_functions)
+        new_agent.history_functions = self.history_functions[:]
         return new_agent
 
     def update_functions(self, functions: list[Function]):
@@ -363,7 +386,14 @@ class Agent:
                 agent_function.value = function.value
 
     def is_complete(self, obs_func):
-        for goal in self.goals:
+        goals = self.own_goals.copy()
+        # for name, other_goals in self.other_goals.items():
+        #     for goal in other_goals:
+        #         new_goal = copy.deepcopy(goal)
+        #         new_goal.belief_sequence.insert(0, self.name)
+        #         goals.append(new_goal)
+        # print(goals)
+        for goal in goals:
             if not util.check_condition(goal, self.functions, self.history_functions, obs_func):
                 return False
         return True
@@ -379,9 +409,14 @@ class Agent:
         result += f"Functions:\n"
         for function in self.functions:
             result += f"{function}\n"
-        result += f"Goals:\n"
-        for goal in self.goals:
+        result += f"Own Goals:\n"
+        for goal in self.own_goals:
             result += f"{goal}\n"
+        result += f"Other Goals:\n"
+        for agent, goals in self.other_goals.items():
+            result += f"{agent}:\n"
+            for goal in goals:
+                result += f"{goal}\n"
         result += util.MEDIUM_DIVIDER
         result += f"History Functions:\n"
         round = 1
@@ -469,10 +504,11 @@ class Model:
             agent_index = (agent_index + 1) % agent_count
 
     def agent_decide_action_and_move(self, agent_name: str):
-        self.logger.debug(f"{agent_name} moving:\n{self}")
-        self.observe_and_update_agent(agent_name)
+        # self.logger.debug(f"{agent_name} moving:\n{self}")
         action = self.strategy.get_policy(self, agent_name)
         self.agent_move(agent_name, action)
+        for agent in self.agents:
+            self.observe_and_update_agent(agent.name)
         # TODO: #5 需要思考一下如何进行intention prediction
     
     def agent_move(self, agent_name: str, action: Action):
@@ -480,7 +516,7 @@ class Model:
             if not self.do_action(agent_name, action):
                 print(f"{agent_name} cannot take action: {action.name}, takes action: stay")
             else:
-                print(f"{agent_name} takes action: {action.name}")
+                print(f"{agent_name} takes action: {action.name} {list(action.parameters.values())}")
         else:
             self.do_action(agent_name, None)
             print(f"{agent_name} takes action: stay")
@@ -542,8 +578,9 @@ class Model:
             raise ValueError(f"{function.name} is out of range")
 
     def get_agent_successors(self, agent_name: str) -> list[Action]:
-        if self.agent_goal_complete(agent_name):
-            return []
+        result = [Action.stay_action(agent_name)]
+        # if self.agent_goal_complete(agent_name):
+        #     return result
 
         agent = self.get_agent_by_name(agent_name)
         candidates = []
@@ -557,9 +594,8 @@ class Model:
             poss_params = [comb for comb in product(*poss_params) if not util.check_duplication(comb)]
             result_params = [dict(zip(action_schema.require_parameters.keys(), sub_comb)) for sub_comb in poss_params]
             for param in result_params:
-                successor = Action(action_schema, param)
+                successor = Action.create_action(action_schema, param)
                 candidates.append(successor)
-        result = []
         for action in candidates:
             if util.is_valid_action(agent.functions, action, agent.history_functions, self.observation_function, is_ontic_checking=False):
                 result.append(action)
@@ -576,10 +612,11 @@ class Model:
         if self.observation_function is None:
             raise ValueError("Observation function is not initialized")
     
-        if self.problem_type == ProblemType.COOPERATIVE:
-            return any(agent.is_complete(self.observation_function) for agent in self.agents)
-        else:
-            return all(agent.is_complete(self.observation_function) for agent in self.agents)
+        # if self.problem_type == ProblemType.COOPERATIVE:
+        #     return any(agent.is_complete(self.observation_function) for agent in self.agents)
+        # else:
+        #     return all(agent.is_complete(self.observation_function) for agent in self.agents)
+        return all(agent.is_complete(self.observation_function) for agent in self.agents)
 
     def get_belief_functions_of_agent_with_belief_sequence(self, agent_name: str, belief_sequence: list[str]) -> list[Function]:
         ontic_functions = self.ontic_functions

@@ -1,0 +1,18 @@
+(define
+    (problem corridor_2a2i_1)
+    (:domain corridor)
+    (:agent b)
+
+    (:init
+        (assign (agent_loc b) 2)
+        (assign (holding b) 1)
+        (assign (hold_by i b) 0)
+        (assign (hold_by j b) 1)
+    )
+
+    (:goal (and
+        (= (@ep (" b [b]") (= (hold_by i b) 1)) ep.true)
+        (= (@ep (" b [b]") (= (hold_by j a) 1)) ep.true)
+        )
+    )
+)

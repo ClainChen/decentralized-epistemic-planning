@@ -1,0 +1,33 @@
+(define
+    (problem corridor_2a2i_1)
+    (:domain corridor)
+
+    (:agents 
+        a b
+    )
+
+    (:objects
+        i j - item
+    )
+
+    (:shared-init
+    )
+
+    (:unshared-init
+        (assign (item_loc i) 1)
+        (assign (item_loc j) 2)
+        (assign (is_free i) 0)
+        (assign (is_free j) 0)
+    )
+
+    (:ranges
+        (agent_loc integer [1,2])
+        (item_loc integer [1,2])
+        (holding integer [0,1])
+        (hold_by integer [0,1])
+        (is_free integer [0,1])
+    )
+
+    (:rules
+    )
+)

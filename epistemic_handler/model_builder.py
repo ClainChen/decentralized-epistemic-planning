@@ -167,28 +167,14 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                     target_function_schema = model.get_function_schema_by_name(parsing_goal.state.target_variable.name)
                     new_goal.target_function_name = parsing_goal.state.target_variable.name
                     new_goal.target_function_parameters = dict(zip(target_function_schema.require_parameters.keys(), parsing_goal.state.target_variable.parameters))
-                new_agent.goals.append(new_goal)
+                new_agent.own_goals.append(new_goal)
             model.agents.append(new_agent)
 
         if model.problem_type == ProblemType.COOPERATIVE:
-            cooperative_goals = {}
             for agent1 in model.agents:
-                cooperative_goals[agent1.name] = []
                 for agent2 in model.agents:
-                    if agent1.name == agent2.name:
-                        cooperative_goals[agent1.name].extend(agent2.goals)
-                    else:
-                        epistemic_goals = []
-                        for goal in agent2.goals:
-                            ep_goal = copy.deepcopy(goal)
-                            ep_goal.belief_sequence = [agent2.name] + goal.belief_sequence
-                            if ep_goal.ep_operator == EpistemicOperator.NONE:
-                                ep_goal.ep_operator = EpistemicOperator.EQUAL
-                                ep_goal.ep_truth = EpistemicTruth.TRUE
-                            epistemic_goals.append(ep_goal)
-                        cooperative_goals[agent1.name].extend(epistemic_goals)
-            for agent in model.agents:
-                agent.goals = cooperative_goals[agent.name]
+                    if agent1.name != agent2.name:
+                        agent1.other_goals[agent2.name] = agent2.own_goals
 
         logger.debug(f"Model:\n{model}")
         # if not check_goal_conflicts(model):
