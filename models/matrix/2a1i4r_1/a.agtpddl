@@ -1,11 +1,10 @@
 (define
-    (problem corridor_2a2i_1)
-    (:domain corridor)
+    (problem matrix_2a1i4r_1)
+    (:domain matrix)
     (:agent a)
 
     (:goal (and
         (= (@ep (" b [a]") (= (hold_by i b) 1)) ep.true)
-        (= (@ep (" b [a]") (= (hold_by j a) 1)) ep.true)
         )
     )
 )

@@ -48,7 +48,7 @@ python entrance.py -h # check the full help of this program
 - [x] Agents choose one of the successor that will help them to reach their goal and belief goal
 - [x] check the chosen action with the ontic world functions, if it pass, then do the action, otherwise it will stay, and update their belief based on the action's condition
 - [ ] Agent update their belief goals based on the observation of other agent's movement
-- [ ] End round
+- [x] End round
 
 
 
@@ -68,4 +68,4 @@ python entrance.py -h # check the full help of this program
 
 - [x] Vote Monte Carlo: an extend Monte Carlo algorithm that will self simulate multiple times from the given model and vote the actions based on moves to goal and visit times.
 
-- [ ] Greedy: decide the action based on how much the holding functions getting closer to the goal.
+- [x] Greedy: decide the action based on how much the holding functions getting closer to the goal.

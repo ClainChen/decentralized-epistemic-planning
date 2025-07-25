@@ -351,6 +351,15 @@ class Action:
 
     def __repr__(self):
         return self.__str__()
+    
+    def __eq__(self, value):
+        if not isinstance(value, Agent): return False
+        return self.name == value.name and self.parameters == value.parameters
+
+    def __hash__(self):
+        return hash((self.name, self.parameters.__str__()))
+    
+
 
 class Agent:
     def __init__(self):
@@ -573,8 +582,8 @@ class Model:
                 function.value = target_function.value
                 functions.append(function)
         if not util.check_in_range(function):
-            print(functions)
-            print(effect)
+            # print(functions)
+            # print(effect)
             raise ValueError(f"{function.name} is out of range")
 
     def get_agent_successors(self, agent_name: str) -> list[Action]:

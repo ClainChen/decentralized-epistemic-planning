@@ -1,6 +1,6 @@
 (define
-    (problem corridor_2a1i_1)
-    (:domain corridor)
+    (problem matrix_2a1i4r_1)
+    (:domain matrix)
     (:agent b)
 
     (:goal (and

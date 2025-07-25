@@ -4,6 +4,7 @@ import re
 from epistemic_handler.file_parser import *
 from epistemic_handler.epistemic_class import *
 import importlib.util
+from itertools import product
 from pathlib import Path
 import random
 
@@ -64,8 +65,8 @@ def setup_logger(name, handlers=[], logger_level=logging.INFO):
 def regex_search(regex, string, logger=None):
     result = re.findall(regex, string, re.M)
     if logger and not result :
-        logger.error(f"result not found: \"{regex}\"")
-        raise Exception(f"result not found: \"{regex}\"")
+        logger.error(f"result not found: \"{regex}\" in \"{string}\"")
+        raise Exception(f"result not found: \"{regex}\" in \"{string}\"")
     return result
 
 def regex_match(regex, string, logger=None):
@@ -256,7 +257,7 @@ def get_functions_with_belief_sequence(functions: list[Function], belief_sequenc
     if len(belief_sequence) == 1:
         return functions
     ontic_functions = functions
-    for agent_name in belief_sequence:
+    for agent_name in belief_sequence[1:]:
         ontic_functions = obs_func.get_observable_functions(ontic_functions, agent_name)
     return ontic_functions
 
@@ -328,6 +329,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     If the generated unknwon function is clearly belongs to an agent, then this function will add to that agent's functions.\n
     """
     unknown_functions = get_agent_unknown_functions(model, agent_name)
+    
     # group the functions by name and parameters
     group_functions = {}
     for func in unknown_functions:
@@ -338,26 +340,18 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     unknown_functions = []
     for funcs in group_functions.values():
         unknown_functions.append(funcs)
+
+    all_combs = product(*group_functions.values())
+    valid_combs = []
+    current_agent = model.get_agent_by_name(agent_name)
+    for comb in all_combs:
+        if model.rules.check_functions(current_agent.functions + list(comb)):
+            valid_combs.append(comb)
     
     virtual_model = model.copy()
     current_agent = virtual_model.get_agent_by_name(agent_name)
     choosen_pairs = []
-    while True:
-        # randomly pick one of the function in each group as a part of ontic function
-        assume_ontic_functions = []
-        this_pairs = []
-        for funcs in unknown_functions:
-            f = random.choice(funcs)
-            i = funcs.index(f)
-            assume_ontic_functions.append(f)
-            this_pairs.append(i)
-        # check the validity of the assume ontic functions with current ontic functions by using the rules
-        if this_pairs not in choosen_pairs:
-            choosen_pairs.append(this_pairs)
-            # print(f"{choosen_pairs}")
-            if virtual_model.rules.check_functions(current_agent.functions + assume_ontic_functions):
-                break
-    
+
     # TODO: allocate the functions and the goals to each agents
     # the functions of current agent will not change, other agent's functions will set to the observation functions based on current agent's functions
     for agent in virtual_model.agents:
@@ -379,13 +373,20 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
             else:
                 # TODO: this part will be added after implement the intention prediction method
                 raise Exception("Intention prediction is not implemented yet")
-
-    virtual_model.ontic_functions = copy.deepcopy(current_agent.functions)
-    for func in assume_ontic_functions:
-        virtual_model.ontic_functions.append(func)
-        current_agent.functions.append(func)
-        belongs_to = util.function_belongs_to(virtual_model, func)
-        if not belongs_to is None:
-            virtual_model.get_agent_by_name(belongs_to).functions.append(func)
     
-    return virtual_model
+    virtual_model.ontic_functions = copy.deepcopy(current_agent.functions)
+    all_virtual_models = []
+    for comb in valid_combs:
+        new_model = virtual_model.copy()
+        for func in comb:
+            current_agent = new_model.get_agent_by_name(agent_name)
+            new_model.ontic_functions.append(func)
+            current_agent.functions.append(func)
+            belongs_to = util.function_belongs_to(virtual_model, func)
+            if belongs_to != current_agent.name and belongs_to is not None:
+                # print(belongs_to)
+                # print(virtual_model.get_agent_by_name(belongs_to))
+                virtual_model.get_agent_by_name(belongs_to).functions.append(func)
+        all_virtual_models.append(new_model)
+    
+    return all_virtual_models

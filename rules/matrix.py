@@ -5,7 +5,7 @@ import util
 
 THIS_LOGGER_LEVEL = logging.DEBUG
 
-class Corridor01Rules(AbstractRules):
+class MatrixRules(AbstractRules):
     def __init__(self, handler):
         self.logger = util.setup_logger(__name__, handler, logger_level=THIS_LOGGER_LEVEL)
     
@@ -23,15 +23,17 @@ class Corridor01Rules(AbstractRules):
         item_loc = {}
         for function in functions:
             if function.name == 'agent_loc':
-                if function.parameters['?a'] not in agent_loc:
-                    agent_loc[function.parameters['?a']] = function.value
-                else:
-                    return False
+                if function.value == 1:
+                    if function.parameters['?a'] not in agent_loc:
+                        agent_loc[function.parameters['?a']] = function.parameters['?loc']
+                    else:
+                        return False
             if function.name == 'item_loc':
-                if function.parameters['?i'] not in item_loc:
-                    item_loc[function.parameters['?i']] = function.value
-                else:
-                    return False
+                if function.value == 1:
+                    if function.parameters['?i'] not in item_loc:
+                        item_loc[function.parameters['?i']] = function.parameters['?loc']
+                    else:
+                        return False
 
         
         for function in functions:

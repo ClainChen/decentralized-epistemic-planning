@@ -10,10 +10,13 @@
         i - item
     )
 
-    (:shared-init
-    )
-
-    (:unshared-init
+    (:init
+        (assign (agent_loc a) 1)
+        (assign (agent_loc b) 1)
+        (assign (holding a) 1)
+        (assign (holding b) 0)
+        (assign (hold_by i a) 1)
+        (assign (hold_by i b) 0)
         (assign (item_loc i) 1)
         (assign (is_free i) 0)
     )

@@ -4,10 +4,11 @@ import heapq
 import util
 import logging
 from collections import Counter
+import random
 
 LOGGER_LEVEL = logging.DEBUG
 
-class GreedyBFS(AbstractPolicyStrategy):
+class RandomBFS(AbstractPolicyStrategy):
     """
     Agent will choose a random action
     """
@@ -26,7 +27,10 @@ class GreedyBFS(AbstractPolicyStrategy):
     def bfs(self, model: Model, agent_name: str):
         # observed_world = []
         heap: list[BFSNode] = []
-        virtual_model = util.generate_virtual_model(model, agent_name)
+        # self.logger.debug(f"current model: {model}")
+        virtual_model = random.choice(util.generate_virtual_model(model, agent_name))
+        # self.logger.debug(f"virtual model\n{virtual_model}")
+        # exit(0)
         # virtual_model = model.copy()
         current_agent_index = virtual_model.get_agent_index_by_name(agent_name)
         count_agent = len(virtual_model.agents)
@@ -58,7 +62,7 @@ class GreedyBFS(AbstractPolicyStrategy):
                                         node.actions + [succ],
                                         next_model,
                                         node.priority + 1))
-        print("no solution")
+        # print("no solution")
         return None
 
 class BFSNode:

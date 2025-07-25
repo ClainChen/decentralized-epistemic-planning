@@ -83,16 +83,15 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
         
         # build initial functions
         # this includes all initial functions that are not in epistemic world
-        for parsing_states in problem.states.values():
-            for parsing_state in parsing_states:
-                function_schema = model.get_function_schema_by_name(parsing_state.variable.name)
-                new_function = Function()
-                new_function.name = function_schema.name
-                new_function.range = function_schema.range
-                new_function.type = function_schema.type
-                new_function.value = parsing_state.value
-                new_function.parameters = dict(zip(function_schema.require_parameters.keys(), parsing_state.variable.parameters))
-                model.ontic_functions.append(new_function)
+        for parsing_state in problem.states:
+            function_schema = model.get_function_schema_by_name(parsing_state.variable.name)
+            new_function = Function()
+            new_function.name = function_schema.name
+            new_function.range = function_schema.range
+            new_function.type = function_schema.type
+            new_function.value = parsing_state.value
+            new_function.parameters = dict(zip(function_schema.require_parameters.keys(), parsing_state.variable.parameters))
+            model.ontic_functions.append(new_function)
         
         # build action schemas
         for parsing_action in domain.actions:
@@ -139,16 +138,6 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
         for agent in problem.agents:
             new_agent = Agent()
             new_agent.name = agent
-            parsing_states = problem.states[agent]
-            for parsing_state in parsing_states:
-                function_schema = model.get_function_schema_by_name(parsing_state.variable.name)
-                new_function = Function()
-                new_function.name = function_schema.name
-                new_function.range = function_schema.range
-                new_function.type = function_schema.type
-                new_function.value = parsing_state.value
-                new_function.parameters = dict(zip(function_schema.require_parameters.keys(), parsing_state.variable.parameters))
-                new_agent.functions.append(new_function)
             parsing_goals = problem.goals[agent]
             for parsing_goal in parsing_goals:
                 

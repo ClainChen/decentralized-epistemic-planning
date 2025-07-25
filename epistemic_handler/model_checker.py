@@ -38,12 +38,9 @@ class ModelChecker:
         self.logger.debug(f"Valid names: {valid_names}")
         # check the states
         self.logger.debug(f"Checking the states")
-        for agt_name, states in self.problem.states.items():
-            if agt_name not in valid_names:
-                self.logger.debug(f"The agent \"{agt_name}\" in problem is not valid")
-                result = False
-            for state in states:
-                result = self.check_state(valid_names, state, agt_name)
+        for state in self.problem.states:
+            result = self.check_state(valid_names, state)
+                
         
         self.logger.debug(f"Checking the goals")
         # check the goals
@@ -59,7 +56,7 @@ class ModelChecker:
                         if agt_name not in valid_names:
                             self.logger.debug(f"The agent \"{agt_name}\" in {name}'s goal \"{goal}\" is not valid")
                             result = False
-                result = self.check_state(valid_names, this_goal.state, name)
+                result = self.check_state(valid_names, this_goal.state)
         
         self.logger.debug(f"Checking the ranges")
         # check the ranges
@@ -85,19 +82,19 @@ class ModelChecker:
         return result
 
         
-    def check_state(self, valid_names, state: ParsingState, agt_name: str):
+    def check_state(self, valid_names, state: ParsingState):
         result = True
         variable_entities = state.variable.parameters
         if state.variable.name not in valid_names or (state.target_variable.name is not None and state.target_variable.name not in valid_names):
-            self.logger.debug(f"The variable {state.variable.name} in {agt_name}'s state is not valid.")
+            self.logger.debug(f"The variable {state.variable.name} is not valid.")
         for entity in variable_entities:
             if entity not in valid_names:
-                self.logger.debug(f"The entity \"{entity}\" in {agt_name}'s state \"{state}\" is not valid")
+                self.logger.debug(f"The entity \"{entity}\" in state \"{state}\" is not valid")
                 result = False
         target_variable_entities = state.target_variable.parameters
         for entity in target_variable_entities:
             if entity not in valid_names:
-                self.logger.debug(f"The entity \"{entity}\" in {agt_name}'s state \"{state}\" is not valid")
+                self.logger.debug(f"The entity \"{entity}\" in state \"{state}\" is not valid")
                 result = False
         return result
 

@@ -1,0 +1,70 @@
+(define
+    (problem matrix_2a1i4r_1)
+    (:domain matrix)
+
+    (:agents 
+        a b
+    )
+
+    (:objects
+        i - item
+        r1 r2 r3 r4 - room
+    )
+
+    (:init
+        (assign (connected r1 r1) 0)
+        (assign (connected r1 r2) 1)
+        (assign (connected r1 r3) 1)
+        (assign (connected r1 r4) 0)
+
+        (assign (connected r2 r1) 1)
+        (assign (connected r2 r2) 0)
+        (assign (connected r2 r3) 0)
+        (assign (connected r2 r4) 1)
+
+        (assign (connected r3 r1) 1)
+        (assign (connected r3 r2) 0)
+        (assign (connected r3 r3) 0)
+        (assign (connected r3 r4) 1)
+        
+        (assign (connected r4 r1) 0)
+        (assign (connected r4 r2) 1)
+        (assign (connected r4 r3) 1)
+        (assign (connected r4 r4) 0)
+
+        (assign (item_loc i r1) 0)
+        (assign (item_loc i r2) 0)
+        (assign (item_loc i r3) 0)
+        (assign (item_loc i r4) 1)
+
+        (assign (agent_loc a r1) 1)
+        (assign (agent_loc a r2) 0)
+        (assign (agent_loc a r3) 0)
+        (assign (agent_loc a r4) 0)
+        
+        (assign (agent_loc b r1) 0)
+        (assign (agent_loc b r2) 0)
+        (assign (agent_loc b r3) 1)
+        (assign (agent_loc b r4) 0)
+
+        (assign (holding a) 0)
+        (assign (holding b) 0)
+
+        (assign (hold_by i a) 0)
+        (assign (hold_by i b) 0)
+
+        (assign (is_free i) 1)
+    )
+
+    (:ranges
+        (agent_loc integer [0,1])
+        (item_loc integer [0,1])
+        (connected integer [0,1])
+        (holding integer [0,1])
+        (hold_by integer [0,1])
+        (is_free integer [0,1])
+    )
+
+    (:rules
+    )
+)

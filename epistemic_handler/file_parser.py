@@ -31,8 +31,8 @@ GOAL_REGEX = r"\(:goal \(and$\n([\s\S]+?)^\s+\)\n\s+\)"
 RANGES_EXTRACT_REGEX = r"\(:ranges$\n([\s\S]+?)^\s+\)"
 RANGES_SPLIT_REGEX = r"\((.+) (\w+) \[(.+)\]\)"
 AGENT_INIT_REGEX = r"\(:init$\n([\s\S]*?)^\s+\)"
-UNSHARED_INIT_STATE_EXTRACT_REGEX = r"\(:unshared-init$\n([\s\S]*?)^\s+\)"
-SHARED_INIT_STATE_EXTRACT_REGEX = r"\(:shared-init$\n([\s\S]*?)^\s+\)"
+INIT_STATE_EXTRACT_REGEX = r"\(:init$\n([\s\S]*?)^\s+\)"
+# SHARED_INIT_STATE_EXTRACT_REGEX = r"\(:shared-init$\n([\s\S]*?)^\s+\)"
 INIT_STATE_SPLIT_REGEX = r"assign \((.+?)\) \(?('\w+'|\d*|.+?)\){1,2}"
 AGENT_NAME_REGEX = r"\(:agent (\w+)\)"
 
@@ -252,7 +252,7 @@ class ParsingProblem:
         self.problem_name = None
         self.agents = []
         self.objects: dict[str, list[str]] = dict()
-        self.states: dict[str, list[ParsingState]] = dict()
+        self.states: list[ParsingState] = dict()
         self.ranges: list[ParsingRange] = []
         self.goals: dict[str, list[ParsingCondition | ParsingEpistemicCondition]] = dict()
     
@@ -265,11 +265,9 @@ class ParsingProblem:
             result += f"{object_name}: {object_list}\n"
         result += util.BIG_DIVIDER
         result += f"States:\n"
-        for agt_name, state_list in self.states.items():
+        for state in self.states:
             result += util.SMALL_DIVIDER
-            result += f"{agt_name}:\n"
-            for state in state_list:
-                result += f"{state}\n"
+            result += f"{state}\n"
         result += util.BIG_DIVIDER
         result += f"Goals:\n"
         for agt_name, goal_list in self.goals.items():
@@ -590,7 +588,7 @@ class ProblemParser:
         agent_files = list(filter(lambda x: x.endswith('.agtpddl'), files))
         env_file = next(filter(lambda x: x.endswith('.envpddl'), files), None)
         if not agent_files or not env_file:
-            self.logger.error(f"foler \"{folder_path}\" does not contains the required files.")
+            self.logger.error(f"folder \"{folder_path}\" does not contains the required files.")
             exit(0)
         return agent_files, env_file
     
@@ -654,27 +652,24 @@ class ProblemParser:
             states[agent] = []
         
         # 'unknown' here means the states in the world that no agents know.
-        states['unknown'] = []
+        states = []
         
         # update unshared states
-        unshared_state_pairs = self.parse_state_lines(UNSHARED_INIT_STATE_EXTRACT_REGEX, env_content)
+        unshared_state_pairs = self.parse_state_lines(INIT_STATE_EXTRACT_REGEX, env_content)
         for state_pairs in unshared_state_pairs:
-            states['unknown'].append(convert_state_line_to_parsing_state(state_pairs, self.logger))
+            states.append(convert_state_line_to_parsing_state(state_pairs, self.logger))
         
         # update shared states
-        shared_state_pairs = self.parse_state_lines(SHARED_INIT_STATE_EXTRACT_REGEX, env_content)
-        for state_pair in shared_state_pairs:
-            state = convert_state_line_to_parsing_state(state_pair, self.logger)
-            for agent in agents:
-                states[agent].append(state)
+        # shared_state_pairs = self.parse_state_lines(SHARED_INIT_STATE_EXTRACT_REGEX, env_content)
+        # for state_pair in shared_state_pairs:
+        #     state = convert_state_line_to_parsing_state(state_pair, self.logger)
+        #     for agent in agents:
+        #         states[agent].append(state)
         
         # update individual states
         for agt_content in agt_contents:
             agt_name = util.regex_search(AGENT_NAME_REGEX, agt_content, self.logger)
             agt_name = agt_name[0]
-            individual_state_pairs = self.parse_state_lines(AGENT_INIT_REGEX, agt_content)
-            for state_pair in individual_state_pairs:
-                states[agt_name].append(convert_state_line_to_parsing_state(state_pair, self.logger))
         
         return states
 
