@@ -1,12 +1,11 @@
 import logging
 import inspect
 import re
-from epistemic_handler.file_parser import *
-from epistemic_handler.epistemic_class import *
 import importlib.util
 from itertools import product
 from pathlib import Path
-import random
+from time import perf_counter
+from functools import wraps
 
 BIG_DIVIDER = "=================\n"
 MEDIUM_DIVIDER = "*****************\n"
@@ -33,6 +32,16 @@ class ClassNameFormatter(logging.Formatter):
             frame = frame.f_back
         
         return super().format(record)
+
+def record_time(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = perf_counter()
+        result = func(*args, **kwargs)
+        end = perf_counter()
+        print(f"{func.__name__} 耗时: {end - start:.6f}秒")
+        return result
+    return wrapper
 
 def setup_logger_handlers(log_filename, log_mode='a', c_display=False, c_logger_level=logging.INFO):
     f_handler = logging.FileHandler(log_filename, mode=log_mode)
@@ -61,7 +70,6 @@ def setup_logger(name, handlers=[], logger_level=logging.INFO):
 
     return logger
 
-
 def regex_search(regex, string, logger=None):
     result = re.findall(regex, string, re.M)
     if logger and not result :
@@ -75,6 +83,9 @@ def regex_match(regex, string, logger=None):
         logger.error(f"result not found: \"{regex}\"")
         raise Exception(f"result not found: \"{regex}\"")
     return True if result else False
+
+from epistemic_handler.file_parser import *
+from epistemic_handler.epistemic_class import *
 
 def swap_param_orders(function_schema: FunctionSchema, variable: ParsingVariable):
     new_param_orders = variable.parameters
@@ -190,7 +201,7 @@ def check_in_range(function: Function):
         min, max = function.range
         return min <= function.value <= max
 
-def is_valid_action(functions: list[Function], action: Action, agent_history: list[list[Function]] = [], obs_func = None, is_ontic_checking: bool = True) -> bool:
+def is_valid_action(model: Model, action: Action, agent_name, is_ontic_checking: bool = True) -> bool:
     """
     to check whether the action is valid in realm of given functions
     """
@@ -199,18 +210,18 @@ def is_valid_action(functions: list[Function], action: Action, agent_history: li
     for condition in action.pre_condition:
         if is_ontic_checking:
             if len(condition.belief_sequence) == 0:
-                if not check_regular_condition(condition, functions):
+                if not check_regular_condition(condition, model.ontic_functions):
                     return False
         else:
-            if not check_condition(condition, functions, agent_history, obs_func):
+            if not check_condition(model, condition, agent_name):
                 return False
     return True
 
-def check_condition(condition: Condition, functions: list[Function], agent_history: list[list[Function]], obs_func):
+def check_condition(model: Model, condition: Condition, agent_name):
     if len(condition.belief_sequence) == 0:
-        return check_regular_condition(condition, functions)
+        return check_regular_condition(condition, model.get_functions_of_agent(agent_name))
     else:
-        return check_epistemic_condition(condition, functions, agent_history, obs_func)
+        return check_epistemic_condition(condition, model, agent_name)
 
 def check_regular_condition(condition: Condition, functions: list[Function]) -> bool:
     """
@@ -237,11 +248,11 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
 
     return True
 
-def check_epistemic_condition(condition: Condition, functions: list[Function], agent_history: list[list[Function]], obs_func) -> bool:
-    history = agent_history + [functions]
+def check_epistemic_condition(condition: Condition, model: Model, agent_name) -> bool:
+    history = model.get_history_functions_of_agent(agent_name) + [model.get_functions_of_agent(agent_name)]
     for history_functions in reversed(history):
         belief_functions = get_functions_with_belief_sequence(
-            history_functions, condition.belief_sequence, obs_func
+            history_functions, condition.belief_sequence, model
         )
         check_result = util.check_regular_condition(condition, belief_functions)
         if check_result:
@@ -253,22 +264,20 @@ def check_epistemic_condition(condition: Condition, functions: list[Function], a
             return False
     return False
 
-def get_functions_with_belief_sequence(functions: list[Function], belief_sequence: list[str], obs_func) -> list[Function]:
+def get_functions_with_belief_sequence(functions: list[Function], belief_sequence: list[str], model: Model) -> list[Function]:
     if len(belief_sequence) == 1:
         return functions
     ontic_functions = functions
     for agent_name in belief_sequence[1:]:
-        ontic_functions = obs_func.get_observable_functions(ontic_functions, agent_name)
+        ontic_functions = model.observation_function.get_observable_functions(model, ontic_functions, agent_name)
     return ontic_functions
-
-
 
 def get_function_with_name_and_params(functions: list[Function], name: str, params: dict[str, str]):
     """
     get the function with the given locator
     """
     for function in functions:
-        if function.name == name and list(function.parameters.values()) == list(params.values()):
+        if function.name == name and set(function.parameters.values()) == set(params.values()):
             return function
     return None
 
@@ -286,14 +295,14 @@ def get_agent_unknown_functions(model: Model, agent_name: str) -> list[Function]
     get agent's unknown functions based on what agent knows
     """
     all_functions = model.generate_all_possible_functions()
-    current_agent = model.get_agent_by_name(agent_name)
     # remove the functions that agent already knows
-    all_functions = [function for function in all_functions if function not in current_agent.functions]
+    current_agent_functions = model.get_functions_of_agent(agent_name)
+    all_functions = [function for function in all_functions if function not in current_agent_functions]
     unknown_functions = []
     # filter the functions that are conflict with what agent knows
     for func in all_functions:
         is_conflict = False
-        for known_func in current_agent.functions:
+        for known_func in current_agent_functions:
             if util.is_conflict_functions(func, known_func):
                 is_conflict = True
                 break
@@ -333,7 +342,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     # group the functions by name and parameters
     group_functions = {}
     for func in unknown_functions:
-        key = func.name + func.parameters.__str__()
+        key = func.header()
         if key not in group_functions:
             group_functions[key] = []
         group_functions[key].append(func)
@@ -344,49 +353,51 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     all_combs = product(*group_functions.values())
     valid_combs = []
     current_agent = model.get_agent_by_name(agent_name)
+    current_agent_functions = model.get_functions_of_agent(agent_name)
     for comb in all_combs:
-        if model.rules.check_functions(current_agent.functions + list(comb)):
+        if model.rules.check_functions(current_agent_functions + list(comb)):
             valid_combs.append(comb)
     
     virtual_model = model.copy()
     current_agent = virtual_model.get_agent_by_name(agent_name)
-    choosen_pairs = []
-
-    # TODO: allocate the functions and the goals to each agents
+    current_agent_functions = virtual_model.get_functions_of_agent(agent_name)
     # the functions of current agent will not change, other agent's functions will set to the observation functions based on current agent's functions
     for agent in virtual_model.agents:
         if agent.name != agent_name:
-            agent.functions = virtual_model.observation_function.get_observable_functions(current_agent.functions, agent.name)
-            # history functions
-            agent.history_functions = []
-            for history_function in current_agent.history_functions:
-                his_func = virtual_model.observation_function.get_observable_functions(history_function, agent.name)
-                if his_func:
-                    agent.history_functions.append(his_func)
-
-            if virtual_model.problem_type == ProblemType.COOPERATIVE:
-                goals = current_agent.other_goals
-                goals[current_agent.name] = current_agent.own_goals
-                for agent in virtual_model.agents:
-                    agent.own_goals = goals[agent.name]
-                    agent.other_goals = {key: value for key, value in goals.items() if key != agent.name}
+            # goals = current_agent.other_goals
+            # goals[current_agent.name] = current_agent.own_goals
+            # for agent in virtual_model.agents:
+            #     agent.own_goals = goals[agent.name]
+            #     agent.other_goals = {key: value for key, value in goals.items() if key != agent.name}
+            if current_agent.other_goals[agent.name]:
+                agent.own_goals = current_agent.other_goals[agent.name]
             else:
-                # TODO: this part will be added after implement the intention prediction method
-                raise Exception("Intention prediction is not implemented yet")
+                # 转化goal
+                goals = []
+                for goal in current_agent.own_goals:
+                    new_goal = copy.deepcopy(goal)
+                    new_goal.belief_sequence[0] = agent.name
+                    new_goal.belief_sequence = remove_continue_duplicates(new_goal.belief_sequence)
+                    goals.append(new_goal)
+                agent.own_goals = goals
+            # agent.other_goals = []
+    virtual_model.history_functions = virtual_model.get_history_functions_of_agent(agent.name)
     
-    virtual_model.ontic_functions = copy.deepcopy(current_agent.functions)
+    virtual_model.ontic_functions = copy.deepcopy(current_agent_functions)
     all_virtual_models = []
     for comb in valid_combs:
         new_model = virtual_model.copy()
-        for func in comb:
-            current_agent = new_model.get_agent_by_name(agent_name)
-            new_model.ontic_functions.append(func)
-            current_agent.functions.append(func)
-            belongs_to = util.function_belongs_to(virtual_model, func)
-            if belongs_to != current_agent.name and belongs_to is not None:
-                # print(belongs_to)
-                # print(virtual_model.get_agent_by_name(belongs_to))
-                virtual_model.get_agent_by_name(belongs_to).functions.append(func)
+        new_model.ontic_functions.extend(comb)
         all_virtual_models.append(new_model)
     
+    assert len(all_virtual_models) > 0
     return all_virtual_models
+
+def remove_continue_duplicates(lst):
+    if not lst:
+        return []
+    new_list = [lst[0]]
+    for ele in lst:
+        if ele != new_list[-1]:
+            new_list.append(ele)
+    return new_list

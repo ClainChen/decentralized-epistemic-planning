@@ -156,16 +156,24 @@ class Function:
     def compare(self, other: 'Function'):
         return self.name == other.name and self.parameters == other.parameters
 
+    def header(self):
+        return f"{self.name}({list(self.parameters.values())})"
+
     def __str__(self):
-        params = [f"{key} - {value}" for key, value in self.parameters.items()]
-        return f"Function({self.name} {params} = {self.value})"
+        return f"Function({self.name} {list(self.parameters.values())} = {self.value})"
 
     def __repr__(self):
         return self.__str__()
     
+    def __eq__(self, other):
+        if not isinstance(other, Function):
+            return False
+        return (self.name == other.name and 
+                frozenset(self.parameters.items()) == frozenset(other.parameters.items()) and 
+                self._value == other._value)
+     
     def __hash__(self):
         return hash((self.name, frozenset(self.parameters.items()), self._value))
-        
 
 class ConditionSchema:
     def __init__(self):
@@ -310,7 +318,6 @@ class ActionSchema:
     def __repr__(self):
         return self.__str__()
 
-
 class Action:
     def __init__(self):
         self.name = ""
@@ -352,72 +359,27 @@ class Action:
     def __repr__(self):
         return self.__str__()
     
-    def __eq__(self, value):
-        if not isinstance(value, Agent): return False
-        return self.name == value.name and self.parameters == value.parameters
-
-    def __hash__(self):
-        return hash((self.name, self.parameters.__str__()))
-    
-
+    def header(self) -> str:
+        return f"{self.name}({list(self.parameters.values())})"
 
 class Agent:
     def __init__(self):
         self.name: str = None
-        self.functions: list[Function] = []
         self.own_goals: list[Condition] = []
         self.other_goals: dict[str, list[Condition]] = {}
-        self.history_functions: list[list[Function]] = []
+        self.complete_signal = False
 
     def copy(self):
         new_agent = Agent()
         new_agent.name = self.name
         new_agent.own_goals = self.own_goals
-        new_agent.other_goals = self.other_goals
-        new_agent.functions = copy.deepcopy(self.functions)
-        new_agent.history_functions = self.history_functions[:]
+        new_agent.other_goals = copy.deepcopy(self.other_goals)
+        new_agent.complete_signal = self.complete_signal
         return new_agent
-
-    def update_functions(self, functions: list[Function]):
-        self.history_functions.append(copy.deepcopy(self.functions))
-        if len(self.history_functions) >= 20:
-            self.history_functions.pop(0)
-
-        for function in functions:
-            updating_function = None
-            for agent_function in self.functions:
-                if function.compare(agent_function):
-                    updating_function = agent_function
-                    break
-            if updating_function is None:
-                self.functions.append(copy.deepcopy(function))
-            else:
-                agent_function.value = function.value
-
-    def is_complete(self, obs_func):
-        goals = self.own_goals.copy()
-        # for name, other_goals in self.other_goals.items():
-        #     for goal in other_goals:
-        #         new_goal = copy.deepcopy(goal)
-        #         new_goal.belief_sequence.insert(0, self.name)
-        #         goals.append(new_goal)
-        # print(goals)
-        for goal in goals:
-            if not util.check_condition(goal, self.functions, self.history_functions, obs_func):
-                return False
-        return True
-
-    def get_function_with_name_and_params(self, name: str, params: list[str]):
-        for function in self.functions:
-            if function.name == name and list(function.parameters.values()) == params:
-                return function
-        return None
 
     def __str__(self):
         result = f"Agent: {self.name}\n"
-        result += f"Functions:\n"
-        for function in self.functions:
-            result += f"{function}\n"
+        result += f"Goal completed: \'{self.complete_signal}\'\n"
         result += f"Own Goals:\n"
         for goal in self.own_goals:
             result += f"{goal}\n"
@@ -426,15 +388,6 @@ class Agent:
             result += f"{agent}:\n"
             for goal in goals:
                 result += f"{goal}\n"
-        result += util.MEDIUM_DIVIDER
-        result += f"History Functions:\n"
-        round = 1
-        for functions in self.history_functions:
-            result += util.SMALL_DIVIDER
-            result += f"{round}:\n"
-            for function in functions:
-                result += f"{function}\n"
-            round += 1
         return result
 
     def __repr__(self):
@@ -453,6 +406,8 @@ class Model:
         self.problem_name: str = None
         self.function_schemas: list[FunctionSchema] = []
         self.ontic_functions: list[Function] = []
+        self.history_functions: list[list[Function]] = []
+        self.history_actions: list[tuple[str, Action]] = []
         self.entities: list[Entity] = []
         self.action_schemas: list[ActionSchema] = []
         self.agents: list[Agent] = []
@@ -499,93 +454,6 @@ class Model:
     def get_all_agent_names(self) -> list[str]:
         return [agent.name for agent in self.agents]
 
-    def simulate(self):
-        """
-        Simulate the model until all agents have reached a terminal state
-        """
-        agent_index = 0
-        agent_count = len(self.agents)
-        # let all agent observe once to get the initial observation
-        for agent in self.agents:
-            self.observe_and_update_agent(agent.name)
-        while not self.full_goal_complete():
-            self.agent_decide_action_and_move(self.agents[agent_index].name)
-            agent_index = (agent_index + 1) % agent_count
-
-    def agent_decide_action_and_move(self, agent_name: str):
-        # self.logger.debug(f"{agent_name} moving:\n{self}")
-        action = self.strategy.get_policy(self, agent_name)
-        self.agent_move(agent_name, action)
-        for agent in self.agents:
-            self.observe_and_update_agent(agent.name)
-        # TODO: #5 需要思考一下如何进行intention prediction
-    
-    def agent_move(self, agent_name: str, action: Action):
-        if action is not None and util.is_valid_action(self.ontic_functions, action):
-            if not self.do_action(agent_name, action):
-                print(f"{agent_name} cannot take action: {action.name}, takes action: stay")
-            else:
-                print(f"{agent_name} takes action: {action.name} {list(action.parameters.values())}")
-        else:
-            self.do_action(agent_name, None)
-            print(f"{agent_name} takes action: stay")
-
-    def observe_and_update_agent(self, agent_name: str):
-        agent = self.get_agent_by_name(agent_name)
-        observe_functions = self.observation_function.get_observable_functions(self.ontic_functions, agent_name)
-        # update agent's functions
-        agent.update_functions(observe_functions)
-
-    def do_action(self, agent_name: str, action: Action) -> bool:
-        if action is None:
-            return True
-        agent = self.get_agent_by_name(agent_name)
-        
-        if not util.is_valid_action(self.ontic_functions, action):
-            return False
-        for effect in action.effect:
-            # update agent's function
-            self._update_functions(agent.functions, effect)
-
-            # update ontic functions
-            self._update_functions(self.ontic_functions, effect)
-        return True
-
-    def _update_functions(self, functions: list[Function], effect: Effect):
-        function = util.get_function_with_name_and_params(functions, effect.effect_function_name, effect.effect_function_parameters)
-        if function is not None:
-            if not effect.value is None:
-                function.value = util.update_effect_value(function.value, effect.value, effect.effect_type)
-            else:
-                target_function = util.get_function_with_name_and_params(self.ontic_functions, effect.target_function_name, effect.target_function_parameters)
-                function.value = util.update_effect_value(function.value, target_function.value, effect.effect_type)
-        else:
-            if effect.effect_type != EffectType.ASSIGN:
-                self.logger.error(f"Trying to change a function that not exist in agent's functions or ontic world functions")
-                raise ValueError("Trying to change a function that not exist in agent's functions or ontic world functions")
-            function = Function()
-            func_schema = self.get_function_schema_by_name(effect.effect_function_name)
-            function.name = effect.effect_function_name
-            function.parameters = effect.effect_function_parameters
-            function.range = func_schema.range
-            function.type = func_schema.type
-
-            if not effect.value is None:
-                function.value = effect.value
-                functions.append(function)
-            else:
-                target_function = util.get_function_with_name_and_params(self.ontic_functions, effect.effect_function_name, effect.effect_function_parameters)
-                if target_function is None:
-                    self.logger.error(f"Target function {effect.target_function_locator.name} not found in effect phase")
-                    raise ValueError(f"Target function {effect.target_function_locator.name} not found in effect phase")
-
-                function.value = target_function.value
-                functions.append(function)
-        if not util.check_in_range(function):
-            # print(functions)
-            # print(effect)
-            raise ValueError(f"{function.name} is out of range")
-
     def get_agent_successors(self, agent_name: str) -> list[Action]:
         result = [Action.stay_action(agent_name)]
         # if self.agent_goal_complete(agent_name):
@@ -606,13 +474,24 @@ class Model:
                 successor = Action.create_action(action_schema, param)
                 candidates.append(successor)
         for action in candidates:
-            if util.is_valid_action(agent.functions, action, agent.history_functions, self.observation_function, is_ontic_checking=False):
+            if util.is_valid_action(self,
+                                    action,
+                                    agent_name,
+                                    is_ontic_checking=False):
                 result.append(action)
         return result
 
     def agent_goal_complete(self, agent_name: str):
         agent = self.get_agent_by_name(agent_name)
-        return agent.is_complete(self.observation_function)
+        goals = agent.own_goals.copy()
+        for goal in goals:
+            if not util.check_condition(self,
+                                        goal,
+                                        agent_name):
+                agent.complete_signal = False
+                return False
+        agent.complete_signal = True
+        return True
     
     def full_goal_complete(self):
         if not self.agents:
@@ -625,17 +504,19 @@ class Model:
         #     return any(agent.is_complete(self.observation_function) for agent in self.agents)
         # else:
         #     return all(agent.is_complete(self.observation_function) for agent in self.agents)
-        return all(agent.is_complete(self.observation_function) for agent in self.agents)
+        for agent in self.agents:
+            self.agent_goal_complete(agent.name)
+        return all(agent.complete_signal for agent in self.agents)
+    
+    def get_functions_of_agent(self, agent_name: str) -> list[Function]:
+        return self.observation_function.get_observable_functions(self, copy.deepcopy(self.ontic_functions), agent_name)
 
-    def get_belief_functions_of_agent_with_belief_sequence(self, agent_name: str, belief_sequence: list[str]) -> list[Function]:
-        ontic_functions = self.ontic_functions
-        belief_sequence = [agent_name] + belief_sequence
-        current_agent = agent_name
-        for agent in belief_sequence:
-            observe_result = self.observation_function.get_observable_functions(ontic_functions, current_agent)
-            ontic_functions = observe_result[current_agent]
-            current_agent = agent
-
+    def get_history_functions_of_agent(self, agent_name: str) -> list[list[Function]]:
+        result = []
+        for history in self.history_functions:
+            result.append(self.observation_function.get_observable_functions(self, history, agent_name))
+        return result
+    
     def generate_all_possible_functions(self) -> list[Function]:
         functions = []
         for function_schema in self.function_schemas:
@@ -669,6 +550,65 @@ class Model:
 
         return functions
 
+    def update_belief_goals(self):
+        # 只会在Neutral Mode中被调用
+        # 如果agent能够看见其他agent，则会根据自己的观察来更新自己对其他agent的goals的信念
+        # 每一个历史时间戳上都会有一个对应的history world和agent: action对，用于反映在某个世界下某个agent执行了某个action
+        # 如果在那个时间戳时agent无法看见那个正在行动的agent，则他无法得知那个agent在那个时间戳的action
+        # 如果观察到某个agent的complete signal为true，则会更好操作
+        pass
+
+
+    @util.record_time
+    def simulate(self):
+        """
+        Simulate the model until all agents have reached a terminal state
+        """
+        agent_index = 0
+        agent_count = len(self.agents)
+        while not self.full_goal_complete():
+            if self.problem_type == ProblemType.NEUTRAL:
+                self.update_belief_goals()
+
+            agent_name = self.agents[agent_index].name
+            action = self.strategy.get_policy(self, agent_name)
+            # if len(self.history_functions) > 40:
+            #     self.history_functions.pop(0)
+            action = self.move(agent_name, action)
+            if action:
+                print(f"{agent_name} takes action: {action.name} {list(action.parameters.values())}")
+            else:
+                print(f"{agent_name} takes action: stay (due to no valid action)")
+            
+            agent_index = (agent_index + 1) % agent_count
+            print(f"----------")
+        self.logger.info(f"{self.show_solution()}")
+    
+    def move(self, agent_name: str, action: Action):
+        is_valid = action is not None and util.is_valid_action(self, action, agent_name)
+        self.history_functions.append(copy.deepcopy(self.ontic_functions))
+        if is_valid:
+            for effect in action.effect:
+                self.update_functions(effect)
+        else:
+            action = None
+        self.history_actions.append((agent_name, action))
+        return action
+
+    def update_functions(self, effect: Effect):
+        function = util.get_function_with_name_and_params(self.ontic_functions, effect.effect_function_name, effect.effect_function_parameters)
+        assert function is not None, f"updating function is not found!"
+        if not effect.value is None:
+            function.value = util.update_effect_value(function.value, effect.value, effect.effect_type)
+        else:
+            target_function = util.get_function_with_name_and_params(self.ontic_functions, effect.target_function_name, effect.target_function_parameters)
+            function.value = util.update_effect_value(function.value, target_function.value, effect.effect_type)
+        if not util.check_in_range(function):
+            # print(functions)
+            # print(effect)
+            raise ValueError(f"{function.name} is out of range")
+
+
     def __str__(self):
         result = f"================= Model Result================\n"
         result += f"Domain name: {self.domain_name}\nProblem name: {self.problem_name}\n"
@@ -683,14 +623,14 @@ class Model:
         for function_schema in self.function_schemas:
             result += f"{function_schema}\n"
         result += util.BIG_DIVIDER
-        # result += f"Ontic Functions:\n"
-        for ontic_function in self.ontic_functions:
-            result += f"{ontic_function}\n"
-        result += util.BIG_DIVIDER
         # result += f"Action Schemas:\n"
         for action_schema in self.action_schemas:
             result += util.SMALL_DIVIDER
             result += f"{action_schema}\n"
+        result += util.BIG_DIVIDER
+        # result += f"Ontic Functions:\n"
+        for ontic_function in self.ontic_functions:
+            result += f"{ontic_function}\n"
         result += util.BIG_DIVIDER
         # result += f"Agents:\n"
         for agent in self.agents:
@@ -701,6 +641,16 @@ class Model:
     def __repr__(self):
         return self.__str__()
     
+    def show_solution(self):
+        result = "====== Solution ======\n"
+        for i in range(len(self.history_actions)):
+            result += f"Step {i+1}:\n"
+            for func in self.history_functions[i]:
+                result += f"{func}\n"
+            result += f"{self.history_actions[i][0]}: {self.history_actions[i][1].header()}\n"
+            result += f"{util.SMALL_DIVIDER}"
+        return result
+    
     def copy(self):
         new_model = Model()
         new_model.logger = self.logger
@@ -708,13 +658,14 @@ class Model:
         new_model.strategy = self.strategy
         new_model.rules = self.rules
         new_model.problem_type = self.problem_type
-
         new_model.domain_name = self.domain_name
         new_model.problem_name = self.problem_name
         new_model.function_schemas = self.function_schemas
         new_model.action_schemas = self.action_schemas
         new_model.entities = self.entities
         new_model.ontic_functions = copy.deepcopy(self.ontic_functions)
+        new_model.history_functions = self.history_functions[:]
+        new_model.history_actions = self.history_actions[:]
         for agent in self.agents:
             new_model.agents.append(agent.copy())
         

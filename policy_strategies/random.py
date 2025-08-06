@@ -15,5 +15,6 @@ class Random(AbstractPolicyStrategy):
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
         successors = model.get_agent_successors(agent_name)
-        action = random.choice(successors) if successors else None
-        return action if util.is_valid_action(model.ontic_functions, action) else None
+        successors = [succ for succ in successors if util.is_valid_action(model, succ, agent_name)]
+        return random.choice(successors) if successors else None
+        

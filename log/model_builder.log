@@ -1,114 +1,100 @@
-2025-07-25 23:16:36,288 INFO - __main__._.<module>:
+2025-08-06 19:01:29,488 INFO - __main__._.<module>:
 Start building the model, type: "True"
-2025-07-25 23:16:36,289 INFO - epistemic_handler.model_builder._.build:
+2025-08-06 19:01:29,488 INFO - epistemic_handler.model_builder._.build:
 Start building the model, type: "True"
-2025-07-25 23:16:36,289 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain "models/corridor/domain.pddl" start initialization.
-2025-07-25 23:16:36,289 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain Parser found "models/corridor/domain.pddl"
-2025-07-25 23:16:36,289 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
 Complete file reading.
-2025-07-25 23:16:36,289 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain name found
-2025-07-25 23:16:36,289 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain type found
-2025-07-25 23:16:36,290 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-06 19:01:29,490 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain functions found
-2025-07-25 23:16:36,291 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-06 19:01:29,492 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain actions found
-2025-07-25 23:16:36,291 INFO - epistemic_handler.file_parser.ProblemParser.run:
-Problem "models/corridor/2a2i_1" start initialization.
-2025-07-25 23:16:36,291 INFO - epistemic_handler.file_parser.ProblemParser.get_files:
-Problem folder found "models/corridor/2a2i_1"
-2025-07-25 23:16:36,291 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-06 19:01:29,493 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Problem "models/corridor/2a1i_1" start initialization.
+2025-08-06 19:01:29,493 INFO - epistemic_handler.file_parser.ProblemParser.get_files:
+Problem folder found "models/corridor/2a1i_1"
+2025-08-06 19:01:29,493 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Found 2 agent files:
-"models/corridor/2a2i_1/a.agtpddl"
-"models/corridor/2a2i_1/b.agtpddl"
-2025-07-25 23:16:36,291 INFO - epistemic_handler.file_parser.ProblemParser.run:
-Found init file: "models/corridor/2a2i_1/init.envpddl"
-2025-07-25 23:16:36,291 INFO - epistemic_handler.file_parser.ProblemParser.run:
+"models/corridor/2a1i_1/a.agtpddl"
+"models/corridor/2a1i_1/b.agtpddl"
+2025-08-06 19:01:29,494 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Found init file: "models/corridor/2a1i_1/init.envpddl"
+2025-08-06 19:01:29,494 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Complete reading environment file.
-2025-07-25 23:16:36,292 INFO - epistemic_handler.file_parser.ProblemParser.run:
-Copmlete reading agent file "models/corridor/2a2i_1/a.agtpddl"
-2025-07-25 23:16:36,292 INFO - epistemic_handler.file_parser.ProblemParser.run:
-Copmlete reading agent file "models/corridor/2a2i_1/b.agtpddl"
-2025-07-25 23:16:36,292 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-06 19:01:29,494 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Copmlete reading agent file "models/corridor/2a1i_1/a.agtpddl"
+2025-08-06 19:01:29,495 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Copmlete reading agent file "models/corridor/2a1i_1/b.agtpddl"
+2025-08-06 19:01:29,495 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem domain name "corridor" found
-Problem name "corridor_2a2i_1" found
-2025-07-25 23:16:36,292 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Problem name "corridor_2a1i_1" found
+2025-08-06 19:01:29,496 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem agents found
-2025-07-25 23:16:36,293 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-06 19:01:29,496 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem objects found
-2025-07-25 23:16:36,294 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-06 19:01:29,497 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem ranges found
-2025-07-25 23:16:36,294 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-06 19:01:29,497 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem initial states found
-2025-07-25 23:16:36,294 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-06 19:01:29,497 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem goals found
-2025-07-25 23:16:36,294 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,497 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 checking the validity...
-2025-07-25 23:16:36,294 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
-Valid names: ['a', 'b', 'i', 'j', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
-2025-07-25 23:16:36,294 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,498 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'i', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
+2025-08-06 19:01:29,498 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the states
-2025-07-25 23:16:36,294 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,498 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the goals
-2025-07-25 23:16:36,295 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,499 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the ranges
-2025-07-25 23:16:36,295 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,499 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the actions
-2025-07-25 23:16:36,296 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,499 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-07-25 23:16:36,296 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,500 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 checking the validity...
-2025-07-25 23:16:36,296 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
-Valid names: ['a', 'b', 'i', 'j', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
-2025-07-25 23:16:36,296 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,500 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'i', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
+2025-08-06 19:01:29,500 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the states
-2025-07-25 23:16:36,296 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,500 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the goals
-2025-07-25 23:16:36,296 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,500 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the ranges
-2025-07-25 23:16:36,296 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,501 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the actions
-2025-07-25 23:16:36,297 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-06 19:01:29,501 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-07-25 23:16:36,298 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-08-06 19:01:29,502 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded observation function: CorridorObsFunc
-2025-07-25 23:16:36,300 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-08-06 19:01:29,507 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded policy strategy: CompleteBFS
-2025-07-25 23:16:36,301 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-08-06 19:01:29,508 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded rules: CorridorRules
-2025-07-25 23:16:36,302 DEBUG - epistemic_handler.model_builder._.build_model:
+2025-08-06 19:01:29,509 DEBUG - epistemic_handler.model_builder._.build_model:
 Model:
 ================= Model Result================
 Domain name: corridor
-Problem name: corridor_2a2i_1
+Problem name: corridor_2a1i_1
 Problem type: "COOPERATIVE"
 =================
 Entity(a - agent)
 Entity(b - agent)
 Entity(i - item)
-Entity(j - item)
 =================
 FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?a': 'agent'})
 FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
 FunctionSchema(name: holding, range: (0, 1), type: "INTEGER", require_parameters: {'?a': 'agent'})
 FunctionSchema(name: hold_by, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item', '?a': 'agent'})
 FunctionSchema(name: is_free, range: (0, 1), type: "INTEGER", require_parameters: {'?i': 'item'})
-=================
-Function(agent_loc ['?a - a'] = 1)
-Function(holding ['?a - a'] = 1)
-Function(hold_by ['?i - i', '?a - a'] = 1)
-Function(hold_by ['?i - j', '?a - a'] = 0)
-Function(agent_loc ['?a - b'] = 2)
-Function(holding ['?a - b'] = 1)
-Function(hold_by ['?i - i', '?a - b'] = 0)
-Function(hold_by ['?i - j', '?a - b'] = 1)
-Function(item_loc ['?i - i'] = 1)
-Function(item_loc ['?i - j'] = 2)
-Function(is_free ['?i - i'] = 0)
-Function(is_free ['?i - j'] = 0)
 =================
 -----------------
 Action Schema: move_right_without_item
@@ -175,30 +161,69 @@ EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 0)
 EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 1)
 
 =================
+Function(agent_loc ['a'] = 1)
+Function(agent_loc ['b'] = 1)
+Function(holding ['a'] = 1)
+Function(holding ['b'] = 0)
+Function(hold_by ['i', 'a'] = 1)
+Function(hold_by ['i', 'b'] = 0)
+Function(item_loc ['i'] = 1)
+Function(is_free ['i'] = 0)
+=================
 Agent: a
-Functions:
+Goal completed: 'False'
 Own Goals:
-Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
-Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'j', '?a': 'a'} = 1)
+Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'a'} = 1)
+Condition(("EP_EQUAL" ['a', 'b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'a'} = 0)
 Other Goals:
 b:
-Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
-Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'j', '?a': 'a'} = 1)
-*****************
-History Functions:
+Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
 
 Agent: b
-Functions:
+Goal completed: 'False'
 Own Goals:
-Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
-Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'j', '?a': 'a'} = 1)
+Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
 Other Goals:
 a:
-Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 1)
-Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'j', '?a': 'a'} = 1)
-*****************
-History Functions:
+Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'a'} = 1)
+Condition(("EP_EQUAL" ['a', 'b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'a'} = 0)
 
 
-2025-07-25 23:16:36,302 INFO - __main__._.<module>:
+2025-08-06 19:01:29,510 INFO - __main__._.<module>:
 Model built successfully.
+2025-08-06 19:01:29,623 INFO - epistemic_handler.epistemic_class.Model.simulate:
+====== Solution ======
+Step 1:
+Function(agent_loc ['a'] = 1)
+Function(agent_loc ['b'] = 1)
+Function(holding ['a'] = 1)
+Function(holding ['b'] = 0)
+Function(hold_by ['i', 'a'] = 1)
+Function(hold_by ['i', 'b'] = 0)
+Function(item_loc ['i'] = 1)
+Function(is_free ['i'] = 0)
+a: drop_item(['a', 'i'])
+-----------------
+Step 2:
+Function(agent_loc ['a'] = 1)
+Function(agent_loc ['b'] = 1)
+Function(holding ['a'] = 0)
+Function(holding ['b'] = 0)
+Function(hold_by ['i', 'a'] = 0)
+Function(hold_by ['i', 'b'] = 0)
+Function(item_loc ['i'] = 1)
+Function(is_free ['i'] = 1)
+b: move_right_without_item(['b'])
+-----------------
+Step 3:
+Function(agent_loc ['a'] = 1)
+Function(agent_loc ['b'] = 2)
+Function(holding ['a'] = 0)
+Function(holding ['b'] = 0)
+Function(hold_by ['i', 'a'] = 0)
+Function(hold_by ['i', 'b'] = 0)
+Function(item_loc ['i'] = 1)
+Function(is_free ['i'] = 1)
+a: pick_up(['a', 'i'])
+-----------------
+

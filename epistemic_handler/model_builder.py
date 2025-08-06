@@ -144,7 +144,7 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 new_goal = Condition()
                 if isinstance(parsing_goal, ParsingEpistemicCondition):
                     new_goal.ep_operator = EPISTEMIC_OPERATOR_MAPS[parsing_goal.epistemic_logic_operator]
-                    new_goal.belief_sequence = parsing_goal.belief_sequence
+                    new_goal.belief_sequence = util.remove_continue_duplicates(parsing_goal.belief_sequence)
                     new_goal.ep_truth = EPISTEMIC_TRUTH_MAPS[parsing_goal.epistemic_truth]
                 new_goal.condition_operator = CONDITION_OPERATOR_MAPS[parsing_goal.logic_operator]
                 condition_function_schema = model.get_function_schema_by_name(parsing_goal.state.variable.name)

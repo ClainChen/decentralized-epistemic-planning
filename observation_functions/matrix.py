@@ -10,73 +10,75 @@ class MatrixObsFunc(AbstractObservationFunction):
     def __init__(self, handler, logger_level=LOGGER_LEVEL):
         self.logger = util.setup_logger(__name__, handler, logger_level=LOGGER_LEVEL)
     
-    def get_observable_functions(self, ontic_functions: list[Function], agent_name: str) -> list[Function]:
+    def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
         """
-        Get all observable functions for an agent based on the given ontic_functions\n
+        1. agent_name知道一切与自己在同房间中的信息
+            1.1 如果ontic functions中没有agent_name所在的房间，该agent_name只能从ontic functions获取connections信息和与自己有关的信息。
+        2. 检测该ontic functions是否是对现实世界进行观测，如果是，则会判断是否所有item都与自己在同一个房间，如果所有item都与自己在同一个房间，则代表该agent_name知道任何不在该房间的其他agent都不会拿着任何item
+        """
+        observable_functions = set()
+        agent_loc_funcs = []
+        item_loc_funcs = []
+        connected_funcs = []
+        holding_funcs = []
+        hold_by_funcs = []
+        is_free_funcs = []
+        for func in functions:
+            if func.name == 'agent_loc':
+                agent_loc_funcs.append(func)
+            elif func.name == 'item_loc':
+                item_loc_funcs.append(func)
+            elif func.name == 'connected':
+                connected_funcs.append(func)
+            elif func.name == 'holding':
+                holding_funcs.append(func)
+            elif func.name == 'hold_by':
+                hold_by_funcs.append(func)
+            elif func.name == 'is_free':
+                is_free_funcs.append(func)
         
-        Agent's own observable functions:\n
-        1. agent knows all functions in the same room with them.
-        3. if agent knows an item is in the same room with agent, then he knows whether or not this item is holding by the agent.
-        4. if all items are in the same room with agent, then agent knows all agents in another room is not holding any item.
-        """
-        observable_functions = []
-        agent_at_room = {}
-        item_at_room = {}
-        all_item_in_same_room = True
+        for func in connected_funcs:
+            observable_functions.add(func)
+        
+        agent_at = {}
+        for func in agent_loc_funcs:
+            if func.value == 1 and func.parameters['?a'] not in agent_at:
+                agent_at[func.parameters['?a']] = func.parameters['?loc']
+
+        item_at = {}
+        for func in item_loc_funcs:
+            if func.value == 1 and func.parameters['?i'] not in item_at:
+                item_at[func.parameters['?i']] = func.parameters['?loc']
+
         try:
-            for function in ontic_functions:
-                if function.name == 'agent_loc':
-                    if function.value == 1:
-                        agent_at_room[function.parameters['?a']] = function.parameters['?loc']
+            # agent知道所有与自己有关的functions
+            for func in agent_loc_funcs + hold_by_funcs + holding_funcs:
+                if func.parameters['?a'] == agent_name:
+                    observable_functions.add(func)
 
-            for function in ontic_functions:
-                if function.name == 'item_loc':
-                    if function.value == 1:
-                        item_at_room[function.parameters['?i']] = function.parameters['?loc']
-                    if function.parameters['?loc'] != agent_at_room[agent_name]:
-                        all_item_in_same_room = False
+            # agent知道所有与自己当前所在房间相关的functions
+            # agent知道所有与自己在同一房间中其他agent有关的functions
+            # 如果在functions中没有agent_name的位置，那么只会返回与agent_name有关的functions
+            if agent_name in agent_at:
+                for func in agent_loc_funcs:
+                    if func.parameters['?loc'] == agent_at[agent_name]:
+                        observable_functions.add(func)
+                for func in item_loc_funcs:
+                    if func.parameters['?loc'] == agent_at[agent_name]:
+                        observable_functions.add(func)
+                for func in hold_by_funcs:
+                    if func.parameters['?a'] in agent_at and agent_at[func.parameters['?a']] == agent_at[agent_name]:
+                        observable_functions.add(func)
+                    elif func.parameters['?i'] in item_at and item_at[func.parameters['?i']] == agent_at[agent_name]:
+                        observable_functions.add(func)
+                for func in holding_funcs:
+                    if func.parameters['?a'] in agent_at and agent_at[func.parameters['?a']] == agent_at[agent_name]:
+                        observable_functions.add(func)
+                for func in is_free_funcs:
+                    if func.parameters['?i'] in item_at and item_at[func.parameters['?i']] == agent_at[agent_name]:
+                        observable_functions.add(func)
 
-            # self.logger.debug(f"agent at room: {agent_at_room}\nitem at room: {item_at_room}")
-
-            for function in ontic_functions:
-                if function.name == 'connected':
-                    observable_functions.append(function)
-                
-                elif function.name == 'agent_loc':
-                    # If the functions do not have the agent's location, the perspective will only have the agent knows he is not at the same room as me
-                    if agent_name not in agent_at_room:
-                        if function.parameters['?a'] == agent_name:
-                            observable_functions.append(function)
-                    # If the functions 
-                    elif function.parameters['?loc'] == agent_at_room[agent_name]:
-                        observable_functions.append(copy.deepcopy(function))
-                
-                elif function.name == 'item_loc':
-                    if agent_name not in agent_at_room:
-                        continue
-                    elif function.parameters['?loc'] == agent_at_room[agent_name]:
-                        observable_functions.append(copy.deepcopy(function))
-
-                elif function.name == 'holding':
-                    # check whether the holding agent is at the same room as current agent
-                    if agent_name not in agent_at_room:
-                        continue
-                    if (all_item_in_same_room
-                        or agent_at_room[function.parameters['?a']] == agent_at_room[agent_name]):
-                        observable_functions.append(copy.deepcopy(function))
-
-                elif function.name == 'hold_by':
-                    # check whether the holding agent is at the same room as current agent
-                    if (agent_at_room[function.parameters['?a']] == agent_at_room[agent_name]
-                        or item_at_room[function.parameters['?i']] == agent_at_room[agent_name]):
-                        observable_functions.append(copy.deepcopy(function))
-
-                elif function.name == 'is_free':
-                    # check whether the item is at the same room as current agent
-                    if item_at_room[function.parameters['?i']] == agent_at_room[agent_name]:
-                        observable_functions.append(copy.deepcopy(function))
-            
-            return observable_functions
+            return list(observable_functions)
         except KeyError as e:
             self.logger.error(e)
             raise e

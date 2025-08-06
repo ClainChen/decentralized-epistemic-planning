@@ -10,7 +10,7 @@ class CorridorObsFunc(AbstractObservationFunction):
     def __init__(self, handler, logger_level=LOGGER_LEVEL):
         self.logger = util.setup_logger(__name__, handler, logger_level=LOGGER_LEVEL)
     
-    def get_observable_functions(self, ontic_functions: list[Function], agent_name: str) -> list[Function]:
+    def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
         """
         Get all observable functions for an agent based on the given ontic_functions\n
         
@@ -20,44 +20,44 @@ class CorridorObsFunc(AbstractObservationFunction):
         3. if agent knows an item is in the same room with agent, then he knows whether or not this item is holding by the agent.
         4. if all items are in the same room with agent, then agent knows all agents in another room is not holding any item.
         """
-        observable_functions = []
+        observable_functions = set()
         agent_at_room = {}
         item_at_room = {}
         all_item_in_same_room = True
         try:
-            for function in ontic_functions:
+            for function in functions:
                 if function.name == 'agent_loc':
                     agent_at_room[function.parameters['?a']] = function.value
-                    observable_functions.append(copy.deepcopy(function))
+                    observable_functions.add(copy.deepcopy(function))
 
-            for function in ontic_functions:
+            for function in functions:
                 if function.name == 'item_loc':
                     item_at_room[function.parameters['?i']] = function.value
-                    observable_functions.append(copy.deepcopy(function))
+                    observable_functions.add(copy.deepcopy(function))
                     if function.value != agent_at_room[agent_name]:
                         all_item_in_same_room = False
 
             # self.logger.debug(f"agent at room: {agent_at_room}\nitem at room: {item_at_room}")
 
-            for function in ontic_functions:
+            for function in functions:
                 if function.name == 'holding':
                     # check whether the holding agent is at the same room as current agent
                     if (all_item_in_same_room
                         or agent_at_room[function.parameters['?a']] == agent_at_room[agent_name]):
-                        observable_functions.append(copy.deepcopy(function))
+                        observable_functions.add(copy.deepcopy(function))
 
                 elif function.name == 'hold_by':
                     # check whether the holding agent is at the same room as current agent
                     if (agent_at_room[function.parameters['?a']] == agent_at_room[agent_name]
                         or item_at_room[function.parameters['?i']] == agent_at_room[agent_name]):
-                        observable_functions.append(copy.deepcopy(function))
+                        observable_functions.add(copy.deepcopy(function))
 
                 elif function.name == 'is_free':
                     # check whether the item is at the same room as current agent
                     if item_at_room[function.parameters['?i']] == agent_at_room[agent_name]:
-                        observable_functions.append(copy.deepcopy(function))
+                        observable_functions.add(copy.deepcopy(function))
             
-            return observable_functions
+            return list(observable_functions)
         except KeyError as e:
             return False
         except Exception as e:

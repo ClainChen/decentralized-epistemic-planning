@@ -29,6 +29,10 @@
         (is_free integer [0,1])
     )
 
+    (:goal_sets
+        
+    )
+
     (:rules
     )
 )

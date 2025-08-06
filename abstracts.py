@@ -11,7 +11,7 @@ class AbstractObservationFunction(ABC):
         self.logger = None
 
     @abstractmethod
-    def get_observable_functions(self, ontic_functions: list[Function], agent_name: str) -> list[Function]:
+    def get_observable_functions(self, model: Model,functions: list[Function], agent_name: str) -> list[Function]:
         pass
 
 class AbstractPolicyStrategy(ABC):
