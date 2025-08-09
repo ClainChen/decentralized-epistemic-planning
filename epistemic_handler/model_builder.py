@@ -2,6 +2,7 @@ import util
 from epistemic_handler.file_parser import *
 from epistemic_handler.epistemic_class import *
 from epistemic_handler.model_checker import *
+from epistemic_handler.problem_builder import *
 
 LOGGER_LEVEL = logging.DEBUG
 
@@ -48,6 +49,8 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 util.RULES_FOLDER_PATH + args.rules)
         model.domain_name = domain.name
         model.problem_name = problem.problem_name
+        model.acceptable_goal_set = problem.acceptable_goal_set
+        model.max_belief_depth = problem.max_belief_depth
 
         # build entities
         for agent_name in problem.agents:
@@ -60,12 +63,12 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
 
         # build ranges of each function schemas
         ranges = {}
-        for range in problem.ranges:
-            name = range.function_name
-            if range.type == 'integer':
-                ranges[name] = (range.min, range.max)
+        for r in problem.ranges:
+            name = r.function_name
+            if r.type == 'integer':
+                ranges[name] = (r.min, r.max)
             else:
-                ranges[name] = range.enumerates
+                ranges[name] = r.enumerates
         
         # build function schemas
         for parsing_function in domain.functions:
@@ -164,6 +167,19 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 for agent2 in model.agents:
                     if agent1.name != agent2.name:
                         agent1.other_goals[agent2.name] = agent2.own_goals
+        
+        # build possible belief sequences
+        agents = [agent.name for agent in model.agents]
+        belief_sequences = []
+        for d in range(1, model.max_belief_depth + 1):
+            belief_sequences += [list(comb) for comb in list(permutations(agents, d))]
+        model.possible_belief_sequences = belief_sequences
+
+        if model.problem_type == ProblemType.NEUTRAL:
+            problemBuilder = ProblemBuilder(model, handler)
+            for agent in model.agents:
+                all_goals = problemBuilder.get_all_poss_goals(agent.name)
+                agent.all_possible_goals = [cell for cell in all_goals if set(cell[agent.name]) == set(agent.own_goals)]
 
         logger.debug(f"Model:\n{model}")
         # if not check_goal_conflicts(model):

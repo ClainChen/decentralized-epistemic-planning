@@ -30,8 +30,10 @@
     )
 
     (:goal_sets
-        
+        hold_by
     )
+
+    (:max_belief_depth 1)
 
     (:rules
     )

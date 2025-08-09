@@ -3,7 +3,7 @@ import logging
 import sys
 import traceback
 import util
-from epistemic_handler import model_builder
+from epistemic_handler import model_builder, problem_builder
 
 c_logging_level = logging.INFO
 THIS_LOGGER_LEVEL = logging.DEBUG
@@ -62,6 +62,25 @@ if __name__ == '__main__':
             print("Model's functions are not following the rules.")
             exit(0)
         logger.info(f"Model built successfully.")
+
+        # problem_builder = problem_builder.ProblemBuilder(model, handler)
+        # all_world = problem_builder.get_all_init_ontic_world()
+        # agent_goal_set = problem_builder.get_all_poss_goals(depth=2)
+        # problem_builder.get_all_poss_problem(all_world, agent_goal_set)
+        # for agent, goals in agent_goal_set.items():
+        #     result = f"\n{agent} goals:\n"
+        #     for comb in goals:
+        #         for g in comb:
+        #             result += f"{g}\n"
+        #         result += "\n"
+        #     logger.debug(result)
+        # print(sum([len(x) for x in agent_goal_set.values()]))
+        # for world in all_world:
+        #     result = "\n"
+        #     for func in world:
+        #         result += f"{func}\n"
+        #     logger.debug(result)
+        # print(len(all_world))
 
 
         model.simulate()

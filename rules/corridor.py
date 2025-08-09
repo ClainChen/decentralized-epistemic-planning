@@ -79,10 +79,16 @@ class CorridorRules(AbstractRules):
         # 1. agent和item必然在同一个房间中。
         # 2. agent必然holding item = 1
         # 3. item必然is free = 0
+        # 4. 必然不会有另一个agent正在hold同一个item
         for hold_by_func in hold_by_funcs:
             if hold_by_func.value == 1:
                 if agent_loc[hold_by_func.parameters['?a']] != item_loc[hold_by_func.parameters['?i']]:
                     return False
+                for hold_by_func2 in hold_by_funcs:
+                    if (hold_by_func2.value == 1
+                        and hold_by_func2.parameters['?a'] != hold_by_func.parameters['?a']
+                        and hold_by_func2.parameters['?i'] == hold_by_func.parameters['?i']):
+                        return False
                 for holding_func in holding_funcs:
                     if (holding_func.parameters['?a'] == hold_by_func.parameters['?a']
                         and holding_func.value == 0):
@@ -104,5 +110,3 @@ class CorridorRules(AbstractRules):
                 return False
 
         return True
-
-    

@@ -1,94 +1,99 @@
-2025-08-06 19:01:29,488 INFO - __main__._.<module>:
-Start building the model, type: "True"
-2025-08-06 19:01:29,488 INFO - epistemic_handler.model_builder._.build:
-Start building the model, type: "True"
-2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-09 21:46:11,014 INFO - __main__._.<module>:
+Start building the model, type: "False"
+2025-08-09 21:46:11,015 INFO - epistemic_handler.model_builder._.build:
+Start building the model, type: "False"
+2025-08-09 21:46:11,015 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain "models/corridor/domain.pddl" start initialization.
-2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-09 21:46:11,015 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain Parser found "models/corridor/domain.pddl"
-2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-09 21:46:11,015 INFO - epistemic_handler.file_parser.DomainParser.run:
 Complete file reading.
-2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-09 21:46:11,016 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain name found
-2025-08-06 19:01:29,489 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-09 21:46:11,016 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain type found
-2025-08-06 19:01:29,490 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-09 21:46:11,017 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain functions found
-2025-08-06 19:01:29,492 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-09 21:46:11,018 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain actions found
-2025-08-06 19:01:29,493 INFO - epistemic_handler.file_parser.ProblemParser.run:
-Problem "models/corridor/2a1i_1" start initialization.
-2025-08-06 19:01:29,493 INFO - epistemic_handler.file_parser.ProblemParser.get_files:
-Problem folder found "models/corridor/2a1i_1"
-2025-08-06 19:01:29,493 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-09 21:46:11,018 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Problem "models/corridor/2a2i_1" start initialization.
+2025-08-09 21:46:11,019 INFO - epistemic_handler.file_parser.ProblemParser.get_files:
+Problem folder found "models/corridor/2a2i_1"
+2025-08-09 21:46:11,019 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Found 2 agent files:
-"models/corridor/2a1i_1/a.agtpddl"
-"models/corridor/2a1i_1/b.agtpddl"
-2025-08-06 19:01:29,494 INFO - epistemic_handler.file_parser.ProblemParser.run:
-Found init file: "models/corridor/2a1i_1/init.envpddl"
-2025-08-06 19:01:29,494 INFO - epistemic_handler.file_parser.ProblemParser.run:
+"models/corridor/2a2i_1/a.agtpddl"
+"models/corridor/2a2i_1/b.agtpddl"
+2025-08-09 21:46:11,019 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Found init file: "models/corridor/2a2i_1/init.envpddl"
+2025-08-09 21:46:11,019 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Complete reading environment file.
-2025-08-06 19:01:29,494 INFO - epistemic_handler.file_parser.ProblemParser.run:
-Copmlete reading agent file "models/corridor/2a1i_1/a.agtpddl"
-2025-08-06 19:01:29,495 INFO - epistemic_handler.file_parser.ProblemParser.run:
-Copmlete reading agent file "models/corridor/2a1i_1/b.agtpddl"
-2025-08-06 19:01:29,495 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-09 21:46:11,019 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Copmlete reading agent file "models/corridor/2a2i_1/a.agtpddl"
+2025-08-09 21:46:11,020 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Copmlete reading agent file "models/corridor/2a2i_1/b.agtpddl"
+2025-08-09 21:46:11,021 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem domain name "corridor" found
-Problem name "corridor_2a1i_1" found
-2025-08-06 19:01:29,496 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Problem name "corridor_2a2i_1" found
+2025-08-09 21:46:11,021 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem agents found
-2025-08-06 19:01:29,496 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-09 21:46:11,022 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem objects found
-2025-08-06 19:01:29,497 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-09 21:46:11,022 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem ranges found
-2025-08-06 19:01:29,497 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-09 21:46:11,022 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem initial states found
-2025-08-06 19:01:29,497 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-09 21:46:11,023 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem goals found
-2025-08-06 19:01:29,497 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,023 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Problem acceptable goal set found
+2025-08-09 21:46:11,024 INFO - epistemic_handler.file_parser.ProblemParser.run:
+Problem max belief depth found
+2025-08-09 21:46:11,024 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 checking the validity...
-2025-08-06 19:01:29,498 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
-Valid names: ['a', 'b', 'i', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
-2025-08-06 19:01:29,498 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,024 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'i', 'j', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
+2025-08-09 21:46:11,024 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the states
-2025-08-06 19:01:29,498 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,024 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the goals
-2025-08-06 19:01:29,499 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,024 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the ranges
-2025-08-06 19:01:29,499 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,025 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the actions
-2025-08-06 19:01:29,499 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,025 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-08-06 19:01:29,500 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,025 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 checking the validity...
-2025-08-06 19:01:29,500 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
-Valid names: ['a', 'b', 'i', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
-2025-08-06 19:01:29,500 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,025 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'i', 'j', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
+2025-08-09 21:46:11,026 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the states
-2025-08-06 19:01:29,500 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,026 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the goals
-2025-08-06 19:01:29,500 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,026 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the ranges
-2025-08-06 19:01:29,501 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,026 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the actions
-2025-08-06 19:01:29,501 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-09 21:46:11,027 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-08-06 19:01:29,502 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-08-09 21:46:11,030 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded observation function: CorridorObsFunc
-2025-08-06 19:01:29,507 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-08-09 21:46:11,030 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded policy strategy: CompleteBFS
-2025-08-06 19:01:29,508 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-08-09 21:46:11,031 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded rules: CorridorRules
-2025-08-06 19:01:29,509 DEBUG - epistemic_handler.model_builder._.build_model:
+2025-08-09 21:49:56,876 DEBUG - epistemic_handler.model_builder._.build_model:
 Model:
 ================= Model Result================
 Domain name: corridor
-Problem name: corridor_2a1i_1
-Problem type: "COOPERATIVE"
+Problem name: corridor_2a2i_1
+Problem type: "NEUTRAL"
 =================
 Entity(a - agent)
 Entity(b - agent)
 Entity(i - item)
+Entity(j - item)
 =================
 FunctionSchema(name: agent_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?a': 'agent'})
 FunctionSchema(name: item_loc, range: (1, 2), type: "INTEGER", require_parameters: {'?i': 'item'})
@@ -162,68 +167,618 @@ EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 1)
 
 =================
 Function(agent_loc ['a'] = 1)
-Function(agent_loc ['b'] = 1)
 Function(holding ['a'] = 1)
-Function(holding ['b'] = 0)
 Function(hold_by ['i', 'a'] = 1)
+Function(hold_by ['j', 'a'] = 0)
+Function(agent_loc ['b'] = 2)
+Function(holding ['b'] = 1)
 Function(hold_by ['i', 'b'] = 0)
+Function(hold_by ['j', 'b'] = 1)
 Function(item_loc ['i'] = 1)
+Function(item_loc ['j'] = 2)
 Function(is_free ['i'] = 0)
+Function(is_free ['j'] = 0)
 =================
 Agent: a
 Goal completed: 'False'
 Own Goals:
-Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'a'} = 1)
-Condition(("EP_EQUAL" ['a', 'b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'a'} = 0)
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
 Other Goals:
+All Possible Goals:
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
 b:
-Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
+Condition(['b'] hold_by ['i', 'a'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'a'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 0)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'a'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 0)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 0)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 0)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
 
 Agent: b
 Goal completed: 'False'
 Own Goals:
-Condition(("EP_EQUAL" ['b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'b'} = 0)
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
 Other Goals:
+All Possible Goals:
 a:
-Condition(("EP_EQUAL" ['a'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'a'} = 1)
-Condition(("EP_EQUAL" ['a', 'b'] "EP_TRUE") "EQUAL" hold_by {'?i': 'i', '?a': 'a'} = 0)
+Condition(['a'] hold_by ['i', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['j', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['j', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['j', 'a'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 0)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'a'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 0)
+b:
+Condition(['b'] hold_by ['i', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
 
 
-2025-08-06 19:01:29,510 INFO - __main__._.<module>:
+2025-08-09 21:49:56,877 INFO - __main__._.<module>:
 Model built successfully.
-2025-08-06 19:01:29,623 INFO - epistemic_handler.epistemic_class.Model.simulate:
+2025-08-09 21:53:21,356 DEBUG - epistemic_handler.epistemic_class.Model.update_belief_goals:
+a's belief other goals:
+
+b's belief other goals:
+a:
+Condition(['a'] hold_by ['j', 'b'] = 0)
+-----------------
+
+
+2025-08-09 21:54:04,209 DEBUG - epistemic_handler.epistemic_class.Model.update_belief_goals:
+a's belief other goals:
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+-----------------
+
+b's belief other goals:
+a:
+Condition(['a'] hold_by ['j', 'b'] = 0)
+-----------------
+
+
+2025-08-09 21:54:26,091 DEBUG - epistemic_handler.epistemic_class.Model.update_belief_goals:
+a's belief other goals:
+b:
+Condition(['b'] hold_by ['i', 'a'] = 0)
+-----------------
+
+b's belief other goals:
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 1)
+-----------------
+
+
+2025-08-09 21:54:26,883 DEBUG - epistemic_handler.epistemic_class.Model.update_belief_goals:
+a's belief other goals:
+b:
+Condition(['b'] hold_by ['j', 'a'] = 1)
+-----------------
+
+b's belief other goals:
+a:
+Condition(['a'] hold_by ['i', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 1)
+-----------------
+
+
+2025-08-09 21:54:27,398 INFO - epistemic_handler.epistemic_class.Model.simulate:
 ====== Solution ======
 Step 1:
 Function(agent_loc ['a'] = 1)
-Function(agent_loc ['b'] = 1)
 Function(holding ['a'] = 1)
-Function(holding ['b'] = 0)
 Function(hold_by ['i', 'a'] = 1)
+Function(hold_by ['j', 'a'] = 0)
+Function(agent_loc ['b'] = 2)
+Function(holding ['b'] = 1)
 Function(hold_by ['i', 'b'] = 0)
+Function(hold_by ['j', 'b'] = 1)
 Function(item_loc ['i'] = 1)
+Function(item_loc ['j'] = 2)
 Function(is_free ['i'] = 0)
-a: drop_item(['a', 'i'])
+Function(is_free ['j'] = 0)
+a: move_right_with_item(['a', 'i'])
+{'a': False, 'b': False}
 -----------------
 Step 2:
-Function(agent_loc ['a'] = 1)
-Function(agent_loc ['b'] = 1)
-Function(holding ['a'] = 0)
-Function(holding ['b'] = 0)
-Function(hold_by ['i', 'a'] = 0)
+Function(agent_loc ['a'] = 2)
+Function(holding ['a'] = 1)
+Function(hold_by ['i', 'a'] = 1)
+Function(hold_by ['j', 'a'] = 0)
+Function(agent_loc ['b'] = 2)
+Function(holding ['b'] = 1)
 Function(hold_by ['i', 'b'] = 0)
-Function(item_loc ['i'] = 1)
-Function(is_free ['i'] = 1)
-b: move_right_without_item(['b'])
+Function(hold_by ['j', 'b'] = 1)
+Function(item_loc ['i'] = 2)
+Function(item_loc ['j'] = 2)
+Function(is_free ['i'] = 0)
+Function(is_free ['j'] = 0)
+b: drop_item(['b', 'j'])
+{'a': False, 'b': False}
 -----------------
 Step 3:
-Function(agent_loc ['a'] = 1)
+Function(agent_loc ['a'] = 2)
+Function(holding ['a'] = 1)
+Function(hold_by ['i', 'a'] = 1)
+Function(hold_by ['j', 'a'] = 0)
 Function(agent_loc ['b'] = 2)
-Function(holding ['a'] = 0)
 Function(holding ['b'] = 0)
-Function(hold_by ['i', 'a'] = 0)
 Function(hold_by ['i', 'b'] = 0)
-Function(item_loc ['i'] = 1)
+Function(hold_by ['j', 'b'] = 0)
+Function(item_loc ['i'] = 2)
+Function(item_loc ['j'] = 2)
+Function(is_free ['i'] = 0)
+Function(is_free ['j'] = 1)
+a: drop_item(['a', 'i'])
+{'a': False, 'b': False}
+-----------------
+Step 4:
+Function(agent_loc ['a'] = 2)
+Function(holding ['a'] = 0)
+Function(hold_by ['i', 'a'] = 0)
+Function(hold_by ['j', 'a'] = 0)
+Function(agent_loc ['b'] = 2)
+Function(holding ['b'] = 0)
+Function(hold_by ['i', 'b'] = 0)
+Function(hold_by ['j', 'b'] = 0)
+Function(item_loc ['i'] = 2)
+Function(item_loc ['j'] = 2)
 Function(is_free ['i'] = 1)
-a: pick_up(['a', 'i'])
+Function(is_free ['j'] = 1)
+b: pick_up(['b', 'i'])
+{'a': False, 'b': False}
+-----------------
+Step 5:
+Function(agent_loc ['a'] = 2)
+Function(holding ['a'] = 0)
+Function(hold_by ['i', 'a'] = 0)
+Function(hold_by ['j', 'a'] = 0)
+Function(agent_loc ['b'] = 2)
+Function(holding ['b'] = 1)
+Function(hold_by ['i', 'b'] = 1)
+Function(hold_by ['j', 'b'] = 0)
+Function(item_loc ['i'] = 2)
+Function(item_loc ['j'] = 2)
+Function(is_free ['i'] = 0)
+Function(is_free ['j'] = 1)
+a: pick_up(['a', 'j'])
+{'a': False, 'b': False}
 -----------------
 

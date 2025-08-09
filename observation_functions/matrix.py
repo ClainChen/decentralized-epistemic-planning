@@ -61,10 +61,16 @@ class MatrixObsFunc(AbstractObservationFunction):
             # 如果在functions中没有agent_name的位置，那么只会返回与agent_name有关的functions
             if agent_name in agent_at:
                 for func in agent_loc_funcs:
-                    if func.parameters['?loc'] == agent_at[agent_name]:
+                    if (func.parameters['?loc'] == agent_at[agent_name] or 
+                        (func.parameters['?a'] in agent_at and
+                         agent_at[func.parameters['?a']] == agent_at[agent_name])
+                        ):
                         observable_functions.add(func)
                 for func in item_loc_funcs:
-                    if func.parameters['?loc'] == agent_at[agent_name]:
+                    if (func.parameters['?loc'] == agent_at[agent_name] or 
+                        (func.parameters['?i'] in item_at and
+                         item_at[func.parameters['?i']] == agent_at[agent_name])
+                        ):
                         observable_functions.add(func)
                 for func in hold_by_funcs:
                     if func.parameters['?a'] in agent_at and agent_at[func.parameters['?a']] == agent_at[agent_name]:

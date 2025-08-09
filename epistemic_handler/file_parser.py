@@ -32,6 +32,8 @@ RANGES_EXTRACT_REGEX = r"\(:ranges$\n([\s\S]+?)^\s+\)"
 RANGES_SPLIT_REGEX = r"\((.+) (\w+) \[(.+)\]\)"
 AGENT_INIT_REGEX = r"\(:init$\n([\s\S]*?)^\s+\)"
 INIT_STATE_EXTRACT_REGEX = r"\(:init$\n([\s\S]*?)^\s+\)"
+GOAL_SET_REGEX = r"\(:goal_sets\s*\n\s+(.+)\n\s+\)"
+MAX_BELIEF_DEPTH_REGEX = r"\(:max_belief_depth (\d+)\)"
 # SHARED_INIT_STATE_EXTRACT_REGEX = r"\(:shared-init$\n([\s\S]*?)^\s+\)"
 INIT_STATE_SPLIT_REGEX = r"assign \((.+?)\) \(?('\w+'|\d*|.+?)\){1,2}"
 AGENT_NAME_REGEX = r"\(:agent (\w+)\)"
@@ -255,6 +257,8 @@ class ParsingProblem:
         self.states: list[ParsingState] = dict()
         self.ranges: list[ParsingRange] = []
         self.goals: dict[str, list[ParsingCondition | ParsingEpistemicCondition]] = dict()
+        self.acceptable_goal_set: list[str] = []
+        self.max_belief_depth: int = 1
     
     def __str__(self):
         result = f"============ Problem \"({self.domain_name} : {self.problem_name})\" Parsing Result ===========\n"
@@ -564,6 +568,13 @@ class ProblemParser:
             parsing_problem.goals = self.get_goals(parsing_problem.agents, agt_contents)
             self.logger.info(f"Problem goals found")
 
+            # get acceptable goal set
+            parsing_problem.acceptable_goal_set = self.get_acceptable_goal_set(env_content)
+            self.logger.info(f"Problem acceptable goal set found")
+
+            parsing_problem.max_belief_depth = self.get_max_belief_depth(env_content)
+            self.logger.info(f"Problem max belief depth found")
+
             self.logger.debug(f"Parsed Problem Result:\n{parsing_problem}")
             return parsing_problem
         except Exception as e:
@@ -716,3 +727,13 @@ class ProblemParser:
             for goal_line in goal_lines:
                 goals[agt].append(convert_str_to_parsing_condition(goal_line, self.logger))
         return goals
+
+    def get_acceptable_goal_set(self, env_content) -> list[str]:
+        goal_set_line = util.regex_search(GOAL_SET_REGEX, env_content, self.logger)
+        goal_set = goal_set_line[0].split()
+        # print(goal_set)
+        return goal_set
+
+    def get_max_belief_depth(self, env_content) -> int:
+        max_belief_depth = util.regex_search(MAX_BELIEF_DEPTH_REGEX, env_content, self.logger)[0]
+        return int(max_belief_depth)

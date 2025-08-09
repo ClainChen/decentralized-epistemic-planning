@@ -29,6 +29,8 @@ class AbstractPolicyStrategy(ABC):
     def get_policy(self, model: Model, agent_name: str) -> Action:
         pass
 
+    
+
 
 class AbstractRules(ABC):
     """
@@ -47,3 +49,7 @@ class AbstractRules(ABC):
     @abstractmethod
     def check_functions(self, functions: list[Function]) -> bool:
         pass
+
+    # @abstractmethod
+    # def associated_functions(self, model: Model, function: Function) -> list[Function]:
+    #     return [function]
