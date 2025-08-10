@@ -1,10 +1,11 @@
 # decentralized-epistemic-planning
 
 ~~~bash
-python entrance.py -d corridor/domain.pddl -p corridor/problem01 -ob corridor.py --strategy monte_carlo
+python entrance.py -d corridor/domain.pddl -p corridor/2a2i_1 -ob corridor.py --strategy complete_bfs.py --rules corridor.py --cooperative
 # -d, -p, -ob is required
-# --strategy is currently default by random
+# --strategy now make sure you use complete_bfs.py as the strategy, that is the core strategy
 # use --cooperative to set the problem type to cooperative, unless it will be a neutral problem
+# use --genearte_problem to avoid simulate the model but generate all possible problems
 
 python entrance.py -h # check the full help of this program
 ~~~
@@ -15,6 +16,8 @@ python entrance.py -h # check the full help of this program
 - Please read **abstract.py**
 - Please put all strategy file into **policy_strategy folder**. Make sure you derive **AbstractPolicyStrategy** class, which has been defined in **abstract.py** .
 - Please put all observation function file into **observation_functions fold**. Make sure you derive **AbstractObservationFunction** class, which has been defined in **abstract.py**
+
+- **Now use complete_bfs.py as the strategy, other strategy might has some problem (random will not have any problem)**
 
 
 
@@ -27,11 +30,14 @@ python entrance.py -h # check the full help of this program
     - [x] Regular checker: syntax, name, entities
     - [x] Goal conflict checker: Cooperative, Neutral
   - [x] Builder
-  
 - [ ] Problem Generator
+  - [x] initial world generator
+  - [x] goal checker
+  - [ ] parse the problem to pddl file
+
 - [x] Epistemic Model
 - [x] Problem Solver
-- [ ] Intention prediction
+- [x] Intention prediction
 - [x] Virtual World generator
   - [x] Rules implementation
   - [x] All functions generator
@@ -47,7 +53,9 @@ python entrance.py -h # check the full help of this program
 - [x] Agents get their successors based on their holding functions
 - [x] Agents choose one of the successor that will help them to reach their goal and belief goal
 - [x] check the chosen action with the ontic world functions, if it pass, then do the action, otherwise it will stay, and update their belief based on the action's condition
-- [ ] Agent update their belief goals based on the observation of other agent's movement
+- [x] Agent update their belief goals based on the observation of other agent's movement
+  - [ ] Fixing: it may generate a set of invalid goals, need to find a way to group the conflict goals and product them with other goals
+
 - [x] End round
 
 
@@ -69,3 +77,8 @@ python entrance.py -h # check the full help of this program
 - [x] Vote Monte Carlo: an extend Monte Carlo algorithm that will self simulate multiple times from the given model and vote the actions based on moves to goal and visit times.
 
 - [x] Greedy: decide the action based on how much the holding functions getting closer to the goal.
+
+- [x] BFS: generate the virtual model based on agent's own perspective, and use the centralized method to simulate the model such as BFS.
+  - The only thing needs to consider to check whether the expand action is valid to the world or not.
+  - The justified perspective method will be implement in this model.
+  - The simulation will be slow at very start, but it will speed up later.
