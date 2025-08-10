@@ -21,8 +21,13 @@ class CompleteBFS(AbstractPolicyStrategy):
         successors = [succ for succ in successors if util.is_valid_action(model, succ, agent_name)]
         if len(successors) > 1:
             possible_successors = [succ.header() for succ in successors]
-            samples, expands = self.bfs(model, agent_name)
-            print(f"Num of node expansions: {expands}")
+            samples, expands, virutal_model_num = self.bfs(model, agent_name)
+            output = f"Num of virtual models: {virutal_model_num}\n"
+            output += f"Num of node expansions: {expands}\n"
+            output += f"{[(key, value[1]) for key, value in samples.items()]}"
+            # print(output)
+            self.logger.info(f"{output}")
+            
             # print(f"{[f'{key} : {value[1]}' for key, value in samples.items()]}")
             samples = {key: value for key, value in samples.items() if key in possible_successors}
             max_value = -1
@@ -40,7 +45,7 @@ class CompleteBFS(AbstractPolicyStrategy):
         
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
-        print(f'Virutal Models Num: {len(all_virtual_model)}')
+        # print(f'Virutal Models Num: {len(all_virtual_model)}')
         # self.logger.debug(f"Show virtual models: {len(all_virtual_model)}")
         # for virtual_model in all_virtual_model:
         #     self.logger.debug(f"{virtual_model}")
@@ -63,7 +68,7 @@ class CompleteBFS(AbstractPolicyStrategy):
             t.join()
             
             # print("no solution")
-        return samples, expands[0]
+        return samples, expands[0], len(all_virtual_model)
 
     def single_bfs(self, samples, virtual_model: Model, agent_name: str, expands, lock):
         # self.logger.debug(f"{virtual_model}")

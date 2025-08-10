@@ -4,6 +4,7 @@ import util
 from itertools import combinations, product, permutations
 import copy
 from dataclasses import dataclass, field
+from collections import defaultdict
 
 MODEL_LOGGER_LEVEL = logging.DEBUG
 class ProblemType(Enum):
@@ -77,6 +78,17 @@ class ValueType(Enum):
     def __repr__(self):
         return self.__str__()
 
+class GoalValueType(Enum):
+    ENUMERATE = 1
+    RANGE = 2
+    NONE = 3
+
+    def __str__(self):
+        return f"\"{self.name}\""
+
+    def __repr__(self):
+        return self.__str__()
+
 PROBLEM_TYPE_MAPS = {
     "cooperative": ProblemType.COOPERATIVE,
     "neutral": ProblemType.NEUTRAL
@@ -107,6 +119,13 @@ EFFECT_TYPE_MAPS = {
     "increase": EffectType.INCREASE,
     "decrease": EffectType.DECREASE,
 }
+
+GOAL_VALUE_TYPE_MAPS = {
+    'enumerate': GoalValueType.ENUMERATE,
+    'range': GoalValueType.RANGE,
+    'none': GoalValueType.NONE
+}
+
 @dataclass
 class Entity:
     name: str = None
@@ -408,7 +427,7 @@ class Agent:
         self.other_goals: dict[str, list[Condition]] = {} # This only use in cooperative problem
 
         # The following are only useful in neutral problem
-        self.belief_other_goals: dict[str, set[Condition]] = {}
+        self.belief_other_goals: dict[str, list[set[Condition]]] = {}
         self.complete_signal = False
         self.all_possible_goals: list[dict[str, list[Condition]]] = []
 
@@ -445,6 +464,25 @@ class Agent:
     def __repr__(self):
         return self.__str__()
 
+class AcceptableGoal:
+    from epistemic_handler.file_parser import ParsingAcceptableGoal
+    def __init__(self, ag: ParsingAcceptableGoal):
+        self.function_name = ag.function_name
+        self.type = GOAL_VALUE_TYPE_MAPS[ag.type]
+        self.enumerates: list = []
+        if ag.type == 'enumerate':
+            for e in ag.enumerates:
+                self.enumerates.append(int(e))
+        self.min = ag.min
+        self.max = ag.max
+        self.observed_jp_world = set()
+    
+    def __str__(self):
+        return f"AcceptableGoal(function_name: {self.function_name}, type: {self.type}, enumerates: {self.enumerates}, min: {self.min}, max: {self.max})"
+
+    def __repr__(self):
+        return self.__str__()
+
 class Model:
     def __init__(self):
         from abstracts import AbstractObservationFunction, AbstractPolicyStrategy, AbstractRules
@@ -453,7 +491,7 @@ class Model:
         self.strategy: AbstractPolicyStrategy = None
         self.rules: AbstractRules = None
         self.problem_type: ProblemType = None
-        self.acceptable_goal_set: list[str] = []
+        self.acceptable_goal_set: list[AcceptableGoal] = []
         self.max_belief_depth: int = 1
         self.possible_belief_sequences: list[list[str]] = []
 
@@ -474,15 +512,16 @@ class Model:
         self.observation_function: AbstractObservationFunction = ObsFunc(handler)
         self.logger.info(f"Loaded observation function: {ObsFunc.__name__}")
 
-        Strategy = util.load_policy_strategy(policy_strategy_path, self.logger)
-        self.strategy: AbstractPolicyStrategy = Strategy(handler)
-        self.logger.info(f"Loaded policy strategy: {Strategy.__name__}")
-
         Rules = util.load_rules(rules_path, self.logger)
         self.rules: AbstractRules = Rules(handler)
         self.logger.info(f"Loaded rules: {Rules.__name__}")
 
+        Strategy = util.load_policy_strategy(policy_strategy_path, self.logger)
+        self.strategy: AbstractPolicyStrategy = Strategy(handler)
+        self.logger.info(f"Loaded policy strategy: {Strategy.__name__}")
+
         self.problem_type: ProblemType = PROBLEM_TYPE_MAPS[problem_type]
+        self.logger.info(f"Loaded problem type: {self.problem_type}")  
     
     def get_function_schema_by_name(self, name: str) -> FunctionSchema:
         return copy.deepcopy(next((function_schema for function_schema in self.function_schemas if function_schema.name == name), None))
@@ -620,10 +659,11 @@ class Model:
             history_fb_fa = util.get_epistemic_world(reversed(history_obs_a_b[:-1]))
             current_fb_fa = util.get_epistemic_world(reversed(history_obs_a_b))
             return history_fb_fa, current_fb_fa
-        def create_goals_from_functions(functions):
+        def create_goals_from_functions(functions) -> set[Condition]:
             goals = set()
             for func in functions:
-                if func.name in self.acceptable_goal_set:
+                names = [ag.function_name for ag in self.acceptable_goal_set]
+                if func.name in names:
                     for belief_sequence in poss_belief_sequences:
                         new_goal = Condition.create_with_function_and_belief_sequence(func, belief_sequence)
                         goals.add(new_goal)
@@ -661,23 +701,30 @@ class Model:
                 else:
                     # 如果自己的观察中发现cur_agent的jp世界有所变动，则更新belief
                     # 否则，不做更新
-                    if last_jp_world != current_jp_world:
-                        # 1. 生成agent视角下所有可能的虚拟世界
-                        # 2. 对所有的虚拟世界做一轮bfs扩展，知道下一次cur_agent行动
-                        # 3. 记录所有最后一步后的世界状态
-                        predict_next_functions = set()
-                        virtual_models = util.generate_virtual_model(self, agent.name)
-                        for virtual_model in virtual_models:
-                            last_models = util.simulate_a_round(virtual_model, cur_agent)
-                            for last_model in last_models:
-                                _, next_jp_world = jp_world_a_think_b_holding(last_model, agent.name, cur_agent)
-                                for func in next_jp_world:
-                                    predict_next_functions.add(func)
-                        diff_funcs = predict_next_functions.difference(set(current_jp_world))
+                    # if last_jp_world != current_jp_world:
+                    # 1. 生成agent视角下所有可能的虚拟世界
+                    # 2. 对所有的虚拟世界做一轮bfs扩展，知道下一次cur_agent行动
+                    # 3. 记录所有最后一步后的世界状态
+                    predict_next_functions = set()
+                    virtual_models = util.generate_virtual_model(self, agent.name)
+                    for virtual_model in virtual_models:
+                        last_models = util.simulate_a_round(virtual_model, cur_agent)
+                        for last_model in last_models:
+                            _, next_jp_world = jp_world_a_think_b_holding(last_model, agent.name, cur_agent)
+                            for func in next_jp_world:
+                                predict_next_functions.add(func)
+                    diff_funcs = predict_next_functions.difference(set(current_jp_world))
 
                 new_belief_goals = create_goals_from_functions(diff_funcs)
                 if len(new_belief_goals) > 0:
-                    agent.belief_other_goals[cur_agent] = new_belief_goals
+                    # 对同名同参数的condition进行分组
+                    # TODO: 这里还要修，把出现重复belief sequence和header的condition分组，然后进行笛卡尔积求出最终分配关系
+                    groups = defaultdict(list)
+                    for goal in new_belief_goals:
+                        groups[frozenset((goal.condition_function_name, goal.condition_function_parameters.values()))].append(goal)
+                    groups = product(*groups.values())
+                    groups = [set(group) for group in groups]
+                    agent.belief_other_goals[cur_agent] = groups
         output = ""
         for agent in self.agents:
             output += f"{agent.name}'s belief other goals:\n"
@@ -698,21 +745,26 @@ class Model:
         agent_index = 0
         agent_count = len(self.agents)
         while True:
-            agent_name = self.agents[agent_index].name
+
+            # change agent turn, decide the action and do the action
+            current_agent = self.agents[agent_index]
+            agent_name = current_agent.name
             action = self.strategy.get_policy(self, agent_name)
-            # if len(self.history_functions) > 40:
-            #     self.history_functions.pop(0)
             action = self.move(agent_name, action)
             if action:
-                print(f"{agent_name} takes action: {action.name} {list(action.parameters.values())}")
+                output = f"{agent_name} takes action: {action.name} {list(action.parameters.values())}"
             else:
-                print(f"{agent_name} takes action: stay (due to no valid action)")
-            print(f"----------")
+                output = f"{agent_name} takes action: stay (due to no valid action)"
+            print(output)
+            self.logger.info(output)
+
+            # cehck goal complete and update belief goals
             if self.full_goal_complete():
                 break
             if self.problem_type == ProblemType.NEUTRAL:
                 self.update_belief_goals(agent_name)
             agent_index = (agent_index + 1) % agent_count
+
         self.logger.info(f"{self.show_solution()}")
     
     def move(self, agent_name: str, action: Action):

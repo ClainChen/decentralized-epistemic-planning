@@ -65,6 +65,12 @@
         (is_free integer [0,1])
     )
 
+    (:goal_sets
+        (hold_by none [])
+    )
+
+    (:max_belief_depth 1)
+
     (:rules
     )
 )

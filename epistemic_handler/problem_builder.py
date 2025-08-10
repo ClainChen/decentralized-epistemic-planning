@@ -50,13 +50,18 @@ class ProblemBuilder:
         belief_sequences = self.base_model.possible_belief_sequences
 
         groups = []
-        goal_schemas = [schema for schema in self.base_model.function_schemas if schema.name in self.base_model.acceptable_goal_set]
-        for schema in goal_schemas:
-            if isinstance(schema.range, tuple):
-                start, end = schema.range
-                value_range = list(range(start, end + 1))
-            else:
-                value_range = schema.range
+        for ag in self.base_model.acceptable_goal_set:
+            schema = self.base_model.get_function_schema_by_name(ag.function_name)
+            if ag.type == GoalValueType.NONE:
+                if isinstance(schema.range, tuple):
+                    start, end = schema.range
+                    value_range = list(range(start, end + 1))
+                else:
+                    value_range = schema.range
+            elif ag.type == GoalValueType.ENUMERATE:
+                value_range = ag.enumerates
+            elif ag.type == GoalValueType.RANGE:
+                value_range = list(range(ag.min, ag.max + 1))
             
             params = [self.base_model.get_all_entity_name_by_type(type) for type in schema.require_parameters.values()]
             for sequence in belief_sequences:

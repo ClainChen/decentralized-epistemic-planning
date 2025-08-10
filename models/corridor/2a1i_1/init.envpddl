@@ -30,7 +30,7 @@
     )
 
     (:goal_sets
-        hold_by
+        (hold_by none [])
     )
 
     (:max_belief_depth 1)

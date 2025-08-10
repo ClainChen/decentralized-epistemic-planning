@@ -49,8 +49,8 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 util.RULES_FOLDER_PATH + args.rules)
         model.domain_name = domain.name
         model.problem_name = problem.problem_name
-        model.acceptable_goal_set = problem.acceptable_goal_set
         model.max_belief_depth = problem.max_belief_depth
+        model.acceptable_goal_set = [AcceptableGoal(ag) for ag in problem.acceptable_goal_set]
 
         # build entities
         for agent_name in problem.agents:

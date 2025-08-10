@@ -1,3 +1,7 @@
+import itertools
+from collections import defaultdict
+import random
+
 class A:
     def __init__(self, num, string, lst):
         self.num = num
@@ -19,15 +23,11 @@ class A:
     def __hash__(self):
         return hash((self.num, self.string, frozenset(self.lst)))
 
-from tqdm import tqdm
-import time
-
-# 基本用法
-for i in tqdm(range(100)):
-    time.sleep(0.1)  # 模拟任务
-
-# 自定义描述
-with tqdm(range(100), desc="处理进度") as pbar:
-    for i in pbar:
-        time.sleep(0.1)
-        pbar.set_postfix({"当前值": i})  # 添加额外信息
+a = list(range(10))
+random.shuffle(a)
+dic = defaultdict(list)
+for i in a:
+    dic[i % 10].append(i)
+b = itertools.product(*dic.values())
+b = [set(i) for i in b]
+print(b)

@@ -41,6 +41,9 @@ def loadParameter():
     
     parser.add_argument('--cooperative', dest='problem_type', help='problem type controller\nwithout this key word will set the problem type to neutral', action='store_true')
 
+    generate_problem_help = "add this argument will make the problem not to simulate\ninstead it will generate all possible problems based on the given domain and fundamental problem file"
+    parser.add_argument('--generate_problem', dest='generate_problem', help=generate_problem_help, action='store_true')
+
     options = parser.parse_args(sys.argv[1:])
 
     return options
@@ -63,27 +66,11 @@ if __name__ == '__main__':
             exit(0)
         logger.info(f"Model built successfully.")
 
-        # problem_builder = problem_builder.ProblemBuilder(model, handler)
-        # all_world = problem_builder.get_all_init_ontic_world()
-        # agent_goal_set = problem_builder.get_all_poss_goals(depth=2)
-        # problem_builder.get_all_poss_problem(all_world, agent_goal_set)
-        # for agent, goals in agent_goal_set.items():
-        #     result = f"\n{agent} goals:\n"
-        #     for comb in goals:
-        #         for g in comb:
-        #             result += f"{g}\n"
-        #         result += "\n"
-        #     logger.debug(result)
-        # print(sum([len(x) for x in agent_goal_set.values()]))
-        # for world in all_world:
-        #     result = "\n"
-        #     for func in world:
-        #         result += f"{func}\n"
-        #     logger.debug(result)
-        # print(len(all_world))
-
-
-        model.simulate()
+        if not args.generate_problem:
+            model.simulate()
+        else:
+            # TODO: 完成problem生成逻辑
+            pass
 
         print("Done.")
     except Exception as e:

@@ -412,20 +412,25 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
             # 基于belief_other_goals过滤all_possible_goals中的元素
             remain_goals = current_agent.all_possible_goals[:]
             for name, poss_goals in current_agent.belief_other_goals.items():
-                checking_functions = set()
+                checking_functions = []
                 if len(poss_goals) == 0:
+                    generate_checking_functions = set()
                     for goal in current_agent.own_goals:
                         new_goal = copy.deepcopy(goal)
                         new_goal.belief_sequence[0] = agent.name
                         new_goal.belief_sequence = remove_continue_duplicates(new_goal.belief_sequence)
-                        checking_functions.add(new_goal)
+                        generate_checking_functions.add(new_goal)
+                    checking_functions.append(generate_virtual_model)
                 else:
                     checking_functions = poss_goals
                 
+                # TODO: 修改完update belief goals后修改这里
+                # 只要belief goals中任意goals集合为possible goals集合中goal set的子集，便将goal set添加到valid goals中
                 valid_goals = []
                 for goal_set in remain_goals:
-                    if checking_functions.issubset(set(goal_set[name])):
-                        valid_goals.append(goal_set)
+                    for check_func in checking_functions:
+                        if check_func.issubset(set(goal_set[name])):
+                            valid_goals.append(goal_set)
                 remain_goals = valid_goals
             
             # 用remain_goals中的内容创建virtual models
@@ -473,7 +478,8 @@ def check_bfs(virtual_model: Model) -> bool:
     find_solution_depth = -1
     while heap:
         node = heapq.heappop(heap)
-        if find_solution_depth != -1 and len(node.actions) > find_solution_depth:
+        if (find_solution_depth != -1 and len(node.actions) > find_solution_depth
+            or len(node.actions) > 12):
             break
 
         if node.model.full_goal_complete():
