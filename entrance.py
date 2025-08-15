@@ -69,8 +69,8 @@ if __name__ == '__main__':
         if not args.generate_problem:
             model.simulate()
         else:
-            # TODO: 完成problem生成逻辑
-            pass
+            problem_builder = problem_builder.ProblemBuilder(model, handler)
+            problem_builder.generate_all_problem_pddl_files()
 
         print("Done.")
     except Exception as e:

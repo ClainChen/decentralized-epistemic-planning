@@ -1,0 +1,29 @@
+(define
+    (problem ${problem_name})
+    (:domain ${domain_name})
+
+    (:agents 
+        ${agents}
+    )
+
+    (:objects
+${objects}
+    )
+
+    (:init
+${init_functions}
+    )
+
+    (:ranges
+${ranges}
+    )
+
+    (:goal_sets
+${goal_sets}
+    )
+
+    (:max_belief_depth ${max_belief_depth})
+
+    (:rules
+    )
+)

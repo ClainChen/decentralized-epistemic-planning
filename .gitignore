@@ -52,3 +52,4 @@ data/
 # models/
 experiments/
 results/
+models/*/auto_generate*/

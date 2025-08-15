@@ -1,0 +1,10 @@
+(define
+    (problem ${problem_name})
+    (:domain ${domain_name})
+    (:agent ${agent_name})
+
+    (:goal (and
+${goals}
+        )
+    )
+)

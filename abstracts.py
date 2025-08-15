@@ -11,7 +11,14 @@ class AbstractObservationFunction(ABC):
         self.logger = None
 
     @abstractmethod
-    def get_observable_functions(self, model: Model,functions: list[Function], agent_name: str) -> list[Function]:
+    def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
+        pass
+
+    @abstractmethod
+    def get_observable_agents(self, model: Model, functions: list[Function], agent_name: str) -> list[str]:
+        """
+        Get all other agents that the given agent (agent_name) can see in current model.
+        """
         pass
 
 class AbstractPolicyStrategy(ABC):

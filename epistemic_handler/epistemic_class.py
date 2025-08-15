@@ -73,7 +73,12 @@ class ValueType(Enum):
     NONE = 3
 
     def __str__(self):
-        return f"\"{self.name}\""
+        mapper = {
+            ValueType.INTEGER: "integer",
+            ValueType.ENUMERATE: "enumerate",
+            ValueType.NONE: "none"
+        }
+        return mapper[self]
 
     def __repr__(self):
         return self.__str__()
@@ -84,7 +89,12 @@ class GoalValueType(Enum):
     NONE = 3
 
     def __str__(self):
-        return f"\"{self.name}\""
+        mapper = {
+            GoalValueType.ENUMERATE: "enumerate",
+            GoalValueType.RANGE: "range",
+            GoalValueType.NONE: "none"
+        }
+        return mapper[self]
 
     def __repr__(self):
         return self.__str__()
@@ -294,6 +304,12 @@ class Condition:
             self.value
         ))
 
+    def header_hash(self):
+        return hash((
+            self.condition_function_name,
+            frozenset(self.condition_function_parameters.items() if self.condition_function_parameters else [])
+        ))
+
 class EffectSchema:
     def __init__(self):
         self.effect_type: EffectType = EffectType.NONE
@@ -427,9 +443,10 @@ class Agent:
         self.other_goals: dict[str, list[Condition]] = {} # This only use in cooperative problem
 
         # The following are only useful in neutral problem
-        self.belief_other_goals: dict[str, list[set[Condition]]] = {}
         self.complete_signal = False
         self.all_possible_goals: list[dict[str, list[Condition]]] = []
+
+        self.observed_jp_worlds: set = set()
 
     def copy(self):
         new_agent = Agent()
@@ -437,8 +454,8 @@ class Agent:
         new_agent.own_goals = self.own_goals
         new_agent.other_goals = copy.deepcopy(self.other_goals)
         new_agent.complete_signal = self.complete_signal
-        new_agent.belief_other_goals = copy.deepcopy(self.belief_other_goals)
-        new_agent.all_possible_goals = self.all_possible_goals
+        new_agent.all_possible_goals = self.all_possible_goals.copy()
+        new_agent.observed_jp_worlds = self.observed_jp_worlds.copy()
         return new_agent
 
     def __str__(self):
@@ -548,7 +565,7 @@ class Model:
         return [agent.name for agent in self.agents]
 
     def get_agent_successors(self, agent_name: str) -> list[Action]:
-        result = [Action.stay_action(agent_name)]
+        result = []
         # if self.agent_goal_complete(agent_name):
         #     return result
 
@@ -566,12 +583,14 @@ class Model:
             for param in result_params:
                 successor = Action.create_action(action_schema, param)
                 candidates.append(successor)
+        candidates.append(Action.stay_action(agent_name))
         for action in candidates:
-            if util.is_valid_action(self,
-                                    action,
-                                    agent_name,
-                                    is_ontic_checking=False):
-                result.append(action)
+            if util.is_valid_action(self, action, agent_name):
+                virtual_model = self.copy()
+                virtual_model.move(agent_name, action)
+                virtual_model.update_agent_observed_jp_worlds()
+                if len(virtual_model.get_agent_by_name(agent_name).observed_jp_worlds) > len(self.get_agent_by_name(agent_name).observed_jp_worlds):
+                    result.append(action)
         return result
 
     def agent_goal_complete(self, agent_name: str):
@@ -668,74 +687,7 @@ class Model:
                         new_goal = Condition.create_with_function_and_belief_sequence(func, belief_sequence)
                         goals.add(new_goal)
             return goals
-        
-        # 不会更新cur_agent的goals信念
-        # 只会更新其他agent对cur_agent的goals信念
-        for agent in self.agents:
-            if agent.name != cur_agent:
-                # 对比上一个世界状态和当前世界状态下cur_agent的信念
-                # 判断cur_agent的complete_signal是否发生了改变
-                last_jp_world, current_jp_world = jp_world_a_think_b_holding(self, agent.name, cur_agent)
-
-                #获取cur_agent上一个世界中的complete_signal和当前世界中的complete_signal
-                last_signal = self.history[-1]['signal'][cur_agent]
-                current_signal = self.get_agent_by_name(cur_agent).complete_signal
-
-                # get all possible belief_sequences
-                poss_belief_sequences = [[cur_agent]]
-                for belief_sequence in self.possible_belief_sequences:
-                    if set([cur_agent, agent.name]).issubset(set(belief_sequence)):
-                        poss_belief_sequences.append(belief_sequence)
-                
-                diff_funcs = set()
-                #complete_signal从false变为true
-                if not last_signal and current_signal:
-                    diff_funcs = set(current_jp_world).difference(set(last_jp_world))
-                # complete_signal从true变为false
-                elif last_signal and not current_signal:
-                    diff_funcs = set(last_jp_world).difference(set(current_jp_world))
-                # complete_signal保持为true
-                elif last_signal and current_signal:
-                    pass
-                # comlpete_signal保持为false
-                else:
-                    # 如果自己的观察中发现cur_agent的jp世界有所变动，则更新belief
-                    # 否则，不做更新
-                    # if last_jp_world != current_jp_world:
-                    # 1. 生成agent视角下所有可能的虚拟世界
-                    # 2. 对所有的虚拟世界做一轮bfs扩展，知道下一次cur_agent行动
-                    # 3. 记录所有最后一步后的世界状态
-                    predict_next_functions = set()
-                    virtual_models = util.generate_virtual_model(self, agent.name)
-                    for virtual_model in virtual_models:
-                        last_models = util.simulate_a_round(virtual_model, cur_agent)
-                        for last_model in last_models:
-                            _, next_jp_world = jp_world_a_think_b_holding(last_model, agent.name, cur_agent)
-                            for func in next_jp_world:
-                                predict_next_functions.add(func)
-                    diff_funcs = predict_next_functions.difference(set(current_jp_world))
-
-                new_belief_goals = create_goals_from_functions(diff_funcs)
-                if len(new_belief_goals) > 0:
-                    # 对同名同参数的condition进行分组
-                    # TODO: 这里还要修，把出现重复belief sequence和header的condition分组，然后进行笛卡尔积求出最终分配关系
-                    groups = defaultdict(list)
-                    for goal in new_belief_goals:
-                        groups[frozenset((goal.condition_function_name, goal.condition_function_parameters.values()))].append(goal)
-                    groups = product(*groups.values())
-                    groups = [set(group) for group in groups]
-                    agent.belief_other_goals[cur_agent] = groups
-        output = ""
-        for agent in self.agents:
-            output += f"{agent.name}'s belief other goals:\n"
-            for name, goals in agent.belief_other_goals.items():
-                output += f"{name}:\n"
-                for goal in goals:
-                    output += f"{goal}\n"
-                output += f"{util.SMALL_DIVIDER}"
-            output += "\n"
-        self.logger.debug(output)
-
+        pass
 
     @util.record_time
     def simulate(self):
@@ -745,12 +697,12 @@ class Model:
         agent_index = 0
         agent_count = len(self.agents)
         while True:
-
+            self.update_agent_observed_jp_worlds()
             # change agent turn, decide the action and do the action
             current_agent = self.agents[agent_index]
             agent_name = current_agent.name
             action = self.strategy.get_policy(self, agent_name)
-            action = self.move(agent_name, action)
+            self.move(agent_name, action)
             if action:
                 output = f"{agent_name} takes action: {action.name} {list(action.parameters.values())}"
             else:
@@ -761,25 +713,28 @@ class Model:
             # cehck goal complete and update belief goals
             if self.full_goal_complete():
                 break
-            if self.problem_type == ProblemType.NEUTRAL:
-                self.update_belief_goals(agent_name)
+            # if self.problem_type == ProblemType.NEUTRAL:
+            #     self.update_belief_goals(agent_name)
             agent_index = (agent_index + 1) % agent_count
 
         self.logger.info(f"{self.show_solution()}")
     
     def move(self, agent_name: str, action: Action):
-        is_valid = action is not None and util.is_valid_action(self, action, agent_name)
         history = {'functions': copy.deepcopy(self.ontic_functions)}
-        if is_valid:
-            for effect in action.effect:
-                self.update_functions(effect)
-        else:
-            action = None
         history['agent'] = agent_name
         history['action'] = action
         history['signal'] = {agent.name: agent.complete_signal for agent in self.agents}
+        for effect in action.effect:
+            self.update_functions(effect)
         self.history.append(history)
-        return action
+
+    def update_agent_observed_jp_worlds(self):
+        for agent in self.agents:
+            history_ep_func = self.get_history_functions_of_agent(agent.name)
+            cur_ep_func = self.get_functions_of_agent(agent.name)
+            ep_world = util.get_epistemic_world(reversed(history_ep_func + [cur_ep_func]))
+            agent.observed_jp_worlds.add(frozenset(ep_world))
+            
 
     def update_functions(self, effect: Effect):
         function = util.get_function_with_name_and_params(self.ontic_functions, effect.effect_function_name, effect.effect_function_parameters)
@@ -793,7 +748,6 @@ class Model:
             # print(functions)
             # print(effect)
             raise ValueError(f"{function.name} is out of range")
-
 
     def __str__(self):
         result = f"================= Model Result================\n"

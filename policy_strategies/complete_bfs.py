@@ -18,7 +18,7 @@ class CompleteBFS(AbstractPolicyStrategy):
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
         successors = model.get_agent_successors(agent_name)
-        successors = [succ for succ in successors if util.is_valid_action(model, succ, agent_name)]
+        # print([succ.header() for succ in successors])
         if len(successors) > 1:
             possible_successors = [succ.header() for succ in successors]
             samples, expands, virutal_model_num = self.bfs(model, agent_name)
@@ -45,13 +45,6 @@ class CompleteBFS(AbstractPolicyStrategy):
         
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
-        # print(f'Virutal Models Num: {len(all_virtual_model)}')
-        # self.logger.debug(f"Show virtual models: {len(all_virtual_model)}")
-        # for virtual_model in all_virtual_model:
-        #     self.logger.debug(f"{virtual_model}")
-        # exit(0)
-        # if len(all_virtual_model) == 0:
-        #     all_virtual_model = [model]
         samples = {}
         expands = [0]
         lock = threading.Lock()

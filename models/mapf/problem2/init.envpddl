@@ -1,0 +1,66 @@
+(define
+    (problem problem1)
+    (:domain mapf)
+
+    (:agents 
+        a b
+    )
+
+    (:objects
+        r1 r2 r3 r4 - room
+    )
+
+    (:init
+        (assign (connected r1 r1) 0)
+        (assign (connected r1 r2) 1)
+        (assign (connected r1 r3) 0)
+        (assign (connected r1 r4) 0)
+
+        (assign (connected r2 r1) 1)
+        (assign (connected r2 r2) 0)
+        (assign (connected r2 r3) 1)
+        (assign (connected r2 r4) 1)
+
+
+        (assign (connected r3 r1) 0)
+        (assign (connected r3 r2) 1)
+        (assign (connected r3 r3) 0)
+        (assign (connected r3 r4) 0)
+
+
+        (assign (connected r4 r1) 0)
+        (assign (connected r4 r2) 1)
+        (assign (connected r4 r3) 0)
+        (assign (connected r4 r4) 0)
+
+        (assign (agent_at a r1) 1)
+        (assign (agent_at a r2) 0)
+        (assign (agent_at a r3) 0)
+        (assign (agent_at a r4) 0)
+
+        (assign (agent_at b r1) 0)
+        (assign (agent_at b r2) 0)
+        (assign (agent_at b r3) 1)
+        (assign (agent_at b r4) 0)
+
+        (assign (room_has_agent r1) 1)
+        (assign (room_has_agent r2) 0)
+        (assign (room_has_agent r3) 1)
+        (assign (room_has_agent r4) 0)
+    )
+
+    (:ranges
+        (agent_at integer [0,1])
+        (connected integer [0,1])
+        (room_has_agent integer [0,1])
+    )
+
+    (:goal_sets
+        (agent_at enumerate [1])
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

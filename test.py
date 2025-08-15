@@ -1,6 +1,8 @@
 import itertools
 from collections import defaultdict
 import random
+from string import Template
+from pathlib import Path
 
 class A:
     def __init__(self, num, string, lst):
@@ -23,11 +25,10 @@ class A:
     def __hash__(self):
         return hash((self.num, self.string, frozenset(self.lst)))
 
-a = list(range(10))
-random.shuffle(a)
-dic = defaultdict(list)
-for i in a:
-    dic[i % 10].append(i)
-b = itertools.product(*dic.values())
-b = [set(i) for i in b]
-print(b)
+a = [A(1,"1",[1,2]), A(2,"2",[2,3]), A(3,"3",[3,4])]
+b = [A(4, "4", [4,5]), A(5, "5", [5,6]), A(6, "6", [6,7])]
+c = [frozenset(a),frozenset(b)]
+d = a[::-1]
+e = b[::-1]
+f = [frozenset(d),frozenset(e)]
+print(frozenset(c) == frozenset(f))

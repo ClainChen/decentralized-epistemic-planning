@@ -15,7 +15,10 @@ MODEL_FOLDER_PATH = "models/"
 OBS_FUNC_FOLER_PATH = "observation_functions/"
 STRATEGY_FOLDER_PATH = "policy_strategies/"
 RULES_FOLDER_PATH = "rules/"
-
+INIT_FILE_NAME = "init.envpddl"
+AGENT_FILE_NAME = ".agtpddl"
+INIT_TEMPLATE_PATH = "models/init_template.txt"
+AGENT_TEMPLATE_PATH = "models/agt_template.txt"
 
 class ClassNameFormatter(logging.Formatter):
     def format(self, record):
@@ -222,6 +225,7 @@ def check_condition(model: Model, condition: Condition, agent_name):
         return check_regular_condition(condition, model.get_functions_of_agent(agent_name))
     else:
         return check_epistemic_condition(condition, model, agent_name)
+
 def get_epistemic_world(functions_sequences: list[list[Function]]) -> list[Function]:
     """
     get the epistemic world from the given function sequence\n
@@ -234,8 +238,7 @@ def get_epistemic_world(functions_sequences: list[list[Function]]) -> list[Funct
             if func.header() not in headers:
                 headers.add(func.header())
                 world.append(func)
-                
-    return world
+    return copy.deepcopy(world)
 
 def check_regular_condition(condition: Condition, functions: list[Function]) -> bool:
     """
@@ -409,29 +412,42 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
         new_model = virtual_model.copy()
         new_model.ontic_functions.extend(comb)
         if new_model.problem_type == ProblemType.NEUTRAL:
-            # 基于belief_other_goals过滤all_possible_goals中的元素
-            remain_goals = current_agent.all_possible_goals[:]
-            for name, poss_goals in current_agent.belief_other_goals.items():
-                checking_functions = []
-                if len(poss_goals) == 0:
-                    generate_checking_functions = set()
-                    for goal in current_agent.own_goals:
-                        new_goal = copy.deepcopy(goal)
-                        new_goal.belief_sequence[0] = agent.name
-                        new_goal.belief_sequence = remove_continue_duplicates(new_goal.belief_sequence)
-                        generate_checking_functions.add(new_goal)
-                    checking_functions.append(generate_virtual_model)
-                else:
-                    checking_functions = poss_goals
+            # # 基于belief_other_goals过滤all_possible_goals中的元素
+            # remain_goals = current_agent.all_possible_goals[:]
+            # for name, poss_goals in current_agent.belief_other_goals.items():
+            #     checking_functions = poss_goals
+            #     own_goal_to_other_goal = set()
+            #     for goal in current_agent.own_goals:
+            #         new_goal = copy.deepcopy(goal)
+            #         new_goal.belief_sequence[0] = name
+            #         new_goal.belief_sequence = remove_continue_duplicates(new_goal.belief_sequence)
+            #         own_goal_to_other_goal.add(new_goal)
                 
-                # TODO: 修改完update belief goals后修改这里
-                # 只要belief goals中任意goals集合为possible goals集合中goal set的子集，便将goal set添加到valid goals中
-                valid_goals = []
-                for goal_set in remain_goals:
-                    for check_func in checking_functions:
-                        if check_func.issubset(set(goal_set[name])):
-                            valid_goals.append(goal_set)
-                remain_goals = valid_goals
+            #     # 只要belief goals中任意goals集合为possible goals集合中goal set的子集，便将goal set添加到valid goals中
+            #     valid_goals_belief = []
+            #     valid_goals_own = []
+            #     for goal_set in remain_goals:
+            #         for check_func in checking_functions:
+            #             if check_func.issubset(set(goal_set[name])):
+            #                 valid_goals_belief.append(goal_set)
+            #         if own_goal_to_other_goal.issubset(set(goal_set[name])):
+            #             valid_goals_own.append(goal_set)
+            #     if len(valid_goals_belief) > 0:
+            #         remain_goals = valid_goals_belief
+            #     else:
+            #         remain_goals = valid_goals_own
+            remain_goals = current_agent.all_possible_goals
+                
+
+                # output = f"Agent {agent_name} belief goals:\n"
+                # for goal_set in remain_goals:
+                #     for name, goals in goal_set.items():
+                #         output += f"{name}:\n"
+                #         for goal in goals:
+                #             output += f"{goal}\n"
+                #     output += f"{util.SMALL_DIVIDER}"
+                # new_model.logger.debug(output)
+
             
             # 用remain_goals中的内容创建virtual models
             for goal_set in remain_goals:
@@ -440,7 +456,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
                     if agent.name != agent_name:
                         agent.own_goals = goal_set[agent.name]
                 all_virtual_models.append(new_model2)
-        else:   
+        else:
             all_virtual_models.append(new_model)
     
     if len(all_virtual_models) <= 0:
@@ -519,7 +535,7 @@ def simulate_a_round(model: Model, current_agent: str):
     while heap:
         node = heapq.heappop(heap)
 
-        if node.current_index == end_index or node.model.full_goal_complete():
+        if (node.current_index + 1 == end_index and len(node.actions) != 0) or node.model.full_goal_complete():
             end_models.append(node.model)
             continue
         current_agent = node.model.agents[node.current_index]
@@ -545,7 +561,6 @@ def simulate_a_round(model: Model, current_agent: str):
                                     next_model,
                                     node.priority + 1))
     return end_models
-
 
 class BFSNode:
     def __init__(self, current_index, action, model, priority):
