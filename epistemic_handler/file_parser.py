@@ -721,7 +721,8 @@ class ProblemParser:
             parsing_range.function_name = function_name
             parsing_range.type = type
             if parsing_range.type == 'enumerate':
-                parsing_range.range = range_values.split()
+                range_values = range_values.replace(" ", "")
+                parsing_range.enumerates = range_values.split(',')
             elif parsing_range.type == 'integer':
                 parsing_range.min, parsing_range.max = tuple(map(int, range_values.split(',')))
             elif parsing_range.type == 'float':

@@ -28,12 +28,12 @@ class CorridorObsFunc(AbstractObservationFunction):
             for function in functions:
                 if function.name == 'agent_loc':
                     agent_at_room[function.parameters['?a']] = function.value
-                    observable_functions.add(copy.deepcopy(function))
+                    observable_functions.add(function)
 
             for function in functions:
                 if function.name == 'item_loc':
                     item_at_room[function.parameters['?i']] = function.value
-                    observable_functions.add(copy.deepcopy(function))
+                    observable_functions.add(function)
                     if function.value != agent_at_room[agent_name]:
                         all_item_in_same_room = False
 
@@ -44,24 +44,32 @@ class CorridorObsFunc(AbstractObservationFunction):
                     # check whether the holding agent is at the same room as current agent
                     if (all_item_in_same_room
                         or agent_at_room[function.parameters['?a']] == agent_at_room[agent_name]):
-                        observable_functions.add(copy.deepcopy(function))
+                        observable_functions.add(function)
 
                 elif function.name == 'hold_by':
                     # check whether the holding agent is at the same room as current agent
                     if (agent_at_room[function.parameters['?a']] == agent_at_room[agent_name]
                         or item_at_room[function.parameters['?i']] == agent_at_room[agent_name]):
-                        observable_functions.add(copy.deepcopy(function))
+                        observable_functions.add(function)
 
                 elif function.name == 'is_free':
                     # check whether the item is at the same room as current agent
                     if item_at_room[function.parameters['?i']] == agent_at_room[agent_name]:
-                        observable_functions.add(copy.deepcopy(function))
+                        observable_functions.add(function)
             
-            return list(observable_functions)
+            return copy.deepcopy(list(observable_functions))
         except KeyError as e:
             return False
         except Exception as e:
             self.logger.error(e)
             raise e
+
+    def get_observable_agents(self, model, functions, agent_name):
+        agent_room = {}
+        for func in functions:
+            if func.name == 'agent_loc':
+                agent_room[func.parameters['?a']] = func.value
+        current_agent_room = agent_room[agent_name]
+        return [agent for agent, room in agent_room.items() if room == current_agent_room]
         
         

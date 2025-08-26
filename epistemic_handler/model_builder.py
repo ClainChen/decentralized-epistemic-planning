@@ -69,7 +69,6 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 ranges[name] = (r.min, r.max)
             else:
                 ranges[name] = r.enumerates
-        
         # build function schemas
         for parsing_function in domain.functions:
             function_schema = FunctionSchema()
@@ -178,7 +177,8 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
         if model.problem_type == ProblemType.NEUTRAL:
             problemBuilder = ProblemBuilder(model, handler)
             for agent in model.agents:
-                all_goals = problemBuilder.get_all_poss_goals(agent.name)
+                all_goals, avg_time = problemBuilder.get_all_poss_goals(agent.name)
+                agent.max_time = avg_time + 10
                 agent.all_possible_goals = [cell for cell in all_goals if set(cell[agent.name]) == set(agent.own_goals)]
 
         logger.debug(f"Model:\n{model}")

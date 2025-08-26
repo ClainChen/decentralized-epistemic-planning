@@ -1,5 +1,5 @@
 (define
-    (problem matrix_2a1i4r_1)
+    (problem matrix_2a1i3r_1)
     (:domain matrix)
 
     (:agents 
@@ -8,38 +8,29 @@
 
     (:objects
         i - item
-        r1 r2 r3 r4 - room
+        r1 r2 r3 - room
     )
 
     (:init
         (assign (connected r1 r1) 0)
         (assign (connected r1 r2) 1)
         (assign (connected r1 r3) 1)
-        (assign (connected r1 r4) 0)
 
         (assign (connected r2 r1) 1)
         (assign (connected r2 r2) 0)
-        (assign (connected r2 r3) 0)
-        (assign (connected r2 r4) 1)
+        (assign (connected r2 r3) 1)
 
         (assign (connected r3 r1) 1)
-        (assign (connected r3 r2) 0)
+        (assign (connected r3 r2) 1)
         (assign (connected r3 r3) 0)
-        (assign (connected r3 r4) 1)
-        
-        (assign (connected r4 r1) 0)
-        (assign (connected r4 r2) 1)
-        (assign (connected r4 r3) 1)
-        (assign (connected r4 r4) 0)
 
         (assign (room_id r1) r1)
         (assign (room_id r2) r2)
         (assign (room_id r3) r3)
-        (assign (room_id r4) r4)
 
-        (assign (item_loc i) r4)
+        (assign (item_loc i) r3)
         (assign (agent_loc a) r1)
-        (assign (agent_loc b) r3)
+        (assign (agent_loc b) r2)
 
         (assign (holding a) 0)
         (assign (holding b) 0)
@@ -51,9 +42,9 @@
     )
 
     (:ranges
-        (agent_loc enumerate [r1,r2,r3,r4])
-        (item_loc enumerate [r1,r2,r3,r4])
-        (room_id enumerate [r1,r2,r3,r4])
+        (agent_loc enumerate [r1,r2,r3])
+        (item_loc enumerate [r1,r2,r3])
+        (room_id enumerate [r1,r2,r3])
         (connected integer [0,1])
         (holding integer [0,1])
         (hold_by integer [0,1])

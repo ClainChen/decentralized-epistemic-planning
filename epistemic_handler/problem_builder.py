@@ -2,6 +2,7 @@ from epistemic_handler.epistemic_class import *
 import logging
 import itertools
 import util
+import time
 from pathlib import Path
 from tqdm import tqdm
 from string import Template
@@ -102,9 +103,11 @@ class ProblemBuilder:
         total = len(combs)
 
         invalid_goal_sets: list[set] = []
+        start_time = time.perf_counter()
         
         print(f"共{len(agent_goal_sets)}组设置，开始测试所有可能的Goals设置")
         with tqdm(range(total), desc="审查进度") as pbar:
+            max_action_length = -1
             for i in pbar:
                 agent_goal_set = agent_goal_sets[i]
                 goal_set = set()
@@ -121,8 +124,9 @@ class ProblemBuilder:
                     test_model = self.base_model.copy()
                     for agent in test_model.agents:
                         agent.own_goals = agent_goal_set[agent.name]
-                    is_valid = util.check_bfs(test_model)
-                    if is_valid:
+                    num_actions = util.check_bfs(test_model, max(12, max_action_length * 2))
+                    max_action_length = max(num_actions, max_action_length)
+                    if num_actions >= 0 :
                         results.append(agent_goal_set)
                         valid += 1
                     else:
@@ -138,7 +142,7 @@ class ProblemBuilder:
         #         result += f"-----\n"
         #     self.logger.debug(result)
         
-        return results
+        return results, -1 if agent_name == "" else (time.perf_counter() - start_time) / max(1, valid)
 
     def get_all_poss_problem(self, worlds: list[list[Function]], goal_sets: list[dict[str, list[Condition]]]) -> list[Model]:
         # The difference between the problems is that their initial states and agent's goals are different

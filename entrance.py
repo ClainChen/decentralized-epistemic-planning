@@ -44,6 +44,8 @@ def loadParameter():
     generate_problem_help = "add this argument will make the problem not to simulate\ninstead it will generate all possible problems based on the given domain and fundamental problem file"
     parser.add_argument('--generate_problem', dest='generate_problem', help=generate_problem_help, action='store_true')
 
+    parser.add_argument('-tests', '--multi-tests', dest='num_multi_tests', type=int, help='The number of tests to run', default=1)
+
     options = parser.parse_args(sys.argv[1:])
 
     return options
@@ -67,7 +69,10 @@ if __name__ == '__main__':
         logger.info(f"Model built successfully.")
 
         if not args.generate_problem:
-            model.simulate()
+            for i in range(1, args.num_multi_tests + 1):
+                print(f"第 {i} 轮模拟")
+                running_model = model.copy()
+                running_model.simulate()
         else:
             problem_builder = problem_builder.ProblemBuilder(model, handler)
             problem_builder.generate_all_problem_pddl_files()

@@ -67,21 +67,16 @@
         (assign (connected r7 r6) 0)
         (assign (connected r7 r7) 0)
 
-        (assign (agent_at a r1) 1)
-        (assign (agent_at a r2) 0)
-        (assign (agent_at a r3) 0)
-        (assign (agent_at a r4) 0)
-        (assign (agent_at a r5) 0)
-        (assign (agent_at a r6) 0)
-        (assign (agent_at a r7) 0)
+        (assign (room_id r1) r1)
+        (assign (room_id r2) r2)
+        (assign (room_id r3) r3)
+        (assign (room_id r4) r4)
+        (assign (room_id r5) r5)
+        (assign (room_id r6) r6)
+        (assign (room_id r7) r7)
 
-        (assign (agent_at b r1) 0)
-        (assign (agent_at b r2) 0)
-        (assign (agent_at b r3) 0)
-        (assign (agent_at b r4) 1)
-        (assign (agent_at b r5) 0)
-        (assign (agent_at b r6) 0)
-        (assign (agent_at b r7) 0)
+        (assign (agent_at a) r1)
+        (assign (agent_at b) r4)
 
         (assign (room_has_agent r1) 1)
         (assign (room_has_agent r2) 0)
@@ -93,13 +88,14 @@
     )
 
     (:ranges
-        (agent_at integer [0,1])
+        (agent_at enumerate [r1,r2,r3,r4,r5,r6,r7])
+        (room_id enumerate [r1,r2,r3,r4,r5,r6,r7])
         (connected integer [0,1])
         (room_has_agent integer [0,1])
     )
 
     (:goal_sets
-        (agent_at enumerate [1])
+        (agent_at none [])
     )
 
     (:max_belief_depth 1)

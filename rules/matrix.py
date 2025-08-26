@@ -20,6 +20,7 @@ class MatrixRules(AbstractRules):
 
         agent_loc_funcs = []
         item_loc_funcs = []
+        room_id_funcs = []
         holding_funcs = []
         hold_by_funcs = []
         is_free_funcs = []
@@ -28,6 +29,8 @@ class MatrixRules(AbstractRules):
                 agent_loc_funcs.append(func)
             elif func.name == 'item_loc':
                 item_loc_funcs.append(func)
+            elif func.name == 'room_id':
+                room_id_funcs.append(func)
             elif func.name == 'holding':
                 holding_funcs.append(func)
             elif func.name == 'hold_by':
@@ -35,33 +38,18 @@ class MatrixRules(AbstractRules):
             elif func.name == 'is_free':
                 is_free_funcs.append(func)
 
-        # get the location of the agent and item
-        agent_loc = {}
-        agents = []
-        item_loc = {}
-        items = []
-
-        for function in agent_loc_funcs:
-            if function.parameters['?a'] not in agents:
-                agents.append(function.parameters['?a'])
-            if function.value == 1:
-                if function.parameters['?a'] not in agent_loc:
-                    agent_loc[function.parameters['?a']] = function.parameters['?loc']
-                else:
-                    return False
-
-        for function in item_loc_funcs:
-            if function.parameters['?i'] not in items:
-                items.append(function.parameters['?i'])
-            if function.value == 1:
-                if function.parameters['?i'] not in item_loc:
-                    item_loc[function.parameters['?i']] = function.parameters['?loc']
-                else:
-                    return False
-
-        if len(agents) != len(agent_loc) or len(items) != len(item_loc):
-            return False
+        # check duplicate room id
+        s = set()
+        for func in room_id_funcs:
+            before = len(s)
+            s.add(func.value)
+            if len(s) == before:
+                return False
         
+        agent_loc = {func.parameters['?a']: func.value for func in agent_loc_funcs}
+        item_loc = {func.parameters['?i']: func.value for func in item_loc_funcs}
+
+
         # 如果agent holding为true，则必然有一个hold by agent item为true
         for holding_func in holding_funcs:
             count_hold_by = 0

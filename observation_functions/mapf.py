@@ -1,6 +1,7 @@
 import util
 import logging
 from abstracts import AbstractObservationFunction
+import copy
 
 LOGGER_LEVEL = logging.DEBUG
 
@@ -12,13 +13,13 @@ class MAPFObsFunc(AbstractObservationFunction):
         """
         Agent knows everything
         """
-        try:
-            return model.ontic_functions
-        except KeyError as e:
-            return False
-        except Exception as e:
-            self.logger.error(e)
-            raise e
+        result = []
+        for func in functions:
+            if func.name in ["connected", "room_id"]:
+                result.append(func)
+            else:
+                result.append(copy.deepcopy(func))
+        return result
     
     def get_observable_agents(self, model, functions, agent_name):
         agents = [agent.name for agent in model.agents]

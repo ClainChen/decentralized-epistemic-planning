@@ -4,7 +4,7 @@
     (:agent a)
 
     (:goal (and
-        (= (@ep (" b [a]") (= (agent_at a r7) 1)) ep.true)
+        (= (@ep (" b [a]") (= (agent_at a) r5)) ep.true)
         )
     )
 )

@@ -1,7 +1,7 @@
 from enum import Enum
 import logging
 import util
-from itertools import combinations, product, permutations
+from itertools import combinations, product, permutations, chain
 import copy
 from dataclasses import dataclass, field
 from collections import defaultdict
@@ -198,11 +198,14 @@ class Function:
         if not isinstance(other, Function):
             return False
         return (self.name == other.name and 
-                frozenset(self.parameters.items()) == frozenset(other.parameters.items()) and 
+                self.parameters == other.parameters and 
                 self._value == other._value)
      
     def __hash__(self):
-        return hash((self.name, frozenset(self.parameters.items()), self._value))
+        return hash((self.name, frozenset(self.parameters), self._value))
+    
+    def plain_text(self):
+        return f"{self.header()}={self.value}"
 
 class ConditionSchema:
     def __init__(self):
@@ -303,12 +306,12 @@ class Condition:
             frozenset(self.target_function_parameters.items() if self.target_function_parameters else []),
             self.value
         ))
-
-    def header_hash(self):
-        return hash((
-            self.condition_function_name,
-            frozenset(self.condition_function_parameters.items() if self.condition_function_parameters else [])
-        ))
+    
+    def header(self):
+        return f"{self.condition_function_name}({list(self.condition_function_parameters.values())})"
+    
+    def plain_text(self):
+        return f"{self.header()}={self.value}"
 
 class EffectSchema:
     def __init__(self):
@@ -430,6 +433,20 @@ class Action:
             result += f"{effect}\n"
         return result
 
+    def __hash__(self):
+        return hash(
+            (
+                self.name,
+                frozenset(self.parameters)
+            )
+        )
+
+    def __eq__(self, value):
+        if isinstance(value, Action):
+            return self.name == value.name and self.parameters == value.parameters
+        else:
+            return False
+
     def __repr__(self):
         return self.__str__()
     
@@ -445,8 +462,9 @@ class Agent:
         # The following are only useful in neutral problem
         self.complete_signal = False
         self.all_possible_goals: list[dict[str, list[Condition]]] = []
+        self.max_time = float('inf')
 
-        self.observed_jp_worlds: set = set()
+        self.action_under_jp_worlds: dict[util.HashSetFunctions, dict[str, set[Action]]] = defaultdict(lambda: defaultdict(set))
 
     def copy(self):
         new_agent = Agent()
@@ -455,11 +473,13 @@ class Agent:
         new_agent.other_goals = copy.deepcopy(self.other_goals)
         new_agent.complete_signal = self.complete_signal
         new_agent.all_possible_goals = self.all_possible_goals.copy()
-        new_agent.observed_jp_worlds = self.observed_jp_worlds.copy()
+        new_agent.action_under_jp_worlds = defaultdict(lambda: defaultdict(set))
+        for key, value in self.action_under_jp_worlds.items():
+            new_agent.action_under_jp_worlds[key] = value.copy()
         return new_agent
 
     def __str__(self):
-        result = f"Agent: {self.name}\n"
+        result = f"Agent: {self.name}\nMax move time: {self.max_time}\n"
         result += f"Goal completed: \'{self.complete_signal}\'\n"
         result += f"Own Goals:\n"
         for goal in self.own_goals:
@@ -586,11 +606,7 @@ class Model:
         candidates.append(Action.stay_action(agent_name))
         for action in candidates:
             if util.is_valid_action(self, action, agent_name):
-                virtual_model = self.copy()
-                virtual_model.move(agent_name, action)
-                virtual_model.update_agent_observed_jp_worlds()
-                if len(virtual_model.get_agent_by_name(agent_name).observed_jp_worlds) > len(self.get_agent_by_name(agent_name).observed_jp_worlds):
-                    result.append(action)
+                result.append(action)
         return result
 
     def agent_goal_complete(self, agent_name: str):
@@ -628,7 +644,13 @@ class Model:
         for history in self.history:
             result.append(self.observation_function.get_observable_functions(self, history['functions'], agent_name))
         return result
-    
+
+    def get_acceptable_goal_by_name(self, goal_name: str) -> AcceptableGoal:
+        for goal in self.acceptable_goal_set:
+            if goal.function_name == goal_name:
+                return goal
+        return None
+
     def generate_all_possible_functions(self) -> list[Function]:
         functions = []
         for function_schema in self.function_schemas:
@@ -662,7 +684,7 @@ class Model:
 
         return functions
 
-    def update_belief_goals(self, cur_agent: str):
+    def update_belief_goals(self):
         # 只会在Neutral Mode中被调用
         # 如果agent能够看见其他agent，则会根据自己的观察来更新自己对其他agent的goals的信念
         # 每一个历史时间戳上都会有一个对应的history world和agent: action对，用于反映在某个世界下某个agent执行了某个action
@@ -674,20 +696,58 @@ class Model:
             for history in history_obs_a:
                 history_obs_a_b.append(model.observation_function.get_observable_functions(model, history, b))
             
-            # 获取在agent.name视角下cur_agent上一个世界中的jp和当前世界中的jp
-            history_fb_fa = util.get_epistemic_world(reversed(history_obs_a_b[:-1]))
-            current_fb_fa = util.get_epistemic_world(reversed(history_obs_a_b))
+            # 获取在a视角下b上一个世界中的jp和当前世界中的jp
+            history_fb_fa = util.get_epistemic_world(model, reversed(history_obs_a_b[:-1]), b)
+            current_fb_fa = util.get_epistemic_world(model, reversed(history_obs_a_b), b)
             return history_fb_fa, current_fb_fa
-        def create_goals_from_functions(functions) -> set[Condition]:
-            goals = set()
-            for func in functions:
-                names = [ag.function_name for ag in self.acceptable_goal_set]
-                if func.name in names:
-                    for belief_sequence in poss_belief_sequences:
-                        new_goal = Condition.create_with_function_and_belief_sequence(func, belief_sequence)
-                        goals.add(new_goal)
-            return goals
-        pass
+
+        for a in self.agents:
+            for b in self.agents:
+                if a.name == b.name:
+                    continue
+                _, current_fb_fa = jp_world_a_think_b_holding(self, a.name, b.name)
+                # only remain the acceptable functions
+                acceptable_fb_fa = []
+                for func in current_fb_fa:
+                    accept_goal = self.get_acceptable_goal_by_name(func.name)
+                    if not accept_goal:
+                        continue
+                    if accept_goal.type == GoalValueType.ENUMERATE:
+                        rang = accept_goal.enumerates
+                    elif accept_goal.type == GoalValueType.RANGE:
+                        rang = range(accept_goal.min, accept_goal.max + 1)
+                    else:
+                        rang = None
+                    if rang is None or func.value in rang:
+                        acceptable_fb_fa.append(func)
+                # generate all possible goal functions for the target agent
+                possible_func_sets = list(chain.from_iterable(combinations(acceptable_fb_fa, r) for r in range(1, len(acceptable_fb_fa) + 1)))
+                possible_func_sets = [set(func.plain_text() for func in goal_sets) for goal_sets in possible_func_sets]
+
+                remain_possible_goals = []
+                if not b.complete_signal:
+                    for goal_set in a.all_possible_goals:
+                        if set(cond.plain_text() for cond in goal_set[b.name]) not in possible_func_sets:
+                            remain_possible_goals.append(goal_set)
+                else:
+                    for goal_set in a.all_possible_goals:
+                        if set(cond.plain_text() for cond in goal_set[b.name]) in possible_func_sets:
+                            remain_possible_goals.append(goal_set)
+                # print(f"len possi func sets: {len(possible_func_sets)}, len remain possi goals: {len(remain_possible_goals)}")
+                if len(remain_possible_goals) > 0 :
+                    a.all_possible_goals = remain_possible_goals
+
+    def update_agent_belief_actions_in_world(self):
+        last_agent = self.history[-1]['agent']
+        for agent in self.agents:
+            # if last_agent == agent.name:
+            #     continue
+            if last_agent not in self.observation_function.get_observable_agents(self, self.history[-1]['functions'], agent.name):
+                continue
+            agent_observation_worlds = self.get_history_functions_of_agent(agent.name)
+            agent_last_jp_world = util.get_epistemic_world(self, reversed(agent_observation_worlds), agent.name)
+            hash_set_agent_last_jp_world = util.HashSetFunctions(agent_last_jp_world)
+            agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent].add(self.history[-1]['action'])
 
     @util.record_time
     def simulate(self):
@@ -696,46 +756,39 @@ class Model:
         """
         agent_index = 0
         agent_count = len(self.agents)
-        while True:
-            self.update_agent_observed_jp_worlds()
-            # change agent turn, decide the action and do the action
-            current_agent = self.agents[agent_index]
-            agent_name = current_agent.name
+        while not self.full_goal_complete():
+            # change agent turn
+            agent_name = self.agents[agent_index].name
+            agent_index = (agent_index + 1) % agent_count
+
+            # update the belief goals of each agent, and update their observed world
+            self.update_belief_goals()
+
+            # decide the action and do the action
             action = self.strategy.get_policy(self, agent_name)
             self.move(agent_name, action)
-            if action:
-                output = f"{agent_name} takes action: {action.name} {list(action.parameters.values())}"
-            else:
-                output = f"{agent_name} takes action: stay (due to no valid action)"
+
+            self.update_agent_belief_actions_in_world()
+
+            # log
+            output = f"{agent_name} takes action: {action.name} {list(action.parameters.values())}"
             print(output)
             self.logger.info(output)
-
-            # cehck goal complete and update belief goals
-            if self.full_goal_complete():
-                break
-            # if self.problem_type == ProblemType.NEUTRAL:
-            #     self.update_belief_goals(agent_name)
-            agent_index = (agent_index + 1) % agent_count
+            # for agent in self.agents:
+            #     self.logger.debug(agent.action_under_jp_worlds)
 
         self.logger.info(f"{self.show_solution()}")
     
     def move(self, agent_name: str, action: Action):
-        history = {'functions': copy.deepcopy(self.ontic_functions)}
-        history['agent'] = agent_name
-        history['action'] = action
-        history['signal'] = {agent.name: agent.complete_signal for agent in self.agents}
+        history = {'functions': copy.deepcopy(self.ontic_functions),
+                   'agent': agent_name,
+                   'action': action,
+                   'signal': {agent.name: agent.complete_signal for agent in self.agents}}
+        self.history.append(history)
         for effect in action.effect:
             self.update_functions(effect)
-        self.history.append(history)
-
-    def update_agent_observed_jp_worlds(self):
-        for agent in self.agents:
-            history_ep_func = self.get_history_functions_of_agent(agent.name)
-            cur_ep_func = self.get_functions_of_agent(agent.name)
-            ep_world = util.get_epistemic_world(reversed(history_ep_func + [cur_ep_func]))
-            agent.observed_jp_worlds.add(frozenset(ep_world))
+        
             
-
     def update_functions(self, effect: Effect):
         function = util.get_function_with_name_and_params(self.ontic_functions, effect.effect_function_name, effect.effect_function_parameters)
         assert function is not None, f"updating function is not found!"
@@ -786,8 +839,6 @@ class Model:
         for i in range(len(self.history)):
             result += f"Step {i+1}:\n"
             history = self.history[i]
-            for func in history['functions']:
-                result += f"{func}\n"
             result += f"{history['agent']}: {history['action'].header()}\n"
             result += f"{history['signal']}\n"            
             result += f"{util.SMALL_DIVIDER}"

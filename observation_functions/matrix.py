@@ -19,7 +19,8 @@ class MatrixObsFunc(AbstractObservationFunction):
         observable_functions = set()
         agent_loc_funcs = []
         item_loc_funcs = []
-        connected_funcs = []
+        connected_funcs = set()
+        room_id_funcs = set()
         holding_funcs = []
         hold_by_funcs = []
         is_free_funcs = []
@@ -29,7 +30,9 @@ class MatrixObsFunc(AbstractObservationFunction):
             elif func.name == 'item_loc':
                 item_loc_funcs.append(func)
             elif func.name == 'connected':
-                connected_funcs.append(func)
+                connected_funcs.add(func)
+            elif func.name == 'room_id':
+                room_id_funcs.add(func)
             elif func.name == 'holding':
                 holding_funcs.append(func)
             elif func.name == 'hold_by':
@@ -37,18 +40,13 @@ class MatrixObsFunc(AbstractObservationFunction):
             elif func.name == 'is_free':
                 is_free_funcs.append(func)
         
-        for func in connected_funcs:
-            observable_functions.add(func)
-        
         agent_at = {}
         for func in agent_loc_funcs:
-            if func.value == 1 and func.parameters['?a'] not in agent_at:
-                agent_at[func.parameters['?a']] = func.parameters['?loc']
+            agent_at[func.parameters['?a']] = func.value
 
         item_at = {}
         for func in item_loc_funcs:
-            if func.value == 1 and func.parameters['?i'] not in item_at:
-                item_at[func.parameters['?i']] = func.parameters['?loc']
+            item_at[func.parameters['?i']] = func.value
 
         try:
             # agent知道所有与自己有关的functions
@@ -61,16 +59,10 @@ class MatrixObsFunc(AbstractObservationFunction):
             # 如果在functions中没有agent_name的位置，那么只会返回与agent_name有关的functions
             if agent_name in agent_at:
                 for func in agent_loc_funcs:
-                    if (func.parameters['?loc'] == agent_at[agent_name] or 
-                        (func.parameters['?a'] in agent_at and
-                         agent_at[func.parameters['?a']] == agent_at[agent_name])
-                        ):
+                    if (agent_at[agent_name] == func.value):
                         observable_functions.add(func)
                 for func in item_loc_funcs:
-                    if (func.parameters['?loc'] == agent_at[agent_name] or 
-                        (func.parameters['?i'] in item_at and
-                         item_at[func.parameters['?i']] == agent_at[agent_name])
-                        ):
+                    if (agent_at[agent_name] == func.value):
                         observable_functions.add(func)
                 for func in hold_by_funcs:
                     if func.parameters['?a'] in agent_at and agent_at[func.parameters['?a']] == agent_at[agent_name]:
@@ -84,6 +76,11 @@ class MatrixObsFunc(AbstractObservationFunction):
                     if func.parameters['?i'] in item_at and item_at[func.parameters['?i']] == agent_at[agent_name]:
                         observable_functions.add(func)
 
+            observable_functions = copy.deepcopy(observable_functions)
+
+            observable_functions = observable_functions.union(connected_funcs).union(room_id_funcs)
+                
+
             return list(observable_functions)
         except KeyError as e:
             self.logger.error(e)
@@ -92,4 +89,10 @@ class MatrixObsFunc(AbstractObservationFunction):
             self.logger.error(e)
             raise e
         
-        
+    def get_observable_agents(self, model, functions, agent_name):
+        agent_room = {}
+        for func in functions:
+            if func.name == 'agent_loc':
+                agent_room[func.parameters['?a']] = func.value
+        current_agent_room = agent_room[agent_name]
+        return [agent for agent, room in agent_room.items() if room == current_agent_room]

@@ -1,0 +1,10 @@
+(define
+    (problem matrix_2a1i3r_1)
+    (:domain matrix)
+    (:agent b)
+
+    (:goal (and
+        (= (@ep (" b [b]") (= (hold_by i b) 0)) ep.true)
+        )
+    )
+)

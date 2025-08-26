@@ -3,13 +3,13 @@ from epistemic_handler.epistemic_class import Model, Action, Function
 import heapq
 import util
 import logging
-from collections import Counter
 import random
 import threading
+import time
 
 LOGGER_LEVEL = logging.DEBUG
 
-class CompleteBFS(AbstractPolicyStrategy):
+class JustifiedBFS(AbstractPolicyStrategy):
     """
     Agent will choose a random action
     """
@@ -37,7 +37,7 @@ class CompleteBFS(AbstractPolicyStrategy):
                 if value[1] > max_value:
                     max_value = value[1]
             if max_value == -1:
-                return Action.stay_action(agent_name)
+                return Action.stay_action(agent_name) if len(successors) == 0 else random.choice(successors)
             possible_actions = [value[0] for _, value in samples.items() if value[1] == max_value]
             return random.choice(possible_actions)
         elif len(successors) == 1:
@@ -51,30 +51,24 @@ class CompleteBFS(AbstractPolicyStrategy):
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
         samples = {}
-        expands = [0]
-        lock = threading.Lock()
-        threads = []
-        stop_event = threading.Event()
+        expands = 0
         for virtual_model in all_virtual_model:
-            t = threading.Thread(target=self.single_bfs, 
-                                 args=(samples, virtual_model, agent_name, 
-                                       expands, lock, stop_event, len(all_virtual_model)))
-            threads.append(t)
-
-        for t in threads:
-            t.start()
-        
-        for t in threads:
-            t.join()
+            this_sample, this_expand = self.single_bfs(virtual_model, agent_name)
+            expands += this_expand
+            for key, value in this_sample.items():
+                if key in samples:
+                    samples[key][1] += value[1]
+                else:
+                    samples[key] = value
             
             # print("no solution")
-        return samples, expands[0], len(all_virtual_model)
-        
-        
+        return samples, expands, len(all_virtual_model)
 
-    def single_bfs(self, samples, virtual_model: Model, agent_name: str, expands, lock, stop_event, total_models):
+    def single_bfs(self, virtual_model: Model, agent_name: str):
+        start_agent = virtual_model.get_agent_by_name(agent_name)
         # self.logger.debug(f"{virtual_model}")
         expand = 1
+        samples = {}
         heap: list[util.BFSNode] = []
         current_agent_index = virtual_model.get_agent_index_by_name(agent_name)
         count_agent = len(virtual_model.agents)
@@ -82,27 +76,36 @@ class CompleteBFS(AbstractPolicyStrategy):
         existed_epistemic_world = {agt.name: set() for agt in virtual_model.agents}
         # observed_world.append(virtual_model.ontic_functions)
         find_solution_depth = -1
-        while heap and not stop_event.is_set():
+        start_time = time.perf_counter()
+        while heap:
             node = heapq.heappop(heap)
-            if find_solution_depth != -1 and len(node.actions) > find_solution_depth:
+            if ((find_solution_depth != -1 and len(node.actions) > find_solution_depth)
+                or time.perf_counter() - start_time > start_agent.max_time * 1.5):
                 break
 
             if node.model.full_goal_complete():
                     find_solution_depth = len(node.actions)
                     if len(node.actions) > 0:
                         string = node.actions[0].header()
-                        with lock:
-                            if string not in samples:
-                                samples[string] = [node.actions[0], 1]
-                            else:
-                                samples[string][1] += 1
-                                # if samples[string][1] > total_models * 2 // 3:
-                                #     stop_event.set()
-                                    
+                        if string not in samples:
+                            samples[string] = [node.actions[0], 1]
+                        else:
+                            samples[string][1] += 1
                     continue
             current_agent = node.model.agents[node.current_index]
-            successors = node.model.get_agent_successors(current_agent.name)
+            # 检查当前世界状态中，对于agent_name代理来说是否有笃定current_agent会做的行为
+            # 如果有，则直接讲这些行为记为successors，如果没有则正常生成successors
+            agent_obs_worlds = node.model.get_history_functions_of_agent(agent_name) + [node.model.get_functions_of_agent(agent_name)]
+            jp_world_for_agent_name = util.get_epistemic_world(node.model, reversed(agent_obs_worlds), agent_name)
+            hash_set_jp_world = util.HashSetFunctions(jp_world_for_agent_name)
+            successors = list(start_agent.action_under_jp_worlds[hash_set_jp_world][current_agent.name])
             successors = [succ for succ in successors if util.is_valid_action(node.model, succ, current_agent.name)]
+            if current_agent.name == agent_name:
+                poss_succs = node.model.get_agent_successors(current_agent.name)
+                successors = [succ for succ in poss_succs if succ not in successors]
+            if len(successors) == 0:
+                successors = node.model.get_agent_successors(current_agent.name)
+            
             for succ in successors:
                 next_model = node.model.copy()
                 next_model.move(current_agent.name, succ)
@@ -111,7 +114,7 @@ class CompleteBFS(AbstractPolicyStrategy):
                 for agt in next_model.agents:
                     his_ep_funcs = next_model.get_history_functions_of_agent(agt.name)
                     cur_ep_funcs = next_model.get_functions_of_agent(agt.name)
-                    ep_funcs.append(frozenset(util.get_epistemic_world(reversed(his_ep_funcs + [cur_ep_funcs]))))
+                    ep_funcs.append(frozenset(util.get_epistemic_world(next_model, reversed(his_ep_funcs + [cur_ep_funcs]), agt.name)))
                 if frozenset(ep_funcs) in existed_epistemic_world[current_agent.name]:
                     continue
                 existed_epistemic_world[current_agent.name].add(frozenset(ep_funcs))
@@ -122,5 +125,4 @@ class CompleteBFS(AbstractPolicyStrategy):
                                         next_model,
                                         node.priority + 1))
                 expand += 1
-        with lock:
-            expands[0] += expand
+        return samples, expand

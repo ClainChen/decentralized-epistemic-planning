@@ -4,7 +4,8 @@
     (:agent a)
 
     (:goal (and
-        (= (@ep (" b [a] b [b]") (= (hold_by i b) 0)) ep.true)
+        (= (@ep (" b [a] b [b]") (= (hold_by i a) 0)) ep.true)
+        (= (@ep (" b [a]") (= (hold_by i a) 1)) ep.true)
         )
     )
 )

@@ -33,7 +33,7 @@
         (hold_by none [])
     )
 
-    (:max_belief_depth 1)
+    (:max_belief_depth 2)
 
     (:rules
     )

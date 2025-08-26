@@ -180,7 +180,7 @@ def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOper
 
     if strategy not in strategies:
         raise ValueError(f"strategy {strategy} is not supported")
-    if not isinstance(a, type(b)) or (isinstance(a, str) and strategy not in ["==", "!="]):
+    if not isinstance(a, type(b)) or (isinstance(a, str) and strategy not in [ConditionOperator.EQUAL, ConditionOperator.NOT_EQUAL]):
         raise ValueError(f"strategy {strategy} is not supported for type {type(a)} and {type(b)}")
     return strategies[strategy](a, b)
 
@@ -204,17 +204,16 @@ def check_in_range(function: Function):
         min, max = function.range
         return min <= function.value <= max
 
-def is_valid_action(model: Model, action: Action, agent_name, is_ontic_checking: bool = True) -> bool:
+def is_valid_action(model: Model, action: Action, agent_name) -> bool:
     """
     to check whether the action is valid in realm of given functions
     """
     if action is None:
         return True
     for condition in action.pre_condition:
-        if is_ontic_checking:
-            if len(condition.belief_sequence) == 0:
-                if not check_regular_condition(condition, model.ontic_functions):
-                    return False
+        if len(condition.belief_sequence) == 0:
+            if not check_regular_condition(condition, model.ontic_functions):
+                return False
         else:
             if not check_condition(model, condition, agent_name):
                 return False
@@ -226,11 +225,17 @@ def check_condition(model: Model, condition: Condition, agent_name):
     else:
         return check_epistemic_condition(condition, model, agent_name)
 
-def get_epistemic_world(functions_sequences: list[list[Function]]) -> list[Function]:
+def get_epistemic_world(model: Model, functions_sequences: list[list[Function]], agent_name: str) -> list[Function]:
     """
     get the epistemic world from the given function sequence\n
     this usually use when checking the epistemic condition and generating the virtual world\n
     """
+
+    # if the length of fs is 0, return an empty world
+    functions_sequences = list(functions_sequences)
+    if len(functions_sequences) == 0:
+        return []
+    
     world = []
     headers = set()
     for functions in functions_sequences:
@@ -238,7 +243,34 @@ def get_epistemic_world(functions_sequences: list[list[Function]]) -> list[Funct
             if func.header() not in headers:
                 headers.add(func.header())
                 world.append(func)
-    return copy.deepcopy(world)
+    # return world
+    result = []
+    for belief_func in world:
+        # st(v) = e
+        if belief_func in functions_sequences[0]:
+            result.append(belief_func)
+            continue
+        
+        # v not in Oi(st<{v=e}>)
+        checking_world = [] # st<{v=e}>
+        # {v=e}
+        found = False
+        for obs_func in functions_sequences[0]:
+            if belief_func.name == obs_func.name and belief_func.parameters == obs_func.parameters:
+                checking_world.append(belief_func)
+                found = True
+            else:
+                checking_world.append(obs_func)
+        if not found:
+            checking_world.append(belief_func)
+        
+        if belief_func not in model.observation_function.get_observable_functions(model, checking_world, agent_name):
+            result.append(belief_func)
+        # else:
+        #     print(f"\n{belief_func}")
+        #     print(f"{functions_sequences[0]}")
+        #     print(f"{checking_world}, {agent_name}")
+    return result
 
 def check_regular_condition(condition: Condition, functions: list[Function]) -> bool:
     """
@@ -266,21 +298,21 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
     return True
 
 def check_epistemic_condition(condition: Condition, model: Model, agent_name) -> bool:
-    history = model.get_history_functions_of_agent(agent_name) + [model.get_functions_of_agent(agent_name)]
+    history = [his['functions'] for his in model.history] + [model.ontic_functions]
     history_beliefs: list[list[Function]] = []
     for history_functions in reversed(history):
         belief_functions = get_functions_with_belief_sequence(
             history_functions, condition.belief_sequence, model
         )
         history_beliefs.append(belief_functions)
-    epistemic_world_functions = get_epistemic_world(history_beliefs)
-    return util.check_regular_condition(condition, epistemic_world_functions )
+    epistemic_world_functions = get_epistemic_world(model, history_beliefs, condition.belief_sequence[-1])
+    return util.check_regular_condition(condition, epistemic_world_functions)
 
 def get_functions_with_belief_sequence(functions: list[Function], belief_sequence: list[str], model: Model) -> list[Function]:
-    if len(belief_sequence) == 1:
+    if len(belief_sequence) == 0:
         return functions
     ontic_functions = functions
-    for agent_name in belief_sequence[1:]:
+    for agent_name in belief_sequence:
         ontic_functions = model.observation_function.get_observable_functions(model, ontic_functions, agent_name)
     return ontic_functions
 
@@ -352,7 +384,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
 
     current_agent_functions = model.get_functions_of_agent(agent_name)
     current_agent_history_functions = model.get_history_functions_of_agent(agent_name)
-    epistemic_world = get_epistemic_world(reversed(current_agent_history_functions + [current_agent_functions]))
+    epistemic_world = get_epistemic_world(model, reversed(current_agent_history_functions + [current_agent_functions]), agent_name)
 
     known_functions = epistemic_world
     unknown_functions = get_unknown_functions(model, known_functions, agent_name)
@@ -377,9 +409,9 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     virtual_model = model.copy()
     current_agent = virtual_model.get_agent_by_name(agent_name)
     # the functions of current agent will not change, other agent's functions will set to the observation functions based on current agent's functions
-    for agent in virtual_model.agents:
-        if agent.name != agent_name:
-            if virtual_model.problem_type == ProblemType.COOPERATIVE:
+    if virtual_model.problem_name == ProblemType.COOPERATIVE:
+        for agent in virtual_model.agents:
+            if agent.name != agent_name:
                 if current_agent.other_goals[agent.name]:
                     agent.own_goals = current_agent.other_goals[agent.name]
                 else:
@@ -391,18 +423,16 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
                         new_goal.belief_sequence = remove_continue_duplicates(new_goal.belief_sequence)
                         goals.append(new_goal)
                     agent.own_goals = goals
-            else:
-                # 逐层过滤非有效Goal集合
-                # 似乎不该写在这里？
-                pass
     
+    # update the model history to the history based on current_agent's perspective 
     current_history = []
     new_history_functions = []
     for history in virtual_model.history:
         current_history.append(history['functions'])
-        new_history = {'functions': get_epistemic_world(reversed(current_history)), 
+        new_history = {'functions': get_epistemic_world(virtual_model, reversed(current_history), agent_name), 
                        'agent': history['agent'],
-                       'action': history['action']}
+                       'action': history['action'],
+                       'signal': history['signal']}
         new_history_functions.append(new_history)
     virtual_model.history = new_history_functions
     
@@ -412,49 +442,10 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
         new_model = virtual_model.copy()
         new_model.ontic_functions.extend(comb)
         if new_model.problem_type == ProblemType.NEUTRAL:
-            # # 基于belief_other_goals过滤all_possible_goals中的元素
-            # remain_goals = current_agent.all_possible_goals[:]
-            # for name, poss_goals in current_agent.belief_other_goals.items():
-            #     checking_functions = poss_goals
-            #     own_goal_to_other_goal = set()
-            #     for goal in current_agent.own_goals:
-            #         new_goal = copy.deepcopy(goal)
-            #         new_goal.belief_sequence[0] = name
-            #         new_goal.belief_sequence = remove_continue_duplicates(new_goal.belief_sequence)
-            #         own_goal_to_other_goal.add(new_goal)
-                
-            #     # 只要belief goals中任意goals集合为possible goals集合中goal set的子集，便将goal set添加到valid goals中
-            #     valid_goals_belief = []
-            #     valid_goals_own = []
-            #     for goal_set in remain_goals:
-            #         for check_func in checking_functions:
-            #             if check_func.issubset(set(goal_set[name])):
-            #                 valid_goals_belief.append(goal_set)
-            #         if own_goal_to_other_goal.issubset(set(goal_set[name])):
-            #             valid_goals_own.append(goal_set)
-            #     if len(valid_goals_belief) > 0:
-            #         remain_goals = valid_goals_belief
-            #     else:
-            #         remain_goals = valid_goals_own
-            remain_goals = current_agent.all_possible_goals
-                
-
-                # output = f"Agent {agent_name} belief goals:\n"
-                # for goal_set in remain_goals:
-                #     for name, goals in goal_set.items():
-                #         output += f"{name}:\n"
-                #         for goal in goals:
-                #             output += f"{goal}\n"
-                #     output += f"{util.SMALL_DIVIDER}"
-                # new_model.logger.debug(output)
-
-            
-            # 用remain_goals中的内容创建virtual models
-            for goal_set in remain_goals:
+            for goal_set in current_agent.all_possible_goals:
                 new_model2 = new_model.copy()
                 for agent in new_model2.agents:
-                    if agent.name != agent_name:
-                        agent.own_goals = goal_set[agent.name]
+                    agent.own_goals = goal_set[agent.name]
                 all_virtual_models.append(new_model2)
         else:
             all_virtual_models.append(new_model)
@@ -463,15 +454,19 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
         if len(unknown_functions) == 0:
             all_virtual_models.append(virtual_model)
         else:
-            print(len(all_virtual_models))
+            model.logger.debug("unable to generate the virtual world")
+            if model.problem_type == ProblemType.NEUTRAL:
+                model.logger.debug(f"agent belief goals num: {len(current_agent.all_possible_goals)}")
+            print("unable to generate the virtual world")
+            model.logger.debug(f"valid combs num: {len(valid_combs)}, valid possible goals num: {len(current_agent.all_possible_goals)}")
             kf = ""
             for f in known_functions:
                 kf += f"{f}\n"
-            print(f"known functions:\n{kf}\n")
+            model.logger.debug(f"known functions:\n{kf}")
             kf = ""
             for f in unknown_functions:
                 kf += f"{f}\n"
-            print(f"unknown functions:\n{kf}\n")
+            model.logger.debug(f"unknown functions:\n{kf}")
             exit(0)
     return all_virtual_models
 
@@ -485,24 +480,21 @@ def remove_continue_duplicates(lst):
     return new_list
 
 import heapq
-def check_bfs(virtual_model: Model) -> bool:
+def check_bfs(virtual_model: Model, max_action_length) -> bool:
     heap: list[BFSNode] = []
     current_agent_index = 0
     count_agent = len(virtual_model.agents)
     heapq.heappush(heap, BFSNode(current_agent_index, [], virtual_model, 0))
     existed_epistemic_world = {agt.name: set() for agt in virtual_model.agents}
-    find_solution_depth = -1
     while heap:
         node = heapq.heappop(heap)
-        if (find_solution_depth != -1 and len(node.actions) > find_solution_depth
-            or len(node.actions) > 12):
-            break
-
         if node.model.full_goal_complete():
-            return True
+            return len(node.actions)
+        
+        if max_action_length > 0 and len(node.actions) == max_action_length:
+            break
         current_agent = node.model.agents[node.current_index]
         successors = node.model.get_agent_successors(current_agent.name)
-        successors = [succ for succ in successors if util.is_valid_action(node.model, succ, current_agent.name)]
         for succ in successors:
             next_model = node.model.copy()
             next_model.move(current_agent.name, succ)
@@ -511,17 +503,18 @@ def check_bfs(virtual_model: Model) -> bool:
             for agt in next_model.agents:
                 his_ep_funcs = next_model.get_history_functions_of_agent(agt.name)
                 cur_ep_funcs = next_model.get_functions_of_agent(agt.name)
-                ep_funcs.append(frozenset(util.get_epistemic_world(reversed(his_ep_funcs + [cur_ep_funcs]))))
-            if frozenset(ep_funcs) in existed_epistemic_world[current_agent.name]:
+                ep_funcs.append(frozenset(util.get_epistemic_world(next_model, reversed(his_ep_funcs + [cur_ep_funcs]), agt.name)))
+            observe_funcs = frozenset(ep_funcs)
+            if observe_funcs in existed_epistemic_world[current_agent.name]:
                 continue
-            existed_epistemic_world[current_agent.name].add(frozenset(ep_funcs))
+            existed_epistemic_world[current_agent.name].add(observe_funcs)
 
             heapq.heappush(heap, 
                         BFSNode((node.current_index + 1) % count_agent,
                                     node.actions + [succ],
                                     next_model,
                                     node.priority + 1))
-    return False
+    return -1
 
 def simulate_a_round(model: Model, current_agent: str):
     end_models = []
@@ -550,7 +543,7 @@ def simulate_a_round(model: Model, current_agent: str):
             for agt in next_model.agents:
                 his_ep_funcs = next_model.get_history_functions_of_agent(agt.name)
                 cur_ep_funcs = next_model.get_functions_of_agent(agt.name)
-                ep_funcs.append(frozenset(util.get_epistemic_world(reversed(his_ep_funcs + [cur_ep_funcs]))))
+                ep_funcs.append(frozenset(util.get_epistemic_world(next_model, reversed(his_ep_funcs + [cur_ep_funcs]), agt.name)))
             if frozenset(ep_funcs) in existed_epistemic_world[current_agent.name]:
                 continue
             existed_epistemic_world[current_agent.name].add(frozenset(ep_funcs))
@@ -571,3 +564,37 @@ class BFSNode:
     
     def __lt__(self, other):
         return self.priority < other.priority
+    
+
+class HashSetFunctions:
+    def __init__(self, functions: list[Function]):
+        self.functions = set(functions)
+    
+    def __hash__(self):
+        return hash(tuple(self.functions))
+
+    def __eq__(self, value):
+        if not isinstance(value, HashSetFunctions):
+            return False
+        return self.functions == value.functions
+    
+    def __str__(self):
+        output = ""
+        for function in list(self.functions):
+            output += f"{function}\n"
+        return output
+    
+    def __repr__(self):
+        return self.__str__()
+
+class HashSetConditions:
+    def __init__(self, conditions: list[Condition]):
+        self.conditions = set(conditions)
+    
+    def __hash__(self):
+        return hash(tuple(self.conditions))
+
+    def __eq__(self, value):
+        if not isinstance(value, HashSetConditions):
+            return False
+        return self.conditions == value.conditions

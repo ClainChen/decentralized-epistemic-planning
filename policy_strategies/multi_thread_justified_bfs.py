@@ -3,13 +3,13 @@ from epistemic_handler.epistemic_class import Model, Action, Function
 import heapq
 import util
 import logging
-from collections import Counter
 import random
 import threading
+import time
 
 LOGGER_LEVEL = logging.DEBUG
 
-class CompleteBFS(AbstractPolicyStrategy):
+class MultiThreadJustifiedBFS(AbstractPolicyStrategy):
     """
     Agent will choose a random action
     """
@@ -37,7 +37,7 @@ class CompleteBFS(AbstractPolicyStrategy):
                 if value[1] > max_value:
                     max_value = value[1]
             if max_value == -1:
-                return Action.stay_action(agent_name)
+                return Action.stay_action(agent_name) if len(successors) == 0 else random.choice(successors)
             possible_actions = [value[0] for _, value in samples.items() if value[1] == max_value]
             return random.choice(possible_actions)
         elif len(successors) == 1:
@@ -54,11 +54,10 @@ class CompleteBFS(AbstractPolicyStrategy):
         expands = [0]
         lock = threading.Lock()
         threads = []
-        stop_event = threading.Event()
         for virtual_model in all_virtual_model:
             t = threading.Thread(target=self.single_bfs, 
                                  args=(samples, virtual_model, agent_name, 
-                                       expands, lock, stop_event, len(all_virtual_model)))
+                                       expands, lock))
             threads.append(t)
 
         for t in threads:
@@ -69,10 +68,9 @@ class CompleteBFS(AbstractPolicyStrategy):
             
             # print("no solution")
         return samples, expands[0], len(all_virtual_model)
-        
-        
 
-    def single_bfs(self, samples, virtual_model: Model, agent_name: str, expands, lock, stop_event, total_models):
+    def single_bfs(self, samples, virtual_model: Model, agent_name: str, expands, lock):
+        start_agent = virtual_model.get_agent_by_name(agent_name)
         # self.logger.debug(f"{virtual_model}")
         expand = 1
         heap: list[util.BFSNode] = []
@@ -82,9 +80,10 @@ class CompleteBFS(AbstractPolicyStrategy):
         existed_epistemic_world = {agt.name: set() for agt in virtual_model.agents}
         # observed_world.append(virtual_model.ontic_functions)
         find_solution_depth = -1
-        while heap and not stop_event.is_set():
+        start_time = time.perf_counter()
+        while heap:
             node = heapq.heappop(heap)
-            if find_solution_depth != -1 and len(node.actions) > find_solution_depth:
+            if (find_solution_depth != -1 and len(node.actions) > find_solution_depth) or time.perf_counter() - start_time > start_agent.max_time * 1.5:
                 break
 
             if node.model.full_goal_complete():
@@ -96,13 +95,23 @@ class CompleteBFS(AbstractPolicyStrategy):
                                 samples[string] = [node.actions[0], 1]
                             else:
                                 samples[string][1] += 1
-                                # if samples[string][1] > total_models * 2 // 3:
-                                #     stop_event.set()
-                                    
                     continue
             current_agent = node.model.agents[node.current_index]
-            successors = node.model.get_agent_successors(current_agent.name)
+            # 检查当前世界状态中，对于agent_name代理来说是否有笃定current_agent会做的行为
+            # 如果有，则直接讲这些行为记为successors，如果没有则正常生成successors
+            agent_obs_worlds = node.model.get_history_functions_of_agent(agent_name) + [node.model.get_functions_of_agent(agent_name)]
+            jp_world_for_agent_name = util.get_epistemic_world(node.model, reversed(agent_obs_worlds), agent_name)
+            hash_set_jp_world = util.HashSetFunctions(jp_world_for_agent_name)
+            successors = list(start_agent.action_under_jp_worlds[hash_set_jp_world][current_agent.name])
             successors = [succ for succ in successors if util.is_valid_action(node.model, succ, current_agent.name)]
+            if current_agent.name == agent_name:
+                print(f"Before Filter: {[succ.header() for succ in successors]}")
+                successors = [succ for succ in node.model.get_agent_successors(current_agent.name) if succ not in successors]
+                print(f"After Filter: {[succ.header() for succ in successors]}")
+            if len(successors) == 0:
+                successors = node.model.get_agent_successors(current_agent.name)
+            
+            
             for succ in successors:
                 next_model = node.model.copy()
                 next_model.move(current_agent.name, succ)
@@ -111,7 +120,7 @@ class CompleteBFS(AbstractPolicyStrategy):
                 for agt in next_model.agents:
                     his_ep_funcs = next_model.get_history_functions_of_agent(agt.name)
                     cur_ep_funcs = next_model.get_functions_of_agent(agt.name)
-                    ep_funcs.append(frozenset(util.get_epistemic_world(reversed(his_ep_funcs + [cur_ep_funcs]))))
+                    ep_funcs.append(frozenset(util.get_epistemic_world(next_model, reversed(his_ep_funcs + [cur_ep_funcs]), agt.name)))
                 if frozenset(ep_funcs) in existed_epistemic_world[current_agent.name]:
                     continue
                 existed_epistemic_world[current_agent.name].add(frozenset(ep_funcs))

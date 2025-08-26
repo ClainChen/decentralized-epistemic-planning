@@ -1,96 +1,96 @@
-2025-08-15 18:52:10,649 INFO - __main__._.<module>:
-Start building the model, type: "False"
-2025-08-15 18:52:10,649 INFO - epistemic_handler.model_builder._.build:
-Start building the model, type: "False"
-2025-08-15 18:52:10,649 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-26 14:58:58,158 INFO - __main__._.<module>:
+Start building the model, type: "True"
+2025-08-26 14:58:58,158 INFO - epistemic_handler.model_builder._.build:
+Start building the model, type: "True"
+2025-08-26 14:58:58,158 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain "models/mapf/domain.pddl" start initialization.
-2025-08-15 18:52:10,649 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-26 14:58:58,158 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain Parser found "models/mapf/domain.pddl"
-2025-08-15 18:52:10,650 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-26 14:58:58,158 INFO - epistemic_handler.file_parser.DomainParser.run:
 Complete file reading.
-2025-08-15 18:52:10,650 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-26 14:58:58,159 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain name found
-2025-08-15 18:52:10,650 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-26 14:58:58,159 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain type found
-2025-08-15 18:52:10,651 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-26 14:58:58,160 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain functions found
-2025-08-15 18:52:10,652 INFO - epistemic_handler.file_parser.DomainParser.run:
+2025-08-26 14:58:58,160 INFO - epistemic_handler.file_parser.DomainParser.run:
 Domain actions found
-2025-08-15 18:52:10,652 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,160 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem "models/mapf/problem1" start initialization.
-2025-08-15 18:52:10,652 INFO - epistemic_handler.file_parser.ProblemParser.get_files:
+2025-08-26 14:58:58,161 INFO - epistemic_handler.file_parser.ProblemParser.get_files:
 Problem folder found "models/mapf/problem1"
-2025-08-15 18:52:10,653 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,161 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Found 2 agent files:
 "models/mapf/problem1/a.agtpddl"
 "models/mapf/problem1/b.agtpddl"
-2025-08-15 18:52:10,653 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,161 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Found init file: "models/mapf/problem1/init.envpddl"
-2025-08-15 18:52:10,654 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,161 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Complete reading environment file.
-2025-08-15 18:52:10,654 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,161 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Copmlete reading agent file "models/mapf/problem1/a.agtpddl"
-2025-08-15 18:52:10,655 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,162 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Copmlete reading agent file "models/mapf/problem1/b.agtpddl"
-2025-08-15 18:52:10,655 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,162 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem domain name "mapf" found
 Problem name "problem1" found
-2025-08-15 18:52:10,656 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,162 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem agents found
-2025-08-15 18:52:10,656 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,162 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem objects found
-2025-08-15 18:52:10,656 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,162 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem ranges found
-2025-08-15 18:52:10,657 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,163 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem initial states found
-2025-08-15 18:52:10,658 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,164 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem goals found
-2025-08-15 18:52:10,658 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,164 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem acceptable goal set found
-2025-08-15 18:52:10,658 INFO - epistemic_handler.file_parser.ProblemParser.run:
+2025-08-26 14:58:58,164 INFO - epistemic_handler.file_parser.ProblemParser.run:
 Problem max belief depth found
-2025-08-15 18:52:10,658 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 checking the validity...
-2025-08-15 18:52:10,658 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
-Valid names: ['a', 'b', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'unknown', 'agent_at', 'connected', 'room_has_agent']
-2025-08-15 18:52:10,659 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'unknown', 'agent_at', 'room_id', 'connected', 'room_has_agent']
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the states
-2025-08-15 18:52:10,659 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the goals
-2025-08-15 18:52:10,659 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the ranges
-2025-08-15 18:52:10,659 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the actions
-2025-08-15 18:52:10,659 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-08-15 18:52:10,659 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 checking the validity...
-2025-08-15 18:52:10,659 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
-Valid names: ['a', 'b', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'unknown', 'agent_at', 'connected', 'room_has_agent']
-2025-08-15 18:52:10,659 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'unknown', 'agent_at', 'room_id', 'connected', 'room_has_agent']
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the states
-2025-08-15 18:52:10,659 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the goals
-2025-08-15 18:52:10,660 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the ranges
-2025-08-15 18:52:10,660 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,165 DEBUG - epistemic_handler.model_checker.ModelChecker.check_validity:
 Checking the actions
-2025-08-15 18:52:10,660 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
+2025-08-26 14:58:58,166 INFO - epistemic_handler.model_checker.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-08-15 18:52:10,661 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-08-26 14:58:58,167 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded observation function: MAPFObsFunc
-2025-08-15 18:52:10,663 INFO - epistemic_handler.epistemic_class.Model.init:
+2025-08-26 14:58:58,168 INFO - epistemic_handler.epistemic_class.Model.init:
 Loaded rules: MAPFRules
-2025-08-15 18:52:10,666 INFO - epistemic_handler.epistemic_class.Model.init:
-Loaded policy strategy: CompleteBFS
-2025-08-15 18:52:10,666 INFO - epistemic_handler.epistemic_class.Model.init:
-Loaded problem type: "NEUTRAL"
-2025-08-15 18:54:17,581 DEBUG - epistemic_handler.model_builder._.build_model:
+2025-08-26 14:58:58,176 INFO - epistemic_handler.epistemic_class.Model.init:
+Loaded policy strategy: JustifiedBFS
+2025-08-26 14:58:58,176 INFO - epistemic_handler.epistemic_class.Model.init:
+Loaded problem type: "COOPERATIVE"
+2025-08-26 14:58:58,178 DEBUG - epistemic_handler.model_builder._.build_model:
 Model:
 ================= Model Result================
 Domain name: mapf
 Problem name: problem1
-Problem type: "NEUTRAL"
+Problem type: "COOPERATIVE"
 =================
 Entity(a - agent)
 Entity(b - agent)
@@ -102,7 +102,8 @@ Entity(r5 - room)
 Entity(r6 - room)
 Entity(r7 - room)
 =================
-FunctionSchema(name: agent_at, range: (0, 1), type: integer, require_parameters: {'?a': 'agent', '?r': 'room'})
+FunctionSchema(name: agent_at, range: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7'], type: enumerate, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: room_id, range: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7'], type: enumerate, require_parameters: {'?r': 'room'})
 FunctionSchema(name: connected, range: (0, 1), type: integer, require_parameters: {'?r1': 'room', '?r2': 'room'})
 FunctionSchema(name: room_has_agent, range: (0, 1), type: integer, require_parameters: {'?r': 'room'})
 =================
@@ -111,12 +112,11 @@ Action Schema: move
 Parameters: {'?self': 'agent', '?from': 'room', '?to': 'room'}
 Precondition Schemas:
 ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (connected {'?from': 'room', '?to': 'room'}) = 1)
-ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_at {'?self': 'agent', '?from': 'room'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_at {'?self': 'agent'}) = (room_id {'?from': 'room'}))
 ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (room_has_agent {'?to': 'room'}) = 0)
 ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (room_has_agent {'?from': 'room'}) = 1)
 Effect Schemas:
-EffectSchema("ASSIGN" (agent_at {'?self': 'agent', '?from': 'room'}) = 0)
-EffectSchema("ASSIGN" (agent_at {'?self': 'agent', '?to': 'room'}) = 1)
+EffectSchema("ASSIGN" (agent_at {'?self': 'agent'}) = (room_id {'?to': 'room'}))
 EffectSchema("ASSIGN" (room_has_agent {'?from': 'room'}) = 0)
 EffectSchema("ASSIGN" (room_has_agent {'?to': 'room'}) = 1)
 
@@ -170,20 +170,15 @@ Function(connected ['r7', 'r4'] = 1)
 Function(connected ['r7', 'r5'] = 0)
 Function(connected ['r7', 'r6'] = 0)
 Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 1)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 1)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
+Function(room_id ['r1'] = r1)
+Function(room_id ['r2'] = r2)
+Function(room_id ['r3'] = r3)
+Function(room_id ['r4'] = r4)
+Function(room_id ['r5'] = r5)
+Function(room_id ['r6'] = r6)
+Function(room_id ['r7'] = r7)
+Function(agent_at ['a'] = r1)
+Function(agent_at ['b'] = r4)
 Function(room_has_agent ['r1'] = 1)
 Function(room_has_agent ['r2'] = 0)
 Function(room_has_agent ['r3'] = 0)
@@ -193,1530 +188,113 @@ Function(room_has_agent ['r6'] = 0)
 Function(room_has_agent ['r7'] = 0)
 =================
 Agent: a
+Max move time: inf
 Goal completed: 'False'
 Own Goals:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
+Condition(['a'] agent_at ['a'] = r5)
 Other Goals:
+b:
+Condition(['b'] agent_at ['b'] = r4)
 All Possible Goals:
-b:
-Condition(['b'] agent_at ['a', 'r7'] = 1)
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
------------------
-b:
-Condition(['b'] agent_at ['b', 'r2'] = 1)
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
------------------
-b:
-Condition(['b'] agent_at ['b', 'r3'] = 1)
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
------------------
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
------------------
-b:
-Condition(['b'] agent_at ['b', 'r5'] = 1)
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
------------------
-b:
-Condition(['b'] agent_at ['a', 'r7'] = 1)
-Condition(['b'] agent_at ['b', 'r2'] = 1)
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
------------------
-b:
-Condition(['b'] agent_at ['a', 'r7'] = 1)
-Condition(['b'] agent_at ['b', 'r3'] = 1)
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
------------------
-b:
-Condition(['b'] agent_at ['a', 'r7'] = 1)
-Condition(['b'] agent_at ['b', 'r4'] = 1)
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
------------------
-b:
-Condition(['b'] agent_at ['a', 'r7'] = 1)
-Condition(['b'] agent_at ['b', 'r5'] = 1)
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
------------------
 
 Agent: b
+Max move time: inf
 Goal completed: 'False'
 Own Goals:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
+Condition(['b'] agent_at ['b'] = r4)
 Other Goals:
+a:
+Condition(['a'] agent_at ['a'] = r5)
 All Possible Goals:
-a:
-Condition(['a'] agent_at ['a', 'r1'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r2'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r3'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r5'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r6'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['b', 'r4'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r1'] = 1)
-Condition(['a'] agent_at ['b', 'r4'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r2'] = 1)
-Condition(['a'] agent_at ['b', 'r4'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r3'] = 1)
-Condition(['a'] agent_at ['b', 'r4'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r5'] = 1)
-Condition(['a'] agent_at ['b', 'r4'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r6'] = 1)
-Condition(['a'] agent_at ['b', 'r4'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
-a:
-Condition(['a'] agent_at ['a', 'r7'] = 1)
-Condition(['a'] agent_at ['b', 'r4'] = 1)
-b:
-Condition(['b'] agent_at ['b', 'r4'] = 1)
------------------
 
 
-2025-08-15 18:54:17,581 INFO - __main__._.<module>:
+2025-08-26 14:58:58,185 INFO - __main__._.<module>:
 Model built successfully.
-2025-08-15 18:54:17,594 INFO - epistemic_handler.epistemic_class.Model.simulate:
+2025-08-26 14:58:59,325 INFO - justified_bfs_strategy.JustifiedBFS.get_policy:
+Num of virtual models: 1
+Num of node expansions: 56
+[("move(['a', 'r1', 'r2'])", 1)]
+{'a': 0, 'b': 0}
+2025-08-26 14:58:59,328 INFO - epistemic_handler.epistemic_class.Model.simulate:
 a takes action: move ['a', 'r1', 'r2']
-2025-08-15 18:54:31,408 INFO - complete_bfs_strategy.CompleteBFS.get_policy:
-Num of virtual models: 13
-Num of node expansions: 501
-[("move(['b', 'r4', 'r5'])", 6), ("move(['b', 'r4', 'r7'])", 2)]
-2025-08-15 18:54:31,409 INFO - epistemic_handler.epistemic_class.Model.simulate:
-b takes action: move ['b', 'r4', 'r5']
-2025-08-15 18:54:40,489 INFO - complete_bfs_strategy.CompleteBFS.get_policy:
-Num of virtual models: 9
-Num of node expansions: 359
-[("move(['a', 'r2', 'r3'])", 9)]
-2025-08-15 18:54:40,491 INFO - epistemic_handler.epistemic_class.Model.simulate:
-a takes action: move ['a', 'r2', 'r3']
-2025-08-15 18:54:40,507 INFO - epistemic_handler.epistemic_class.Model.simulate:
-b takes action: move ['b', 'r5', 'r4']
-2025-08-15 18:54:40,525 INFO - epistemic_handler.epistemic_class.Model.simulate:
-a takes action: stay ['a']
-2025-08-15 18:54:40,545 INFO - epistemic_handler.epistemic_class.Model.simulate:
+2025-08-26 14:59:00,586 INFO - justified_bfs_strategy.JustifiedBFS.get_policy:
+Num of virtual models: 1
+Num of node expansions: 56
+[("move(['b', 'r4', 'r7'])", 1)]
+{'a': 0, 'b': 0}
+2025-08-26 14:59:00,590 INFO - epistemic_handler.epistemic_class.Model.simulate:
 b takes action: move ['b', 'r4', 'r7']
-2025-08-15 18:54:55,205 INFO - complete_bfs_strategy.CompleteBFS.get_policy:
-Num of virtual models: 9
-Num of node expansions: 499
-[("move(['a', 'r3', 'r4'])", 10)]
-2025-08-15 18:54:55,205 INFO - epistemic_handler.epistemic_class.Model.simulate:
-a takes action: move ['a', 'r3', 'r4']
-2025-08-15 18:54:55,219 INFO - epistemic_handler.epistemic_class.Model.simulate:
+2025-08-26 14:59:01,571 INFO - justified_bfs_strategy.JustifiedBFS.get_policy:
+Num of virtual models: 1
+Num of node expansions: 43
+[("move(['a', 'r2', 'r3'])", 1)]
+{'a': 0, 'b': 0}
+2025-08-26 14:59:01,575 INFO - epistemic_handler.epistemic_class.Model.simulate:
+a takes action: move ['a', 'r2', 'r3']
+2025-08-26 14:59:02,649 INFO - justified_bfs_strategy.JustifiedBFS.get_policy:
+Num of virtual models: 1
+Num of node expansions: 43
+[("stay(['b'])", 1)]
+{'a': 0, 'b': 0}
+2025-08-26 14:59:02,653 INFO - epistemic_handler.epistemic_class.Model.simulate:
 b takes action: stay ['b']
-2025-08-15 18:54:55,243 INFO - epistemic_handler.epistemic_class.Model.simulate:
+2025-08-26 14:59:03,304 INFO - justified_bfs_strategy.JustifiedBFS.get_policy:
+Num of virtual models: 1
+Num of node expansions: 35
+[("move(['a', 'r3', 'r4'])", 1)]
+{'a': 0, 'b': 0}
+2025-08-26 14:59:03,308 INFO - epistemic_handler.epistemic_class.Model.simulate:
+a takes action: move ['a', 'r3', 'r4']
+2025-08-26 14:59:03,318 INFO - justified_bfs_strategy.JustifiedBFS.get_policy:
+Only one successor: stay(['b'])
+2025-08-26 14:59:03,322 INFO - epistemic_handler.epistemic_class.Model.simulate:
+b takes action: stay ['b']
+2025-08-26 14:59:03,501 INFO - justified_bfs_strategy.JustifiedBFS.get_policy:
+Num of virtual models: 1
+Num of node expansions: 9
+[("move(['a', 'r4', 'r5'])", 1)]
+{'a': 0, 'b': 0}
+2025-08-26 14:59:03,506 INFO - epistemic_handler.epistemic_class.Model.simulate:
 a takes action: move ['a', 'r4', 'r5']
-2025-08-15 18:54:55,261 INFO - epistemic_handler.epistemic_class.Model.simulate:
+2025-08-26 14:59:03,586 INFO - justified_bfs_strategy.JustifiedBFS.get_policy:
+Num of virtual models: 1
+Num of node expansions: 5
+[("move(['b', 'r7', 'r4'])", 1)]
+{'a': 0, 'b': 0}
+2025-08-26 14:59:03,592 INFO - epistemic_handler.epistemic_class.Model.simulate:
 b takes action: move ['b', 'r7', 'r4']
-2025-08-15 18:54:55,277 INFO - epistemic_handler.epistemic_class.Model.simulate:
-a takes action: stay ['a']
-2025-08-15 18:54:55,310 INFO - epistemic_handler.epistemic_class.Model.simulate:
-b takes action: move ['b', 'r4', 'r3']
-2025-08-15 18:54:55,343 INFO - epistemic_handler.epistemic_class.Model.simulate:
-a takes action: move ['a', 'r5', 'r4']
-2025-08-15 18:54:55,364 INFO - epistemic_handler.epistemic_class.Model.simulate:
-b takes action: move ['b', 'r3', 'r2']
-2025-08-15 18:55:01,788 INFO - complete_bfs_strategy.CompleteBFS.get_policy:
-Num of virtual models: 9
-Num of node expansions: 222
-[("move(['a', 'r4', 'r7'])", 9)]
-2025-08-15 18:55:01,790 INFO - epistemic_handler.epistemic_class.Model.simulate:
-a takes action: move ['a', 'r4', 'r7']
-2025-08-15 18:55:26,490 INFO - complete_bfs_strategy.CompleteBFS.get_policy:
-Num of virtual models: 13
-Num of node expansions: 600
-[("move(['b', 'r2', 'r3'])", 3), ("move(['b', 'r2', 'r1'])", 2)]
-2025-08-15 18:55:26,492 INFO - epistemic_handler.epistemic_class.Model.simulate:
-b takes action: move ['b', 'r2', 'r3']
-2025-08-15 18:55:26,533 INFO - epistemic_handler.epistemic_class.Model.simulate:
-a takes action: stay ['a']
-2025-08-15 18:55:26,597 INFO - epistemic_handler.epistemic_class.Model.simulate:
-b takes action: move ['b', 'r3', 'r4']
-2025-08-15 18:55:26,605 INFO - epistemic_handler.epistemic_class.Model.simulate:
+2025-08-26 14:59:03,597 INFO - epistemic_handler.epistemic_class.Model.simulate:
 ====== Solution ======
 Step 1:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 1)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 1)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 1)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
 a: move(['a', 'r1', 'r2'])
-{'a': False, 'b': False}
+{'a': False, 'b': True}
 -----------------
 Step 2:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 1)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 1)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 1)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
-b: move(['b', 'r4', 'r5'])
+b: move(['b', 'r4', 'r7'])
 {'a': False, 'b': True}
 -----------------
 Step 3:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 1)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 1)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 1)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 0)
-Function(room_has_agent ['r5'] = 1)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
 a: move(['a', 'r2', 'r3'])
 {'a': False, 'b': False}
 -----------------
 Step 4:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 1)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 1)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 1)
-Function(room_has_agent ['r4'] = 0)
-Function(room_has_agent ['r5'] = 1)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
-b: move(['b', 'r5', 'r4'])
-{'a': False, 'b': False}
------------------
-Step 5:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 1)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 1)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 1)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
-a: stay(['a'])
-{'a': False, 'b': True}
------------------
-Step 6:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 1)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 1)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 1)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
-b: move(['b', 'r4', 'r7'])
-{'a': False, 'b': True}
------------------
-Step 7:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 1)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 1)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 1)
-Function(room_has_agent ['r4'] = 0)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 1)
-a: move(['a', 'r3', 'r4'])
-{'a': False, 'b': False}
------------------
-Step 8:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 1)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 1)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 1)
 b: stay(['b'])
 {'a': False, 'b': False}
 -----------------
-Step 9:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 1)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 1)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 1)
+Step 5:
+a: move(['a', 'r3', 'r4'])
+{'a': False, 'b': False}
+-----------------
+Step 6:
+b: stay(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 7:
 a: move(['a', 'r4', 'r5'])
 {'a': False, 'b': False}
 -----------------
-Step 10:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 1)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 1)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 0)
-Function(room_has_agent ['r5'] = 1)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 1)
+Step 8:
 b: move(['b', 'r7', 'r4'])
-{'a': False, 'b': False}
------------------
-Step 11:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 1)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 1)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 1)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
-a: stay(['a'])
-{'a': False, 'b': True}
------------------
-Step 12:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 1)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 1)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 1)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
-b: move(['b', 'r4', 'r3'])
-{'a': False, 'b': True}
------------------
-Step 13:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 1)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 1)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 1)
-Function(room_has_agent ['r4'] = 0)
-Function(room_has_agent ['r5'] = 1)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
-a: move(['a', 'r5', 'r4'])
-{'a': False, 'b': False}
------------------
-Step 14:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 1)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 1)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 1)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
-b: move(['b', 'r3', 'r2'])
-{'a': False, 'b': False}
------------------
-Step 15:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 1)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 0)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 1)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 1)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 1)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 0)
-a: move(['a', 'r4', 'r7'])
-{'a': False, 'b': False}
------------------
-Step 16:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 1)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 1)
-Function(agent_at ['b', 'r3'] = 0)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 1)
-Function(room_has_agent ['r3'] = 0)
-Function(room_has_agent ['r4'] = 0)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 1)
-b: move(['b', 'r2', 'r3'])
-{'a': True, 'b': False}
------------------
-Step 17:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 1)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 1)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 1)
-Function(room_has_agent ['r4'] = 0)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 1)
-a: stay(['a'])
-{'a': True, 'b': False}
------------------
-Step 18:
-Function(connected ['r1', 'r1'] = 0)
-Function(connected ['r1', 'r2'] = 1)
-Function(connected ['r1', 'r3'] = 0)
-Function(connected ['r1', 'r4'] = 0)
-Function(connected ['r1', 'r5'] = 0)
-Function(connected ['r1', 'r6'] = 0)
-Function(connected ['r1', 'r7'] = 0)
-Function(connected ['r2', 'r1'] = 1)
-Function(connected ['r2', 'r2'] = 0)
-Function(connected ['r2', 'r3'] = 1)
-Function(connected ['r2', 'r4'] = 0)
-Function(connected ['r2', 'r5'] = 0)
-Function(connected ['r2', 'r6'] = 1)
-Function(connected ['r2', 'r7'] = 0)
-Function(connected ['r3', 'r1'] = 0)
-Function(connected ['r3', 'r2'] = 1)
-Function(connected ['r3', 'r3'] = 0)
-Function(connected ['r3', 'r4'] = 1)
-Function(connected ['r3', 'r5'] = 0)
-Function(connected ['r3', 'r6'] = 0)
-Function(connected ['r3', 'r7'] = 0)
-Function(connected ['r4', 'r1'] = 0)
-Function(connected ['r4', 'r2'] = 0)
-Function(connected ['r4', 'r3'] = 1)
-Function(connected ['r4', 'r4'] = 0)
-Function(connected ['r4', 'r5'] = 1)
-Function(connected ['r4', 'r6'] = 0)
-Function(connected ['r4', 'r7'] = 1)
-Function(connected ['r5', 'r1'] = 0)
-Function(connected ['r5', 'r2'] = 0)
-Function(connected ['r5', 'r3'] = 0)
-Function(connected ['r5', 'r4'] = 1)
-Function(connected ['r5', 'r5'] = 0)
-Function(connected ['r5', 'r6'] = 0)
-Function(connected ['r5', 'r7'] = 0)
-Function(connected ['r6', 'r1'] = 0)
-Function(connected ['r6', 'r2'] = 1)
-Function(connected ['r6', 'r3'] = 0)
-Function(connected ['r6', 'r4'] = 0)
-Function(connected ['r6', 'r5'] = 0)
-Function(connected ['r6', 'r6'] = 0)
-Function(connected ['r6', 'r7'] = 0)
-Function(connected ['r7', 'r1'] = 0)
-Function(connected ['r7', 'r2'] = 0)
-Function(connected ['r7', 'r3'] = 0)
-Function(connected ['r7', 'r4'] = 1)
-Function(connected ['r7', 'r5'] = 0)
-Function(connected ['r7', 'r6'] = 0)
-Function(connected ['r7', 'r7'] = 0)
-Function(agent_at ['a', 'r1'] = 0)
-Function(agent_at ['a', 'r2'] = 0)
-Function(agent_at ['a', 'r3'] = 0)
-Function(agent_at ['a', 'r4'] = 0)
-Function(agent_at ['a', 'r5'] = 0)
-Function(agent_at ['a', 'r6'] = 0)
-Function(agent_at ['a', 'r7'] = 1)
-Function(agent_at ['b', 'r1'] = 0)
-Function(agent_at ['b', 'r2'] = 0)
-Function(agent_at ['b', 'r3'] = 1)
-Function(agent_at ['b', 'r4'] = 0)
-Function(agent_at ['b', 'r5'] = 0)
-Function(agent_at ['b', 'r6'] = 0)
-Function(agent_at ['b', 'r7'] = 0)
-Function(room_has_agent ['r1'] = 0)
-Function(room_has_agent ['r2'] = 0)
-Function(room_has_agent ['r3'] = 1)
-Function(room_has_agent ['r4'] = 0)
-Function(room_has_agent ['r5'] = 0)
-Function(room_has_agent ['r6'] = 0)
-Function(room_has_agent ['r7'] = 1)
-b: move(['b', 'r3', 'r4'])
 {'a': True, 'b': False}
 -----------------
 

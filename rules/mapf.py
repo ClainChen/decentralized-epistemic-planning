@@ -19,69 +19,63 @@ class MAPFRules(AbstractRules):
         connected_functions = []
         agent_at_functions = []
         room_has_agent_functions = []
+        room_id_functions = []
         for func in functions:
             if func.name == "connected":
                 connected_functions.append(func)
+            elif func.name == "room_id":
+                room_id_functions.append(func)
             elif func.name == "agent_at":
-                if func.value == 1:
-                    agent_at_functions.append(func)
+                agent_at_functions.append(func)
             elif func.name == "room_has_agent":
                 room_has_agent_functions.append(func)
         
+        # check no duplicate room id
+        s = set()
+        for func in room_id_functions:
+            before = len(s)
+            s.add(func.value)
+            if len(s) == before:
+                return False
+
         # 3. 4.
         checked_connected = set()
-        for func in connected_functions:
-            checked_connected.add(func)
-            if func in checked_connected:
-                continue
-
-            r1 = func.parameters['?r1']
-            r2 = func.parameters['?r2']
-            v1 = func.value
-            if r1 == r2:
-                if v1 == 0:
-                    continue
-                else:
+        for func1 in connected_functions:
+            r11 = func1.parameters['?r1']
+            r12 = func1.parameters['?r2']
+            if r11 == r12:
+                if func1.value == 1:
                     return False
-            
+                else:
+                    continue
+            checked_connected.add(func1)
             for func2 in connected_functions:
                 if func2 in checked_connected:
                     continue
-                if (func2.parameters['?r1'] == r2
-                    and func2.parameters['?r2'] == r1):
-                    if func2.value == v1:
-                        checked_connected.add(func2)
-                        break
-                    else:
-                        return False
+                r21 = func2.parameters['?r1']
+                r22 = func2.parameters['?r2']
+                if r11 == r22 and r12 == r21 and func1.value != func2.value:
+                    return False 
 
-        # 1
+        # 1, 2
+        s1 = set()
         for func in agent_at_functions:
-            agt = func.parameters['?a']
-            room = func.parameters['?r']
-            for func2 in agent_at_functions:
-                if (func2.parameters['?r'] != room
-                    and func2.parameters['?a'] == agt):
-                    return False
-                elif (func2.parameters['?r'] == room
-                      and func2.parameters['?a'] != agt):
-                     return False
+            before = len(s1)
+            s1.add(func.value)
+            if len(s1) == before:
+                return False
 
         # 2
+        s2 = set()
         for func in room_has_agent_functions:
-            room = func.parameters['?r']
-            if func.value == 0:
-                for func2 in agent_at_functions:
-                    if (func2.parameters['?r'] == room
-                        and func2.value == 1):
-                        return False
-            else:
-                count = 0
-                for func in agent_at_functions:
-                    if func.parameters['?r'] == room:
-                        count += 1
-                        if count > 1:
-                            return False
+            before = len(s2)
+            if func.value == 1:
+                s2.add(func.parameters['?r'])
+                if len(s2) == before:
+                    return False
+        if s1 != s2:
+            return False
+            
         
         return True
 
