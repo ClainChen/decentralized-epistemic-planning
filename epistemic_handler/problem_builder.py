@@ -47,66 +47,70 @@ class ProblemBuilder:
         """
         if input agent_name, then the generated goals for agent_name will only have it's own goals
         """
+
+        def get_cross_subsets(nested_list):
+            # 为每个子列表生成选择（包括空选择）
+            choices = [[[]] + [[item] for item in sublist] for sublist in nested_list]
+            
+            # 生成所有组合，展平并过滤空列表
+            return [list(itertools.chain.from_iterable(combo)) 
+                    for combo in itertools.product(*choices) 
+                    if any(combo)]
         
         # Generate all possible belief sequences
         belief_sequences = self.base_model.possible_belief_sequences
 
-        groups = []
-        for ag in self.base_model.acceptable_goal_set:
-            schema = self.base_model.get_function_schema_by_name(ag.function_name)
-            if ag.type == GoalValueType.NONE:
-                if isinstance(schema.range, tuple):
-                    start, end = schema.range
-                    value_range = list(range(start, end + 1))
-                else:
-                    value_range = schema.range
-            elif ag.type == GoalValueType.ENUMERATE:
-                value_range = ag.enumerates
-            elif ag.type == GoalValueType.RANGE:
-                value_range = list(range(ag.min, ag.max + 1))
-            
-            params = [self.base_model.get_all_entity_name_by_type(type) for type in schema.require_parameters.values()]
-            for sequence in belief_sequences:
-                for param in itertools.product(*params):
-                    group = []
-                    for value in value_range:
-                        goal = Condition()
-                        goal.belief_sequence = sequence
-                        goal.ep_operator = EpistemicOperator.EQUAL
-                        goal.ep_truth = EpistemicTruth.TRUE
-                        goal.condition_operator = ConditionOperator.EQUAL
-                        goal.condition_function_name = schema.name
-                        goal.condition_function_parameters = dict(zip(schema.require_parameters.keys(), param))
-                        goal.value = value
-                        group.append(goal)
-                    groups.append(group)
-        possible_goals = {agent: [group for group in groups if group[0].belief_sequence[0] == agent] for agent in self.base_model.get_all_entity_name_by_type('agent') if agent != agent_name}
+        groups: list[Condition] = []
+        for sg in self.base_model.S_G:
+            for bs in belief_sequences:
+                if bs[0] == agent_name:
+                    continue
+                bg = Condition()
+                bg.belief_sequence = bs
+                bg.condition_function_name = sg.condition_function_name
+                bg.condition_function_parameters = sg.condition_function_parameters
+                bg.condition_operator = sg.condition_operator
+                bg.value = sg.value
+                groups.append(bg)
         
-        for agent, groups in possible_goals.items():
-            if agent == agent_name:
-                continue
-            goal_sets = []
-            for i in range(1, len(groups) + 1):
-                pair_combs = itertools.combinations(groups, i)
-                for pair_comb in pair_combs:
-                    goal_sets += [list(comb) for comb in itertools.product(*pair_comb)]
-            possible_goals[agent] = goal_sets
-        if agent_name != "":
-            possible_goals[agent_name] = [self.base_model.get_agent_by_name(agent_name).own_goals]
+        s = {}
+        for a in self.base_model.agents:
+            s[a.name] = []
+        for g in groups:
+            s[g.belief_sequence[0]].append(g)
         
-        combs = [list(comb) for comb in itertools.product(*possible_goals.values())]
-        results = []
-        agent_goal_sets = [dict(zip(possible_goals.keys(), comb)) for comb in combs]
+        for name, goals in s.items():
+            s[name] = [list(group) for key, group in 
+                                     itertools.groupby(sorted(goals, 
+                                                              key=lambda x: f"{x.belief_sequence}{x.header()}"), 
+                                                       key=lambda x: f"{x.belief_sequence}{x.header()}")]
+        
+        for name, goals in s.items():
+            s[name] = get_cross_subsets(goals)
+        s[agent_name] = [self.base_model.get_agent_by_name(agent_name).own_goals]
+
+        key = list(s.keys())
+        value = list(s.values())
+
+        agent_goal_sets = []
+        for comb in product(*value):
+            agent_goal_sets.append(dict(zip(key, comb)))
+
+        agent_goal_sets.sort(key=lambda x: [j.plain_text() for i in x.values() for j in i ])
         agent_goal_sets.sort(key=lambda x: sum([len(value) for value in x.values()]))
+        # for se in agent_goal_sets:
+        #     print(se)
+
         valid = 0
         invalid_jump = 0
-        total = len(combs)
+        total = len(agent_goal_sets)
 
         invalid_goal_sets: list[set] = []
         start_time = time.perf_counter()
         
-        print(f"共{len(agent_goal_sets)}组设置，开始测试所有可能的Goals设置")
-        with tqdm(range(total), desc="审查进度") as pbar:
+        results = []
+        print(f"Total goal settings: {len(agent_goal_sets)}, now begin to test each setting")
+        with tqdm(range(total), desc="progress") as pbar:
             max_action_length = -1
             for i in pbar:
                 agent_goal_set = agent_goal_sets[i]
@@ -131,7 +135,7 @@ class ProblemBuilder:
                         valid += 1
                     else:
                         invalid_goal_sets.append(goal_set)
-                pbar.set_postfix({"有效数": f"{valid}/{total}", "跳过无效审查数": invalid_jump})
+                pbar.set_postfix({"Valid Count": f"{valid}/{total}", "Skip invalid test count": invalid_jump})
         
         # for sett in results:
         #     result = "\n"
@@ -165,7 +169,7 @@ class ProblemBuilder:
     @util.record_time
     def generate_all_problem_pddl_files(self):
         worlds = self.get_all_init_ontic_world()
-        goal_sets = self.get_all_poss_goals()
+        goal_sets, _ = self.get_all_poss_goals()
         problems = self.get_all_poss_problem(worlds, goal_sets)
         self.logger.info(f"Total possible problem num: {len(problems)}")
         print(f"共计 {len(problems)} 个可能的模型")
@@ -212,7 +216,7 @@ class ProblemBuilder:
         ranges = ranges.rstrip()
 
         goal_sets = ""
-        for goal_set in self.base_model.acceptable_goal_set:
+        for goal_set in self.base_model.S_G:
             if goal_set.type == GoalValueType.RANGE:
                 value_range = f"[]{goal_set.min}, {goal_set.max}"
             elif goal_set.type == GoalValueType.ENUMERATE:
@@ -276,7 +280,7 @@ class ProblemBuilder:
                 goals = ""
                 for goal in agt.own_goals:
                     
-                    belief_sequence = "b " + " b ".join([f"[{b}]" for b in goal.belief_sequence])
+                    belief_sequence = f"\"{"b " + " b ".join([f"[{b}]" for b in goal.belief_sequence])}\""
                     goals += goal_template.substitute(
                         belief_sequence = belief_sequence,
                         condition_func_name = goal.condition_function_name,

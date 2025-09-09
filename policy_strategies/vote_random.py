@@ -17,7 +17,6 @@ class VoteRandom(AbstractPolicyStrategy):
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
         successors = model.get_agent_successors(agent_name)
-        successors = [succ for succ in successors if util.is_valid_action(model, succ, agent_name)]
         if len(successors) > 1:
             votes = self.voting(model, agent_name)
             best_action = ""

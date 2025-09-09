@@ -1,5 +1,5 @@
 (define
-    (problem problem1)
+    (problem problem2)
     (:domain mapf)
     (:agent b)
 

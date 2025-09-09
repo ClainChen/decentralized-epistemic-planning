@@ -17,7 +17,6 @@ class RandomBFS(AbstractPolicyStrategy):
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
         successors = model.get_agent_successors(agent_name)
-        successors = [succ for succ in successors if util.is_valid_action(model, succ, agent_name)]
         if len(successors) > 1:
             return self.bfs(model, agent_name)
         elif len(successors) == 1:
@@ -47,7 +46,6 @@ class RandomBFS(AbstractPolicyStrategy):
                     return node.actions[0] if node.actions else None
             current_agent = node.model.agents[node.current_index]
             successors = node.model.get_agent_successors(current_agent.name)
-            successors = [succ for succ in successors if util.is_valid_action(node.model, succ, current_agent.name)]
             # result = "start function\n"
             # if len(node.model.history_functions) > 0:
             #     for f in node.model.history_functions[0]:

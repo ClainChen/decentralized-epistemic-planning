@@ -22,10 +22,19 @@ class A:
         if not isinstance(value, A): return False
         return frozenset(self.lst) == frozenset(value.lst)
 
-a = [A([1,3,5,7]), A([2,4,6,8])]
-b = frozenset(a)
-a[0].lst[2] = 9
-print(a)
-print(b)
+def get_cross_subsets(nested_list):
+    # 为每个子列表生成选择（包括空选择）
+    choices = [[[]] + [[item] for item in sublist] for sublist in nested_list]
+    
+    # 生成所有组合，展平并过滤空列表
+    return [list(itertools.chain.from_iterable(combo)) 
+            for combo in itertools.product(*choices) 
+            if any(combo)]
+
+a = [[1],[['a','b'],['c','d']]]
+b = [[1,2],[3,4],[5,6]]
+print(get_cross_subsets(b))
+# b = [list(e) for e in itertools.product(*a)]
+# print(b)
 
 

@@ -12,14 +12,15 @@ MODEL_CHECKER_LOG_LEVEL = logging.INFO
 DOMAIN_NAME_REGEX = r"\(domain (\w+)\)"
 TYPES_REGEX = r"\(:types$\n([\s\S]+?)\n^\s+\)"
 FUNCTION_EXTRACT_REGEX = r"\(:functions$\n([\s\S]+?)^\s+\)"
-FUNTION_SPLIT_NAME_PARAMETER_REGEX = r"\((\w+) ([^\)]+)\)"
+FUNTION_SPLIT_NAME_PARAMETER_REGEX = r"\((\w+) ?([^\)]+)?\)"
 SPLIT_MULTI_PARAMETER_REGEX = r"([^-\(]+)- (\w+)"
-ACTION_EXTRACT_REGEX = r"\(:action (\w+)\n\s+:parameters (.*)\n\s+:precondition \(\n(\s+\([\s\S]*?)?\s+\)\n\s+:effect \(\n(\s+\([\s\S]*?)?\s+\)\n\s+\)"
+ACTION_EXTRACT_REGEX = r"\(:action (\w+)\n\s+:parameters (.*)\n\s+:precondition \(\s*\n(\s+\([\s\S]*?)?\s+\)\s*\n\s+:effect \(\s*\n(\s+\([\s\S]*?)?\s+\)\s*\n\s+\)"
 CONDITION_SPLIT_REGEX = r"\(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2}"
-EPISTEMIC_CONDITION_SPLIT_REGEX = r"\(([!=><]=?|>|<) \(@ep \(\"([\s\S]+?)\"\) \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} ep.(\w+)\)"
+EPISTEMIC_CONDITION_SPLIT_REGEX = r"\(([!=><]=?|>|<) \(@ep \(\"([\s\S]+?)\"\) (.+)\) ep\.(\w+)\)"
 SPLIT_VARIABLE_REGEX = r"(\w+) (.+)"
 EXTRACT_BELIEF_AGENT_REGEX = r"\[(\w+)\]"
-EFFECT_SPLIT_REGEX = r"\((increase|decrease|assign) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2}"
+EFFECT_SPLIT_REGEX = r"\((increase|decrease|assign) \(([^\)]+)\) (.+)\)"
+EFFECT_EP_VALUE_SPLIT_REGEX = r"\(@ep \(\"(.+)\"\) (.+)\)"
 
 # Problem related regexes
 PROBLEM_NAME_REGEX = r"\(problem (\w+)\)"
@@ -32,8 +33,8 @@ RANGES_EXTRACT_REGEX = r"\(:ranges$\n([\s\S]+?)^\s+\)"
 RANGES_SPLIT_REGEX = r"\((.+) (\w+) \[(.+)\]\)"
 AGENT_INIT_REGEX = r"\(:init$\n([\s\S]*?)^\s+\)"
 INIT_STATE_EXTRACT_REGEX = r"\(:init$\n([\s\S]*?)^\s+\)"
-GOAL_SET_EXTRACT_REGEX = r"\(:goal_sets$\n([\s\S]+?)^\s+\)"
-GOAL_SET_SPLIT_REGEX = r"\((.+) (\w+) \[(.?)\]\)"
+GOAL_SET_EXTRACT_REGEX = r"\(:goal_sets$\n([\s\S]*?)^\s+\)"
+GOAL_SET_SPLIT_REGEX = r"\s+(.+)\((.+)\)=\[(.+)\]"
 MAX_BELIEF_DEPTH_REGEX = r"\(:max_belief_depth (\d+)\)"
 # SHARED_INIT_STATE_EXTRACT_REGEX = r"\(:shared-init$\n([\s\S]*?)^\s+\)"
 INIT_STATE_SPLIT_REGEX = r"assign \((.+?)\) \(?('\w+'|\d*|.+?)\){1,2}"
@@ -168,6 +169,9 @@ class ParsingEffect:
 
         # target variable, if the effect of the variable is not a number, then it will be a value comes from another variable, here called target variable
         self.target_variable = ParsingVariable()
+
+        # target variable's belief sequence, if the target variable is an epistemic logic
+        self.target_variable_belief_sequence = []
     
     def __str__(self):
         if self.value is not None:
@@ -223,16 +227,11 @@ class ParsingAcceptableGoal:
     """
     def __init__(self):
         self.function_name: str = None
-        self.type = 'none' # the type of the variable, here, only 'enumerate', 'range' are plausible
-        self.enumerates: list = []
-        self.min: int = None
-        self.max: int = None
+        self.parameters: list = []
+        self.values: list = []
     
     def __str__(self):
-        if self.type == 'enumerate':
-            return f"Acceptable(function_name: {self.function_name}, type: {self.type}, enumerates: {self.enumerates})"
-        else:
-            return f"Range(function_name: {self.function_name}, type: {self.type}, min: {self.min}, max: {self.max})"
+        return f"Acceptable(function_name: {self.function_name}, parameters: {self.parameters}, values: {self.values})"
     
     def __repr__(self):
         return self.__str__()
@@ -313,12 +312,14 @@ class ParsingProblem:
 
 
 def convert_str_to_parsing_variable(variable_line: str, logger) -> ParsingVariable:
-    variable = util.regex_search(SPLIT_VARIABLE_REGEX, variable_line, logger)
-    var = ParsingVariable()
-    var_name, var_params = variable[0]
-    var.name = var_name
-    var.parameters = var_params.split()
-    return var
+    try:
+        vars = variable_line.split()
+        var = ParsingVariable()
+        var.name = vars[0]
+        var.parameters = vars[1:]
+        return var
+    except IndexError as e:
+        raise IndexError(f"list index out of range: Error parsing variable line: {variable_line}")
 
 
 def convert_state_line_to_parsing_state(state_pair: tuple[str, str], logger) -> ParsingState:
@@ -337,17 +338,22 @@ def convert_str_to_parsing_condition(condition_str: str, logger) -> ParsingCondi
     is_epistemic = '@ep' in condition_str
     epistemic_logic_operator = None
     belief_sequence = None
-    logic_operator = None
+    logic_operator = ""
     condition_variable = None
-    condition_value = None
+    condition_value = ""
     epistemic_truth = None
     if is_epistemic:
         condition_str = util.regex_search(EPISTEMIC_CONDITION_SPLIT_REGEX, condition_str, logger)
-        epistemic_logic_operator, belief_sequence, logic_operator, condition_variable, condition_value, epistemic_truth = condition_str[0]
+        epistemic_logic_operator, belief_sequence, condition_part, epistemic_truth = condition_str[0]
+        if condition_part[1] not in ['=', '>', '<', '!']:
+            condition_variable = condition_part[1:-1]
+        else:
+            condition_str = util.regex_search(CONDITION_SPLIT_REGEX, condition_part, logger)
+            logic_operator, condition_variable, condition_value = condition_str[0]
+
     else:
         condition_str = util.regex_search(CONDITION_SPLIT_REGEX, condition_str, logger)
         logic_operator, condition_variable, condition_value = condition_str[0]
-    
     if is_epistemic:
         precondition = ParsingEpistemicCondition()
     else:
@@ -359,16 +365,17 @@ def convert_str_to_parsing_condition(condition_str: str, logger) -> ParsingCondi
     # parse the condition value, if it is not a number, then it will parse the targetvariable
     if condition_value.isdigit():
         state.value = int(condition_value)
+    elif condition_value == "":
+        state.value = ""
     elif ' ' not in condition_value:
         state.value = condition_value
     else:
         state.target_variable = convert_str_to_parsing_variable(condition_value, logger)
     precondition.state = state
     if is_epistemic:
-        belief_sequence = util.regex_search(EXTRACT_BELIEF_AGENT_REGEX, belief_sequence, logger)
-        for belief_agt in belief_sequence:
-            precondition.belief_sequence.append(belief_agt)
-            precondition.epistemic_logic_operator = epistemic_logic_operator
+        belief_sequence = (" " + belief_sequence).split(" b ")[1:]
+        precondition.belief_sequence = [b[1:-1] for b in belief_sequence]
+        precondition.epistemic_logic_operator = epistemic_logic_operator
         precondition.condition = precondition
         precondition.epistemic_truth = epistemic_truth
     return precondition
@@ -440,9 +447,10 @@ class DomainParser:
             function_name, parameter_part = function_line
             function = ParsingFunction()
             function.name = function_name
-            parameter_part = util.regex_search(SPLIT_MULTI_PARAMETER_REGEX, parameter_part, self.logger)
-            for parameters, parameter_type in parameter_part:
-                function.parameters[parameter_type] = parameters.split()
+            if parameter_part != "":
+                parameter_part = util.regex_search(SPLIT_MULTI_PARAMETER_REGEX, parameter_part, self.logger)
+                for parameters, parameter_type in parameter_part:
+                    function.parameters[parameter_type] = parameters.split()
             functions.append(function)
         return functions
 
@@ -458,6 +466,7 @@ class DomainParser:
         actions = []
         for action_name, parameter_part, precondition_part, effect_part in action_lines:
             action = ParsingAction()
+            
             # parse action name
             action.name = action_name
             
@@ -521,10 +530,14 @@ class DomainParser:
             # parse the effect value, if it is not a number, then it will parse the targetvariable
             if effect_value.isdigit():
                 effect.value = int(effect_value)
+            elif ' ' not in effect_value:
+                effect.value = effect_value
             else:
-                target_variable = convert_str_to_parsing_variable(effect_value, self.logger)
+                if '@ep' in effect_value:
+                    belief_sequence, effect_value = util.regex_search(EFFECT_EP_VALUE_SPLIT_REGEX, effect_value, self.logger)[0]
+                    effect.target_variable_belief_sequence = [b[1:-1] for b in (" " + belief_sequence).split(" b ")[1:]]
+                target_variable = convert_str_to_parsing_variable(effect_value[1:-1], self.logger)
                 effect.target_variable = target_variable
-            
             effects.append(effect)
         return effects
             
@@ -758,18 +771,17 @@ class ProblemParser:
         """
         goal_sets = []
         goal_set_lines = util.regex_search(GOAL_SET_EXTRACT_REGEX, env_content, self.logger)
-        goal_set_lines = goal_set_lines[0]
-        goal_set_lines = util.regex_search(GOAL_SET_SPLIT_REGEX, goal_set_lines, self.logger)
+        goal_set_lines: str = goal_set_lines[0]
+        goal_set_lines: list[str] = util.regex_search(GOAL_SET_SPLIT_REGEX, goal_set_lines, self.logger)
+        # print(goal_set_lines)
 
-        for function_name, type, range_values in goal_set_lines:
-            parsing_goal_set = ParsingAcceptableGoal()
-            parsing_goal_set.function_name = function_name
-            parsing_goal_set.type = type
-            if parsing_goal_set.type == 'enumerate':
-                parsing_goal_set.enumerates = range_values.split()
-            elif parsing_goal_set.type == 'range':
-                parsing_goal_set.min, parsing_goal_set.max = tuple(map(int, range_values.split(',')))
-            goal_sets.append(parsing_goal_set)
+        for func_name, params, values in goal_set_lines:
+            new_goal_set = ParsingAcceptableGoal()
+            new_goal_set.function_name = func_name
+            new_goal_set.parameters = params.split(',')
+            new_goal_set.values = values.split(',')
+            goal_sets.append(new_goal_set)
+
         return goal_sets
 
     def get_max_belief_depth(self, env_content) -> int:

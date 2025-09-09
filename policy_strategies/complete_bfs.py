@@ -102,19 +102,14 @@ class CompleteBFS(AbstractPolicyStrategy):
                     continue
             current_agent = node.model.agents[node.current_index]
             successors = node.model.get_agent_successors(current_agent.name)
-            successors = [succ for succ in successors if util.is_valid_action(node.model, succ, current_agent.name)]
             for succ in successors:
                 next_model = node.model.copy()
                 next_model.move(current_agent.name, succ)
                 # 过滤机制
-                ep_funcs = []
-                for agt in next_model.agents:
-                    his_ep_funcs = next_model.get_history_functions_of_agent(agt.name)
-                    cur_ep_funcs = next_model.get_functions_of_agent(agt.name)
-                    ep_funcs.append(frozenset(util.get_epistemic_world(reversed(his_ep_funcs + [cur_ep_funcs]))))
-                if frozenset(ep_funcs) in existed_epistemic_world[current_agent.name]:
+                observe_funcs = frozenset([frozenset([agt.name] + util.get_epistemic_world(next_model, [agt.name])) for agt in next_model.agents])
+                if observe_funcs in existed_epistemic_world[current_agent.name]:
                     continue
-                existed_epistemic_world[current_agent.name].add(frozenset(ep_funcs))
+                existed_epistemic_world[current_agent.name].add(observe_funcs)
 
                 heapq.heappush(heap, 
                             util.BFSNode((node.current_index + 1) % count_agent,

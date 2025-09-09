@@ -1,0 +1,8 @@
+a: move a r1 r2
+b: stay b
+a: move a r2 r3
+b: move b r4 r5
+a: move a r3 r2
+b: move b r5 r4
+a: move a r2 r3
+b: move b r4 r5

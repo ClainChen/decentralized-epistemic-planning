@@ -95,7 +95,8 @@
     )
 
     (:goal_sets
-        (agent_at none [])
+        agent_at(a)=[all]
+        agent_at(b)=[all]
     )
 
     (:max_belief_depth 1)

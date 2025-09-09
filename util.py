@@ -76,8 +76,8 @@ def setup_logger(name, handlers=[], logger_level=logging.INFO):
 def regex_search(regex, string, logger=None):
     result = re.findall(regex, string, re.M)
     if logger and not result :
-        logger.error(f"result not found: \"{regex}\" in \"{string}\"")
-        raise Exception(f"result not found: \"{regex}\" in \"{string}\"")
+        logger.error(f"result not found: {regex} in {string}")
+        raise Exception(f"result not found: {regex} in {string}")
     return result
 
 def regex_match(regex, string, logger=None):
@@ -204,73 +204,70 @@ def check_in_range(function: Function):
         min, max = function.range
         return min <= function.value <= max
 
-def is_valid_action(model: Model, action: Action, agent_name) -> bool:
+def is_valid_action(model: Model, action: Action) -> bool:
     """
-    to check whether the action is valid in realm of given functions
+    to check whether the action is valid
     """
     if action is None:
         return True
     for condition in action.pre_condition:
-        if len(condition.belief_sequence) == 0:
-            if not check_regular_condition(condition, model.ontic_functions):
-                return False
-        else:
-            if not check_condition(model, condition, agent_name):
-                return False
+        if not check_condition(model, condition):
+            return False
     return True
 
-def check_condition(model: Model, condition: Condition, agent_name):
-    if len(condition.belief_sequence) == 0:
-        return check_regular_condition(condition, model.get_functions_of_agent(agent_name))
-    else:
-        return check_epistemic_condition(condition, model, agent_name)
+def check_condition(model: Model, condition: Condition):
+    epistemic_world_functions = get_epistemic_world(model, condition.belief_sequence)
+    return check_regular_condition(condition, epistemic_world_functions)
+        
 
-def get_epistemic_world(model: Model, functions_sequences: list[list[Function]], agent_name: str) -> list[Function]:
+def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
     """
     get the epistemic world from the given function sequence\n
     this usually use when checking the epistemic condition and generating the virtual world\n
     """
-
-    # if the length of fs is 0, return an empty world
-    functions_sequences = list(functions_sequences)
-    if len(functions_sequences) == 0:
+    if len(world_seq) == 0:
         return []
     
     world = []
     headers = set()
-    for functions in functions_sequences:
+    for functions in reversed(world_seq):
         for func in functions:
             if func.header() not in headers:
                 headers.add(func.header())
                 world.append(func)
-    # return world
-    result = []
-    for belief_func in world:
-        # st(v) = e
-        if belief_func in functions_sequences[0]:
-            result.append(belief_func)
-            continue
-        
-        # v not in Oi(st<{v=e}>)
-        checking_world = [] # st<{v=e}>
-        # {v=e}
-        found = False
-        for obs_func in functions_sequences[0]:
-            if belief_func.name == obs_func.name and belief_func.parameters == obs_func.parameters:
-                checking_world.append(belief_func)
-                found = True
-            else:
-                checking_world.append(obs_func)
-        if not found:
-            checking_world.append(belief_func)
-        
-        if belief_func not in model.observation_function.get_observable_functions(model, checking_world, agent_name):
-            result.append(belief_func)
-        # else:
-        #     print(f"\n{belief_func}")
-        #     print(f"{functions_sequences[0]}")
-        #     print(f"{checking_world}, {agent_name}")
-    return result
+    return world
+
+def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[]) -> list[Function]:
+    """
+    if belief_sequence = [a,b,c], history = [S0, S1, ..., Sn]
+    output: st' = st'' / ( Oc(st'') / Oc(st) )
+    st = fb(fa(St))
+    st'' = fc(fb(fa(St)))
+    """
+    if len(history_functions) == 0:
+        history_functions = model.get_history_functions()
+    if len(history_functions) == 0:
+        return []
+    if len(belief_sequence) == 0:
+        return history_functions[-1]
+
+    # st''
+    history_beliefs = [get_functions_with_belief_sequence(functions, belief_sequence, model) for functions in history_functions]
+    st2 = get_unfiltered_st(history_beliefs)
+    output = ""
+    for func in st2:
+        output += f"{func}\n"
+    # st
+    st = get_epistemic_world(model, belief_sequence[:-1], history_functions)
+
+    # Oi(st'')
+    Oi_st2 = set(model.observation_function.get_observable_functions(model, st2, belief_sequence[-1]))
+    
+    # Oi(st)
+    Oi_st = set(model.observation_function.get_observable_functions(model, st, belief_sequence[-1]))
+
+    return list(set(st2).difference(Oi_st2.difference(Oi_st)))
+
 
 def check_regular_condition(condition: Condition, functions: list[Function]) -> bool:
     """
@@ -280,10 +277,15 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
     checking_function = get_function_with_name_and_params(
         functions, condition.condition_function_name, condition.condition_function_parameters
     )
+    # solve the situation when it is an epistemic condition with an ep.none operator in it
+    # if it is ep.none, then we only need to check whther the checking_function is exist or not depends on the epistemic operator
+    if condition.ep_truth == EpistemicTruth.UNKNOWN:
+        return checking_function is None if condition.ep_operator == EpistemicOperator.EQUAL else checking_function is not None
+    
     if checking_function is None:
         return False
 
-    if not condition.value is None:
+    if condition.value is not None:
         if not compare_condition_values(checking_function.value, condition.value, condition.condition_operator):
             return False
     else:
@@ -296,17 +298,6 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
             return False
 
     return True
-
-def check_epistemic_condition(condition: Condition, model: Model, agent_name) -> bool:
-    history = [his['functions'] for his in model.history] + [model.ontic_functions]
-    history_beliefs: list[list[Function]] = []
-    for history_functions in reversed(history):
-        belief_functions = get_functions_with_belief_sequence(
-            history_functions, condition.belief_sequence, model
-        )
-        history_beliefs.append(belief_functions)
-    epistemic_world_functions = get_epistemic_world(model, history_beliefs, condition.belief_sequence[-1])
-    return util.check_regular_condition(condition, epistemic_world_functions)
 
 def get_functions_with_belief_sequence(functions: list[Function], belief_sequence: list[str], model: Model) -> list[Function]:
     if len(belief_sequence) == 0:
@@ -382,11 +373,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     If the generated unknwon function is clearly belongs to an agent, then this function will add to that agent's functions.\n
     """
 
-    current_agent_functions = model.get_functions_of_agent(agent_name)
-    current_agent_history_functions = model.get_history_functions_of_agent(agent_name)
-    epistemic_world = get_epistemic_world(model, reversed(current_agent_history_functions + [current_agent_functions]), agent_name)
-
-    known_functions = epistemic_world
+    known_functions = get_epistemic_world(model, [agent_name])
     unknown_functions = get_unknown_functions(model, known_functions, agent_name)
     
     # group the functions by name and parameters
@@ -429,7 +416,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     new_history_functions = []
     for history in virtual_model.history:
         current_history.append(history['functions'])
-        new_history = {'functions': get_epistemic_world(virtual_model, reversed(current_history), agent_name), 
+        new_history = {'functions': get_epistemic_world(virtual_model, [agent_name], history_functions=current_history), 
                        'agent': history['agent'],
                        'action': history['action'],
                        'signal': history['signal']}
@@ -480,11 +467,9 @@ def remove_continue_duplicates(lst):
     return new_list
 
 import heapq
-def check_bfs(virtual_model: Model, max_action_length) -> bool:
+def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
     heap: list[BFSNode] = []
-    current_agent_index = 0
-    count_agent = len(virtual_model.agents)
-    heapq.heappush(heap, BFSNode(current_agent_index, [], virtual_model, 0))
+    heapq.heappush(heap, BFSNode(1, [], virtual_model, 0))
     existed_epistemic_world = {agt.name: set() for agt in virtual_model.agents}
     while heap:
         node = heapq.heappop(heap)
@@ -493,67 +478,28 @@ def check_bfs(virtual_model: Model, max_action_length) -> bool:
         
         if max_action_length > 0 and len(node.actions) == max_action_length:
             break
-        current_agent = node.model.agents[node.current_index]
-        successors = node.model.get_agent_successors(current_agent.name)
-        for succ in successors:
-            next_model = node.model.copy()
-            next_model.move(current_agent.name, succ)
-            # 过滤机制
-            ep_funcs = []
-            for agt in next_model.agents:
-                his_ep_funcs = next_model.get_history_functions_of_agent(agt.name)
-                cur_ep_funcs = next_model.get_functions_of_agent(agt.name)
-                ep_funcs.append(frozenset(util.get_epistemic_world(next_model, reversed(his_ep_funcs + [cur_ep_funcs]), agt.name)))
-            observe_funcs = frozenset(ep_funcs)
-            if observe_funcs in existed_epistemic_world[current_agent.name]:
-                continue
-            existed_epistemic_world[current_agent.name].add(observe_funcs)
+        successors = {}
+        for agent in node.model.agents:
+            successors[agent.name] = node.model.get_agent_successors(agent.name)
+        for name, succs in successors.items():
+            for succ in succs:
+                next_model = node.model.copy()
+                next_model.move(name, succ)
+                # 过滤机制
+                observe_funcs = frozenset(get_epistemic_world(next_model, [name]))
+                if observe_funcs in existed_epistemic_world[name]:
+                    continue
+                existed_epistemic_world[name].add(observe_funcs)
+                for agt in next_model.agents:
+                    if agt.name != name:
+                        existed_epistemic_world[agt.name].add(frozenset(get_epistemic_world(next_model, [agt.name])))
 
-            heapq.heappush(heap, 
-                        BFSNode((node.current_index + 1) % count_agent,
-                                    node.actions + [succ],
-                                    next_model,
-                                    node.priority + 1))
+                heapq.heappush(heap, 
+                            BFSNode(1,
+                                        node.actions + [succ],
+                                        next_model,
+                                        node.priority + 1))
     return -1
-
-def simulate_a_round(model: Model, current_agent: str):
-    end_models = []
-
-    heap: list[BFSNode] = []
-    end_index = model.get_agent_index_by_name(current_agent)
-    count_agent = len(model.agents)
-    cur_index = (end_index + 1) % count_agent
-    heapq.heappush(heap, BFSNode(cur_index, [], model, 0))
-    existed_epistemic_world = {agt.name: set() for agt in model.agents}
-    while heap:
-        node = heapq.heappop(heap)
-
-        if (node.current_index + 1 == end_index and len(node.actions) != 0) or node.model.full_goal_complete():
-            end_models.append(node.model)
-            continue
-        current_agent = node.model.agents[node.current_index]
-        successors = node.model.get_agent_successors(current_agent.name)
-        successors = [succ for succ in successors if util.is_valid_action(node.model, succ, current_agent.name)]
-        for succ in successors:
-            next_model = node.model.copy()
-            next_model.move(current_agent.name, succ)
-
-            # 过滤机制
-            ep_funcs = []
-            for agt in next_model.agents:
-                his_ep_funcs = next_model.get_history_functions_of_agent(agt.name)
-                cur_ep_funcs = next_model.get_functions_of_agent(agt.name)
-                ep_funcs.append(frozenset(util.get_epistemic_world(next_model, reversed(his_ep_funcs + [cur_ep_funcs]), agt.name)))
-            if frozenset(ep_funcs) in existed_epistemic_world[current_agent.name]:
-                continue
-            existed_epistemic_world[current_agent.name].add(frozenset(ep_funcs))
-            
-            heapq.heappush(heap, 
-                        BFSNode((node.current_index + 1) % count_agent,
-                                    node.actions + [succ],
-                                    next_model,
-                                    node.priority + 1))
-    return end_models
 
 class BFSNode:
     def __init__(self, current_index, action, model, priority):
@@ -564,37 +510,37 @@ class BFSNode:
     
     def __lt__(self, other):
         return self.priority < other.priority
-    
 
-class HashSetFunctions:
-    def __init__(self, functions: list[Function]):
-        self.functions = set(functions)
-    
-    def __hash__(self):
-        return hash(tuple(self.functions))
 
-    def __eq__(self, value):
-        if not isinstance(value, HashSetFunctions):
-            return False
-        return self.functions == value.functions
-    
-    def __str__(self):
-        output = ""
-        for function in list(self.functions):
-            output += f"{function}\n"
-        return output
-    
-    def __repr__(self):
-        return self.__str__()
+def load_action_sequence(path: str, model: Model, logger) -> list[Action]:
+    path = f"models/{path}"
+    with open(path, 'r') as f:
+        content = f.read()
+        logger.info(f"Complete reading action sequence file \"{path}\"\n{content}")
+    lines = content.split("\n")
 
-class HashSetConditions:
-    def __init__(self, conditions: list[Condition]):
-        self.conditions = set(conditions)
+    result = []
+    # each line is an action, such as a: action param1 param2 ...
+    from epistemic_handler.epistemic_class import Action
+    for line in lines:
+        keys = line.split(" ")
+        move_agent = keys[0][:-1]
+        action_name = keys[1]
+        parameters = keys[2:]
+        if action_name == "stay":
+            new_action = Action.stay_action(move_agent)
+            result.append([move_agent, new_action])
+            continue
+        for action_schema in model.action_schemas:
+            if action_schema.name == action_name:
+                params = dict(zip(action_schema.require_parameters.keys(), parameters))
+                new_action = Action.create_action(action_schema, params)
+                result.append([move_agent, new_action])
+                break
     
-    def __hash__(self):
-        return hash(tuple(self.conditions))
-
-    def __eq__(self, value):
-        if not isinstance(value, HashSetConditions):
-            return False
-        return self.conditions == value.conditions
+    output = ""
+    for action in result:
+        output += f"{action[0]}: {action[1].header()}\n"
+    logger.info(f"Complete parsing the actions:\n{output}")
+    print(f"Complete parsing the actions:\n{output}")
+    return result

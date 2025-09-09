@@ -86,12 +86,14 @@ class ValueType(Enum):
 class GoalValueType(Enum):
     ENUMERATE = 1
     RANGE = 2
-    NONE = 3
+    ALL = 3
+    NONE = 4
 
     def __str__(self):
         mapper = {
             GoalValueType.ENUMERATE: "enumerate",
             GoalValueType.RANGE: "range",
+            GoalValueType.ALL: "all",
             GoalValueType.NONE: "none"
         }
         return mapper[self]
@@ -112,7 +114,8 @@ EPISTEMIC_OPERATOR_MAPS = {
 EPISTEMIC_TRUTH_MAPS = {
     "true": EpistemicTruth.TRUE,
     "false": EpistemicTruth.FALSE,
-    "unknown": EpistemicTruth.UNKNOWN
+    "unknown": EpistemicTruth.UNKNOWN,
+    "none": EpistemicTruth.NONE
 }
 
 CONDITION_OPERATOR_MAPS = {
@@ -121,7 +124,8 @@ CONDITION_OPERATOR_MAPS = {
     ">": ConditionOperator.GREATER,
     "<": ConditionOperator.LESS,
     ">=": ConditionOperator.GREATER_EQUAL,
-    "<=": ConditionOperator.LESS_EQUAL
+    "<=": ConditionOperator.LESS_EQUAL,
+    "": ConditionOperator.NONE
 }
 
 EFFECT_TYPE_MAPS = {
@@ -133,6 +137,7 @@ EFFECT_TYPE_MAPS = {
 GOAL_VALUE_TYPE_MAPS = {
     'enumerate': GoalValueType.ENUMERATE,
     'range': GoalValueType.RANGE,
+    'all': GoalValueType.ALL,
     'none': GoalValueType.NONE
 }
 
@@ -206,6 +211,9 @@ class Function:
     
     def plain_text(self):
         return f"{self.header()}={self.value}"
+    
+    def __lt__(self, other):
+        return self.plain_text() < other.plain_text()
 
 class ConditionSchema:
     def __init__(self):
@@ -244,7 +252,7 @@ class Condition:
     def init_with_schema_and_params(cls, condition_schema: ConditionSchema, parameters: dict[str, str]):
         condition = cls()
         condition.ep_operator = condition_schema.ep_operator
-        condition.belief_sequence = condition_schema.belief_sequence
+        condition.belief_sequence = [parameters[key] for key in condition_schema.belief_sequence]
         condition.ep_truth = condition_schema.ep_truth
         condition.condition_operator = condition_schema.condition_operator
         condition.condition_function_name = condition_schema.condition_function_schema.name
@@ -309,6 +317,9 @@ class Condition:
     
     def header(self):
         return f"{self.condition_function_name}({list(self.condition_function_parameters.values())})"
+
+    def header_with_bs(self):
+        return f"{self.condition_function_name}({self.belief_sequence})({list(self.condition_function_parameters.values())})"
     
     def plain_text(self):
         return f"{self.header()}={self.value}"
@@ -319,10 +330,13 @@ class EffectSchema:
         self.effect_function_schema: FunctionSchema = None
         self.value: int | str = None
         self.target_function_schema: FunctionSchema = None
+        self.target_function_belief_sequence: list[str] = []
 
     def __str__(self):
         if not self.value is None:
             result = f"EffectSchema({self.effect_type} ({self.effect_function_schema.name} {self.effect_function_schema.require_parameters}) = {self.value})"
+        elif len(self.target_function_belief_sequence) > 0:
+            result = f"EffectSchema({self.effect_type} ({self.effect_function_schema.name} {self.effect_function_schema.require_parameters}) = ({self.target_function_belief_sequence} {self.target_function_schema.name} {self.target_function_schema.require_parameters}))"
         else:
             result = f"EffectSchema({self.effect_type} ({self.effect_function_schema.name} {self.effect_function_schema.require_parameters}) = ({self.target_function_schema.name} {self.target_function_schema.require_parameters}))"
         return result
@@ -338,6 +352,7 @@ class Effect:
         self.target_function_name: str = None
         self.target_function_parameters: dict[str, Entity] = {}
         self.value: int | str = None
+        self.target_function_belief_sequence: list[str] = []
     
     @classmethod
     def init_with_schema_and_params(cls, effect_schema: EffectSchema, parameters: dict[str, Entity]):
@@ -345,11 +360,12 @@ class Effect:
         effect.effect_type = effect_schema.effect_type
         effect.effect_function_name = effect_schema.effect_function_schema.name
         effect.effect_function_parameters = {key: parameters[key] for key in effect_schema.effect_function_schema.require_parameters.keys()}
-        if not effect_schema.value is None:
+        if effect_schema.value is not None:
             effect.value = effect_schema.value
         else:
             effect.target_function_name = effect_schema.target_function_schema.name
             effect.target_function_parameters = {key: parameters[key] for key in effect_schema.target_function_schema.require_parameters.keys()}
+            effect.target_function_belief_sequence = [parameters[key] for key in effect_schema.target_function_belief_sequence]
         return effect
 
     def __str__(self):
@@ -453,6 +469,9 @@ class Action:
     def header(self) -> str:
         return f"{self.name}({list(self.parameters.values())})"
 
+    def __lt__(self, other):
+        return self.header() < other.header()
+
 class Agent:
     def __init__(self):
         self.name: str = None
@@ -464,18 +483,18 @@ class Agent:
         self.all_possible_goals: list[dict[str, list[Condition]]] = []
         self.max_time = float('inf')
 
-        self.action_under_jp_worlds: dict[util.HashSetFunctions, dict[str, set[Action]]] = defaultdict(lambda: defaultdict(set))
+        # E: world x Agt -> Act
+        # the experiences (belief of actions in world) of this action
+        self.E: dict[frozenset, dict[str, set[Action]]] = defaultdict(lambda: defaultdict(set))
 
     def copy(self):
         new_agent = Agent()
         new_agent.name = self.name
-        new_agent.own_goals = self.own_goals
+        new_agent.own_goals = copy.deepcopy(self.own_goals)
         new_agent.other_goals = copy.deepcopy(self.other_goals)
         new_agent.complete_signal = self.complete_signal
-        new_agent.all_possible_goals = self.all_possible_goals.copy()
-        new_agent.action_under_jp_worlds = defaultdict(lambda: defaultdict(set))
-        for key, value in self.action_under_jp_worlds.items():
-            new_agent.action_under_jp_worlds[key] = value.copy()
+        new_agent.all_possible_goals = copy.deepcopy(self.all_possible_goals)
+        new_agent.E = copy.deepcopy(self.E)
         return new_agent
 
     def __str__(self):
@@ -503,16 +522,13 @@ class Agent:
 
 class AcceptableGoal:
     from epistemic_handler.file_parser import ParsingAcceptableGoal
-    def __init__(self, ag: ParsingAcceptableGoal):
-        self.function_name = ag.function_name
-        self.type = GOAL_VALUE_TYPE_MAPS[ag.type]
+    def __init__(self):
+        self.function_name = ""
+        self.type = GoalValueType.NONE
+        self.parameters: list[str] = []
         self.enumerates: list = []
-        if ag.type == 'enumerate':
-            for e in ag.enumerates:
-                self.enumerates.append(int(e))
-        self.min = ag.min
-        self.max = ag.max
-        self.observed_jp_world = set()
+        self.min = None
+        self.max = None
     
     def __str__(self):
         return f"AcceptableGoal(function_name: {self.function_name}, type: {self.type}, enumerates: {self.enumerates}, min: {self.min}, max: {self.max})"
@@ -528,7 +544,7 @@ class Model:
         self.strategy: AbstractPolicyStrategy = None
         self.rules: AbstractRules = None
         self.problem_type: ProblemType = None
-        self.acceptable_goal_set: list[AcceptableGoal] = []
+        self.S_G: set[Condition] = set()
         self.max_belief_depth: int = 1
         self.possible_belief_sequences: list[list[str]] = []
 
@@ -605,17 +621,15 @@ class Model:
                 candidates.append(successor)
         candidates.append(Action.stay_action(agent_name))
         for action in candidates:
-            if util.is_valid_action(self, action, agent_name):
+            if util.is_valid_action(self, action):
                 result.append(action)
-        return result
+        return sorted(result)
 
     def agent_goal_complete(self, agent_name: str):
         agent = self.get_agent_by_name(agent_name)
         goals = agent.own_goals.copy()
         for goal in goals:
-            if not util.check_condition(self,
-                                        goal,
-                                        agent_name):
+            if not util.check_condition(self, goal):
                 agent.complete_signal = False
                 return False
         agent.complete_signal = True
@@ -636,6 +650,12 @@ class Model:
             self.agent_goal_complete(agent.name)
         return all(agent.complete_signal for agent in self.agents)
     
+    def get_history_functions(self) -> list[list[Function]]:
+        """
+        get all history functions
+        """
+        return [history['functions'] for history in self.history] + [self.ontic_functions]
+
     def get_functions_of_agent(self, agent_name: str) -> list[Function]:
         return self.observation_function.get_observable_functions(self, self.ontic_functions, agent_name)
 
@@ -645,11 +665,9 @@ class Model:
             result.append(self.observation_function.get_observable_functions(self, history['functions'], agent_name))
         return result
 
-    def get_acceptable_goal_by_name(self, goal_name: str) -> AcceptableGoal:
-        for goal in self.acceptable_goal_set:
-            if goal.function_name == goal_name:
-                return goal
-        return None
+    def get_next_agent(self, current_agent: str) -> str:
+        cur_index = self.get_agent_index_by_name(current_agent)
+        return self.agents[(cur_index + 1) % len(self.agents)].name
 
     def generate_all_possible_functions(self) -> list[Function]:
         functions = []
@@ -690,36 +708,19 @@ class Model:
         # 每一个历史时间戳上都会有一个对应的history world和agent: action对，用于反映在某个世界下某个agent执行了某个action
         # 如果在那个时间戳时agent无法看见那个正在行动的agent，则他无法得知那个agent在那个时间戳的action
         # 如果观察到某个agent的complete signal为true，则会更好操作
-        def jp_world_a_think_b_holding(model: Model, a: str, b: str):
-            history_obs_a = model.get_history_functions_of_agent(a) + [model.get_functions_of_agent(a)]
-            history_obs_a_b = []
-            for history in history_obs_a:
-                history_obs_a_b.append(model.observation_function.get_observable_functions(model, history, b))
-            
-            # 获取在a视角下b上一个世界中的jp和当前世界中的jp
-            history_fb_fa = util.get_epistemic_world(model, reversed(history_obs_a_b[:-1]), b)
-            current_fb_fa = util.get_epistemic_world(model, reversed(history_obs_a_b), b)
-            return history_fb_fa, current_fb_fa
-
         for a in self.agents:
             for b in self.agents:
                 if a.name == b.name:
                     continue
-                _, current_fb_fa = jp_world_a_think_b_holding(self, a.name, b.name)
+                current_fb_fa = util.get_epistemic_world(self, [a.name,b.name])
                 # only remain the acceptable functions
                 acceptable_fb_fa = []
                 for func in current_fb_fa:
-                    accept_goal = self.get_acceptable_goal_by_name(func.name)
-                    if not accept_goal:
-                        continue
-                    if accept_goal.type == GoalValueType.ENUMERATE:
-                        rang = accept_goal.enumerates
-                    elif accept_goal.type == GoalValueType.RANGE:
-                        rang = range(accept_goal.min, accept_goal.max + 1)
-                    else:
-                        rang = None
-                    if rang is None or func.value in rang:
-                        acceptable_fb_fa.append(func)
+                    for sg in self.S_G:
+                        if (sg.condition_function_name == func.name and 
+                            sg.condition_function_parameters == func.parameters and
+                            sg.value == func.value):
+                            acceptable_fb_fa.append(func)
                 # generate all possible goal functions for the target agent
                 possible_func_sets = list(chain.from_iterable(combinations(acceptable_fb_fa, r) for r in range(1, len(acceptable_fb_fa) + 1)))
                 possible_func_sets = [set(func.plain_text() for func in goal_sets) for goal_sets in possible_func_sets]
@@ -737,45 +738,52 @@ class Model:
                 if len(remain_possible_goals) > 0 :
                     a.all_possible_goals = remain_possible_goals
 
-    def update_agent_belief_actions_in_world(self):
-        last_agent = self.history[-1]['agent']
+    def update_agent_belief_actions_in_world(self, last_agent, action):
         for agent in self.agents:
-            # if last_agent == agent.name:
-            #     continue
-            if last_agent not in self.observation_function.get_observable_agents(self, self.history[-1]['functions'], agent.name):
+            if last_agent == agent.name:
                 continue
-            agent_observation_worlds = self.get_history_functions_of_agent(agent.name)
-            agent_last_jp_world = util.get_epistemic_world(self, reversed(agent_observation_worlds), agent.name)
-            hash_set_agent_last_jp_world = util.HashSetFunctions(agent_last_jp_world)
-            agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent].add(self.history[-1]['action'])
+            if last_agent not in self.observation_function.get_observable_agents(self, self.ontic_functions, agent.name):
+                continue
+            agent_last_jp_world = util.get_epistemic_world(self, [agent.name])
+            hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
+            agent.E[hash_set_agent_last_jp_world][last_agent].add(action)
+            # if an agent found his done action is the same as the available actions in this environment
+            # he will reset the belief actions of himself to empty
+            # if last_agent == agent.name:
+            #     this_succs = set(self.get_agent_successors(last_agent))
+            #     if this_succs.issubset(agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent]):
+            #         agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent].difference_update(this_succs)
 
     @util.record_time
-    def simulate(self):
+    def simulate(self, start_agent = ""):
         """
         Simulate the model until all agents have reached a terminal state
         """
-        agent_index = 0
-        agent_count = len(self.agents)
+        if start_agent == "":
+            agent_name = self.agents[0].name
+        else:
+            agent_name = start_agent
         while not self.full_goal_complete():
-            # change agent turn
-            agent_name = self.agents[agent_index].name
-            agent_index = (agent_index + 1) % agent_count
-
             # update the belief goals of each agent, and update their observed world
-            self.update_belief_goals()
+            if self.problem_type == ProblemType.NEUTRAL:
+                self.update_belief_goals()
 
             # decide the action and do the action
             action = self.strategy.get_policy(self, agent_name)
+
+            if self.problem_type == ProblemType.NEUTRAL:
+                self.update_agent_belief_actions_in_world(agent_name, action)
+
             self.move(agent_name, action)
 
-            self.update_agent_belief_actions_in_world()
-
             # log
-            output = f"{agent_name} takes action: {action.name} {list(action.parameters.values())}"
+            output = f"{agent_name} takes action: {action.header()}"
             print(output)
             self.logger.info(output)
             # for agent in self.agents:
             #     self.logger.debug(agent.action_under_jp_worlds)
+
+            agent_name = self.get_next_agent(agent_name)
 
         self.logger.info(f"{self.show_solution()}")
     
@@ -787,15 +795,35 @@ class Model:
         self.history.append(history)
         for effect in action.effect:
             self.update_functions(effect)
-        
-            
+
+    def sim_move(self, agent_name, action):
+        if self.full_goal_complete():
+            print("The goal is complete")
+            exit(0)
+
+        # update the belief goals of each agent, and update their observed world
+        if not util.is_valid_action(self, action):
+            raise Exception(f"Invalid action: {action.header()}")
+
+        if self.problem_type == ProblemType.NEUTRAL:
+            self.update_belief_goals()
+            self.update_agent_belief_actions_in_world(agent_name, action)
+
+        self.move(agent_name, action)
+
+        # log
+        output = f"{agent_name} takes action: {action.header()}"
+        print(output)
+        self.logger.info(output)
+              
     def update_functions(self, effect: Effect):
         function = util.get_function_with_name_and_params(self.ontic_functions, effect.effect_function_name, effect.effect_function_parameters)
         assert function is not None, f"updating function is not found!"
-        if not effect.value is None:
+        if effect.value is not None:
             function.value = util.update_effect_value(function.value, effect.value, effect.effect_type)
         else:
-            target_function = util.get_function_with_name_and_params(self.ontic_functions, effect.target_function_name, effect.target_function_parameters)
+            checking_functions = util.get_epistemic_world(self, effect.target_function_belief_sequence, [history['functions'] for history in self.history])
+            target_function = util.get_function_with_name_and_params(checking_functions, effect.target_function_name, effect.target_function_parameters)
             function.value = util.update_effect_value(function.value, target_function.value, effect.effect_type)
         if not util.check_in_range(function):
             # print(functions)
@@ -853,14 +881,14 @@ class Model:
         new_model.problem_type = self.problem_type
         new_model.domain_name = self.domain_name
         new_model.problem_name = self.problem_name
-        new_model.acceptable_goal_set = self.acceptable_goal_set
+        new_model.S_G = self.S_G
         new_model.max_belief_depth = self.max_belief_depth
         new_model.possible_belief_sequences = self.possible_belief_sequences
         new_model.function_schemas = self.function_schemas
         new_model.action_schemas = self.action_schemas
         new_model.entities = self.entities
         new_model.ontic_functions = copy.deepcopy(self.ontic_functions)
-        new_model.history = self.history[:]
+        new_model.history = copy.deepcopy(self.history)
         for agent in self.agents:
             new_model.agents.append(agent.copy())
         

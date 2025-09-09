@@ -1,0 +1,55 @@
+(define
+    (problem problem2)
+    (:domain grapevine)
+
+    (:agents 
+        a b
+    )
+
+    (:objects
+        as bs - secret
+    )
+
+    (:init
+        (assign (agent_loc a) 1)
+        (assign (agent_loc b) 1)
+
+        (assign (secret_id as) as)
+        (assign (secret_id bs) bs)
+
+        (assign (shared_value as) t)
+        (assign (shared_value bs) t)
+
+        (assign (shared_loc as) 0)
+        (assign (shared_loc bs) 0)
+
+        (assign (own a) as)
+        (assign (own b) bs)
+
+        (assign (sharing_lock) 0)
+
+        (assign (agent_sharing a) none)
+        (assign (agent_sharing b) none)
+    )
+
+    (:ranges
+        (agent_loc integer [1,2])
+        (secret_id enumerate [as,bs,cs])
+        (own enumerate [as,bs])
+        (sharing_lock integer [0,1])
+        (agent_sharing enumerate [none,as,bs,cs])
+        (shared_value enumerate [t,f])
+        (shared_loc integer [0,2])
+    )
+    
+
+    (:goal_sets
+        shared_value(as)=[all]
+        shared_value(bs)=[all]
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

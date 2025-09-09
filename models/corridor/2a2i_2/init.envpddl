@@ -38,7 +38,10 @@
     )
 
     (:goal_sets
-        (hold_by none [])
+        hold_by(i,a)=[all]
+        hold_by(j,a)=[all]
+        hold_by(i,b)=[all]
+        hold_by(j,b)=[all]
     )
 
     (:max_belief_depth 1)

@@ -3,6 +3,8 @@ from epistemic_handler.file_parser import *
 from epistemic_handler.epistemic_class import *
 from epistemic_handler.model_checker import *
 from epistemic_handler.problem_builder import *
+import pickle
+from pathlib import Path
 
 LOGGER_LEVEL = logging.DEBUG
 
@@ -50,7 +52,6 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
         model.domain_name = domain.name
         model.problem_name = problem.problem_name
         model.max_belief_depth = problem.max_belief_depth
-        model.acceptable_goal_set = [AcceptableGoal(ag) for ag in problem.acceptable_goal_set]
 
         # build entities
         for agent_name in problem.agents:
@@ -82,6 +83,32 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 for parameter in parameters:
                     function_schema.require_parameters[parameter] = type
             model.function_schemas.append(function_schema)
+        
+        # build the goal set S_G
+        for ag in problem.acceptable_goal_set:
+            sg = Condition()
+            schema = model.get_function_schema_by_name(ag.function_name)
+            
+            sg.condition_function_name = ag.function_name
+            sg.condition_function_parameters = dict(zip(schema.require_parameters.keys(), ag.parameters))
+            values = []
+            if ag.values[0] == "all":
+                if schema.type == ValueType.INTEGER:
+                    values = list(range(schema.range[0], schema.range[1] + 1))
+                elif schema.type == ValueType.ENUMERATE:
+                    values = schema.range
+            elif schema.type == ValueType.INTEGER:
+                values = list(range(ag.values[0], ag.values[1] + 1))
+            else:
+                values = ag.values
+            for v in values:
+                sgp = Condition()
+                sgp.condition_function_name = sg.condition_function_name
+                sgp.condition_function_parameters = sg.condition_function_parameters
+                sgp.condition_operator = ConditionOperator.EQUAL
+                sgp.value = v
+                model.S_G.add(sgp)
+
         
         # build initial functions
         # this includes all initial functions that are not in epistemic world
@@ -133,6 +160,7 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 else:
                     new_effect_schema.target_function_schema = model.get_function_schema_by_name(effect.target_variable.name)
                     util.swap_param_orders(new_effect_schema.target_function_schema, effect.target_variable)
+                new_effect_schema.target_function_belief_sequence = effect.target_variable_belief_sequence
                 new_action_schema.effect_schemas.append(new_effect_schema)
             model.action_schemas.append(new_action_schema)
             
@@ -175,11 +203,38 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
         model.possible_belief_sequences = belief_sequences
 
         if model.problem_type == ProblemType.NEUTRAL:
-            problemBuilder = ProblemBuilder(model, handler)
+            # Here add a pickle process to store all possible goals for specific problem setup
+            # So the next time, when loading the same problem, it will directly load the goals from the pickle file
+            # But please make sure you will not change the problem setup inside the problem file, you can just create a new problem, copy it or whatever, change the name of problem, and do what u want to do.
+            has_backup = True
+            folder_path = Path(f"possible_goals_backup/{model.domain_name}-{model.problem_name}")
+            if not folder_path.exists():
+                folder_path.mkdir(parents=True)
+                has_backup = False
             for agent in model.agents:
-                all_goals, avg_time = problemBuilder.get_all_poss_goals(agent.name)
-                agent.max_time = avg_time + 10
-                agent.all_possible_goals = [cell for cell in all_goals if set(cell[agent.name]) == set(agent.own_goals)]
+                if folder_path / f"{agent.name}.pkl" not in folder_path.iterdir():
+                    has_backup = False
+                    break
+            if not has_backup:
+                hint = "No goal backup found or the backup is not complete, now start to build the possible goals.\n"
+                hint += f"The result will automatically be stored in the folder: possible_goals_backup/{model.domain_name}-{model.problem_name}.\n"
+                hint += f"Please do not change the problem setup inside the problem file, \nyou can just create a new problem, copy it or whatever, \nhange the name of problem, and do what you want to do.\n"
+                logger.info(hint)
+                print(hint)
+                problemBuilder = ProblemBuilder(model, handler)
+                for agent in model.agents:
+                    all_goals, avg_time = problemBuilder.get_all_poss_goals(agent.name)
+                    agent.max_time = avg_time + 10
+                    agent.all_possible_goals = [cell for cell in all_goals if set(cell[agent.name]) == set(agent.own_goals)]                    
+                    with open(folder_path / f"{agent.name}.pkl", "wb") as f:
+                        pickle.dump(agent.all_possible_goals, f)
+            else:
+                hint = f"The goal backup found in the folder: possible_goals_backup/{model.domain_name}-{model.problem_name}, now loading the goals from the backup."
+                logger.info(hint)
+                print(hint)
+                for agent in model.agents:
+                    with open(folder_path / f"{agent.name}.pkl", "rb") as f:
+                        agent.all_possible_goals = pickle.load(f)
 
         logger.debug(f"Model:\n{model}")
         # if not check_goal_conflicts(model):

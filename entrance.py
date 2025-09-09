@@ -3,7 +3,9 @@ import logging
 import sys
 import traceback
 import util
+import time
 from epistemic_handler import model_builder, problem_builder
+import copy
 
 c_logging_level = logging.INFO
 THIS_LOGGER_LEVEL = logging.DEBUG
@@ -46,6 +48,7 @@ def loadParameter():
 
     parser.add_argument('-tests', '--multi-tests', dest='num_multi_tests', type=int, help='The number of tests to run', default=1)
 
+    parser.add_argument('-actions', '--action_sequence', dest='action_sequence_path', type=str.lower, help='The file of action sequence to run', default=None)
     options = parser.parse_args(sys.argv[1:])
 
     return options
@@ -56,7 +59,9 @@ if __name__ == '__main__':
         if args.c_logging_level:
             c_logging_level = LOGGING_LEVELS[args.c_logging_level]
         c_logging_display = args.c_logging_display
-        handler = util.setup_logger_handlers('log/model_builder.log', log_mode='w',
+        log_name = f"{args.domain_path.split('/')[0].split('.')[0]}-{args.problem_path.split('/')[-1].split('.')[0]}-{time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime())}.log"
+
+        handler = util.setup_logger_handlers(f"log/{log_name}", log_mode='w',
                                              c_display=c_logging_display, c_logger_level=c_logging_level)
         logger = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
         logger.info(f"Start building the model, type: \"{args.problem_type}\"")
@@ -68,11 +73,39 @@ if __name__ == '__main__':
             exit(0)
         logger.info(f"Model built successfully.")
 
+        start_index = 0
+
+        if args.action_sequence_path is not None:
+            logger.info(f"Run under modified action sequence mode.")
+            action_sequence = util.load_action_sequence(args.action_sequence_path, model, logger)
+            for action in action_sequence:
+                model.sim_move(action[0], action[1])
+                # check whether the agents are complete their goals
+            if model.full_goal_complete():
+                print("Agent are complete their goals, simulate finish")
+                exit(0)
+            else:
+                print("Agent didn't complete their goals, program will continue to simulate")
+            start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
+            # print each agent's current ep world
+            # for agent in model.agents:
+            #     ep_world = util.get_epistemic_world(model, [agent.name])
+            #     output = ""
+            #     for func in ep_world:
+            #         output += f"{func}\n"
+            #     logger.info(f"{agent.name} ep world:\n{output}")
+            #     print(f"{agent.name}'s ep world:\n{output}")
+
+        if util.check_bfs(model.copy()) == -1:
+            logger.error(f"Model's goal setting do not have solution")
+            print("Model's goal setting do not have solution")
+            exit(0)
+
         if not args.generate_problem:
             for i in range(1, args.num_multi_tests + 1):
-                print(f"第 {i} 轮模拟")
-                running_model = model.copy()
-                running_model.simulate()
+                print(f"{i}th Simulation:")
+                running_model = copy.deepcopy(model)
+                running_model.simulate(running_model.agents[start_index].name)
         else:
             problem_builder = problem_builder.ProblemBuilder(model, handler)
             problem_builder.generate_all_problem_pddl_files()

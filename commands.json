@@ -1,0 +1,131 @@
+{
+  "help": {
+    "description": "显示帮助信息",
+    "type": "function"
+  },
+  "clean": {
+    "description": "清理生成的文件",
+    "type": "function"
+  },
+  "coin1": {
+    "description": "运行coin问题1",
+    "type": "command",
+    "args": [
+      "-d", "coin/domain.pddl",
+      "-p", "coin/problem1",
+      "-ob", "coin.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/coin.py"
+    ]
+  },
+  "coin2": {
+    "description": "运行coin问题2",
+    "type": "command",
+    "args": [
+      "-d", "coin/domain.pddl",
+      "-p", "coin/problem2",
+      "-ob", "coin.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/coin.py"
+    ]
+  },
+  "corridor2a1i_1": {
+    "description": "运行corridor 2a1i问题1",
+    "type": "command",
+    "args": [
+      "-d", "corridor/domain.pddl",
+      "-p", "corridor/2a1i_1",
+      "-ob", "corridor.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/corridor.py"
+    ]
+  },
+  "corridor2a2i_1": {
+    "description": "运行corridor 2a2i问题1",
+    "type": "command",
+    "args": [
+      "-d", "corridor/domain.pddl",
+      "-p", "corridor/2a2i_1",
+      "-ob", "corridor.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/corridor.py"
+    ]
+  },
+  "corridor2a2i_2": {
+    "description": "运行corridor 2a2i问题2",
+    "type": "command",
+    "args": [
+      "-d", "corridor/domain.pddl",
+      "-p", "corridor/2a2i_2",
+      "-ob", "corridor.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/corridor.py"
+    ]
+  },
+  "grapevine1": {
+    "description": "运行grapevine问题1",
+    "type": "command",
+    "args": [
+      "-d", "grapevine/domain.pddl",
+      "-p", "grapevine/problem1",
+      "-ob", "grapevine.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/grapevine.py"
+    ]
+  },
+  "grapevine2": {
+    "description": "运行grapevine问题2",
+    "type": "command",
+    "args": [
+      "-d", "grapevine/domain.pddl",
+      "-p", "grapevine/problem2",
+      "-ob", "grapevine.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/grapevine.py"
+    ]
+  },
+  "mapf1": {
+    "description": "运行mapf问题1",
+    "type": "command",
+    "args": [
+      "-d", "mapf/domain.pddl",
+      "-p", "mapf/problem1",
+      "-ob", "mapf.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/mapf.py"
+    ]
+  },
+  "mapf2": {
+    "description": "运行mapf问题2",
+    "type": "command",
+    "args": [
+      "-d", "mapf/domain.pddl",
+      "-p", "mapf/problem2",
+      "-ob", "mapf.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/mapf.py"
+    ]
+  },
+  "matrix2a1i3r_1": {
+    "description": "运行matrix 2a1i3r问题1",
+    "type": "command",
+    "args": [
+      "-d", "matrix/domain.pddl",
+      "-p", "matrix/2a1i3r_1",
+      "-ob", "matrix.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/matrix.py"
+    ]
+  },
+  "matrix2a1i4r_1": {
+    "description": "运行matrix 2a1i4r问题1",
+    "type": "command",
+    "args": [
+      "-d", "matrix/domain.pddl",
+      "-p", "matrix/2a1i4r_1",
+      "-ob", "matrix.py",
+      "--strategy", "justified_bfs.py",
+      "--rules", "rules/matrix.py"
+    ]
+  }
+}

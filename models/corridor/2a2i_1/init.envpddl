@@ -12,15 +12,20 @@
 
     (:init
         (assign (agent_loc a) 1)
+        (assign (agent_loc b) 2)
+
         (assign (holding a) 1)
+        (assign (holding b) 1)
+
         (assign (hold_by i a) 1)
         (assign (hold_by j a) 0)
-        (assign (agent_loc b) 2)
-        (assign (holding b) 1)
+        
         (assign (hold_by i b) 0)
         (assign (hold_by j b) 1)
+
         (assign (item_loc i) 1)
         (assign (item_loc j) 2)
+
         (assign (is_free i) 0)
         (assign (is_free j) 0)
     )
@@ -34,7 +39,10 @@
     )
 
     (:goal_sets
-        (hold_by none [])
+        hold_by(i,a)=[all]
+        hold_by(j,a)=[all]
+        hold_by(i,b)=[all]
+        hold_by(j,b)=[all]
     )
 
     (:max_belief_depth 1)

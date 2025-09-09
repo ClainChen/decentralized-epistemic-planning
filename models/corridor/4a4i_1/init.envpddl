@@ -1,0 +1,74 @@
+(define
+    (problem corridor_4a4i_1)
+    (:domain corridor)
+
+    (:agents 
+        a b c d
+    )
+
+    (:objects
+        o1 o2 o3 o4 - item
+    )
+
+    (:init
+        (assign (agent_loc a) 1)
+        (assign (agent_loc b) 1)
+        (assign (agent_loc c) 1)
+        (assign (agent_loc d) 1)
+
+        (assign (holding a) 0)
+        (assign (holding b) 0)
+        (assign (holding c) 0)
+        (assign (holding d) 0)
+
+        (assign (hold_by o1 a) 0)
+        (assign (hold_by o1 b) 0)
+        (assign (hold_by o1 c) 0)
+        (assign (hold_by o1 d) 0)
+
+        (assign (hold_by o2 a) 0)
+        (assign (hold_by o2 b) 0)
+        (assign (hold_by o2 c) 0)
+        (assign (hold_by o2 d) 0)
+
+        (assign (hold_by o3 a) 0)
+        (assign (hold_by o3 b) 0)
+        (assign (hold_by o3 c) 0)
+        (assign (hold_by o3 d) 0)
+
+        (assign (hold_by o4 a) 0)
+        (assign (hold_by o4 b) 0)
+        (assign (hold_by o4 c) 0)
+        (assign (hold_by o4 d) 0)
+
+        (assign (item_loc o1) 1)
+        (assign (item_loc o2) 1)
+        (assign (item_loc o3) 1)
+        (assign (item_loc o4) 1)
+
+        (assign (is_free o1) 1)
+        (assign (is_free o2) 1)
+        (assign (is_free o3) 1)
+        (assign (is_free o4) 1)
+    )
+
+    (:ranges
+        (agent_loc integer [1,2])
+        (item_loc integer [1,2])
+        (holding integer [0,1])
+        (hold_by integer [0,1])
+        (is_free integer [0,1])
+    )
+
+    (:goal_sets
+        hold_by(o1,a)=[all]
+        hold_by(o2,b)=[all]
+        hold_by(o3,c)=[all]
+        hold_by(o4,d)=[all]
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

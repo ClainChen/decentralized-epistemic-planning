@@ -1,0 +1,32 @@
+(define
+    (problem problem1)
+    (:domain coin)
+
+    (:agents 
+        a b
+    )
+
+    (:objects
+        c1 - coin
+    )
+
+    (:init
+        (assign (peeking a) 0)
+        (assign (peeking b) 0)
+        (assign (coin c1) 0)
+    )
+
+    (:ranges
+        (peeking integer [0,1])
+        (coin integer [0,1])
+    )
+
+    (:goal_sets
+        coin(c1)=[all]
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

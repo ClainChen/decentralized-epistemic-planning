@@ -1,0 +1,24 @@
+a: stay a
+b: sharing_own_secret b bs
+c: stay c
+a: stay a
+b: quiet b bs
+c: move_right c
+a: sharing_own_secret a as
+b: stay b
+c: stay c
+a: quiet a as
+b: move_right b
+c: lying_own_secret c cs
+a: stay a
+b: stay b
+c: quiet c cs
+a: move_right a
+b: move_left b
+c: stay c
+a: lying_own_secret a as
+b: stay b
+c: stay c
+a: quiet a as
+b: stay b
+c: sharing_own_secret c cs

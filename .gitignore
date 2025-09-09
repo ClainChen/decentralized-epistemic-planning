@@ -53,3 +53,7 @@ data/
 experiments/
 results/
 models/*/auto_generate*/
+log/
+possible_goals_backup/
+documents/
+out/

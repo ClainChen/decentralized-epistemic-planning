@@ -99,11 +99,10 @@ class MultiThreadJustifiedBFS(AbstractPolicyStrategy):
             current_agent = node.model.agents[node.current_index]
             # 检查当前世界状态中，对于agent_name代理来说是否有笃定current_agent会做的行为
             # 如果有，则直接讲这些行为记为successors，如果没有则正常生成successors
-            agent_obs_worlds = node.model.get_history_functions_of_agent(agent_name) + [node.model.get_functions_of_agent(agent_name)]
-            jp_world_for_agent_name = util.get_epistemic_world(node.model, reversed(agent_obs_worlds), agent_name)
-            hash_set_jp_world = util.HashSetFunctions(jp_world_for_agent_name)
-            successors = list(start_agent.action_under_jp_worlds[hash_set_jp_world][current_agent.name])
-            successors = [succ for succ in successors if util.is_valid_action(node.model, succ, current_agent.name)]
+            jp_world_for_agent_name = util.get_epistemic_world(node.model, [agent_name])
+            hash_set_jp_world = frozenset(jp_world_for_agent_name)
+            successors = list(start_agent.E[hash_set_jp_world][current_agent.name])
+            successors = [succ for succ in successors if util.is_valid_action(node.model, succ)]
             if current_agent.name == agent_name:
                 print(f"Before Filter: {[succ.header() for succ in successors]}")
                 successors = [succ for succ in node.model.get_agent_successors(current_agent.name) if succ not in successors]
@@ -116,14 +115,10 @@ class MultiThreadJustifiedBFS(AbstractPolicyStrategy):
                 next_model = node.model.copy()
                 next_model.move(current_agent.name, succ)
                 # 过滤机制
-                ep_funcs = []
-                for agt in next_model.agents:
-                    his_ep_funcs = next_model.get_history_functions_of_agent(agt.name)
-                    cur_ep_funcs = next_model.get_functions_of_agent(agt.name)
-                    ep_funcs.append(frozenset(util.get_epistemic_world(next_model, reversed(his_ep_funcs + [cur_ep_funcs]), agt.name)))
-                if frozenset(ep_funcs) in existed_epistemic_world[current_agent.name]:
+                observe_funcs = frozenset([frozenset([agt.name] + util.get_epistemic_world(next_model, [agt.name])) for agt in next_model.agents])
+                if observe_funcs in existed_epistemic_world[current_agent.name]:
                     continue
-                existed_epistemic_world[current_agent.name].add(frozenset(ep_funcs))
+                existed_epistemic_world[current_agent.name].add(observe_funcs)
 
                 heapq.heappush(heap, 
                             util.BFSNode((node.current_index + 1) % count_agent,
