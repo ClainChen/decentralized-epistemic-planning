@@ -1,4 +1,4 @@
-.PHONY: help coin1 coin2 corridor2a1i_1 corridor2a2i_1 corridor2a2i_2 grapevine1 grapevine2 grapevine3 mapf1 mapf2 matrix2a1i3r_1 matrix2a1i4r_1 clean
+.PHONY: help coin1 coin2 corridor2a1i_1 corridor2a2i_1 corridor2a2i_2 grapevine1 grapevine2 grapevine3 mapf1 mapf2 mapf3 matrix2a1i3r_1 matrix2a1i4r_1 clean
 
 .DEFAULT_GOAL := help
 
@@ -25,7 +25,7 @@ coin1:
 		-d coin/domain.pddl \
 		-p coin/problem1 \
 		-ob coin.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules coin.py \
 		$(EXTRA_ARGS)
 
@@ -34,7 +34,7 @@ coin2:
 		-d coin/domain.pddl \
 		-p coin/problem2 \
 		-ob coin.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules coin.py \
 		$(EXTRA_ARGS)
 
@@ -43,7 +43,7 @@ corridor2a1i_1:
 		-d corridor/domain.pddl \
 		-p corridor/2a1i_1 \
 		-ob corridor.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules corridor.py \
 		$(EXTRA_ARGS)
 
@@ -52,7 +52,7 @@ corridor2a2i_1:
 		-d corridor/domain.pddl \
 		-p corridor/2a2i_1 \
 		-ob corridor.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules corridor.py \
 		$(EXTRA_ARGS)
 
@@ -61,7 +61,7 @@ corridor2a2i_2:
 		-d corridor/domain.pddl \
 		-p corridor/2a2i_2 \
 		-ob corridor.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules corridor.py \
 		$(EXTRA_ARGS)
 
@@ -70,7 +70,7 @@ grapevine1:
 		-d grapevine/domain.pddl \
 		-p grapevine/problem1 \
 		-ob grapevine.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules grapevine.py \
 		$(EXTRA_ARGS)
 
@@ -79,7 +79,7 @@ grapevine2:
 		-d grapevine/domain.pddl \
 		-p grapevine/problem2 \
 		-ob grapevine.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules grapevine.py \
 		$(EXTRA_ARGS)
 
@@ -88,7 +88,7 @@ grapevine3:
 		-d grapevine/domain.pddl \
 		-p grapevine/problem3 \
 		-ob grapevine.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules grapevine.py \
 		$(EXTRA_ARGS)
 
@@ -97,7 +97,7 @@ mapf1:
 		-d mapf/domain.pddl \
 		-p mapf/problem1 \
 		-ob mapf.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules mapf.py \
 		$(EXTRA_ARGS)
 
@@ -106,7 +106,16 @@ mapf2:
 		-d mapf/domain.pddl \
 		-p mapf/problem2 \
 		-ob mapf.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
+		--rules mapf.py \
+		$(EXTRA_ARGS)
+
+mapf3:
+	python entrance.py \
+		-d mapf/domain.pddl \
+		-p mapf/problem3 \
+		-ob mapf.py \
+		--strategy seq_justified_bfs.py \
 		--rules mapf.py \
 		$(EXTRA_ARGS)
 
@@ -115,7 +124,7 @@ matrix2a1i3r_1:
 		-d matrix/domain.pddl \
 		-p matrix/2a1i3r_1 \
 		-ob matrix.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules matrix.py \
 		$(EXTRA_ARGS)
 
@@ -124,7 +133,7 @@ matrix2a1i4r_1:
 		-d matrix/domain.pddl \
 		-p matrix/2a1i4r_1 \
 		-ob matrix.py \
-		--strategy justified_bfs.py \
+		--strategy seq_justified_bfs.py \
 		--rules matrix.py \
 		$(EXTRA_ARGS)
 

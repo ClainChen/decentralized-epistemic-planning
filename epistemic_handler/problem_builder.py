@@ -31,8 +31,6 @@ class ProblemBuilder:
                 for value in value_range:
                     function = Function()
                     function.name = schema.name
-                    function.range = schema.range
-                    function.type = schema.type
                     function.value = value
                     function.parameters = dict(zip(schema.require_parameters.keys(), param))
                     group.append(function)

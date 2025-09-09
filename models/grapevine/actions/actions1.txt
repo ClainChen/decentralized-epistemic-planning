@@ -1,4 +1,3 @@
 a: sharing_own_secret a as
-b: stay b
 a: quiet a as
 b: sharing_own_secret b bs

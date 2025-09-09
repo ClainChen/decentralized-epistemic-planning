@@ -99,7 +99,7 @@ class MultiThreadJustifiedBFS(AbstractPolicyStrategy):
             current_agent = node.model.agents[node.current_index]
             # 检查当前世界状态中，对于agent_name代理来说是否有笃定current_agent会做的行为
             # 如果有，则直接讲这些行为记为successors，如果没有则正常生成successors
-            jp_world_for_agent_name = util.get_epistemic_world(node.model, [agent_name])
+            jp_world_for_agent_name = [f.id for f in util.get_epistemic_world(node.model, [agent_name])]
             hash_set_jp_world = frozenset(jp_world_for_agent_name)
             successors = list(start_agent.E[hash_set_jp_world][current_agent.name])
             successors = [succ for succ in successors if util.is_valid_action(node.model, succ)]
@@ -115,7 +115,7 @@ class MultiThreadJustifiedBFS(AbstractPolicyStrategy):
                 next_model = node.model.copy()
                 next_model.move(current_agent.name, succ)
                 # 过滤机制
-                observe_funcs = frozenset([frozenset([agt.name] + util.get_epistemic_world(next_model, [agt.name])) for agt in next_model.agents])
+                observe_funcs = frozenset([frozenset([agt.name] + [f.id for f in util.get_epistemic_world(next_model, [agt.name])]) for agt in next_model.agents])
                 if observe_funcs in existed_epistemic_world[current_agent.name]:
                     continue
                 existed_epistemic_world[current_agent.name].add(observe_funcs)

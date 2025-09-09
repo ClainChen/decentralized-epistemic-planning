@@ -167,34 +167,28 @@ class Function:
     """
     Use as a state or an epistemic state, this will store the real value
     """
+    id: int = -1
+    header_id: int = -1
     name: str = None
-    range: tuple[int, int] | list = None
-    type: ValueType = ValueType.NONE
     parameters: dict[str, str] = field(default_factory=dict)
-    _value: int | str = None
+    _value: str = None
 
     @property
-    def value(self) -> int | str:
+    def value(self):
         return self._value
-    
+
     @value.setter
     def value(self, value):
-        if hasattr(self, 'type'):
-            if self.type == ValueType.INTEGER:
-                self._value = int(value)
-            else:
-                self._value = value
-        else:
-            raise ValueError("Cannot set value before type is set")
+        self._value = value
 
     def compare(self, other: 'Function'):
-        return self.name == other.name and self.parameters == other.parameters
+        return self.id == other.id
 
     def header(self):
         return f"{self.name}({list(self.parameters.values())})"
 
     def __str__(self):
-        return f"Function({self.name} {list(self.parameters.values())} = {self.value})"
+        return f"Function([id:{self.id}, header_id:{self.header_id}]  {self.name} {self.parameters} = {self.value})"
 
     def __repr__(self):
         return self.__str__()
@@ -202,18 +196,16 @@ class Function:
     def __eq__(self, other):
         if not isinstance(other, Function):
             return False
-        return (self.name == other.name and 
-                self.parameters == other.parameters and 
-                self._value == other._value)
+        return self.id == other.id
      
     def __hash__(self):
-        return hash((self.name, frozenset(self.parameters), self._value))
+        return self.id
     
     def plain_text(self):
         return f"{self.header()}={self.value}"
     
     def __lt__(self, other):
-        return self.plain_text() < other.plain_text()
+        return self.id < other.id
 
 class ConditionSchema:
     def __init__(self):
@@ -323,6 +315,19 @@ class Condition:
     
     def plain_text(self):
         return f"{self.header()}={self.value}"
+
+    def __deepcopy__(self, memo):
+        cond = Condition()
+        cond.ep_operator = self.ep_operator
+        cond.belief_sequence = self.belief_sequence[:]
+        cond.ep_truth = self.ep_truth
+        cond.condition_operator = self.condition_operator
+        cond.condition_function_name = self.condition_function_name
+        cond.condition_function_parameters = self.condition_function_parameters
+        cond.target_function_name = self.target_function_name
+        cond.target_function_parameters = self.target_function_parameters
+        cond.value = self.value
+        return cond
 
 class EffectSchema:
     def __init__(self):
@@ -490,11 +495,11 @@ class Agent:
     def copy(self):
         new_agent = Agent()
         new_agent.name = self.name
-        new_agent.own_goals = copy.deepcopy(self.own_goals)
-        new_agent.other_goals = copy.deepcopy(self.other_goals)
+        new_agent.own_goals = self.own_goals[:]
+        new_agent.other_goals = self.other_goals
         new_agent.complete_signal = self.complete_signal
-        new_agent.all_possible_goals = copy.deepcopy(self.all_possible_goals)
-        new_agent.E = copy.deepcopy(self.E)
+        new_agent.all_possible_goals = self.all_possible_goals
+        new_agent.E = self.E
         return new_agent
 
     def __str__(self):
@@ -535,10 +540,14 @@ class AcceptableGoal:
 
     def __repr__(self):
         return self.__str__()
-
+    
 class Model:
+    
     def __init__(self):
         from abstracts import AbstractObservationFunction, AbstractPolicyStrategy, AbstractRules
+        # something for optimize the performance
+        self.ALL_FUNCS: util.FinalFunctions = util.FinalFunctions()
+
         self.logger = None
         self.observation_function: AbstractObservationFunction = None
         self.strategy: AbstractPolicyStrategy = None
@@ -670,37 +679,7 @@ class Model:
         return self.agents[(cur_index + 1) % len(self.agents)].name
 
     def generate_all_possible_functions(self) -> list[Function]:
-        functions = []
-        for function_schema in self.function_schemas:
-            # get all possible values
-            values = []
-            if function_schema.type == ValueType.ENUMERATE:
-                values = function_schema.range
-            else:
-                min, max = function_schema.range
-                values = list(range(min, max + 1))
-            
-            # get all possible parameters
-            all_entities = {}
-            for key_word, type in function_schema.require_parameters.items():
-                all_entities[key_word] = self.get_all_entity_name_by_type(type)
-            
-            keys = all_entities.keys()
-            entities = all_entities.values()
-            combinations = [comb for comb in product(*entities) if len(set(comb)) == len(comb)]
-            all_entities = [dict(zip(keys, comb)) for comb in combinations]
-
-            for value in values:
-                for entity in all_entities:
-                    new_function = Function()
-                    new_function.name = function_schema.name
-                    new_function.range = function_schema.range
-                    new_function.type = function_schema.type
-                    new_function.value = value
-                    new_function.parameters = entity
-                    functions.append(new_function)
-
-        return functions
+        return self.ALL_FUNCS.flatten()
 
     def update_belief_goals(self):
         # 只会在Neutral Mode中被调用
@@ -744,7 +723,7 @@ class Model:
                 continue
             if last_agent not in self.observation_function.get_observable_agents(self, self.ontic_functions, agent.name):
                 continue
-            agent_last_jp_world = util.get_epistemic_world(self, [agent.name])
+            agent_last_jp_world = [f.id for f in util.get_epistemic_world(self, [agent.name])]
             hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
             agent.E[hash_set_agent_last_jp_world][last_agent].add(action)
             # if an agent found his done action is the same as the available actions in this environment
@@ -788,7 +767,7 @@ class Model:
         self.logger.info(f"{self.show_solution()}")
     
     def move(self, agent_name: str, action: Action):
-        history = {'functions': copy.deepcopy(self.ontic_functions),
+        history = {'functions': self.ontic_functions[:],
                    'agent': agent_name,
                    'action': action,
                    'signal': {agent.name: agent.complete_signal for agent in self.agents}}
@@ -820,15 +799,14 @@ class Model:
         function = util.get_function_with_name_and_params(self.ontic_functions, effect.effect_function_name, effect.effect_function_parameters)
         assert function is not None, f"updating function is not found!"
         if effect.value is not None:
-            function.value = util.update_effect_value(function.value, effect.value, effect.effect_type)
+            value = util.update_effect_value(function.value, effect.value, effect.effect_type)
         else:
             checking_functions = util.get_epistemic_world(self, effect.target_function_belief_sequence, [history['functions'] for history in self.history])
             target_function = util.get_function_with_name_and_params(checking_functions, effect.target_function_name, effect.target_function_parameters)
-            function.value = util.update_effect_value(function.value, target_function.value, effect.effect_type)
-        if not util.check_in_range(function):
-            # print(functions)
-            # print(effect)
-            raise ValueError(f"{function.name} is out of range")
+            value = util.update_effect_value(function.value, target_function.value, effect.effect_type)
+        self.ontic_functions.remove(function)
+        update_func = self.ALL_FUNCS.get_function(function.name, function.parameters, value)
+        self.ontic_functions.append(update_func)
 
     def __str__(self):
         result = f"================= Model Result================\n"
@@ -874,6 +852,7 @@ class Model:
     
     def copy(self):
         new_model = Model()
+        new_model.ALL_FUNCS = self.ALL_FUNCS
         new_model.logger = self.logger
         new_model.observation_function = self.observation_function
         new_model.strategy = self.strategy
@@ -887,9 +866,33 @@ class Model:
         new_model.function_schemas = self.function_schemas
         new_model.action_schemas = self.action_schemas
         new_model.entities = self.entities
-        new_model.ontic_functions = copy.deepcopy(self.ontic_functions)
-        new_model.history = copy.deepcopy(self.history)
+        new_model.ontic_functions = self.ontic_functions[:]
+        new_model.history = self.history[:]
         for agent in self.agents:
             new_model.agents.append(agent.copy())
         
         return new_model
+    
+    def __deepcopy__(self, memo):
+        new_model = Model()
+        new_model.ALL_FUNCS = self.ALL_FUNCS
+        new_model.logger = self.logger
+        new_model.observation_function = self.observation_function
+        new_model.strategy = self.strategy
+        new_model.rules = self.rules
+        new_model.problem_type = self.problem_type
+        new_model.domain_name = self.domain_name
+        new_model.problem_name = self.problem_name
+        new_model.S_G = self.S_G
+        new_model.max_belief_depth = self.max_belief_depth
+        new_model.possible_belief_sequences = self.possible_belief_sequences
+        new_model.function_schemas = self.function_schemas
+        new_model.action_schemas = self.action_schemas
+        new_model.entities = self.entities
+        new_model.ontic_functions = self.ontic_functions[:]
+        new_model.history = self.history[:]
+        for agent in self.agents:
+            new_model.agents.append(agent.copy())
+        
+        return new_model
+        

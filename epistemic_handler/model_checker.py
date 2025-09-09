@@ -29,7 +29,7 @@ class ModelChecker:
         if self.domain.name != self.problem.domain_name:
             self.logger.debug(f"The domain name is different from the problem's domain name")
         # gather all valid names
-        valid_names = copy.deepcopy(self.problem.agents)
+        valid_names = self.problem.agents[:]
         for object_names in self.problem.objects.values():
             valid_names += object_names
         valid_names.append('unknown')
@@ -49,14 +49,13 @@ class ModelChecker:
                 self.logger.debug(f"The agent \"{name}\" is not valid")
                 result = False
             for goal in goals:
-                this_goal = copy.deepcopy(goal)
-
-                if isinstance(this_goal, ParsingEpistemicCondition):
-                    for agt_name in this_goal.belief_sequence:
+                goal
+                if isinstance(goal, ParsingEpistemicCondition):
+                    for agt_name in goal.belief_sequence:
                         if agt_name not in valid_names:
                             self.logger.debug(f"The agent \"{agt_name}\" in {name}'s goal \"{goal}\" is not valid")
                             result = False
-                result = self.check_state(valid_names, this_goal.state)
+                result = self.check_state(valid_names, goal.state)
         
         self.logger.debug(f"Checking the ranges")
         # check the ranges
@@ -69,9 +68,8 @@ class ModelChecker:
         # check the actions
         for action in self.domain.actions:
             for condition in action.pre_conditions:
-                this_condition = copy.deepcopy(condition)
-                variable = this_condition.state.variable
-                target_variable = this_condition.state.target_variable
+                variable = condition.state.variable
+                target_variable = condition.state.target_variable
                 if variable.name not in valid_names or (target_variable.name is not None and target_variable.name not in valid_names):
                     self.logger.debug(f"The action {action.name}'s precondition {condition} is not valid")
                     result = False

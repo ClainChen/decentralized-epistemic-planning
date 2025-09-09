@@ -84,6 +84,40 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                     function_schema.require_parameters[parameter] = type
             model.function_schemas.append(function_schema)
         
+        # build all poss functions
+        id = 0
+        header_id = 0
+        for func_schema in model.function_schemas:
+            params_group = [model.get_all_entity_name_by_type(type) for type in func_schema.require_parameters.values()]
+            params = [list(e) for e in itertools.product(*params_group)]
+            for param in params:
+                parameters = dict(zip(func_schema.require_parameters.keys(), param))
+                header_id += 1
+                if func_schema.type == ValueType.INTEGER:
+                    minn, maxx = func_schema.range
+                    for v in range(minn, maxx + 1):
+                        id += 1
+                        func = Function()
+                        func.id = id
+                        func.header_id = header_id
+                        func.name = func_schema.name
+                        func.parameters = parameters
+                        func.value = v
+                        model.ALL_FUNCS.add_function(func)
+                else:
+                    for v in func_schema.range:
+                        id += 1
+                        func = Function()
+                        func.id = id
+                        func.header_id = header_id
+                        func.name = func_schema.name
+                        func.parameters = parameters
+                        func.value = v
+                        model.ALL_FUNCS.add_function(func)
+        
+        # print(model.ALL_FUNCS)
+        # exit(0)
+        
         # build the goal set S_G
         for ag in problem.acceptable_goal_set:
             sg = Condition()
@@ -108,19 +142,17 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 sgp.condition_operator = ConditionOperator.EQUAL
                 sgp.value = v
                 model.S_G.add(sgp)
-
         
         # build initial functions
         # this includes all initial functions that are not in epistemic world
         for parsing_state in problem.states:
             function_schema = model.get_function_schema_by_name(parsing_state.variable.name)
-            new_function = Function()
-            new_function.name = function_schema.name
-            new_function.range = function_schema.range
-            new_function.type = function_schema.type
-            new_function.value = parsing_state.value
-            new_function.parameters = dict(zip(function_schema.require_parameters.keys(), parsing_state.variable.parameters))
-            model.ontic_functions.append(new_function)
+            name = function_schema.name
+            params = dict(zip(function_schema.require_parameters.keys(), parsing_state.variable.parameters))
+            value = parsing_state.value
+            # print(name, params, value)
+            func = model.ALL_FUNCS.get_function(name, params, value)
+            model.ontic_functions.append(func)
         
         # build action schemas
         for parsing_action in domain.actions:

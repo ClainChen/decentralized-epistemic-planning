@@ -76,8 +76,6 @@ class MatrixObsFunc(AbstractObservationFunction):
                     if func.parameters['?i'] in item_at and item_at[func.parameters['?i']] == agent_at[agent_name]:
                         observable_functions.add(func)
 
-            observable_functions = copy.deepcopy(observable_functions)
-
             observable_functions = observable_functions.union(connected_funcs).union(room_id_funcs)
                 
 

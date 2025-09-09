@@ -57,7 +57,7 @@ class CorridorObsFunc(AbstractObservationFunction):
                     if item_at_room[function.parameters['?i']] == agent_at_room[agent_name]:
                         observable_functions.add(function)
             
-            return copy.deepcopy(list(observable_functions))
+            return list(observable_functions)
         except KeyError as e:
             return False
         except Exception as e:

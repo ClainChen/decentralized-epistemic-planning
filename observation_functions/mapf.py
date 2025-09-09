@@ -13,13 +13,7 @@ class MAPFObsFunc(AbstractObservationFunction):
         """
         Agent knows everything
         """
-        result = []
-        for func in functions:
-            if func.name in ["connected", "room_id"]:
-                result.append(func)
-            else:
-                result.append(copy.deepcopy(func))
-        return result
+        return functions[:]
     
     def get_observable_agents(self, model, functions, agent_name):
         agents = [agent.name for agent in model.agents]

@@ -232,8 +232,8 @@ def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
     headers = set()
     for functions in reversed(world_seq):
         for func in functions:
-            if func.header() not in headers:
-                headers.add(func.header())
+            if func.header_id not in headers:
+                headers.add(func.header_id)
                 world.append(func)
     return world
 
@@ -254,9 +254,7 @@ def get_epistemic_world(model: Model, belief_sequence: list[str], history_functi
     # st''
     history_beliefs = [get_functions_with_belief_sequence(functions, belief_sequence, model) for functions in history_functions]
     st2 = get_unfiltered_st(history_beliefs)
-    output = ""
-    for func in st2:
-        output += f"{func}\n"
+
     # st
     st = get_epistemic_world(model, belief_sequence[:-1], history_functions)
 
@@ -312,7 +310,7 @@ def get_function_with_name_and_params(functions: list[Function], name: str, para
     get the function with the given locator
     """
     for function in functions:
-        if function.name == name and set(function.parameters.values()) == set(params.values()):
+        if function.name == name and frozenset(function.parameters.values()) == frozenset(params.values()):
             return function
     return None
 
@@ -320,12 +318,9 @@ def is_conflict_functions(function1: Function, function2: Function) -> bool:
     """
     check whether two functions are conflict with each other
     """
-    if function1.name == function2.name and function1.parameters == function2.parameters:
-        if function1.value != function2.value:
-            return True
-    return False
+    return function1.id != function2.id
 
-def get_unknown_functions(model, functions: list[Function], agent_name: str) -> list[Function]:
+def get_unknown_functions(model: Model, functions: list[Function], agent_name: str) -> list[Function]:
     """
     get agent's unknown functions based on what agent knows
     """
@@ -379,7 +374,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
     # group the functions by name and parameters
     group_functions = {}
     for func in unknown_functions:
-        key = func.header()
+        key = func.header_id
         if key not in group_functions:
             group_functions[key] = []
         group_functions[key].append(func)
@@ -423,7 +418,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> Model:
         new_history_functions.append(new_history)
     virtual_model.history = new_history_functions
     
-    virtual_model.ontic_functions = copy.deepcopy(known_functions)
+    virtual_model.ontic_functions = known_functions
     all_virtual_models = []
     for comb in valid_combs:
         new_model = virtual_model.copy()
@@ -470,7 +465,7 @@ import heapq
 def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
     heap: list[BFSNode] = []
     heapq.heappush(heap, BFSNode(1, [], virtual_model, 0))
-    existed_epistemic_world = {agt.name: set() for agt in virtual_model.agents}
+    existed_epistemic_world = set()
     while heap:
         node = heapq.heappop(heap)
         if node.model.full_goal_complete():
@@ -486,31 +481,28 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
                 next_model = node.model.copy()
                 next_model.move(name, succ)
                 # 过滤机制
-                observe_funcs = frozenset(get_epistemic_world(next_model, [name]))
-                if observe_funcs in existed_epistemic_world[name]:
+                observe_funcs = frozenset([frozenset([agt.name] + get_epistemic_world(next_model, [agt.name])) for agt in next_model.agents])
+                if observe_funcs in existed_epistemic_world:
                     continue
-                existed_epistemic_world[name].add(observe_funcs)
-                for agt in next_model.agents:
-                    if agt.name != name:
-                        existed_epistemic_world[agt.name].add(frozenset(get_epistemic_world(next_model, [agt.name])))
+                existed_epistemic_world.add(observe_funcs)
 
                 heapq.heappush(heap, 
                             BFSNode(1,
                                         node.actions + [succ],
                                         next_model,
                                         node.priority + 1))
+    
     return -1
 
 class BFSNode:
     def __init__(self, current_index, action, model, priority):
         self.current_index: int = current_index
-        self.actions: list[Action] = action
+        self.actions: list[Action] = action[:]
         self.model: Model = model
         self.priority: int = priority
     
     def __lt__(self, other):
         return self.priority < other.priority
-
 
 def load_action_sequence(path: str, model: Model, logger) -> list[Action]:
     path = f"models/{path}"
@@ -544,3 +536,58 @@ def load_action_sequence(path: str, model: Model, logger) -> list[Action]:
     logger.info(f"Complete parsing the actions:\n{output}")
     print(f"Complete parsing the actions:\n{output}")
     return result
+
+class FinalFunctions:
+    """
+    This is a class to store all possible functions and maintain them during the program running.
+    Hope this will fix the issues of cpu, time pressure due to tons of deepcopy usage.
+    The update of a function will now delete the function pointer from the original list and add a target function pointer to the list.
+    Well, basically, this class maintains all possible functions.
+    """
+    def __init__(self):
+        """
+        the structure of the dict is:
+        all:
+            function_name1:
+                frozenset(func.parameters.values()):
+                    func.value:
+                        func
+                    ...
+            function_name2:
+                ...
+        """
+        
+        self.all: dict[str, dict[str, dict[str, Function]]] = defaultdict(lambda: defaultdict(lambda: defaultdict()))
+    
+    def add_function(self, function: Function) -> None:
+        # get the parameters of function
+        # to make sure no order problem will happen during the "get" method, we should use frozenset
+        params = f"{list(function.parameters.values())}"
+        self.all[function.name][params][str(function.value)] = function
+    
+    def get_function(self, function_name: str, parameters: dict[str, str], value: str):
+        params = f"{list(parameters.values())}"
+        if self.all[function_name][params][str(value)] is None:
+            raise Exception(f"Function {function_name} with parameters {parameters} and value {value} is not found.")
+        return self.all[function_name][params][str(value)]
+    
+    def flatten(self) -> list[Function]:
+        return [
+            v3
+            for v1 in self.all.values()
+            for v2 in v1.values()
+            for v3 in v2.values()
+        ]
+
+    def __str__(self):
+        output = ""
+        for function_name, function_dict in self.all.items():
+            output += f"Function {function_name}:\n"
+            for params, value_dict in function_dict.items():
+                output += f"Parameters {params}:\n"
+                for value, function in value_dict.items():
+                    output += f"Value {value}: {function}\n"
+        return output
+    
+    def __repr__(self):
+        return self.__str__()

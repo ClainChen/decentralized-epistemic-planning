@@ -5,6 +5,7 @@ import util
 import logging
 import random
 import copy
+import time
 
 LOGGER_LEVEL = logging.DEBUG
 
@@ -53,6 +54,7 @@ class SeqJustifiedBFS(AbstractPolicyStrategy):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
         samples = {}
         expands = 0
+        start = time.perf_counter()
         for virtual_model in all_virtual_model:
             this_sample, this_expand = self.single_bfs(virtual_model, agent_name)
             expands += this_expand
@@ -61,7 +63,7 @@ class SeqJustifiedBFS(AbstractPolicyStrategy):
                     samples[key][1] += value[1]
                 else:
                     samples[key] = value
-            
+        print(f"Exapnds: {expands}, avg expand cost: {(((time.perf_counter() - start) / expands) * 1e3):.3f}ms")
             # print("no solution")
         return samples, expands, len(all_virtual_model)
 
@@ -72,7 +74,7 @@ class SeqJustifiedBFS(AbstractPolicyStrategy):
         samples = {}
         heap: list[util.BFSNode] = []
         heapq.heappush(heap, util.BFSNode(0, [], virtual_model, 0))
-        existed_epistemic_world = {agt.name: set() for agt in virtual_model.agents}
+        existed_epistemic_world = set()
         find_solution_depth = -1
         while heap:
             node = heapq.heappop(heap)
@@ -95,7 +97,7 @@ class SeqJustifiedBFS(AbstractPolicyStrategy):
                 current_agent = [agt.name for agt in virtual_model.agents]
             # 检查当前世界状态中，对于agent_name代理来说是否有笃定current_agent会做的行为
             # 如果有，则直接讲这些行为记为successors，如果没有则正常生成successors
-            jp_world_for_agent_name = util.get_epistemic_world(node.model, [agent_name])
+            jp_world_for_agent_name = [f.id for f in util.get_epistemic_world(node.model, [agent_name])]
             hash_set_jp_world = frozenset(jp_world_for_agent_name)
             successors = {ca: list(start_agent.E[hash_set_jp_world][ca]) for ca in current_agent}
             successors = {key: [succ for succ in value if util.is_valid_action(node.model, succ)] 
@@ -112,14 +114,10 @@ class SeqJustifiedBFS(AbstractPolicyStrategy):
                     next_model = node.model.copy()
                     next_model.move(name, succ)
                     # 过滤机制
-                    observe_funcs = frozenset(util.get_epistemic_world(next_model, [name]))
-                    if observe_funcs in existed_epistemic_world[name]:
-                        # virtual_model.logger.debug(f"Pruned path: {[action.header() for action in node.actions] + [succ.header()]}")
+                    observe_funcs = frozenset([frozenset([agt.name] + [f.id for f in util.get_epistemic_world(next_model, [agt.name])]) for agt in next_model.agents])
+                    if observe_funcs in existed_epistemic_world:
                         continue
-                    existed_epistemic_world[name].add(observe_funcs)
-                    for agt in next_model.agents:
-                        if agt.name != name:
-                            existed_epistemic_world[agt.name].add(frozenset(util.get_epistemic_world(next_model, [agt.name])))
+                    existed_epistemic_world.add(observe_funcs)
 
                     heapq.heappush(heap, 
                                 util.BFSNode(-1,

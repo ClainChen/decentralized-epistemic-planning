@@ -20,9 +20,9 @@ class CoinObsFunc(AbstractObservationFunction):
                     is_peeking = True
                     break
         if is_peeking:
-             return copy.deepcopy(functions)
+             return functions[:]
         else:
-             return copy.deepcopy([func for func in functions if func.name == "peeking"])
+             return [func for func in functions if func.name == "peeking"]
     
     def get_observable_agents(self, model, functions, agent_name):
         agents = [agent.name for agent in model.agents]

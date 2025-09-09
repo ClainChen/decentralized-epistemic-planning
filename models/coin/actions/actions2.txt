@@ -1,0 +1,5 @@
+a: peek a
+b: peek b
+a: flip_up a c1
+a: return a
+b: flip_down b c1

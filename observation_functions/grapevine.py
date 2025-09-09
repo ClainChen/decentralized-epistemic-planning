@@ -17,7 +17,6 @@ class GrapevineObsFunc(AbstractObservationFunction):
         Agent knows whether the 
         """
         agent_loc = {}
-        unchange_funcs = []
         result = set()
         shared_value_funcs = []
         secret_loc = {}
@@ -27,7 +26,7 @@ class GrapevineObsFunc(AbstractObservationFunction):
                 result.add(func)
                 agent_loc[func.parameters['?a']] = func.value
             elif func.name in ['own', 'secret_id']:
-                unchange_funcs.append(func)
+                result.add(func)
             elif func.name == 'sharing_lock':
                 result.add(func)
             elif func.name == 'shared_value':
@@ -48,7 +47,7 @@ class GrapevineObsFunc(AbstractObservationFunction):
             if agent_loc[agent_name] == agent_loc[func.parameters['?a']]:
                 result.add(func)
 
-        return copy.deepcopy(list(result)) + unchange_funcs
+        return list(result)
 
     def get_observable_agents(self, model, functions, agent_name):
         agents = [agent.name for agent in model.agents]

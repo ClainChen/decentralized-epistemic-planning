@@ -6,6 +6,7 @@ import util
 import time
 from epistemic_handler import model_builder, problem_builder
 import copy
+import profile
 
 c_logging_level = logging.INFO
 THIS_LOGGER_LEVEL = logging.DEBUG
