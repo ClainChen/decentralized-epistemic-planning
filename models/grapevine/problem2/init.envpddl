@@ -34,10 +34,10 @@
 
     (:ranges
         (agent_loc integer [1,2])
-        (secret_id enumerate [as,bs,cs])
+        (secret_id enumerate [as,bs])
         (own enumerate [as,bs])
         (sharing_lock integer [0,1])
-        (agent_sharing enumerate [none,as,bs,cs])
+        (agent_sharing enumerate [none,as,bs])
         (shared_value enumerate [t,f])
         (shared_loc integer [0,2])
     )

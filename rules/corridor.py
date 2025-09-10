@@ -6,8 +6,6 @@ import util
 THIS_LOGGER_LEVEL = logging.DEBUG
 
 class CorridorRules(AbstractRules):
-    def __init__(self, handler):
-        self.logger = util.setup_logger(__name__, handler, logger_level=THIS_LOGGER_LEVEL)
     
     def check_functions(self, functions: list[Function]):
         """
@@ -47,7 +45,7 @@ class CorridorRules(AbstractRules):
             if function.parameters['?a'] not in agent_loc:
                 agent_loc[function.parameters['?a']] = function.value
             else:
-                self.logger.info(f"Agent {function.parameters['?a']} has multiple locations")
+                util.LOGGER.info(f"Agent {function.parameters['?a']} has multiple locations")
                 return False
                 
 
@@ -57,12 +55,12 @@ class CorridorRules(AbstractRules):
             if function.parameters['?i'] not in item_loc:
                 item_loc[function.parameters['?i']] = function.value
             else:
-                self.logger.info(f"Item {function.parameters['?i']} has multiple locations")
+                util.LOGGER.info(f"Item {function.parameters['?i']} has multiple locations")
                 return False
 
 
         if len(agents) != len(agent_loc) or len(items) != len(item_loc):
-            self.logger.info("Not all agents and items have locations")
+            util.LOGGER.info("Not all agents and items have locations")
             return False
         
         # 如果agent holding为true，则必然有一个hold by agent item为true
@@ -75,7 +73,7 @@ class CorridorRules(AbstractRules):
             if (count_hold_by > 1
                 or (holding_func.value == 1 and count_hold_by == 0)
                 or (holding_func.value == 0 and count_hold_by != 0)):
-                self.logger.info(f"holding functions has invalid settings")
+                util.LOGGER.info(f"holding functions has invalid settings")
                 return False
 
 
@@ -87,23 +85,23 @@ class CorridorRules(AbstractRules):
         for hold_by_func in hold_by_funcs:
             if hold_by_func.value == 1:
                 if agent_loc[hold_by_func.parameters['?a']] != item_loc[hold_by_func.parameters['?i']]:
-                    self.logger.info(f"hold by functions has invalid settings")
+                    util.LOGGER.info(f"hold by functions has invalid settings")
                     return False
                 for hold_by_func2 in hold_by_funcs:
                     if (hold_by_func2.value == 1
                         and hold_by_func2.parameters['?a'] != hold_by_func.parameters['?a']
                         and hold_by_func2.parameters['?i'] == hold_by_func.parameters['?i']):
-                        self.logger.info(f"hold by functions has invalid settings")
+                        util.LOGGER.info(f"hold by functions has invalid settings")
                         return False
                 for holding_func in holding_funcs:
                     if (holding_func.parameters['?a'] == hold_by_func.parameters['?a']
                         and holding_func.value == 0):
-                        self.logger.info(f"hold by functions has invalid settings")
+                        util.LOGGER.info(f"hold by functions has invalid settings")
                         return False
                 for is_free_func in is_free_funcs:
                     if (is_free_func.parameters['?i'] == hold_by_func.parameters['?i']
                         and is_free_func.value == 1):
-                        self.logger.info(f"hold by functions has invalid settings")
+                        util.LOGGER.info(f"hold by functions has invalid settings")
                         return False
         
         # 如果is free为true，则不会有任何agent持有该物品
@@ -115,7 +113,7 @@ class CorridorRules(AbstractRules):
                     count += 1
             if ((is_free_func.value == 1 and count != 0)
                 or (is_free_func.value == 0 and count == 0)):
-                self.logger.info(f"is free functions has invalid settings")
+                util.LOGGER.info(f"is free functions has invalid settings")
                 return False
 
         return True

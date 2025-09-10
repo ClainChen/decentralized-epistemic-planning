@@ -311,7 +311,7 @@ class ParsingProblem:
         return self.__str__()
 
 
-def convert_str_to_parsing_variable(variable_line: str, logger) -> ParsingVariable:
+def convert_str_to_parsing_variable(variable_line: str) -> ParsingVariable:
     try:
         vars = variable_line.split()
         var = ParsingVariable()
@@ -322,18 +322,18 @@ def convert_str_to_parsing_variable(variable_line: str, logger) -> ParsingVariab
         raise IndexError(f"list index out of range: Error parsing variable line: {variable_line}")
 
 
-def convert_state_line_to_parsing_state(state_pair: tuple[str, str], logger) -> ParsingState:
+def convert_state_line_to_parsing_state(state_pair: tuple[str, str]) -> ParsingState:
     function_line, value = state_pair
     state = ParsingState()
-    state.variable = convert_str_to_parsing_variable(function_line, logger)
+    state.variable = convert_str_to_parsing_variable(function_line)
     if util.regex_match(SPLIT_VARIABLE_REGEX, value):
-        state.target_variable = convert_str_to_parsing_variable(value, logger)
+        state.target_variable = convert_str_to_parsing_variable(value)
     else:
         state.value = value
     return state
 
 
-def convert_str_to_parsing_condition(condition_str: str, logger) -> ParsingCondition:
+def convert_str_to_parsing_condition(condition_str: str) -> ParsingCondition:
     # check whether the epistemic condition is present
     is_epistemic = '@ep' in condition_str
     epistemic_logic_operator = None
@@ -343,16 +343,16 @@ def convert_str_to_parsing_condition(condition_str: str, logger) -> ParsingCondi
     condition_value = ""
     epistemic_truth = None
     if is_epistemic:
-        condition_str = util.regex_search(EPISTEMIC_CONDITION_SPLIT_REGEX, condition_str, logger)
+        condition_str = util.regex_search(EPISTEMIC_CONDITION_SPLIT_REGEX, condition_str)
         epistemic_logic_operator, belief_sequence, condition_part, epistemic_truth = condition_str[0]
         if condition_part[1] not in ['=', '>', '<', '!']:
             condition_variable = condition_part[1:-1]
         else:
-            condition_str = util.regex_search(CONDITION_SPLIT_REGEX, condition_part, logger)
+            condition_str = util.regex_search(CONDITION_SPLIT_REGEX, condition_part)
             logic_operator, condition_variable, condition_value = condition_str[0]
 
     else:
-        condition_str = util.regex_search(CONDITION_SPLIT_REGEX, condition_str, logger)
+        condition_str = util.regex_search(CONDITION_SPLIT_REGEX, condition_str)
         logic_operator, condition_variable, condition_value = condition_str[0]
     if is_epistemic:
         precondition = ParsingEpistemicCondition()
@@ -360,7 +360,7 @@ def convert_str_to_parsing_condition(condition_str: str, logger) -> ParsingCondi
         precondition = ParsingCondition()
     state = ParsingState()
     precondition.logic_operator = logic_operator
-    state.variable = convert_str_to_parsing_variable(condition_variable, logger)
+    state.variable = convert_str_to_parsing_variable(condition_variable)
 
     # parse the condition value, if it is not a number, then it will parse the targetvariable
     if condition_value.isdigit():
@@ -370,7 +370,7 @@ def convert_str_to_parsing_condition(condition_str: str, logger) -> ParsingCondi
     elif ' ' not in condition_value:
         state.value = condition_value
     else:
-        state.target_variable = convert_str_to_parsing_variable(condition_value, logger)
+        state.target_variable = convert_str_to_parsing_variable(condition_value)
     precondition.state = state
     if is_epistemic:
         belief_sequence = (" " + belief_sequence).split(" b ")[1:]
@@ -382,57 +382,55 @@ def convert_str_to_parsing_condition(condition_str: str, logger) -> ParsingCondi
 
 
 class DomainParser:
-    def __init__(self, handlers, log_level=DOMAIN_LOG_LEVEL):
-        self.logger = util.setup_logger(__name__, handlers, logger_level=log_level)
 
     def run(self, file_path) -> ParsingDomain:
-        self.logger.info(f"Domain \"{file_path}\" start initialization.")
+        util.LOGGER.info(f"Domain \"{file_path}\" start initialization.")
         parsing_domain = ParsingDomain()
 
         if not os.path.isfile(file_path):
-            self.logger.error(f"Domain Parser cannot find file \"{file_path}\"")
+            util.LOGGER.error(f"Domain Parser cannot find file \"{file_path}\"")
             exit(0)
-        self.logger.info(f"Domain Parser found \"{file_path}\"")
+        util.LOGGER.info(f"Domain Parser found \"{file_path}\"")
 
         with open(file_path, 'r') as f:
             content = f.read()
-            self.logger.info(f"Complete file reading.")
+            util.LOGGER.info(f"Complete file reading.")
 
         try:
             # get domain name
             parsing_domain.name = self.get_name(content)
-            self.logger.info(f"Domain name found")
+            util.LOGGER.info(f"Domain name found")
 
             # get types
             parsing_domain.types = self.get_types(content)
-            self.logger.info(f"Domain type found")
+            util.LOGGER.info(f"Domain type found")
 
             # get functions
             parsing_domain.functions = self.get_functions(content)
-            self.logger.info(f"Domain functions found")
+            util.LOGGER.info(f"Domain functions found")
 
             # get actions
             parsing_domain.actions = self.get_actions(content)
-            self.logger.info(f"Domain actions found")
-            self.logger.debug(f"Parsed Domain Result:\n{parsing_domain}")
+            util.LOGGER.info(f"Domain actions found")
+            util.LOGGER.debug(f"Parsed Domain Result:\n{parsing_domain}")
 
             return parsing_domain
         except Exception as e:
-            self.logger.error(f"An error occurred in parse domain stage")
+            util.LOGGER.error(f"An error occurred in parse domain stage")
             raise e
     
     def get_name(self, domain_content) -> str:
         ''' 
         Get domain name
         '''
-        domain_name = util.regex_search(DOMAIN_NAME_REGEX, domain_content, self.logger)
+        domain_name = util.regex_search(DOMAIN_NAME_REGEX, domain_content)
         return domain_name[0]
 
     def get_types(self, domain_content) -> list[str]:
         '''
         Get domain types
         '''
-        type_line = util.regex_search(TYPES_REGEX, domain_content, self.logger)
+        type_line = util.regex_search(TYPES_REGEX, domain_content)
         type_line = type_line[0]
         return type_line.split()
     
@@ -440,15 +438,15 @@ class DomainParser:
         '''
         Get domain functions
         '''
-        function_lines = util.regex_search(FUNCTION_EXTRACT_REGEX, domain_content, self.logger)
-        function_lines = util.regex_search(FUNTION_SPLIT_NAME_PARAMETER_REGEX, function_lines[0], self.logger)
+        function_lines = util.regex_search(FUNCTION_EXTRACT_REGEX, domain_content)
+        function_lines = util.regex_search(FUNTION_SPLIT_NAME_PARAMETER_REGEX, function_lines[0])
         functions = []
         for function_line in function_lines:
             function_name, parameter_part = function_line
             function = ParsingFunction()
             function.name = function_name
             if parameter_part != "":
-                parameter_part = util.regex_search(SPLIT_MULTI_PARAMETER_REGEX, parameter_part, self.logger)
+                parameter_part = util.regex_search(SPLIT_MULTI_PARAMETER_REGEX, parameter_part)
                 for parameters, parameter_type in parameter_part:
                     function.parameters[parameter_type] = parameters.split()
             functions.append(function)
@@ -462,7 +460,7 @@ class DomainParser:
         effect: effect operator ('increase', 'decrease', 'assign'), variable, value or target variable\n
         variable: name, parameters
         '''
-        action_lines = util.regex_search(ACTION_EXTRACT_REGEX, domain_content, self.logger)
+        action_lines = util.regex_search(ACTION_EXTRACT_REGEX, domain_content)
         actions = []
         for action_name, parameter_part, precondition_part, effect_part in action_lines:
             action = ParsingAction()
@@ -489,7 +487,7 @@ class DomainParser:
         :return: a dictionary with parameter type as key and a list of parameters as value
         """
         if not parameter_part: return {}
-        parameter_part = util.regex_search(SPLIT_MULTI_PARAMETER_REGEX, parameter_part, self.logger)
+        parameter_part = util.regex_search(SPLIT_MULTI_PARAMETER_REGEX, parameter_part)
         parameters = {}
         for parameters_str, parameter_type in parameter_part:
             parameters[parameter_type] = parameters_str.split()
@@ -505,7 +503,7 @@ class DomainParser:
         preconditions = []
         precondition_part = precondition_part.splitlines()
         for condition_part in precondition_part:
-            preconditions.append(convert_str_to_parsing_condition(condition_part, self.logger))
+            preconditions.append(convert_str_to_parsing_condition(condition_part))
         return preconditions
     
     def get_action_effects(self, effect_part: str) -> list[ParsingEffect]:
@@ -515,7 +513,7 @@ class DomainParser:
         :return: a list of ParsingEffect objects
         """
         if not effect_part: return []
-        effect_part = util.regex_search(EFFECT_SPLIT_REGEX, effect_part, self.logger)
+        effect_part = util.regex_search(EFFECT_SPLIT_REGEX, effect_part)
         effects = []
         for effect_operator, effect_variable, effect_value in effect_part:
             # create an effect
@@ -524,7 +522,7 @@ class DomainParser:
             effect.effect_operator = effect_operator
             
             # parse the effect variable
-            variable = convert_str_to_parsing_variable(effect_variable, self.logger)
+            variable = convert_str_to_parsing_variable(effect_variable)
             effect.variable = variable
             
             # parse the effect value, if it is not a number, then it will parse the targetvariable
@@ -534,9 +532,9 @@ class DomainParser:
                 effect.value = effect_value
             else:
                 if '@ep' in effect_value:
-                    belief_sequence, effect_value = util.regex_search(EFFECT_EP_VALUE_SPLIT_REGEX, effect_value, self.logger)[0]
+                    belief_sequence, effect_value = util.regex_search(EFFECT_EP_VALUE_SPLIT_REGEX, effect_value)[0]
                     effect.target_variable_belief_sequence = [b[1:-1] for b in (" " + belief_sequence).split(" b ")[1:]]
-                target_variable = convert_str_to_parsing_variable(effect_value[1:-1], self.logger)
+                target_variable = convert_str_to_parsing_variable(effect_value[1:-1])
                 effect.target_variable = target_variable
             effects.append(effect)
         return effects
@@ -547,11 +545,9 @@ class ProblemParser:
     Problem parser class for parsing problem files in PDDL format.
     It will accept a folder path that contains distributed agent problem files.
     """
-    def __init__(self, handlers, log_level=PROBLEM_LOG_LEVEL):
-        self.logger = util.setup_logger(__name__, handlers, logger_level=log_level)
     
     def run(self, folder_path) -> ParsingProblem:
-        self.logger.info(f"Problem \"{folder_path}\" start initialization.")
+        util.LOGGER.info(f"Problem \"{folder_path}\" start initialization.")
         parsing_problem = ParsingProblem()
         
         # get all files in the folder, split them into agent files and environment file
@@ -559,62 +555,62 @@ class ProblemParser:
         log_agents = ""
         for agent_file in agent_files:
             log_agents += f"\n\"{agent_file}\""
-        self.logger.info(f"Found {len(agent_files)} agent files:{log_agents}")
-        self.logger.info(f"Found init file: \"{env_file}\"")
+        util.LOGGER.info(f"Found {len(agent_files)} agent files:{log_agents}")
+        util.LOGGER.info(f"Found init file: \"{env_file}\"")
 
         # get environment content
         with open(env_file, 'r') as f:
             env_content = f.read()
-            self.logger.info(f"Complete reading environment file.")
+            util.LOGGER.info(f"Complete reading environment file.")
 
         # get agent contents
         agt_contents = []
         for agt_file in agent_files:
             with open(agt_file, 'r') as f:
                 agt_contents.append(f.read())
-                self.logger.info(f"Copmlete reading agent file \"{agt_file}\"")
+                util.LOGGER.info(f"Copmlete reading agent file \"{agt_file}\"")
 
         # check the validity of the problem contents
         if not self.check_validity(env_content, agt_contents):
-            self.logger.error(f"Problem is not valid")
+            util.LOGGER.error(f"Problem is not valid")
             raise Exception("Problem naming is not valid, may be one of the agtpddl has a wrong domain or problem name")
         
         try:
             # get names
             parsing_problem.domain_name, parsing_problem.problem_name = self.get_name(env_content)
-            self.logger.info(f"Problem domain name \"{parsing_problem.domain_name}\" found\nProblem name \"{parsing_problem.problem_name}\" found")
+            util.LOGGER.info(f"Problem domain name \"{parsing_problem.domain_name}\" found\nProblem name \"{parsing_problem.problem_name}\" found")
 
             # get agents
             parsing_problem.agents = self.get_agents(env_content)
-            self.logger.info(f"Problem agents found")
+            util.LOGGER.info(f"Problem agents found")
 
             # get objects
             parsing_problem.objects = self.get_objects(env_content)
-            self.logger.info(f"Problem objects found")
+            util.LOGGER.info(f"Problem objects found")
 
             # get ranges
             parsing_problem.ranges = self.get_ranges(env_content)
-            self.logger.info(f"Problem ranges found")
+            util.LOGGER.info(f"Problem ranges found")
             
             # get initial states
             parsing_problem.states = self.get_init_states(parsing_problem.agents, env_content, agt_contents)
-            self.logger.info(f"Problem initial states found")
+            util.LOGGER.info(f"Problem initial states found")
 
             # get goals
             parsing_problem.goals = self.get_goals(parsing_problem.agents, agt_contents)
-            self.logger.info(f"Problem goals found")
+            util.LOGGER.info(f"Problem goals found")
 
             # get acceptable goal set
             parsing_problem.acceptable_goal_set = self.get_goal_sets(env_content)
-            self.logger.info(f"Problem acceptable goal set found")
+            util.LOGGER.info(f"Problem acceptable goal set found")
 
             parsing_problem.max_belief_depth = self.get_max_belief_depth(env_content)
-            self.logger.info(f"Problem max belief depth found")
+            util.LOGGER.info(f"Problem max belief depth found")
 
-            self.logger.debug(f"Parsed Problem Result:\n{parsing_problem}")
+            util.LOGGER.debug(f"Parsed Problem Result:\n{parsing_problem}")
             return parsing_problem
         except Exception as e:
-            self.logger.error(f"An error occurred in parse problem stage")
+            util.LOGGER.error(f"An error occurred in parse problem stage")
             raise e
 
         
@@ -625,17 +621,17 @@ class ProblemParser:
         :return: a tuple of (agent_files, environment_file)\n
         """
         if not os.path.isdir(folder_path):
-            self.logger.error(f"Problem Parser cannot find folder \"{folder_path}\"")
+            util.LOGGER.error(f"Problem Parser cannot find folder \"{folder_path}\"")
             exit(0)
 
         # extract the files in the folder
-        self.logger.info(f"Problem folder found \"{folder_path}\"")
+        util.LOGGER.info(f"Problem folder found \"{folder_path}\"")
         files = os.listdir(folder_path)
         files = list(map(lambda x: folder_path + '/' + x, files))
         agent_files = list(filter(lambda x: x.endswith('.agtpddl'), files))
         env_file = next(filter(lambda x: x.endswith('.envpddl'), files), None)
         if not agent_files or not env_file:
-            self.logger.error(f"folder \"{folder_path}\" does not contains the required files.")
+            util.LOGGER.error(f"folder \"{folder_path}\" does not contains the required files.")
             exit(0)
         return agent_files, env_file
     
@@ -648,11 +644,11 @@ class ProblemParser:
         problem_name, domain_name = self.get_name(env_content)
         for agt_content in agt_contents:
             agt_problem_name, agt_domain_name = self.get_name(agt_content)
-            agt_name = util.regex_search(AGENT_NAME_REGEX, agt_content, self.logger)[0]
+            agt_name = util.regex_search(AGENT_NAME_REGEX, agt_content)[0]
 
 
             if agt_problem_name != problem_name or agt_domain_name != domain_name:
-                self.logger.error(f"The name of the problem in the agent file \"{agt_name}\" is not valid.\nProblem name: \"{problem_name}\", Domain name: \"{domain_name}\"")
+                util.LOGGER.error(f"The name of the problem in the agent file \"{agt_name}\" is not valid.\nProblem name: \"{problem_name}\", Domain name: \"{domain_name}\"")
                 return False
         return True
 
@@ -660,15 +656,15 @@ class ProblemParser:
         """
         Get domain name and problem name from the environment content
         """
-        domain_name = util.regex_search(PROBLEM_DOMAIN_NAME_REGEX, env_content, self.logger)
-        problem_name = util.regex_search(PROBLEM_NAME_REGEX, env_content, self.logger)
+        domain_name = util.regex_search(PROBLEM_DOMAIN_NAME_REGEX, env_content)
+        problem_name = util.regex_search(PROBLEM_NAME_REGEX, env_content)
         return domain_name[0], problem_name[0]
         
     def get_agents(self, env_content) -> list[str]:
         """
         Get agents from the environment content
         """
-        agents = util.regex_search(ENV_AGENTS_REGEX, env_content, self.logger)
+        agents = util.regex_search(ENV_AGENTS_REGEX, env_content)
         agents = agents[0].strip().split()
         return agents
 
@@ -678,11 +674,11 @@ class ProblemParser:
         """
         objects = dict()
 
-        object_lines = util.regex_search(ENV_OBJECT_EXTRACT_REGEX, env_content, self.logger)
+        object_lines = util.regex_search(ENV_OBJECT_EXTRACT_REGEX, env_content)
         object_lines = object_lines[0]
         if not object_lines:
             return objects
-        object_lines = util.regex_search(ENV_OBJECT_SPLIT_REGEX, object_lines, self.logger)
+        object_lines = util.regex_search(ENV_OBJECT_SPLIT_REGEX, object_lines)
         
         for this_objects, this_object_type in object_lines:
             this_objects = this_objects.split()
@@ -704,18 +700,18 @@ class ProblemParser:
         # update unshared states
         unshared_state_pairs = self.parse_state_lines(INIT_STATE_EXTRACT_REGEX, env_content)
         for state_pairs in unshared_state_pairs:
-            states.append(convert_state_line_to_parsing_state(state_pairs, self.logger))
+            states.append(convert_state_line_to_parsing_state(state_pairs))
         
         # update shared states
         # shared_state_pairs = self.parse_state_lines(SHARED_INIT_STATE_EXTRACT_REGEX, env_content)
         # for state_pair in shared_state_pairs:
-        #     state = convert_state_line_to_parsing_state(state_pair, self.logger)
+        #     state = convert_state_line_to_parsing_state(state_pair)
         #     for agent in agents:
         #         states[agent].append(state)
         
         # update individual states
         for agt_content in agt_contents:
-            agt_name = util.regex_search(AGENT_NAME_REGEX, agt_content, self.logger)
+            agt_name = util.regex_search(AGENT_NAME_REGEX, agt_content)
             agt_name = agt_name[0]
         
         return states
@@ -725,9 +721,9 @@ class ProblemParser:
         Get ranges from the problem content
         """
         ranges = []
-        range_lines = util.regex_search(RANGES_EXTRACT_REGEX, env_content, self.logger)
+        range_lines = util.regex_search(RANGES_EXTRACT_REGEX, env_content)
         range_lines = range_lines[0]
-        range_lines = util.regex_search(RANGES_SPLIT_REGEX, range_lines, self.logger)
+        range_lines = util.regex_search(RANGES_SPLIT_REGEX, range_lines)
 
         for function_name, type, range_values in range_lines:
             parsing_range = ParsingRange()
@@ -745,10 +741,10 @@ class ProblemParser:
         return ranges
     
     def parse_state_lines(self, regex, content) -> list[tuple[str, str]]:
-        state_lines = util.regex_search(regex, content, self.logger)
+        state_lines = util.regex_search(regex, content)
         state_lines = state_lines[0]
         if not state_lines: return []
-        state_lines = util.regex_search(INIT_STATE_SPLIT_REGEX, state_lines, self.logger)
+        state_lines = util.regex_search(INIT_STATE_SPLIT_REGEX, state_lines)
         return state_lines
 
     def get_goals(self, agents, agt_contents) -> dict[str, list[ParsingCondition]]:
@@ -756,13 +752,13 @@ class ProblemParser:
         for agent in agents:
             goals[agent] = []
         for agt_content in agt_contents:
-            agt = util.regex_search(AGENT_NAME_REGEX, agt_content, self.logger)
+            agt = util.regex_search(AGENT_NAME_REGEX, agt_content)
             agt = agt[0]
 
-            goal_lines = util.regex_search(GOAL_REGEX, agt_content, self.logger)
+            goal_lines = util.regex_search(GOAL_REGEX, agt_content)
             goal_lines = goal_lines[0].splitlines()
             for goal_line in goal_lines:
-                goals[agt].append(convert_str_to_parsing_condition(goal_line, self.logger))
+                goals[agt].append(convert_str_to_parsing_condition(goal_line))
         return goals
 
     def get_goal_sets(self, env_content) -> list[ParsingAcceptableGoal]:
@@ -770,9 +766,9 @@ class ProblemParser:
         Get ranges from the problem content
         """
         goal_sets = []
-        goal_set_lines = util.regex_search(GOAL_SET_EXTRACT_REGEX, env_content, self.logger)
+        goal_set_lines = util.regex_search(GOAL_SET_EXTRACT_REGEX, env_content)
         goal_set_lines: str = goal_set_lines[0]
-        goal_set_lines: list[str] = util.regex_search(GOAL_SET_SPLIT_REGEX, goal_set_lines, self.logger)
+        goal_set_lines: list[str] = util.regex_search(GOAL_SET_SPLIT_REGEX, goal_set_lines)
         # print(goal_set_lines)
 
         for func_name, params, values in goal_set_lines:
@@ -785,5 +781,5 @@ class ProblemParser:
         return goal_sets
 
     def get_max_belief_depth(self, env_content) -> int:
-        max_belief_depth = util.regex_search(MAX_BELIEF_DEPTH_REGEX, env_content, self.logger)[0]
+        max_belief_depth = util.regex_search(MAX_BELIEF_DEPTH_REGEX, env_content)[0]
         return int(max_belief_depth)

@@ -1,27 +1,22 @@
-from abc import ABC, abstractmethod
 from epistemic_handler.epistemic_class import Model, Agent, Function, Action
 
-class AbstractObservationFunction(ABC):
+class AbstractObservationFunction:
     """
     Abstract class for observation function\n
     1. Make sure put the new observation function file in the observation_functions folder\n
     2. Make sure to extend this class and implement the abstract method when you are defining a new observation function class, that is really important\n
     """
-    def __init__(self, handler, logger_level):
-        self.logger = None
 
-    @abstractmethod
     def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
         pass
 
-    @abstractmethod
     def get_observable_agents(self, model: Model, functions: list[Function], agent_name: str) -> list[str]:
         """
         Get all other agents that the given agent (agent_name) can see in current model.
         """
         pass
 
-class AbstractPolicyStrategy(ABC):
+class AbstractPolicyStrategy:
     """
     Abstract class for agent policy decision strategy\n
     1. Agent will only implement the strategy if the agent has the belief of all other agents' current functions. Otherwise, they will only use a greedy strategy.\n
@@ -29,31 +24,22 @@ class AbstractPolicyStrategy(ABC):
     3. Make sure to extend this class and implement the abstract method when you are defining a new observation function class, that is really important\n
     """
 
-    def __init__(self, handler, logger_level):
-        self.logger = None
-
-    @abstractmethod
     def get_policy(self, model: Model, agent_name: str) -> Action:
         pass
 
     
 
 
-class AbstractRules(ABC):
+class AbstractRules:
     """
     Abstract class for rules, if you needs to use virtual world generator or problem generator, then make sure you build a rule class for specific problem.\n
     This class is used to check whether the functions of the model or a set of functions is following the rules.\n
     1. Make sure put the new rules class in the rules folder.\n
     2. Make sure to extend this class and implement the abstract method when you are defining a new rules class, that is really important\n
     """
-
-    def __init__(self, handler, logger_level):
-        self.logger = None
-
     def check_model(self, model: Model):
         return self.check_functions(model.ontic_functions)
     
-    @abstractmethod
     def check_functions(self, functions: list[Function]) -> bool:
         pass
 

@@ -2,7 +2,7 @@
 
 .DEFAULT_GOAL := help
 
-EXTRA_ARGS ?=
+args ?=
 
 help:
 	@echo Useful commands:
@@ -25,117 +25,117 @@ coin1:
 		-d coin/domain.pddl \
 		-p coin/problem1 \
 		-ob coin.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules coin.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 coin2:
 	python entrance.py \
 		-d coin/domain.pddl \
 		-p coin/problem2 \
 		-ob coin.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules coin.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 corridor2a1i_1:
 	python entrance.py \
 		-d corridor/domain.pddl \
 		-p corridor/2a1i_1 \
 		-ob corridor.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules corridor.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 corridor2a2i_1:
 	python entrance.py \
 		-d corridor/domain.pddl \
 		-p corridor/2a2i_1 \
 		-ob corridor.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules corridor.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 corridor2a2i_2:
 	python entrance.py \
 		-d corridor/domain.pddl \
 		-p corridor/2a2i_2 \
 		-ob corridor.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules corridor.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 grapevine1:
 	python entrance.py \
 		-d grapevine/domain.pddl \
 		-p grapevine/problem1 \
 		-ob grapevine.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules grapevine.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 grapevine2:
 	python entrance.py \
 		-d grapevine/domain.pddl \
 		-p grapevine/problem2 \
 		-ob grapevine.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules grapevine.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 grapevine3:
 	python entrance.py \
 		-d grapevine/domain.pddl \
 		-p grapevine/problem3 \
 		-ob grapevine.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules grapevine.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 mapf1:
 	python entrance.py \
 		-d mapf/domain.pddl \
 		-p mapf/problem1 \
 		-ob mapf.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules mapf.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 mapf2:
 	python entrance.py \
 		-d mapf/domain.pddl \
 		-p mapf/problem2 \
 		-ob mapf.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules mapf.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 mapf3:
 	python entrance.py \
 		-d mapf/domain.pddl \
 		-p mapf/problem3 \
 		-ob mapf.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules mapf.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 matrix2a1i3r_1:
 	python entrance.py \
 		-d matrix/domain.pddl \
 		-p matrix/2a1i3r_1 \
 		-ob matrix.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules matrix.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 matrix2a1i4r_1:
 	python entrance.py \
 		-d matrix/domain.pddl \
 		-p matrix/2a1i4r_1 \
 		-ob matrix.py \
-		--strategy seq_justified_bfs.py \
+		--strategy s-jbfs.py \
 		--rules matrix.py \
-		$(EXTRA_ARGS)
+		$(args)
 
 clean:
 	rm -f *.pyc __pycache__/*.pyc

@@ -2,17 +2,13 @@ import logging
 from epistemic_handler.file_parser import *
 from epistemic_handler.epistemic_class import Model, ProblemType, Condition
 
-
-MODEL_CHECKER_LOG_LEVEL = logging.DEBUG
-
 class ModelChecker:
     """
     This class use to check the validity of the given parsing domain and problem.
     """
-    def __init__(self, domain, problem, handlers, log_level=MODEL_CHECKER_LOG_LEVEL):
+    def __init__(self, domain, problem):
         self.domain: ParsingDomain = domain
         self.problem: ParsingProblem = problem
-        self.logger = util.setup_logger(__name__, handlers, logger_level=log_level)
     
     def check_validity(self) -> bool:
         """
@@ -23,11 +19,11 @@ class ModelChecker:
         4. initial state validity
         """
         result = True
-        self.logger.info("checking the validity...")
+        util.LOGGER.info("checking the validity...")
 
         # check the domain name validity
         if self.domain.name != self.problem.domain_name:
-            self.logger.debug(f"The domain name is different from the problem's domain name")
+            util.LOGGER.debug(f"The domain name is different from the problem's domain name")
         # gather all valid names
         valid_names = self.problem.agents[:]
         for object_names in self.problem.objects.values():
@@ -35,64 +31,63 @@ class ModelChecker:
         valid_names.append('unknown')
         for function in self.domain.functions:
             valid_names.append(function.name)
-        self.logger.debug(f"Valid names: {valid_names}")
+        util.LOGGER.debug(f"Valid names: {valid_names}")
         # check the states
-        self.logger.debug(f"Checking the states")
+        util.LOGGER.debug(f"Checking the states")
         for state in self.problem.states:
             result = self.check_state(valid_names, state)
                 
         
-        self.logger.debug(f"Checking the goals")
+        util.LOGGER.debug(f"Checking the goals")
         # check the goals
         for name, goals in self.problem.goals.items():
             if name not in valid_names:
-                self.logger.debug(f"The agent \"{name}\" is not valid")
+                util.LOGGER.debug(f"The agent \"{name}\" is not valid")
                 result = False
             for goal in goals:
                 goal
                 if isinstance(goal, ParsingEpistemicCondition):
                     for agt_name in goal.belief_sequence:
                         if agt_name not in valid_names:
-                            self.logger.debug(f"The agent \"{agt_name}\" in {name}'s goal \"{goal}\" is not valid")
+                            util.LOGGER.debug(f"The agent \"{agt_name}\" in {name}'s goal \"{goal}\" is not valid")
                             result = False
                 result = self.check_state(valid_names, goal.state)
         
-        self.logger.debug(f"Checking the ranges")
+        util.LOGGER.debug(f"Checking the ranges")
         # check the ranges
         for range in self.problem.ranges:
             if range.function_name not in valid_names:
-                self.logger.debug(f"The function \"{range.function_name}\" in range is not valid")
+                util.LOGGER.debug(f"The function \"{range.function_name}\" in range is not valid")
                 result = False
 
-        self.logger.debug(f"Checking the actions")
+        util.LOGGER.debug(f"Checking the actions")
         # check the actions
         for action in self.domain.actions:
             for condition in action.pre_conditions:
                 variable = condition.state.variable
                 target_variable = condition.state.target_variable
                 if variable.name not in valid_names or (target_variable.name is not None and target_variable.name not in valid_names):
-                    self.logger.debug(f"The action {action.name}'s precondition {condition} is not valid")
+                    util.LOGGER.debug(f"The action {action.name}'s precondition {condition} is not valid")
                     result = False
         if result:
-            self.logger.info(f"The domain and problem pass the checker.")
+            util.LOGGER.info(f"The domain and problem pass the checker.")
         else:
-            self.logger.info(f"The domain and problem did not pass the checker.")
+            util.LOGGER.info(f"The domain and problem did not pass the checker.")
         return result
-
         
     def check_state(self, valid_names, state: ParsingState):
         result = True
         variable_entities = state.variable.parameters
         if state.variable.name not in valid_names or (state.target_variable.name is not None and state.target_variable.name not in valid_names):
-            self.logger.debug(f"The variable {state.variable.name} is not valid.")
+            util.LOGGER.debug(f"The variable {state.variable.name} is not valid.")
         for entity in variable_entities:
             if entity not in valid_names:
-                self.logger.debug(f"The entity \"{entity}\" in state \"{state}\" is not valid")
+                util.LOGGER.debug(f"The entity \"{entity}\" in state \"{state}\" is not valid")
                 result = False
         target_variable_entities = state.target_variable.parameters
         for entity in target_variable_entities:
             if entity not in valid_names:
-                self.logger.debug(f"The entity \"{entity}\" in state \"{state}\" is not valid")
+                util.LOGGER.debug(f"The entity \"{entity}\" in state \"{state}\" is not valid")
                 result = False
         return result
 

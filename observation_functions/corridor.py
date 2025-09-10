@@ -7,8 +7,6 @@ from abstracts import AbstractObservationFunction
 LOGGER_LEVEL = logging.DEBUG
 
 class CorridorObsFunc(AbstractObservationFunction):
-    def __init__(self, handler, logger_level=LOGGER_LEVEL):
-        self.logger = util.setup_logger(__name__, handler, logger_level=LOGGER_LEVEL)
     
     def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
         """
@@ -37,7 +35,7 @@ class CorridorObsFunc(AbstractObservationFunction):
                     if function.value != agent_at_room[agent_name]:
                         all_item_in_same_room = False
 
-            # self.logger.debug(f"agent at room: {agent_at_room}\nitem at room: {item_at_room}")
+            # util.LOGGER.debug(f"agent at room: {agent_at_room}\nitem at room: {item_at_room}")
 
             for function in functions:
                 if function.name == 'holding':
@@ -61,7 +59,7 @@ class CorridorObsFunc(AbstractObservationFunction):
         except KeyError as e:
             return False
         except Exception as e:
-            self.logger.error(e)
+            util.LOGGER.error(e)
             raise e
 
     def get_observable_agents(self, model, functions, agent_name):

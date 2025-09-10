@@ -5,6 +5,7 @@ import util
 import logging
 import random
 import copy
+import time
 
 LOGGER_LEVEL = logging.DEBUG
 
@@ -12,8 +13,6 @@ class JustifiedBFS(AbstractPolicyStrategy):
     """
     Agent will choose a random action
     """
-    def __init__(self, handler, logger_level=LOGGER_LEVEL):
-        self.logger = util.setup_logger(__name__, handler, logger_level=logger_level)
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
         model_copy = copy.deepcopy(model)
@@ -21,38 +20,31 @@ class JustifiedBFS(AbstractPolicyStrategy):
         # print([succ.header() for succ in successors])
         if len(successors) > 1:
             possible_successors = [succ.header() for succ in successors]
-            samples, expands, virutal_model_num = self.bfs(model_copy, agent_name)
-            output = f"Num of virtual models: {virutal_model_num}\n"
-            output += f"Num of node expansions: {expands}\n"
-            output += f"{[(key, value[1]) for key, value in samples.items()]}\n"
+            samples = self.bfs(model_copy, agent_name)
+            output = f"{[(key, value[1]) for key, value in samples.items()]}\n"
             output += f"{dict([(agent.name, len(agent.all_possible_goals)) for agent in model_copy.agents])}"
-
-            # print(output)
-            self.logger.info(f"{output}")
+            util.LOGGER.info(f"{output}")
             
-            # print(f"{[f'{key} : {value[1]}' for key, value in samples.items()]}")
-            samples = {key: value for key, value in samples.items() if key in possible_successors}
-            max_value = -1
-            for value in samples.values():
-                if value[1] > max_value:
-                    max_value = value[1]
-            if max_value == -1:
-                self.logger.info(f"Didn't get result")
+            succs = [value for value in samples.values() if value[0].header() in possible_successors]
+            if len(succs) == 0:
                 return Action.stay_action(agent_name) if len(successors) == 0 else random.choice(successors)
-            possible_actions = [value[0] for _, value in samples.items() if value[1] == max_value]
-            return random.choice(possible_actions)
+            succs.sort(reverse=True, key=lambda x: x[1])
+            maxx = succs[0][1]
+            succs = [value[0] for value in succs if value[1] == maxx]
+            return random.choice(succs)
         elif len(successors) == 1:
-            self.logger.info(f"Only one successor: {successors[0].header()}")
+            util.LOGGER.info(f"Only one successor: {successors[0].header()}")
             return successors[0]
         else:
             stay = Action.stay_action(agent_name)
-            self.logger.info(f"No successor, use stay action: {stay.header()}")
+            util.LOGGER.info(f"No successor, use stay action: {stay.header()}")
             return stay
         
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
         samples = {}
         expands = 0
+        start = time.perf_counter()
         for virtual_model in all_virtual_model:
             this_sample, this_expand = self.single_bfs(virtual_model, agent_name)
             expands += this_expand
@@ -61,13 +53,12 @@ class JustifiedBFS(AbstractPolicyStrategy):
                     samples[key][1] += value[1]
                 else:
                     samples[key] = value
-            
-            # print("no solution")
-        return samples, expands, len(all_virtual_model)
+        util.LOGGER.info(f"Models: {len(all_virtual_model)}, Exapnds: {expands}, {(((time.perf_counter() - start) / expands) * 1e3):.3f}ms/expand")
+        return samples
 
     def single_bfs(self, virtual_model: Model, agent_name: str):
         start_agent = virtual_model.get_agent_by_name(agent_name)
-        # self.logger.debug(f"{virtual_model}")
+        # util.LOGGER.debug(f"{virtual_model}")
         expand = 1
         samples = {}
         heap: list[util.BFSNode] = []
@@ -89,14 +80,14 @@ class JustifiedBFS(AbstractPolicyStrategy):
                             samples[string] = [node.actions[0], 1]
                         else:
                             samples[string][1] += 1
-                    self.logger.debug(f"Complete path: {[action.header() for action in node.actions]}")
+                    util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
                     continue
             current_agent = node.model.agents[node.current_index]
             # 检查当前世界状态中，对于agent_name代理来说是否有笃定current_agent会做的行为
             # 如果有，则直接讲这些行为记为successors，如果没有则正常生成successors
             jp_world_for_agent_name = [f.id for f in util.get_epistemic_world(node.model, [agent_name])]
             hash_set_jp_world = frozenset(jp_world_for_agent_name)
-            successors = list(start_agent.E[hash_set_jp_world][current_agent.name])
+            successors = start_agent.get_E(hash_set_jp_world, current_agent.name)
             successors = [succ for succ in successors if util.is_valid_action(node.model, succ)]
             # if current_agent.name == agent_name:
             #     poss_succs = node.model.get_agent_successors(current_agent.name)
@@ -110,7 +101,7 @@ class JustifiedBFS(AbstractPolicyStrategy):
                 # 过滤机制
                 observe_funcs = frozenset([frozenset([agt.name] + [f.id for f in util.get_epistemic_world(next_model, [agt.name])]) for agt in next_model.agents])
                 if observe_funcs in existed_epistemic_world[current_agent.name]:
-                    # virtual_model.logger.debug(f"Pruned path: {[action.header() for action in node.actions] + [succ.header()]}")
+                    # util.LOGGER.debug(f"Pruned path: {[action.header() for action in node.actions] + [succ.header()]}")
                     continue
                 existed_epistemic_world[current_agent.name].add(observe_funcs)
 

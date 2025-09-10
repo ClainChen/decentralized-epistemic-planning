@@ -3,52 +3,52 @@ from epistemic_handler.file_parser import *
 from epistemic_handler.epistemic_class import *
 from epistemic_handler.model_checker import *
 from epistemic_handler.problem_builder import *
+from itertools import permutations
 import pickle
 from pathlib import Path
 
 LOGGER_LEVEL = logging.DEBUG
 
-def build(args, handler) -> Model:
+def build(args) -> Model:
     try:
-        logger = util.setup_logger(__name__, handlers=handler, logger_level=LOGGER_LEVEL)
-        logger.info(f"Start building the model, type: \"{args.problem_type}\"")
+        util.LOGGER.info(f"Start building the model, type: \"{args.problem_type}\"")
 
-        domain, problem = parse_file(args, handler, logger)
-        checker = ModelChecker(domain, problem, handler)
+        domain, problem = parse_file(args)
+        checker = ModelChecker(domain, problem)
         if not checker.check_validity():
-            logger.error("Model is invalid")
+            util.LOGGER.error("Model is invalid")
             exit(1)
-        model = build_model(domain, problem, handler, logger, args)
+        model = build_model(domain, problem, args)
         return model
     except Exception as e:
         raise e
 
-def parse_file(args, handler, logger):
-    domain_parser = DomainParser(handler)
+def parse_file(args):
+    domain_parser = DomainParser()
     domain_path = util.MODEL_FOLDER_PATH + args.domain_path
     domain: ParsingDomain = domain_parser.run(domain_path)
 
-    problem_parser = ProblemParser(handler)
+    problem_parser = ProblemParser()
     problem_path = util.MODEL_FOLDER_PATH + args.problem_path
     problem: ParsingProblem = problem_parser.run(problem_path)
 
-    checker = ModelChecker(domain, problem, handler)
+    checker = ModelChecker(domain, problem)
     check_result = checker.check_validity()
     if not check_result:
-        logger.error(f"Model is invalid.")
+        util.LOGGER.error(f"Model is invalid.")
         raise Exception("Model did not pass the checker.")
     
     return domain, problem
 
 
-def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger, args):
+def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
     try:
+        util.load_observation_function(util.OBS_FUNC_FOLER_PATH + args.observation_function)
+        util.load_rules(util.RULES_FOLDER_PATH + args.rules)
+        util.load_policy_strategy(util.STRATEGY_FOLDER_PATH + args.strategy)
+
         model = Model()
-        model.init(handler, 
-                "cooperative" if args.problem_type else "neutral", 
-                util.OBS_FUNC_FOLER_PATH + args.observation_function, 
-                util.STRATEGY_FOLDER_PATH + args.strategy,
-                util.RULES_FOLDER_PATH + args.rules)
+        model.init("cooperative" if args.problem_type else "neutral")
         model.domain_name = domain.name
         model.problem_name = problem.problem_name
         model.max_belief_depth = problem.max_belief_depth
@@ -251,9 +251,9 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                 hint = "No goal backup found or the backup is not complete, now start to build the possible goals.\n"
                 hint += f"The result will automatically be stored in the folder: possible_goals_backup/{model.domain_name}-{model.problem_name}.\n"
                 hint += f"Please do not change the problem setup inside the problem file, \nyou can just create a new problem, copy it or whatever, \nhange the name of problem, and do what you want to do.\n"
-                logger.info(hint)
+                util.LOGGER.info(hint)
                 print(hint)
-                problemBuilder = ProblemBuilder(model, handler)
+                problemBuilder = ProblemBuilder(model)
                 for agent in model.agents:
                     all_goals, avg_time = problemBuilder.get_all_poss_goals(agent.name)
                     agent.max_time = avg_time + 10
@@ -262,21 +262,21 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, handler, logger,
                         pickle.dump(agent.all_possible_goals, f)
             else:
                 hint = f"The goal backup found in the folder: possible_goals_backup/{model.domain_name}-{model.problem_name}, now loading the goals from the backup."
-                logger.info(hint)
+                util.LOGGER.info(hint)
                 print(hint)
                 for agent in model.agents:
                     with open(folder_path / f"{agent.name}.pkl", "rb") as f:
                         agent.all_possible_goals = pickle.load(f)
 
-        logger.debug(f"Model:\n{model}")
+        util.LOGGER.debug(f"Model:\n{model}")
         # if not check_goal_conflicts(model):
-        #     logger.error("Goal conflicts found")
+        #     util.LOGGER.error("Goal conflicts found")
         #     raise Exception("Goal conflicts found")
-        # logger.info(f"Pass goal conflict check")
+        # util.LOGGER.info(f"Pass goal conflict check")
         return model
     except Exception as e:
         print("Model building failed.")
-        logger.error("Model building failed.")
+        util.LOGGER.error("Model building failed.")
         raise e
 
 

@@ -6,7 +6,10 @@ import util
 import time
 from epistemic_handler import model_builder, problem_builder
 import copy
+import test as t
 import profile
+
+
 
 c_logging_level = logging.INFO
 THIS_LOGGER_LEVEL = logging.DEBUG
@@ -18,6 +21,8 @@ LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'info': logging.INFO,
                   'debug': logging.DEBUG,
                   'notset': logging.NOTSET}
+
+
 
 class CustomHelpFormatter(argparse.RawTextHelpFormatter, argparse.ArgumentDefaultsHelpFormatter):
     pass
@@ -64,21 +69,23 @@ if __name__ == '__main__':
 
         handler = util.setup_logger_handlers(f"log/{log_name}", log_mode='w',
                                              c_display=c_logging_display, c_logger_level=c_logging_level)
-        logger = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
-        logger.info(f"Start building the model, type: \"{args.problem_type}\"")
+        util.LOGGER = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
+        util.LOGGER.info(f"Start building the model, type: \"{args.problem_type}\"")
         
-        model = model_builder.build(args, handler)
-        if not model.rules.check_model(model):
-            logger.error(f"Model's functions are not following the rules.")
+        model = model_builder.build(args)
+        # t.diagnose_model_serialization(model)
+        # exit(0)
+        if not util.RULES.check_model(model):
+            util.LOGGER.error(f"Model's functions are not following the rules.")
             print("Model's functions are not following the rules.")
             exit(0)
-        logger.info(f"Model built successfully.")
+        util.LOGGER.info(f"Model built successfully.")
 
         start_index = 0
 
         if args.action_sequence_path is not None:
-            logger.info(f"Run under modified action sequence mode.")
-            action_sequence = util.load_action_sequence(args.action_sequence_path, model, logger)
+            util.LOGGER.info(f"Run under modified action sequence mode.")
+            action_sequence = util.load_action_sequence(args.action_sequence_path, model)
             for action in action_sequence:
                 model.sim_move(action[0], action[1])
                 # check whether the agents are complete their goals
@@ -87,6 +94,8 @@ if __name__ == '__main__':
                 exit(0)
             else:
                 print("Agent didn't complete their goals, program will continue to simulate")
+            for f in model.ontic_functions:
+                print(f)
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
             # print each agent's current ep world
             # for agent in model.agents:
@@ -94,11 +103,11 @@ if __name__ == '__main__':
             #     output = ""
             #     for func in ep_world:
             #         output += f"{func}\n"
-            #     logger.info(f"{agent.name} ep world:\n{output}")
+            #     util.LOGGER.info(f"{agent.name} ep world:\n{output}")
             #     print(f"{agent.name}'s ep world:\n{output}")
 
         if util.check_bfs(model.copy()) == -1:
-            logger.error(f"Model's goal setting do not have solution")
+            util.LOGGER.error(f"Model's goal setting do not have solution")
             print("Model's goal setting do not have solution")
             exit(0)
 
@@ -108,12 +117,12 @@ if __name__ == '__main__':
                 running_model = copy.deepcopy(model)
                 running_model.simulate(running_model.agents[start_index].name)
         else:
-            problem_builder = problem_builder.ProblemBuilder(model, handler)
+            problem_builder = problem_builder.ProblemBuilder(model)
             problem_builder.generate_all_problem_pddl_files()
 
         print("Done.")
     except Exception as e:
-        logger.error(f"{traceback.format_exc()}\n")
+        util.LOGGER.error(f"{traceback.format_exc()}\n")
         print(f"{traceback.format_exc()}\n")
         print("Program failed caused by some reason. Please check the log file for more details.")
 

@@ -6,8 +6,6 @@ import copy
 LOGGER_LEVEL = logging.DEBUG
 
 class GrapevineObsFunc(AbstractObservationFunction):
-    def __init__(self, handler, logger_level=LOGGER_LEVEL):
-        self.logger = util.setup_logger(__name__, handler, logger_level=LOGGER_LEVEL)
     
     def get_observable_functions(self, model, functions, agent_name):
         """
@@ -25,9 +23,7 @@ class GrapevineObsFunc(AbstractObservationFunction):
             if func.name == 'agent_loc':
                 result.add(func)
                 agent_loc[func.parameters['?a']] = func.value
-            elif func.name in ['own', 'secret_id']:
-                result.add(func)
-            elif func.name == 'sharing_lock':
+            elif func.name in ['own', 'secret_id', 'sharing_lock']:
                 result.add(func)
             elif func.name == 'shared_value':
                 shared_value_funcs.append(func)

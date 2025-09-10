@@ -7,12 +7,10 @@ from pathlib import Path
 from tqdm import tqdm
 from string import Template
 
-PROBLEM_BUILDER_LOG_LEVEL = logging.DEBUG
 TAP = "        "
 
 class ProblemBuilder:
-    def __init__(self, base_model, handlers, log_level=PROBLEM_BUILDER_LOG_LEVEL):
-        self.logger = util.setup_logger(__name__, handlers, logger_level=log_level)
+    def __init__(self, base_model):
         self.base_model: Model = base_model
     
     def get_all_init_ontic_world(self):
@@ -38,7 +36,7 @@ class ProblemBuilder:
             
         # generate all possible function groups
         all_possible_init = [list(lst) for lst in itertools.product(*groups)]
-        all_possible_init = [world for world in all_possible_init if self.base_model.rules.check_functions(world)]
+        all_possible_init = [world for world in all_possible_init if util.RULES.check_functions(world)]
         return all_possible_init
 
     def get_all_poss_goals(self, agent_name = "") -> list[dict[str, list[Condition]]]:
@@ -142,7 +140,7 @@ class ProblemBuilder:
         #         for goal in goals:
         #             result += f"{goal}\n"
         #         result += f"-----\n"
-        #     self.logger.debug(result)
+        #     util.LOGGER.debug(result)
         
         return results, -1 if agent_name == "" else (time.perf_counter() - start_time) / max(1, valid)
 
@@ -169,7 +167,7 @@ class ProblemBuilder:
         worlds = self.get_all_init_ontic_world()
         goal_sets, _ = self.get_all_poss_goals()
         problems = self.get_all_poss_problem(worlds, goal_sets)
-        self.logger.info(f"Total possible problem num: {len(problems)}")
+        util.LOGGER.info(f"Total possible problem num: {len(problems)}")
         print(f"共计 {len(problems)} 个可能的模型")
 
         # create init template
@@ -238,9 +236,9 @@ class ProblemBuilder:
             
             if not new_problem_folder_path.exists():
                 new_problem_folder_path.mkdir(parents=True, exist_ok=True)
-                self.logger.info(f"Created problem folder: {new_problem_folder_path}")
+                util.LOGGER.info(f"Created problem folder: {new_problem_folder_path}")
             else:
-                self.logger.info(f"Problem folder already exists: {new_problem_folder_path}")
+                util.LOGGER.info(f"Problem folder already exists: {new_problem_folder_path}")
             
             # generate init pddl file
             problem_name = f"problem_{num}"

@@ -7,8 +7,6 @@ from abstracts import AbstractObservationFunction
 LOGGER_LEVEL = logging.DEBUG
 
 class MatrixObsFunc(AbstractObservationFunction):
-    def __init__(self, handler, logger_level=LOGGER_LEVEL):
-        self.logger = util.setup_logger(__name__, handler, logger_level=LOGGER_LEVEL)
     
     def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
         """
@@ -81,10 +79,10 @@ class MatrixObsFunc(AbstractObservationFunction):
 
             return list(observable_functions)
         except KeyError as e:
-            self.logger.error(e)
+            util.LOGGER.error(e)
             raise e
         except Exception as e:
-            self.logger.error(e)
+            util.LOGGER.error(e)
             raise e
         
     def get_observable_agents(self, model, functions, agent_name):

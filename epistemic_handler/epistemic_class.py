@@ -1,10 +1,9 @@
 from enum import Enum
 import logging
 import util
-from itertools import combinations, product, permutations, chain
+from itertools import combinations, product, chain
 import copy
 from dataclasses import dataclass, field
-from collections import defaultdict
 
 MODEL_LOGGER_LEVEL = logging.DEBUG
 class ProblemType(Enum):
@@ -490,7 +489,7 @@ class Agent:
 
         # E: world x Agt -> Act
         # the experiences (belief of actions in world) of this action
-        self.E: dict[frozenset, dict[str, set[Action]]] = defaultdict(lambda: defaultdict(set))
+        self.E: dict[frozenset, dict[str, set[Action]]] = {}
 
     def copy(self):
         new_agent = Agent()
@@ -524,6 +523,22 @@ class Agent:
 
     def __repr__(self):
         return self.__str__()
+    
+    def get_E(self, world, agent_name) -> list[Action]:
+        if world not in self.E:
+            return []
+        if agent_name not in self.E[world]:
+            return []
+        if len(self.E[world][agent_name]) == 0:
+            return []
+        return list(self.E[world][agent_name])
+    
+    def add_E(self, world, agent_name, action) -> None:
+        if world not in self.E:
+            self.E[world] = {}
+        if agent_name not in self.E[world]:
+            self.E[world][agent_name] = set()
+        self.E[world][agent_name].add(action)
 
 class AcceptableGoal:
     from epistemic_handler.file_parser import ParsingAcceptableGoal
@@ -544,14 +559,9 @@ class AcceptableGoal:
 class Model:
     
     def __init__(self):
-        from abstracts import AbstractObservationFunction, AbstractPolicyStrategy, AbstractRules
         # something for optimize the performance
         self.ALL_FUNCS: util.FinalFunctions = util.FinalFunctions()
-
-        self.logger = None
-        self.observation_function: AbstractObservationFunction = None
-        self.strategy: AbstractPolicyStrategy = None
-        self.rules: AbstractRules = None
+        
         self.problem_type: ProblemType = None
         self.S_G: set[Condition] = set()
         self.max_belief_depth: int = 1
@@ -566,24 +576,9 @@ class Model:
         self.action_schemas: list[ActionSchema] = []
         self.agents: list[Agent] = []
     
-    def init(self, handler, problem_type, observation_function_path, policy_strategy_path, rules_path):
-        from abstracts import AbstractObservationFunction, AbstractPolicyStrategy, AbstractRules
-        self.logger = util.setup_logger(__name__, handler, logger_level=MODEL_LOGGER_LEVEL)
-        
-        ObsFunc = util.load_observation_function(observation_function_path, self.logger)
-        self.observation_function: AbstractObservationFunction = ObsFunc(handler)
-        self.logger.info(f"Loaded observation function: {ObsFunc.__name__}")
-
-        Rules = util.load_rules(rules_path, self.logger)
-        self.rules: AbstractRules = Rules(handler)
-        self.logger.info(f"Loaded rules: {Rules.__name__}")
-
-        Strategy = util.load_policy_strategy(policy_strategy_path, self.logger)
-        self.strategy: AbstractPolicyStrategy = Strategy(handler)
-        self.logger.info(f"Loaded policy strategy: {Strategy.__name__}")
-
+    def init(self, problem_type):
         self.problem_type: ProblemType = PROBLEM_TYPE_MAPS[problem_type]
-        self.logger.info(f"Loaded problem type: {self.problem_type}")  
+        util.LOGGER.info(f"Loaded problem type: {self.problem_type}")  
     
     def get_function_schema_by_name(self, name: str) -> FunctionSchema:
         return copy.deepcopy(next((function_schema for function_schema in self.function_schemas if function_schema.name == name), None))
@@ -648,13 +643,13 @@ class Model:
         if not self.agents:
             raise ValueError("No agents in the model")
     
-        if self.observation_function is None:
+        if util.OBS_FUNC is None:
             raise ValueError("Observation function is not initialized")
     
         # if self.problem_type == ProblemType.COOPERATIVE:
-        #     return any(agent.is_complete(self.observation_function) for agent in self.agents)
+        #     return any(agent.is_complete(util.OBS_FUNC) for agent in self.agents)
         # else:
-        #     return all(agent.is_complete(self.observation_function) for agent in self.agents)
+        #     return all(agent.is_complete(util.OBS_FUNC) for agent in self.agents)
         for agent in self.agents:
             self.agent_goal_complete(agent.name)
         return all(agent.complete_signal for agent in self.agents)
@@ -666,12 +661,12 @@ class Model:
         return [history['functions'] for history in self.history] + [self.ontic_functions]
 
     def get_functions_of_agent(self, agent_name: str) -> list[Function]:
-        return self.observation_function.get_observable_functions(self, self.ontic_functions, agent_name)
+        return util.OBS_FUNC.get_observable_functions(self, self.ontic_functions, agent_name)
 
     def get_history_functions_of_agent(self, agent_name: str) -> list[list[Function]]:
         result = []
         for history in self.history:
-            result.append(self.observation_function.get_observable_functions(self, history['functions'], agent_name))
+            result.append(util.OBS_FUNC.get_observable_functions(self, history['functions'], agent_name))
         return result
 
     def get_next_agent(self, current_agent: str) -> str:
@@ -721,11 +716,12 @@ class Model:
         for agent in self.agents:
             if last_agent == agent.name:
                 continue
-            if last_agent not in self.observation_function.get_observable_agents(self, self.ontic_functions, agent.name):
+            if last_agent not in util.OBS_FUNC.get_observable_agents(self, self.ontic_functions, agent.name):
                 continue
             agent_last_jp_world = [f.id for f in util.get_epistemic_world(self, [agent.name])]
             hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
-            agent.E[hash_set_agent_last_jp_world][last_agent].add(action)
+            agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
+
             # if an agent found his done action is the same as the available actions in this environment
             # he will reset the belief actions of himself to empty
             # if last_agent == agent.name:
@@ -748,7 +744,7 @@ class Model:
                 self.update_belief_goals()
 
             # decide the action and do the action
-            action = self.strategy.get_policy(self, agent_name)
+            action = util.STRATEGY.get_policy(self, agent_name)
 
             if self.problem_type == ProblemType.NEUTRAL:
                 self.update_agent_belief_actions_in_world(agent_name, action)
@@ -758,13 +754,13 @@ class Model:
             # log
             output = f"{agent_name} takes action: {action.header()}"
             print(output)
-            self.logger.info(output)
+            util.LOGGER.info(output)
             # for agent in self.agents:
-            #     self.logger.debug(agent.action_under_jp_worlds)
+            #     util.LOGGER.debug(agent.action_under_jp_worlds)
 
             agent_name = self.get_next_agent(agent_name)
 
-        self.logger.info(f"{self.show_solution()}")
+        util.LOGGER.info(f"{self.show_solution()}")
     
     def move(self, agent_name: str, action: Action):
         history = {'functions': self.ontic_functions[:],
@@ -793,11 +789,17 @@ class Model:
         # log
         output = f"{agent_name} takes action: {action.header()}"
         print(output)
-        self.logger.info(output)
+        util.LOGGER.info(output)
               
     def update_functions(self, effect: Effect):
         function = util.get_function_with_name_and_params(self.ontic_functions, effect.effect_function_name, effect.effect_function_parameters)
-        assert function is not None, f"updating function is not found!"
+        if function is None:
+            output = ""
+            for f in self.ontic_functions:
+                output += f"{f}\n"
+            output += f"{effect.effect_function_name, effect.effect_function_parameters}"
+            print(output)
+            raise Exception("Function not found")
         if effect.value is not None:
             value = util.update_effect_value(function.value, effect.value, effect.effect_type)
         else:
@@ -813,6 +815,8 @@ class Model:
         result += f"Domain name: {self.domain_name}\nProblem name: {self.problem_name}\n"
         # result += util.BIG_DIVIDER
         result += f"Problem type: {self.problem_type}\n"
+        result += util.BIG_DIVIDER
+        result += f"{self.ALL_FUNCS}\n"
         result += util.BIG_DIVIDER
         # result += f"Entities:\n"
         for entity in self.entities:
@@ -853,10 +857,7 @@ class Model:
     def copy(self):
         new_model = Model()
         new_model.ALL_FUNCS = self.ALL_FUNCS
-        new_model.logger = self.logger
-        new_model.observation_function = self.observation_function
-        new_model.strategy = self.strategy
-        new_model.rules = self.rules
+
         new_model.problem_type = self.problem_type
         new_model.domain_name = self.domain_name
         new_model.problem_name = self.problem_name
@@ -876,10 +877,7 @@ class Model:
     def __deepcopy__(self, memo):
         new_model = Model()
         new_model.ALL_FUNCS = self.ALL_FUNCS
-        new_model.logger = self.logger
-        new_model.observation_function = self.observation_function
-        new_model.strategy = self.strategy
-        new_model.rules = self.rules
+
         new_model.problem_type = self.problem_type
         new_model.domain_name = self.domain_name
         new_model.problem_name = self.problem_name
@@ -895,4 +893,9 @@ class Model:
             new_model.agents.append(agent.copy())
         
         return new_model
-        
+    
+    def __getstate__(self):
+        return self.__dict__.copy()
+    
+    def __setstate__(self, state):
+        self.__dict__.update(state)

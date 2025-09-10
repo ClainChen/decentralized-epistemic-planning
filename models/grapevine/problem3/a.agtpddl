@@ -4,7 +4,6 @@
     (:agent a)
 
     (:goal (and
-        (= (@ep (" b [a]") (= (shared_value bs) t)) ep.true)
         (= (@ep (" b [a]") (= (shared_value as) t)) ep.true)
         )
     )
