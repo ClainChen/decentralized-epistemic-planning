@@ -118,13 +118,14 @@ if __name__ == '__main__':
                 print(f)
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
 
-        # path_len = util.check_bfs(model.copy())
-        # if path_len == -1:
-        #     util.LOGGER.error(f"Model's goal setting do not have solution")
-        #     print("Model's goal setting do not have solution")
-        #     exit(0)
+        path_len, path = util.check_bfs(model.copy())
+        if path_len == -1:
+            util.LOGGER.error(f"Model's goal setting do not have solution")
+            print("Model's goal setting do not have solution")
+            exit(0)
 
-        # print(f"Standard Path Length: {path_len}")
+        print(f"Standard Path Length: {path_len}")
+        print(f"Path: {path}")
 
         if not args.generate_problem:
             step_lst = []

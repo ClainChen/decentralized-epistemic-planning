@@ -108,7 +108,7 @@ grapevine3a2s:
 		-d grapevine/domain.pddl \
 		-p grapevine/3a2s \
 		-ob grapevine.py \
-		--strategy experiment/stay.py \
+		--strategy experiment/share.py \
 		--rules grapevine.py \
 		$(args)
 
@@ -117,7 +117,7 @@ grapevine3a2s2d:
 		-d grapevine/domain.pddl \
 		-p grapevine/3a2s2d \
 		-ob grapevine.py \
-		--strategy experiment/share.py \
+		--strategy experiment/filtergoal.py \
 		--rules grapevine.py \
 		$(args)
 
@@ -189,7 +189,7 @@ mapf5:
 		-d mapf/domain.pddl \
 		-p mapf/problem5 \
 		-ob mapf.py \
-		--strategy s-jbfs.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules mapf.py \
 		$(args)
 
@@ -198,7 +198,7 @@ mapf6:
 		-d mapf/domain.pddl \
 		-p mapf/problem6 \
 		-ob mapf.py \
-		--strategy experiment/filtergoal.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules mapf.py \
 		$(args)
 

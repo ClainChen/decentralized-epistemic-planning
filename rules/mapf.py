@@ -1,5 +1,5 @@
 from abstracts import AbstractRules
-from epistemic_handler.epistemic_class import Model, Function
+from epistemic_handler.epistemic_class import Model, Function, Condition
 import logging
 import util
 
@@ -76,7 +76,6 @@ class MAPFRules(AbstractRules):
             
         
         return True
-
 
                 
             

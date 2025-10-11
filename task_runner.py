@@ -6,7 +6,9 @@ from pathlib import Path
 import json
 
 # 要执行的命令列表
+
 commands = [
+#region
 # # coin1
 #     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/share.py --share -test 100",
 
@@ -86,18 +88,35 @@ commands = [
     # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/filtergoalexp.py -test 100",
 
 # grapevine4a1s1d
-    "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 10",
 
-    "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
 
-    "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
 
-    "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
 
-    "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 10",
     
-    "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 10",
+
+# grapevine3a2s
+    "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 10",
+
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/stay.py --without_agt_goal [a,b,c] --without_agt_exp [a,b,c] -test 10",
+
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/coop.py --without_agt_goal [a,b,c] --without_agt_exp [a,b,c] -test 10",
+
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c] -test 10",
+
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c] -test 10",
+    
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 10",
+
+
+#endregion
 ]
+
 
 
 def dict_to_pretty_str(data_dict, indent=2):
