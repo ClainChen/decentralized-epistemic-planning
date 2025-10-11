@@ -189,7 +189,7 @@ mapf5:
 		-d mapf/domain.pddl \
 		-p mapf/problem5 \
 		-ob mapf.py \
-		--strategy experiment/share.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules mapf.py \
 		$(args)
 

@@ -519,7 +519,7 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
                                         node.actions + [succ],
                                         next_model))
     
-    return -1
+    return -1, -1
 
 class BFSNode:
     def __init__(self, current_index, action, model):

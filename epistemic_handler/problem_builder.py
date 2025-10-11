@@ -132,18 +132,23 @@ class ProblemBuilder:
                             jump = True
                             invalid_goal_sets.append(goal_set)
                             break
-
                 if not jump:
-                    test_model = self.base_model.copy()
-                    for agent in test_model.agents:
-                        agent.own_goals = agent_goal_set[agent.name]
-                    num_actions = util.check_bfs(test_model, max(12, max_action_length * 2))
-                    max_action_length = max(num_actions, max_action_length)
-                    if num_actions >= 0 :
-                        results.append(agent_goal_set)
-                        valid += 1
-                    else:
-                        invalid_goal_sets.append(goal_set)
+                    results.append(agent_goal_set)
+                    valid += 1
+                # continue
+
+                # if not jump:
+                #     test_model = self.base_model.copy()
+                #     for agent in test_model.agents:
+                #         agent.own_goals = agent_goal_set[agent.name]
+                #     num_actions, _ = util.check_bfs(test_model, max_action_length * 2)
+                #     max_action_length = max(num_actions, max_action_length)
+                #     if num_actions >= 0 :
+                #         results.append(agent_goal_set)
+                #         valid += 1
+                #     else:
+                #         # print(goal_set)
+                #         invalid_goal_sets.append(goal_set)
                 pbar.set_postfix({"Valid Count": f"{valid}/{total}", "Skip invalid test count": invalid_jump})
         
         # for sett in results:
