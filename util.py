@@ -626,7 +626,7 @@ class FinalFunctions:
             raise Exception(f"Function {function_name} with parameters {parameters} and value {value} is not found.")
     
     def get_function_with_cond(self, cond:Condition) -> Function:
-        return self.get_function(cond.function_name, cond.parameters, cond.value)
+        return self.get_function(cond.condition_function_name, cond.condition_function_parameters, cond.value)
     
     def get_function_with_id(self, id) -> Function:
         return self.id_add[id]
