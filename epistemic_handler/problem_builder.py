@@ -112,10 +112,7 @@ class ProblemBuilder:
             max_action_length = -1
             for i in pbar:
                 agent_goal_set = agent_goal_sets[i]
-                goal_set = set()
-                for goals in agent_goal_set.values():
-                    for goal in goals:
-                        goal_set.add(goal)
+                goal_set = set().union(*agent_goal_set.values())
                 
                 jump= False
                 for sett in invalid_goal_sets:
