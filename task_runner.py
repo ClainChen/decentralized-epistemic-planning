@@ -73,13 +73,13 @@ commands = [
 #     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_2 -ob corridor.py --rules corridor.py --strategy experiment/filtergoalexp.py -test 100",
 
 # corridor4a4i_1
-    "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/share.py --share -test 10",
+    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/share.py --share -test 10",
 
-    "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
+    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
 
-    "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
+    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
 
-    "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
+    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
 
     # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 100",
     

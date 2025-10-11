@@ -1,0 +1,163 @@
+2025-10-11 18:09:18,401 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.503709s
+2025-10-11 18:09:40,935 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.533846s
+2025-10-11 18:10:03,490 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.554857s
+2025-10-11 18:10:26,037 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.546610s
+2025-10-11 18:10:48,556 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.519449s
+2025-10-11 18:11:11,090 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.533808s
+2025-10-11 18:11:33,606 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.515125s
+2025-10-11 18:11:55,895 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.288527s
+2025-10-11 18:12:18,177 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.281890s
+2025-10-11 18:12:40,464 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 13
+Time cost: 22.287553s
+2025-10-11 18:12:40,465 EXP - __main__.Logger.exp:
+Avg Steps: 13.0
+Avg Time: 22.456537s
