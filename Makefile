@@ -153,7 +153,7 @@ mapf1:
 		-d mapf/domain.pddl \
 		-p mapf/problem1 \
 		-ob mapf.py \
-		--strategy experiment/stay.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules mapf.py \
 		$(args)
 

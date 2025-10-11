@@ -494,7 +494,7 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
     while heap:
         node = heapq.heappop(heap)
         if node.model.full_goal_complete():
-            print([act.header() for act in node.actions])
+            # print([act.header() for act in node.actions])
             return len(node.actions)
         
         if max_action_length > 0 and len(node.actions) == max_action_length:

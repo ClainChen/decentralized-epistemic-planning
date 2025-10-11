@@ -77,6 +77,8 @@ class MAPFRules(AbstractRules):
         
         return True
 
-
-                
-            
+    def check_valid_pair(self, cond1, cond2, model):
+        if cond1.condition_function_name == cond2.condition_function_name == "agent_at":
+            if cond1.value == cond1.value:
+                return False
+        return True
