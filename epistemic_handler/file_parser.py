@@ -292,7 +292,6 @@ class ParsingProblem:
         result += util.BIG_DIVIDER
         result += f"States:\n"
         for state in self.states:
-            result += util.SMALL_DIVIDER
             result += f"{state}\n"
         result += util.BIG_DIVIDER
         result += f"Goals:\n"

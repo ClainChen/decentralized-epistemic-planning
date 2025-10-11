@@ -21,9 +21,16 @@ INIT_TEMPLATE_PATH = "models/init_template.txt"
 AGENT_TEMPLATE_PATH = "models/agt_template.txt"
 
 LOGGER = None
-OBS_FUNC = None
-STRATEGY = None
+OBS_FUNC = {}
+STRATEGY = {}
 RULES = None
+
+logging.addLevelName(25, "EXP")
+def exp(self, message, *args, **kws):
+    if self.isEnabledFor(25):
+        self._log(25, message, args, **kws)
+
+logging.Logger.exp = exp
 
 class ClassNameFormatter(logging.Formatter):
     def format(self, record):
@@ -102,51 +109,59 @@ def swap_param_orders(function_schema: FunctionSchema, variable: ParsingVariable
 def check_duplication(list: list | tuple):
     return len(list) != len(set(list))
 
-def load_observation_function(observation_function_path: str):
+def load_observation_function(obs_func_mapper: dict):
     global OBS_FUNC
     from abstracts import AbstractObservationFunction
-    path = Path(observation_function_path)
-    module_name = path.stem
+    for agt_name, obs_func_path in obs_func_mapper.items():
+        try:
+            path = Path(obs_func_path)
+            module_name = path.stem
 
-    spec = importlib.util.spec_from_file_location(f"{module_name}_observation_function", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+            spec = importlib.util.spec_from_file_location(f"{module_name}_observation_function", path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
 
-    valid_classes = [cls for cls in module.__dict__.values() 
-                     if inspect.isclass(cls) 
-                     and issubclass(cls, AbstractObservationFunction)
-                     and cls != AbstractObservationFunction]
+            valid_classes = [cls for cls in module.__dict__.values() 
+                            if inspect.isclass(cls) 
+                            and issubclass(cls, AbstractObservationFunction)
+                            and cls != AbstractObservationFunction]
 
-    if not valid_classes:
-        LOGGER.error(f"No valid observation function class found in {path}")
-        raise ValueError(f"file {path} do not have a subclass of {AbstractObservationFunction.__name__}")
-    
-    OBS_FUNC = valid_classes[0]()
+            if not valid_classes:
+                LOGGER.error(f"No valid observation function class found in {path}")
+                raise ValueError(f"file {path} do not have a subclass of {AbstractObservationFunction.__name__}")
+            
+            OBS_FUNC[agt_name] = valid_classes[0]()
+            LOGGER.info(f"Loaded observation function {valid_classes[0].__name__} to agent {agt_name}")
+        except:
+            LOGGER.error(f"Failed to load observation function {obs_func_path} to agent {agt_name}")
+            raise Exception(f"Failed to load observation function {obs_func_path} to agent {agt_name}")
 
-def load_policy_strategy(policy_strategy_path: str):
+def load_policy_strategy(policy_strategy_mapper: dict):
     global STRATEGY
     from abstracts import AbstractPolicyStrategy
-    try:
-        path = Path(policy_strategy_path)
-        module_name = path.stem
+    for agt_name, policy_strategy_path in policy_strategy_mapper.items():
+        try:
+            path = Path(policy_strategy_path)
+            module_name = path.stem
 
-        spec = importlib.util.spec_from_file_location(f"{module_name}_strategy", path)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
+            spec = importlib.util.spec_from_file_location(f"{module_name}_strategy", path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
 
-        valid_classes = [cls for cls in module.__dict__.values() 
-                        if inspect.isclass(cls) 
-                        and issubclass(cls, AbstractPolicyStrategy)
-                        and cls != AbstractPolicyStrategy]
+            valid_classes = [cls for cls in module.__dict__.values() 
+                            if inspect.isclass(cls) 
+                            and issubclass(cls, AbstractPolicyStrategy)
+                            and cls != AbstractPolicyStrategy]
 
-        if not valid_classes:
-            LOGGER.error(f"No valid strategy class found in {path}")
-            raise ValueError(f"file {path} do not have a subclass of {AbstractPolicyStrategy.__name__}")
-    
-        STRATEGY = valid_classes[0]()
-    except:
-        LOGGER.error(f"Failed to load strategy class from {path}")
-        raise ValueError(f"Failed to load strategy class from {path}")
+            if not valid_classes:
+                LOGGER.error(f"No valid strategy class found in {path}")
+                raise ValueError(f"file {path} do not have a subclass of {AbstractPolicyStrategy.__name__}")
+        
+            STRATEGY[agt_name] = valid_classes[0]()
+            LOGGER.info(f"Loaded strategy class {valid_classes[0].__name__} for agent {agt_name}")
+        except:
+            LOGGER.error(f"Failed to load strategy class from {path}")
+            raise ValueError(f"Failed to load strategy class from {path}")
 
 def load_rules(rules_path: str):
     global RULES
@@ -264,10 +279,11 @@ def get_epistemic_world(model: Model, belief_sequence: list[str], history_functi
     st = get_epistemic_world(model, belief_sequence[:-1], history_functions)
 
     # Oi(st'')
-    Oi_st2 = set(util.OBS_FUNC.get_observable_functions(model, st2, belief_sequence[-1]))
+    last_agt = belief_sequence[-1]
+    Oi_st2 = set(util.OBS_FUNC[last_agt].get_observable_functions(model, st2, last_agt))
     
     # Oi(st)
-    Oi_st = set(util.OBS_FUNC.get_observable_functions(model, st, belief_sequence[-1]))
+    Oi_st = set(util.OBS_FUNC[last_agt].get_observable_functions(model, st, last_agt))
 
     return list(set(st2).difference(Oi_st2.difference(Oi_st)))
 
@@ -307,7 +323,7 @@ def get_functions_with_belief_sequence(functions: list[Function], belief_sequenc
         return functions
     ontic_functions = functions
     for agent_name in belief_sequence:
-        ontic_functions = util.OBS_FUNC.get_observable_functions(model, ontic_functions, agent_name)
+        ontic_functions = util.OBS_FUNC[agent_name].get_observable_functions(model, ontic_functions, agent_name)
     return ontic_functions
 
 def get_function_with_name_and_params(functions: list[Function], name: str, params: dict[str, str]):
@@ -399,7 +415,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     virtual_model = model.copy()
     current_agent = virtual_model.get_agent_by_name(agent_name)
     # the functions of current agent will not change, other agent's functions will set to the observation functions based on current agent's functions
-    if virtual_model.problem_name == ProblemType.COOPERATIVE:
+    if virtual_model.problem_name == ProblemType.SHARE:
         for agent in virtual_model.agents:
             if agent.name != agent_name:
                 if current_agent.other_goals[agent.name]:
@@ -431,7 +447,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     for comb in valid_combs:
         new_model = virtual_model.copy()
         new_model.ontic_functions.extend(comb)
-        if new_model.problem_type == ProblemType.NEUTRAL:
+        if current_agent.consider_goal:
             for goal_set in current_agent.all_possible_goals:
                 new_model2 = new_model.copy()
                 for agent in new_model2.agents:
@@ -445,7 +461,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
             all_virtual_models.append(virtual_model)
         else:
             LOGGER.debug("unable to generate the virtual world")
-            if model.problem_type == ProblemType.NEUTRAL:
+            if model.problem_type == ProblemType.UNSHARE:
                 LOGGER.debug(f"agent belief goals num: {len(current_agent.all_possible_goals)}")
             print("unable to generate the virtual world")
             LOGGER.debug(f"valid combs num: {len(valid_combs)}, valid possible goals num: {len(current_agent.all_possible_goals)}")
@@ -472,11 +488,13 @@ def remove_continue_duplicates(lst):
 import heapq
 def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
     heap: list[BFSNode] = []
-    heapq.heappush(heap, BFSNode(1, [], virtual_model, 0))
+    heapq.heappush(heap, BFSNode(1, [], virtual_model))
     existed_epistemic_world = set()
+    start = time.perf_counter()
     while heap:
         node = heapq.heappop(heap)
         if node.model.full_goal_complete():
+            print([act.header() for act in node.actions])
             return len(node.actions)
         
         if max_action_length > 0 and len(node.actions) == max_action_length:
@@ -486,6 +504,8 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
             successors[agent.name] = node.model.get_agent_successors(agent.name)
         for name, succs in successors.items():
             for succ in succs:
+                # if time.perf_counter() - start > 120:
+                #     return -1
                 next_model = node.model.copy()
                 next_model.move(name, succ)
                 # 过滤机制
@@ -497,18 +517,35 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
                 heapq.heappush(heap, 
                             BFSNode(1,
                                         node.actions + [succ],
-                                        next_model,
-                                        node.priority + 1))
+                                        next_model))
     
     return -1
 
 class BFSNode:
-    def __init__(self, current_index, action, model, priority):
+    def __init__(self, current_index, action, model):
         self.current_index: int = current_index
         self.actions: list[Action] = action[:]
         self.model: Model = model
-        self.priority: int = priority
+        self.h = -1
     
+    @property
+    def heuristic(self):
+        if self.h >= 0:
+            return self.h
+        
+        # the number of goals that didn't achieve yet
+        count = 0
+        for agt in self.model.agents:
+            for goal in agt.own_goals:
+                if not check_condition(self.model, goal):
+                    count += 1
+        self.h = count
+        return self.h
+    
+    @property
+    def priority(self):
+        return len(self.actions) + self.heuristic
+
     def __lt__(self, other):
         return self.priority < other.priority
 
@@ -566,10 +603,13 @@ class FinalFunctions:
         """
         
         self.all: dict[str, dict[str, dict[str, Function]]] = {}
+        self.id_add: dict[int, Function] = {}
     
     def add_function(self, function: Function) -> None:
         # get the parameters of function
         # to make sure no order problem will happen during the "get" method, we should use frozenset
+        self.id_add[function.id] = function
+
         params = f"{list(function.parameters.values())}"
         if function.name not in self.all:
             self.all[function.name] = {}
@@ -577,7 +617,7 @@ class FinalFunctions:
             self.all[function.name][params] = {}
         self.all[function.name][params][str(function.value)] = function
     
-    def get_function(self, function_name: str, parameters: dict[str, str], value: str):
+    def get_function(self, function_name: str, parameters: dict[str, str], value: str) -> Function:
         params = f"{list(parameters.values())}"
         try:
             result = self.all[function_name][params][str(value)]
@@ -585,6 +625,9 @@ class FinalFunctions:
         except KeyError:
             raise Exception(f"Function {function_name} with parameters {parameters} and value {value} is not found.")
     
+    def get_function_with_id(self, id) -> Function:
+        return self.id_add[id]
+
     def flatten(self) -> list[Function]:
         return [
             v3

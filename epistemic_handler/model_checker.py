@@ -92,7 +92,7 @@ class ModelChecker:
         return result
 
 def check_goal_conflicts(model: Model):
-    if model.problem_type == ProblemType.COOPERATIVE:
+    if model.problem_type == ProblemType.SHARE:
         # low_level_goals = get_low_level_goal_set(model.agents[0].goals)
         return check_conflict(model.agents[0].own_goals)
     else:

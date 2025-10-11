@@ -80,10 +80,12 @@ class ProblemBuilder:
                                      itertools.groupby(sorted(goals, 
                                                               key=lambda x: f"{x.belief_sequence}{x.header()}"), 
                                                        key=lambda x: f"{x.belief_sequence}{x.header()}")]
-        
+
         for name, goals in s.items():
             s[name] = get_cross_subsets(goals)
         s[agent_name] = [self.base_model.get_agent_by_name(agent_name).own_goals]
+        # for name, goals in s.items():
+        #     s[name] = [v for v in goals if len(v) == 1]
 
         key = list(s.keys())
         value = list(s.values())
@@ -103,7 +105,7 @@ class ProblemBuilder:
 
         invalid_goal_sets: list[set] = []
         start_time = time.perf_counter()
-        
+
         results = []
         print(f"Total goal settings: {len(agent_goal_sets)}, now begin to test each setting")
         with tqdm(range(total), desc="progress") as pbar:
@@ -114,12 +116,26 @@ class ProblemBuilder:
                 for goals in agent_goal_set.values():
                     for goal in goals:
                         goal_set.add(goal)
+                
                 jump= False
                 for sett in invalid_goal_sets:
                     if sett.issubset(goal_set): 
                         jump = True
                         invalid_jump += 1
                         break
+                
+
+                # goal_lst = list(goal_set)
+                # # print(goal_lst)
+                # for ig1 in range(len(goal_lst) - 1):
+                #     for ig2 in range(ig1 + 1, len(goal_lst)):
+                #         # output = f"checking:\n{goal_lst[ig1]}\n{goal_lst[ig2]}"
+                #         # print(output)
+                #         if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
+                #             jump = True
+                #             invalid_goal_sets.append(goal_set)
+                #             break
+
                 if not jump:
                     test_model = self.base_model.copy()
                     for agent in test_model.agents:

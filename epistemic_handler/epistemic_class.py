@@ -4,11 +4,12 @@ import util
 from itertools import combinations, product, chain
 import copy
 from dataclasses import dataclass, field
+import time
 
 MODEL_LOGGER_LEVEL = logging.DEBUG
 class ProblemType(Enum):
-    COOPERATIVE = 1
-    NEUTRAL = 2
+    SHARE = 1
+    UNSHARE = 2
 
     def __str__(self):
         return f"\"{self.name}\""
@@ -101,8 +102,8 @@ class GoalValueType(Enum):
         return self.__str__()
 
 PROBLEM_TYPE_MAPS = {
-    "cooperative": ProblemType.COOPERATIVE,
-    "neutral": ProblemType.NEUTRAL
+    "share": ProblemType.SHARE,
+    "unshare": ProblemType.UNSHARE
 }
 
 EPISTEMIC_OPERATOR_MAPS = {
@@ -487,6 +488,9 @@ class Agent:
         self.all_possible_goals: list[dict[str, list[Condition]]] = []
         self.max_time = float('inf')
 
+        self.consider_E = False
+        self.consider_goal = False
+
         # E: world x Agt -> Act
         # the experiences (belief of actions in world) of this action
         self.E: dict[frozenset, dict[str, set[Action]]] = {}
@@ -632,12 +636,12 @@ class Model:
     def agent_goal_complete(self, agent_name: str):
         agent = self.get_agent_by_name(agent_name)
         goals = agent.own_goals.copy()
+        agent.complete_signal = True
         for goal in goals:
             if not util.check_condition(self, goal):
                 agent.complete_signal = False
-                return False
-        agent.complete_signal = True
-        return True
+                break
+        return agent.complete_signal
     
     def full_goal_complete(self):
         if not self.agents:
@@ -661,12 +665,12 @@ class Model:
         return [history['functions'] for history in self.history] + [self.ontic_functions]
 
     def get_functions_of_agent(self, agent_name: str) -> list[Function]:
-        return util.OBS_FUNC.get_observable_functions(self, self.ontic_functions, agent_name)
+        return util.OBS_FUNC[agent_name].get_observable_functions(self, self.ontic_functions, agent_name)
 
     def get_history_functions_of_agent(self, agent_name: str) -> list[list[Function]]:
         result = []
         for history in self.history:
-            result.append(util.OBS_FUNC.get_observable_functions(self, history['functions'], agent_name))
+            result.append(util.OBS_FUNC[agent_name].get_observable_functions(self, history['functions'], agent_name))
         return result
 
     def get_next_agent(self, current_agent: str) -> str:
@@ -683,6 +687,8 @@ class Model:
         # 如果在那个时间戳时agent无法看见那个正在行动的agent，则他无法得知那个agent在那个时间戳的action
         # 如果观察到某个agent的complete signal为true，则会更好操作
         for a in self.agents:
+            if not a.consider_goal:
+                continue
             for b in self.agents:
                 if a.name == b.name:
                     continue
@@ -716,7 +722,9 @@ class Model:
         for agent in self.agents:
             if last_agent == agent.name:
                 continue
-            if last_agent not in util.OBS_FUNC.get_observable_agents(self, self.ontic_functions, agent.name):
+            if not agent.consider_E:
+                continue
+            if last_agent not in util.OBS_FUNC[agent.name].get_observable_agents(self, self.ontic_functions, agent.name):
                 continue
             agent_last_jp_world = [f.id for f in util.get_epistemic_world(self, [agent.name])]
             hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
@@ -729,38 +737,57 @@ class Model:
             #     if this_succs.issubset(agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent]):
             #         agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent].difference_update(this_succs)
 
-    @util.record_time
+
     def simulate(self, start_agent = ""):
         """
         Simulate the model until all agents have reached a terminal state
         """
+        start = time.perf_counter()
+        exp_log = ""
         if start_agent == "":
             agent_name = self.agents[0].name
         else:
             agent_name = start_agent
+        steps = 0
         while not self.full_goal_complete():
             # update the belief goals of each agent, and update their observed world
-            if self.problem_type == ProblemType.NEUTRAL:
+            if self.problem_type == ProblemType.UNSHARE:
                 self.update_belief_goals()
 
             # decide the action and do the action
-            action = util.STRATEGY.get_policy(self, agent_name)
+            action = util.STRATEGY[agent_name].get_policy(self, agent_name)
 
-            if self.problem_type == ProblemType.NEUTRAL:
+            if self.problem_type == ProblemType.UNSHARE:
                 self.update_agent_belief_actions_in_world(agent_name, action)
 
             self.move(agent_name, action)
 
             # log
             output = f"{agent_name} takes action: {action.header()}"
-            print(output)
+            # print(output)
             util.LOGGER.info(output)
+            exp_log += output + "\n"
             # for agent in self.agents:
             #     util.LOGGER.debug(agent.action_under_jp_worlds)
 
             agent_name = self.get_next_agent(agent_name)
+            # if time.perf_counter() - start > 600:
+            #     print("Time spent over 10 minutes")
+            #     util.LOGGER.exp(exp_log)
+            #     exit(0)
+            steps += 1
+            if steps == 100:
+                print("No result, maybe due to a deadlock")
+                util.LOGGER.exp(exp_log)
+                exit(0)
+        end = time.perf_counter()
+        time_used = end - start
 
-        util.LOGGER.info(f"{self.show_solution()}")
+        util.LOGGER.debug(f"{self.show_solution()}")
+        exp_log += f"Steps: {steps}\nTime cost: {time_used:.6f}s"
+        # print(f"Steps: {steps}\nTime cost: {time_used:.6f}s")
+        util.LOGGER.exp(f"{exp_log}")
+        return steps, time_used
     
     def move(self, agent_name: str, action: Action):
         history = {'functions': self.ontic_functions[:],
@@ -780,7 +807,7 @@ class Model:
         if not util.is_valid_action(self, action):
             raise Exception(f"Invalid action: {action.header()}")
 
-        if self.problem_type == ProblemType.NEUTRAL:
+        if self.problem_type == ProblemType.UNSHARE:
             self.update_belief_goals()
             self.update_agent_belief_actions_in_world(agent_name, action)
 

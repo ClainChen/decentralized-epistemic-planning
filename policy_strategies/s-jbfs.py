@@ -11,7 +11,8 @@ LOGGER_LEVEL = logging.DEBUG
 
 class SeqJustifiedBFS(AbstractPolicyStrategy):
     """
-    The basic idea is still justified BFS, but instead of locally simulate in round based, Sequence Justified BFS will only let the first expansion be the action of given agent_name, and the remain actions are not round based, which means any agents can move in the next step.
+    The basic idea is JBFS, but:
+    1. The local BFS will no longer be turn based but unordered, which allows the same agent to continue move multiple times.
     """
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
@@ -64,7 +65,7 @@ class SeqJustifiedBFS(AbstractPolicyStrategy):
         expand = 1
         samples = {}
         heap: list[util.BFSNode] = []
-        heapq.heappush(heap, util.BFSNode(0, [], virtual_model, 0))
+        heapq.heappush(heap, util.BFSNode(0, [], virtual_model))
         existed_epistemic_world = set()
         find_solution_depth = -1
         while heap:
@@ -113,7 +114,6 @@ class SeqJustifiedBFS(AbstractPolicyStrategy):
                     heapq.heappush(heap, 
                                 util.BFSNode(-1,
                                             node.actions + [succ],
-                                            next_model,
-                                            node.priority + 1))
+                                            next_model))
                     expand += 1
         return samples, expand

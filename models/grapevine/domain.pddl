@@ -91,7 +91,7 @@
         :parameters (?self - agent ?s - secret)
         :precondition (
             (= (sharing_lock) 0)
-            (= (own ?self) (secret_id ?s))
+            (!= (own ?self) (secret_id ?s))
             (= (agent_sharing ?self) none)
             (!= (@ep ("b [?self]") (shared_value ?s)) ep.unknown)
         )

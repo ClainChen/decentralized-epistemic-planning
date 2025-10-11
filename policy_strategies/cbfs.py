@@ -11,7 +11,10 @@ LOGGER_LEVEL = logging.DEBUG
 
 class CompleteBFS(AbstractPolicyStrategy):
     """
-    Agent will choose a random action
+    The basic algorithm is BFS, but:
+    1. Without any action filter function
+    2. Will not depends on the experience
+    3. Turn based
     """
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
@@ -65,7 +68,7 @@ class CompleteBFS(AbstractPolicyStrategy):
         heap: list[util.BFSNode] = []
         current_agent_index = virtual_model.get_agent_index_by_name(agent_name)
         count_agent = len(virtual_model.agents)
-        heapq.heappush(heap, util.BFSNode(current_agent_index, [], virtual_model, 0))
+        heapq.heappush(heap, util.BFSNode(current_agent_index, [], virtual_model))
         existed_epistemic_world = {agt.name: set() for agt in virtual_model.agents}
         find_solution_depth = -1
         while heap:
@@ -98,7 +101,6 @@ class CompleteBFS(AbstractPolicyStrategy):
                 heapq.heappush(heap, 
                             util.BFSNode((node.current_index + 1) % count_agent,
                                         node.actions + [succ],
-                                        next_model,
-                                        node.priority + 1))
+                                        next_model))
                 expand += 1
         return samples, expand

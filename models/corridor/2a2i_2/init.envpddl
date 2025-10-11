@@ -12,7 +12,7 @@
 
     (:init
         (assign (agent_loc a) 1)
-        (assign (agent_loc b) 1)
+        (assign (agent_loc b) 2)
 
         (assign (holding a) 1)
         (assign (holding b) 1)
@@ -23,7 +23,7 @@
         (assign (hold_by j b) 1)
         
         (assign (item_loc i) 1)
-        (assign (item_loc j) 1)
+        (assign (item_loc j) 2)
         
         (assign (is_free i) 0)
         (assign (is_free j) 0)

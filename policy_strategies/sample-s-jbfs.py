@@ -8,7 +8,8 @@ import math
 
 class SampleSeqJustifiedBFS(AbstractPolicyStrategy):
     """
-    Agent will choose a random action
+    The basic idea is S-JBFS, but:
+    1. Will no longer simulate all generated models, but randomly choose half of them.
     """
 
     def get_policy(self, model: Model, agent_name: str) -> Action:
@@ -46,7 +47,7 @@ class SampleSeqJustifiedBFS(AbstractPolicyStrategy):
         # util.LOGGER.debug(f"{virtual_model}")
         samples = {}
         heap: list[util.BFSNode] = []
-        heapq.heappush(heap, util.BFSNode(0, [], virtual_model, 0))
+        heapq.heappush(heap, util.BFSNode(0, [], virtual_model))
         existed_epistemic_world = set()
         find_solution_depth = -1
         while heap:
@@ -95,6 +96,5 @@ class SampleSeqJustifiedBFS(AbstractPolicyStrategy):
                     heapq.heappush(heap, 
                                 util.BFSNode(-1,
                                             node.actions + [succ],
-                                            next_model,
-                                            node.priority + 1))
+                                            next_model))
         return samples

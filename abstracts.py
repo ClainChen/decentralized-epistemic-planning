@@ -1,4 +1,5 @@
-from epistemic_handler.epistemic_class import Model, Agent, Function, Action
+from epistemic_handler.epistemic_class import Model, Function, Action, Condition
+import util
 
 class AbstractObservationFunction:
     """
@@ -41,6 +42,9 @@ class AbstractRules:
         return self.check_functions(model.ontic_functions)
     
     def check_functions(self, functions: list[Function]) -> bool:
+        pass
+
+    def check_valid_pair(self, cond1: Condition, cond2: Condition, model: Model) -> bool:
         pass
 
     # @abstractmethod

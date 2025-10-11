@@ -52,10 +52,10 @@ class GrapevineRules(AbstractRules):
                 return False
 
         # if secret_loc == 0 but the shared_value == 'f', it is wrong
-        for values in secret_info.values():
-            if values['value'] != 't' and values['loc'] == 0:
-                # print(f"secret_loc == 0 but the shared_value == 'f'")
-                return False
+        # for values in secret_info.values():
+        #     if values['value'] != 't' and values['loc'] == 0:
+        #         # print(f"secret_loc == 0 but the shared_value == 'f'")
+        #         return False
         
         # if the agent sharing a value but the value's secret_loc is not in the same room, it is wrong
         for agt, agt_loc in agent_loc.items():
@@ -63,8 +63,8 @@ class GrapevineRules(AbstractRules):
             if s != 'none':
                 if secret_info[s]['loc'] != agt_loc:
                     # print("the agent sharing a value but the value's secret_loc is not in the same room")
-                    for f in functions:
-                        print(f"{f}")
+                    # for f in functions:
+                    #     print(f"{f}")
                     return False
 
         return True

@@ -1,0 +1,11 @@
+(define
+    (problem corridor_4a2i_1)
+    (:domain corridor)
+    (:agent a)
+
+    (:goal (and
+        (= (@ep (" b [a]") (= (hold_by o1 a) 0)) ep.true)
+        (= (@ep (" b [a]") (= (hold_by o2 b) 0)) ep.true)
+        )
+    )
+)

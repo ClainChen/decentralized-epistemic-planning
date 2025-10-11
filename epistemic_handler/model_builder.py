@@ -43,12 +43,28 @@ def parse_file(args):
 
 def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
     try:
-        util.load_observation_function(util.OBS_FUNC_FOLER_PATH + args.observation_function)
+        obs_func_mapper = {}
+        obs_func_mapper.update(args.multi_observation_functions)
+        strategy_mapper = {}
+        strategy_mapper.update(args.multi_strategies)
+
+        for agent_name in problem.agents:
+            if agent_name in obs_func_mapper:
+                obs_func_mapper[agent_name] = util.OBS_FUNC_FOLER_PATH + obs_func_mapper[agent_name]
+            else:
+                obs_func_mapper[agent_name] = util.OBS_FUNC_FOLER_PATH + args.observation_function
+            
+            if agent_name in strategy_mapper:
+                strategy_mapper[agent_name] = util.STRATEGY_FOLDER_PATH + strategy_mapper[agent_name]
+            else:
+                strategy_mapper[agent_name] = util.STRATEGY_FOLDER_PATH + args.strategy
+
+        util.load_observation_function(obs_func_mapper)
         util.load_rules(util.RULES_FOLDER_PATH + args.rules)
-        util.load_policy_strategy(util.STRATEGY_FOLDER_PATH + args.strategy)
+        util.load_policy_strategy(strategy_mapper)
 
         model = Model()
-        model.init("cooperative" if args.problem_type else "neutral")
+        model.init("share" if args.problem_type else "unshare")
         model.domain_name = domain.name
         model.problem_name = problem.problem_name
         model.max_belief_depth = problem.max_belief_depth
@@ -200,6 +216,8 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
         for agent in problem.agents:
             new_agent = Agent()
             new_agent.name = agent
+            new_agent.consider_E = model.problem_type == ProblemType.UNSHARE and agent not in args.without_agt_exp
+            new_agent.consider_goal = model.problem_type == ProblemType.UNSHARE and agent not in args.without_agt_goal
             parsing_goals = problem.goals[agent]
             for parsing_goal in parsing_goals:
                 
@@ -221,7 +239,7 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
                 new_agent.own_goals.append(new_goal)
             model.agents.append(new_agent)
 
-        if model.problem_type == ProblemType.COOPERATIVE:
+        if model.problem_type == ProblemType.SHARE:
             for agent1 in model.agents:
                 for agent2 in model.agents:
                     if agent1.name != agent2.name:
@@ -234,7 +252,7 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
             belief_sequences += [list(comb) for comb in list(permutations(agents, d))]
         model.possible_belief_sequences = belief_sequences
 
-        if model.problem_type == ProblemType.NEUTRAL:
+        if any([agt.consider_goal for agt in model.agents]):
             # Here add a pickle process to store all possible goals for specific problem setup
             # So the next time, when loading the same problem, it will directly load the goals from the pickle file
             # But please make sure you will not change the problem setup inside the problem file, you can just create a new problem, copy it or whatever, change the name of problem, and do what u want to do.
@@ -265,6 +283,8 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
                 util.LOGGER.info(hint)
                 print(hint)
                 for agent in model.agents:
+                    if agent.name in args.without_agt_goal:
+                        continue
                     with open(folder_path / f"{agent.name}.pkl", "rb") as f:
                         agent.all_possible_goals = pickle.load(f)
 

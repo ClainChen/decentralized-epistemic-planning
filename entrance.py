@@ -6,26 +6,36 @@ import util
 import time
 from epistemic_handler import model_builder, problem_builder
 import copy
-import test as t
+import json
 import profile
+import re
 
 
 
 c_logging_level = logging.INFO
-THIS_LOGGER_LEVEL = logging.DEBUG
+THIS_LOGGER_LEVEL = 25
 LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'fatal': logging.FATAL,
                   'error': logging.ERROR,
                   'warning': logging.WARNING,
                   'warn': logging.WARN,
+                  'experiment': 25,
                   'info': logging.INFO,
                   'debug': logging.DEBUG,
                   'notset': logging.NOTSET}
 
-
-
 class CustomHelpFormatter(argparse.RawTextHelpFormatter, argparse.ArgumentDefaultsHelpFormatter):
     pass
+
+def flexible_dict_type(value):
+    
+    try:
+        return json.loads(value)
+    except json.JSONDecodeError:
+        fixed_value = value.replace("'", '"')
+        fixed_value = re.sub(r'([\{,])\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*:', r'\1"\2":', fixed_value)
+        fixed_value = re.sub(r':\s*([a-zA-Z0-9/_-]*\.py)\s*([,\}])', r':"\1"\2', fixed_value)
+        return json.loads(fixed_value)
 
 
 def loadParameter():
@@ -47,14 +57,23 @@ def loadParameter():
     parser.add_argument('--log-display', dest='c_logging_display', action='store_true',
                         help='add this argument will display the full log in the console')
     
-    parser.add_argument('--cooperative', dest='problem_type', help='problem type controller\nwithout this key word will set the problem type to neutral', action='store_true')
+    parser.add_argument('--share', dest='problem_type', help='problem type controller\nwithout this key word will set the problem type to unknown goal settings', action='store_true')
 
     generate_problem_help = "add this argument will make the problem not to simulate\ninstead it will generate all possible problems based on the given domain and fundamental problem file"
     parser.add_argument('--generate_problem', dest='generate_problem', help=generate_problem_help, action='store_true')
 
-    parser.add_argument('-tests', '--multi-tests', dest='num_multi_tests', type=int, help='The number of tests to run', default=1)
+    parser.add_argument('-tests', '--multi_tests', dest='num_multi_tests', type=int, help='The number of tests to run', default=1)
 
     parser.add_argument('-actions', '--action_sequence', dest='action_sequence_path', type=str.lower, help='The file of action sequence to run', default=None)
+
+    parser.add_argument('--multi_strategies', dest="multi_strategies", type=flexible_dict_type, help='Config for agents has different strategies', default={})
+
+    parser.add_argument('--multi_ob', dest="multi_observation_functions", type=flexible_dict_type, help='Config for agents has different observation functions', default={})
+
+    parser.add_argument('--without_agt_goal', dest='without_agt_goal', type=list, help='The given agents will not use the goal filter', default=[])
+
+    parser.add_argument('--without_agt_exp', dest='without_agt_exp', type=list, help='The given agents will not update their experience of actions', default=[])
+
     options = parser.parse_args(sys.argv[1:])
 
     return options
@@ -65,8 +84,8 @@ if __name__ == '__main__':
         if args.c_logging_level:
             c_logging_level = LOGGING_LEVELS[args.c_logging_level]
         c_logging_display = args.c_logging_display
-        log_name = f"{args.domain_path.split('/')[0].split('.')[0]}-{args.problem_path.split('/')[-1].split('.')[0]}-{time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime())}.log"
-
+        log_name = f"{args.problem_path.replace('/', '-')}-{args.strategy[11:-3]}.log"
+        
         handler = util.setup_logger_handlers(f"log/{log_name}", log_mode='w',
                                              c_display=c_logging_display, c_logger_level=c_logging_level)
         util.LOGGER = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
@@ -74,7 +93,8 @@ if __name__ == '__main__':
         
         model = model_builder.build(args)
         # t.diagnose_model_serialization(model)
-        # exit(0)
+        
+
         if not util.RULES.check_model(model):
             util.LOGGER.error(f"Model's functions are not following the rules.")
             print("Model's functions are not following the rules.")
@@ -97,25 +117,25 @@ if __name__ == '__main__':
             for f in model.ontic_functions:
                 print(f)
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
-            # print each agent's current ep world
-            # for agent in model.agents:
-            #     ep_world = util.get_epistemic_world(model, [agent.name])
-            #     output = ""
-            #     for func in ep_world:
-            #         output += f"{func}\n"
-            #     util.LOGGER.info(f"{agent.name} ep world:\n{output}")
-            #     print(f"{agent.name}'s ep world:\n{output}")
 
-        if util.check_bfs(model.copy()) == -1:
-            util.LOGGER.error(f"Model's goal setting do not have solution")
-            print("Model's goal setting do not have solution")
-            exit(0)
+        # path_len = util.check_bfs(model.copy())
+        # if path_len == -1:
+        #     util.LOGGER.error(f"Model's goal setting do not have solution")
+        #     print("Model's goal setting do not have solution")
+        #     exit(0)
+
+        # print(f"Standard Path Length: {path_len}")
 
         if not args.generate_problem:
+            step_lst = []
+            time_lst = []
             for i in range(1, args.num_multi_tests + 1):
                 print(f"{i}th Simulation:")
                 running_model = copy.deepcopy(model)
-                running_model.simulate(running_model.agents[start_index].name)
+                steps, time_used = running_model.simulate(running_model.agents[start_index].name)
+                step_lst.append(steps)
+                time_lst.append(time_used)
+            util.LOGGER.exp(f"Avg Steps: {sum(step_lst) / len(step_lst)}\nAvg Time: {(sum(time_lst) / len(time_lst)):.6f}s")
         else:
             problem_builder = problem_builder.ProblemBuilder(model)
             problem_builder.generate_all_problem_pddl_files()
