@@ -125,16 +125,16 @@ class ProblemBuilder:
                         break
                 
 
-                # goal_lst = list(goal_set)
-                # # print(goal_lst)
-                # for ig1 in range(len(goal_lst) - 1):
-                #     for ig2 in range(ig1 + 1, len(goal_lst)):
-                #         # output = f"checking:\n{goal_lst[ig1]}\n{goal_lst[ig2]}"
-                #         # print(output)
-                #         if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
-                #             jump = True
-                #             invalid_goal_sets.append(goal_set)
-                #             break
+                goal_lst = list(goal_set)
+                # print(goal_lst)
+                for ig1 in range(len(goal_lst) - 1):
+                    for ig2 in range(ig1 + 1, len(goal_lst)):
+                        # output = f"checking:\n{goal_lst[ig1]}\n{goal_lst[ig2]}"
+                        # print(output)
+                        if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
+                            jump = True
+                            invalid_goal_sets.append(goal_set)
+                            break
 
                 if not jump:
                     test_model = self.base_model.copy()

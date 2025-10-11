@@ -6,6 +6,7 @@ import util
 THIS_LOGGER_LEVEL = logging.DEBUG
 
 class MAPFRules(AbstractRules):
+    cache = {}
     
     def check_functions(self, functions: list[Function]):
         """
@@ -77,7 +78,22 @@ class MAPFRules(AbstractRules):
         
         return True
     def check_valid_pair(self, cond1, cond2, model):
-        if cond1.condition_function_name == cond2.condition_function_name == "agent_at":
-            if cond1.value == cond1.value:
+        func1 = model.ALL_FUNCS.get_function_with_cond(cond1)
+        func2 = model.ALL_FUNCS.get_function_with_cond(cond2)
+        
+        pair = frozenset([func1.id, func2.id])
+        if pair in self.cache:
+            return self.cache[pair]
+        
+        if func1.name == "agent_at" and func2.name == "agent_at":
+            # different person in the same room
+            if func1.parameters['?a'] != func2.parameters['?a'] and func1.value == func2.value:
+                self.cache[pair] = False        
                 return False
+            # same person in the different room
+            if func1.parameters['?a'] == func2.parameters['?a'] and func1.value != func2.value:
+                self.cache[pair] = False
+                return False
+        
+        self.cache[pair] = True
         return True
