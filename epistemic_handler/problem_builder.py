@@ -129,7 +129,7 @@ class ProblemBuilder:
                 # print(goal_lst)
                 for ig1 in range(len(goal_lst) - 1):
                     for ig2 in range(ig1 + 1, len(goal_lst)):
-                        # output = f"checking:\n{goal_lst[ig1]}\n{goal_lst[ig2]}"
+                        # output = f"checking:\n{goal_lst[ig1]}\n{goal_lst[ig2]}"1
                         # print(output)
                         if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
                             jump = True
