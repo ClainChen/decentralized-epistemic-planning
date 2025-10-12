@@ -112,6 +112,9 @@ class ProblemBuilder:
             max_action_length = -1
             for i in pbar:
                 agent_goal_set = agent_goal_sets[i]
+                for goals in agent_goal_set.values():
+                    if len(goals) > 1:
+                        continue
                 goal_set = set().union(*agent_goal_set.values())
                 
                 jump= False
