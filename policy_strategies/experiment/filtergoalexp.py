@@ -44,6 +44,7 @@ class FilterGoalEXPBFS(AbstractPolicyStrategy):
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
         # print(f"Generated {len(all_virtual_model)} virtual models")
+        # util.LOGGER.exp(f"Models: {len(all_virtual_model)}")
         samples = {}
         expands = 0
         start = time.perf_counter()
@@ -82,7 +83,7 @@ class FilterGoalEXPBFS(AbstractPolicyStrategy):
                             samples[string] = [action, 1]
                         else:
                             samples[string][1] += 1
-                    # util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
+                    util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
                     continue
             if node.current_index == 0:
                 current_agent = [agent_name]

@@ -6,8 +6,21 @@ import time
 from pathlib import Path
 from tqdm import tqdm
 from string import Template
+import concurrent.futures
+from threading import Lock
 
 TAP = "        "
+
+results_lock = Lock()
+valid_lock = Lock()
+pbar_lock = Lock()
+
+def goal_set_iterator(values, pbar):
+    for comb in product(*values):
+        pbar.update(1)
+        if not any(len(c) > 2 for c in comb):
+            yield comb
+        # yield comb
 
 class ProblemBuilder:
     def __init__(self, base_model):
@@ -102,38 +115,25 @@ class ProblemBuilder:
             results = []
             max_action_length = -1
             proceed = 0
-
-            for comb in product(*value):
+            
+            for comb in goal_set_iterator(value, pbar):
                 jump = False
                 agent_goal_set = dict(zip(key, comb))
-                goal_set = set().union(*agent_goal_set.values())
 
                 # fast jump for mapf
                 if self.base_model.domain_name == "mapf":
-
-                    # agent goal no more than 1
-                    for goals in agent_goal_set.values():
-                        if len(goals) > 1:
-                            jump = True
-                            break
                     
-                    # regular fast jump
-                    # if not jump:
-                    #     for sett in invalid_goal_sets:
-                    #         if sett.issubset(goal_set): 
-                    #             jump = True
-                    #             invalid_jump += 1
-                    #             break
+                    # agent goal no more than 1
+                    # if any(len(goals) > 1 for goals in agent_goal_set.values()):
+                    #     jump = True
 
                     # easy conflict check
                     if not jump:
-                        goal_lst = list(goal_set)
-                        for ig1 in range(len(goal_lst) - 1):
-                            for ig2 in range(ig1 + 1, len(goal_lst)):
-                                if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
-                                    jump = True
-                                    # invalid_goal_sets.append(goal_set)
-                                    break
+                        goal_set = {goal for goals in agent_goal_set.values() for goal in goals}
+                        for goal1, goal2 in itertools.combinations(goal_set, 2):
+                            if not util.RULES.check_valid_pair(goal1, goal2, self.base_model):
+                                jump = True
+                                break
 
                     if not jump:
                         results.append(agent_goal_set)
@@ -143,7 +143,8 @@ class ProblemBuilder:
                     pbar.update(1)
                     pbar.set_postfix({"Valid Count": f"{valid}/{proceed}", "Skip invalid test count": invalid_jump})
                     continue
-            
+                
+                goal_set = set().union(*agent_goal_set.values())
                 # regular fast jump
                 for sett in invalid_goal_sets:
                     if sett.issubset(goal_set): 
@@ -165,7 +166,7 @@ class ProblemBuilder:
                         invalid_goal_sets.append(goal_set)
                 
                 proceed += 1
-                pbar.update(1)
+                # pbar.update(1)
                 pbar.set_postfix({"Valid Count": f"{valid}/{proceed}", "Skip invalid test count": invalid_jump})
         
         return results, -1 if agent_name == "" else (time.perf_counter() - start_time) / max(1, valid)

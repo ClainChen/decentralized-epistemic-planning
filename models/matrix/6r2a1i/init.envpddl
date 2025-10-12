@@ -1,5 +1,5 @@
 (define
-    (problem matrix_6r2a1i)
+    (problem 6r2a1i)
     (:domain matrix)
 
     (:agents 

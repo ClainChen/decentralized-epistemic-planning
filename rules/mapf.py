@@ -81,7 +81,7 @@ class MAPFRules(AbstractRules):
         func1 = model.ALL_FUNCS.get_function_with_cond(cond1)
         func2 = model.ALL_FUNCS.get_function_with_cond(cond2)
         
-        pair = frozenset([func1.id, func2.id])
+        pair = (min(func1.id, func2.id), max(func1.id, func2.id))
         if pair in self.cache:
             return self.cache[pair]
         
