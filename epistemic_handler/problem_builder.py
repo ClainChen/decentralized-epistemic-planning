@@ -89,79 +89,84 @@ class ProblemBuilder:
 
         key = list(s.keys())
         value = list(s.values())
+        total = 1
+        for v in value:
+            total *= len(v)
 
-        agent_goal_sets = []
-        for comb in product(*value):
-            agent_goal_sets.append(dict(zip(key, comb)))
-
-        agent_goal_sets.sort(key=lambda x: [j.plain_text() for i in x.values() for j in i ])
-        agent_goal_sets.sort(key=lambda x: sum([len(value) for value in x.values()]))
-        # for se in agent_goal_sets:
-        #     print(se)
-
-        valid = 0
-        invalid_jump = 0
-        total = len(agent_goal_sets)
-
-        invalid_goal_sets: list[set] = []
-        start_time = time.perf_counter()
-
-        results = []
-        print(f"Total goal settings: {len(agent_goal_sets)}, now begin to test each setting")
-        with tqdm(range(total), desc="progress") as pbar:
+        print(f"Total goal settings: {total}, now begin to test each setting")
+        with tqdm(total=total, desc="progress") as pbar:
+            valid = 0
+            invalid_jump = 0
+            invalid_goal_sets: list[set] = []
+            start_time = time.perf_counter()
+            results = []
             max_action_length = -1
-            for i in pbar:
-                agent_goal_set = agent_goal_sets[i]
-                for goals in agent_goal_set.values():
-                    if len(goals) > 1:
-                        continue
+            proceed = 0
+
+            for comb in product(*value):
+                jump = False
+                agent_goal_set = dict(zip(key, comb))
                 goal_set = set().union(*agent_goal_set.values())
-                
-                jump= False
+
+                # fast jump for mapf
+                if self.base_model.domain_name == "mapf":
+
+                    # agent goal no more than 1
+                    for goals in agent_goal_set.values():
+                        if len(goals) > 1:
+                            jump = True
+                            break
+                    
+                    # regular fast jump
+                    # if not jump:
+                    #     for sett in invalid_goal_sets:
+                    #         if sett.issubset(goal_set): 
+                    #             jump = True
+                    #             invalid_jump += 1
+                    #             break
+
+                    # easy conflict check
+                    if not jump:
+                        goal_lst = list(goal_set)
+                        for ig1 in range(len(goal_lst) - 1):
+                            for ig2 in range(ig1 + 1, len(goal_lst)):
+                                if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
+                                    jump = True
+                                    # invalid_goal_sets.append(goal_set)
+                                    break
+
+                    if not jump:
+                        results.append(agent_goal_set)
+                        valid += 1
+                    
+                    proceed += 1
+                    pbar.update(1)
+                    pbar.set_postfix({"Valid Count": f"{valid}/{proceed}", "Skip invalid test count": invalid_jump})
+                    continue
+            
+                # regular fast jump
                 for sett in invalid_goal_sets:
                     if sett.issubset(goal_set): 
                         jump = True
                         invalid_jump += 1
                         break
-                
 
-                goal_lst = list(goal_set)
-                # print(goal_lst)
-                for ig1 in range(len(goal_lst) - 1):
-                    for ig2 in range(ig1 + 1, len(goal_lst)):
-                        # output = f"checking:\n{goal_lst[ig1]}\n{goal_lst[ig2]}"1
-                        # print(output)
-                        if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
-                            jump = True
-                            invalid_goal_sets.append(goal_set)
-                            break
                 if not jump:
-                    results.append(agent_goal_set)
-                    valid += 1
-                # continue
-
-                # if not jump:
-                #     test_model = self.base_model.copy()
-                #     for agent in test_model.agents:
-                #         agent.own_goals = agent_goal_set[agent.name]
-                #     num_actions, _ = util.check_bfs(test_model, max_action_length * 2)
-                #     max_action_length = max(num_actions, max_action_length)
-                #     if num_actions >= 0 :
-                #         results.append(agent_goal_set)
-                #         valid += 1
-                #     else:
-                #         # print(goal_set)
-                #         invalid_goal_sets.append(goal_set)
-                pbar.set_postfix({"Valid Count": f"{valid}/{total}", "Skip invalid test count": invalid_jump})
-        
-        # for sett in results:
-        #     result = "\n"
-        #     for agent, goals in sett.items():
-        #         result += f"{agent}:\n"
-        #         for goal in goals:
-        #             result += f"{goal}\n"
-        #         result += f"-----\n"
-        #     util.LOGGER.debug(result)
+                    test_model = self.base_model.copy()
+                    for agent in test_model.agents:
+                        agent.own_goals = agent_goal_set[agent.name]
+                    num_actions, _ = util.check_bfs(test_model, max_action_length * 2)
+                    max_action_length = max(num_actions, max_action_length)
+                    if num_actions >= 0 :
+                        results.append(agent_goal_set)
+                        valid += 1
+                    else:
+                        # print(goal_set)
+                        invalid_goal_sets.append(goal_set)
+                
+                proceed += 1
+                pbar.update(1)
+                pbar.set_postfix({"Valid Count": f"{valid}/{proceed}", "Skip invalid test count": invalid_jump})
         
         return results, -1 if agent_name == "" else (time.perf_counter() - start_time) / max(1, valid)
 
