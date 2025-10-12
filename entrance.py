@@ -13,7 +13,7 @@ import re
 
 
 c_logging_level = logging.INFO
-THIS_LOGGER_LEVEL = 25
+THIS_LOGGER_LEVEL = logging.DEBUG
 LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'fatal': logging.FATAL,
                   'error': logging.ERROR,

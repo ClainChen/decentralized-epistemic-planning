@@ -503,11 +503,15 @@ class Agent:
         new_agent.complete_signal = self.complete_signal
         new_agent.all_possible_goals = self.all_possible_goals
         new_agent.E = self.E
+        new_agent.consider_E = self.consider_E
+        new_agent.consider_goal = self.consider_goal
         return new_agent
 
     def __str__(self):
         result = f"Agent: {self.name}\nMax move time: {self.max_time}\n"
         result += f"Goal completed: \'{self.complete_signal}\'\n"
+        result += f"Consider goal: \'{self.consider_goal}\'\n"
+        result += f"Consider exp: \'{self.consider_E}\'\n"
         result += f"Own Goals:\n"
         for goal in self.own_goals:
             result += f"{goal}\n"
