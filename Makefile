@@ -1,4 +1,4 @@
-.PHONY: help coin1 coin2 corridor2a1i_1 corridor2a2i_1 corridor2a2i_2 corridor4a4i_1 corridor4a2i_1 grapevine2a2s grapevine3a2s grapevine3a2s2d grapevine4a1s1d grapevine4a1s2d grapevine8a1s1d mapf1 mapf2 mapf3 mapf4 mapf5 mapf6 matrix2a1i3r_1 matrix2a1i4r_1 clean
+.PHONY: help coin1 coin2 deliver2a1i_1 deliver2a2i_1 deliver2a2i_2 deliver4a4i_1 deliver4a2i_1 grapevine2a2s grapevine3a2s grapevine3a2s2d grapevine4a1s1d grapevine4a1s2d grapevine8a1s1d mapf1 mapf2 mapf3 mapf4 mapf5 mapf6 matrix3r2a1i matrix4r2a1i matrix4r2a1i clean
 
 .DEFAULT_GOAL := help
 
@@ -8,25 +8,26 @@ help:
 	@echo Useful commands:
 	@echo   make coin1         
 	@echo   make coin2         
-	@echo   make corridor2a1i_1
-	@echo   make corridor2a2i_1
-	@echo   make corridor2a2i_2
-	@echo   make corridor4a4i_1
-	@echo   make corridor4a2i_1
-	@echo   make grapevine1    
-	@echo   make grapevine2    
-	@echo   make grapevine3    
-	@echo   make grapevine4
-	@echo   make grapevine5
-	@echo   make grapevine6
+	@echo   make deliver2a1i
+	@echo   make deliver2a2i_1
+	@echo   make deliver2a2i_2
+	@echo   make deliver4a2i
+	@echo   make deliver4a4i
+	@echo   make grapevine2a2s    
+	@echo   make grapevine3a2s    
+	@echo   make grapevine3a2s2d    
+	@echo   make grapevine4a1s1d
+	@echo   make grapevine4a1s2d
+	@echo   make grapevine8a1s1d
 	@echo   make mapf1         
 	@echo   make mapf2     
 	@echo   make mapf3
 	@echo   make mapf4    
 	@echo   make mapf5    
 	@echo   make mapf6    
-	@echo   make matrix2a1i3r_1
-	@echo   make matrix2a1i4r_1
+	@echo   make matrix3r2a1i
+	@echo   make matrix4r2a1i
+	@echo   make matrix6r2a1i
 	@echo   make clean         
 
 # --without_agt_goal --without_agt_exp
@@ -49,49 +50,49 @@ coin2:
 		--rules coin.py \
 		$(args)
 
-corridor2a1i_1:
+deliver2a1i:
 	python entrance.py \
-		-d corridor/domain.pddl \
-		-p corridor/2a1i_1 \
-		-ob corridor.py \
+		-d deliver/domain.pddl \
+		-p deliver/2a1i \
+		-ob deliver.py \
 		--strategy experiment/filtergoalexp.py \
-		--rules corridor.py \
+		--rules deliver.py \
 		$(args)
 
-corridor2a2i_1:
+deliver2a2i_1:
 	python entrance.py \
-		-d corridor/domain.pddl \
-		-p corridor/2a2i_1 \
-		-ob corridor.py \
+		-d deliver/domain.pddl \
+		-p deliver/2a2i_1 \
+		-ob deliver.py \
 		--strategy experiment/filtergoalexp.py \
-		--rules corridor.py \
+		--rules deliver.py \
 		$(args)
 
-corridor2a2i_2:
+deliver2a2i_2:
 	python entrance.py \
-		-d corridor/domain.pddl \
-		-p corridor/2a2i_2 \
-		-ob corridor.py \
+		-d deliver/domain.pddl \
+		-p deliver/2a2i_2 \
+		-ob deliver.py \
 		--strategy experiment/share.py \
-		--rules corridor.py \
+		--rules deliver.py \
 		$(args)
 
-corridor4a4i_1:
+deliver4a2i:
 	python entrance.py \
-		-d corridor/domain.pddl \
-		-p corridor/4a4i_1 \
-		-ob corridor.py \
+		-d deliver/domain.pddl \
+		-p deliver/4a2i \
+		-ob deliver.py \
 		--strategy experiment/share.py \
-		--rules corridor.py \
+		--rules deliver.py \
 		$(args)
 
-corridor4a2i_1:
+deliver4a4i:
 	python entrance.py \
-		-d corridor/domain.pddl \
-		-p corridor/4a2i_1 \
-		-ob corridor.py \
+		-d deliver/domain.pddl \
+		-p deliver/4a4i \
+		-ob deliver.py \
 		--strategy s-jbfs.py \
-		--rules corridor.py \
+		--rules deliver.py \
 		$(args)
 
 grapevine2a2s:
@@ -202,19 +203,28 @@ mapf6:
 		--rules mapf.py \
 		$(args)
 
-matrix2a1i3r_1:
+matrix3r2a1i:
 	python entrance.py \
 		-d matrix/domain.pddl \
-		-p matrix/2a1i3r_1 \
+		-p matrix/3r2a1i \
 		-ob matrix.py \
 		--strategy experiment/filtergoalexp.py \
 		--rules matrix.py \
 		$(args)
 
-matrix2a1i4r_1:
+matrix4r2a1i:
 	python entrance.py \
 		-d matrix/domain.pddl \
-		-p matrix/2a1i4r_1 \
+		-p matrix/4r2a1i \
+		-ob matrix.py \
+		--strategy s-jbfs.py \
+		--rules matrix.py \
+		$(args)
+
+matrix6r2a1i:
+	python entrance.py \
+		-d matrix/domain.pddl \
+		-p matrix/6r2a1i \
 		-ob matrix.py \
 		--strategy s-jbfs.py \
 		--rules matrix.py \
