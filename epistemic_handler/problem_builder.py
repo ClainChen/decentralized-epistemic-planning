@@ -109,40 +109,40 @@ class ProblemBuilder:
                 goal_set = set().union(*agent_goal_set.values())
 
                 # fast jump for mapf
-                if self.base_model.domain_name == "mapf":
+                # if self.base_model.domain_name == "mapf":
 
-                    # agent goal no more than 1
-                    for goals in agent_goal_set.values():
-                        if len(goals) > 1:
-                            jump = True
-                            break
+                #     # agent goal no more than 1
+                #     for goals in agent_goal_set.values():
+                #         if len(goals) > 1:
+                #             jump = True
+                #             break
                     
-                    # regular fast jump
-                    # if not jump:
-                    #     for sett in invalid_goal_sets:
-                    #         if sett.issubset(goal_set): 
-                    #             jump = True
-                    #             invalid_jump += 1
-                    #             break
+                #     # regular fast jump
+                #     # if not jump:
+                #     #     for sett in invalid_goal_sets:
+                #     #         if sett.issubset(goal_set): 
+                #     #             jump = True
+                #     #             invalid_jump += 1
+                #     #             break
 
-                    # easy conflict check
-                    if not jump:
-                        goal_lst = list(goal_set)
-                        for ig1 in range(len(goal_lst) - 1):
-                            for ig2 in range(ig1 + 1, len(goal_lst)):
-                                if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
-                                    jump = True
-                                    # invalid_goal_sets.append(goal_set)
-                                    break
+                #     # easy conflict check
+                #     if not jump:
+                #         goal_lst = list(goal_set)
+                #         for ig1 in range(len(goal_lst) - 1):
+                #             for ig2 in range(ig1 + 1, len(goal_lst)):
+                #                 if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
+                #                     jump = True
+                #                     # invalid_goal_sets.append(goal_set)
+                #                     break
 
-                    if not jump:
-                        results.append(agent_goal_set)
-                        valid += 1
+                #     if not jump:
+                #         results.append(agent_goal_set)
+                #         valid += 1
                     
-                    proceed += 1
-                    pbar.update(1)
-                    pbar.set_postfix({"Valid Count": f"{valid}/{proceed}", "Skip invalid test count": invalid_jump})
-                    continue
+                #     proceed += 1
+                #     pbar.update(1)
+                #     pbar.set_postfix({"Valid Count": f"{valid}/{proceed}", "Skip invalid test count": invalid_jump})
+                #     continue
             
                 # regular fast jump
                 for sett in invalid_goal_sets:

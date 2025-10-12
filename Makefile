@@ -166,7 +166,7 @@ mapf2a7r:
 		-d mapf/domain.pddl \
 		-p mapf/2a7r \
 		-ob mapf.py \
-		--strategy s-jbfs.py \
+		--strategy cbfs.py \
 		--rules mapf.py \
 		$(args)
 
