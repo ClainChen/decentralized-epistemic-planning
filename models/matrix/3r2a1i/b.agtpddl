@@ -1,5 +1,5 @@
 (define
-    (problem matrix_3r2a1i)
+    (problem 3r2a1i)
     (:domain matrix)
     (:agent b)
 

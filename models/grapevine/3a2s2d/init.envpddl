@@ -54,7 +54,7 @@
         shared_value(bs)=[all]
     )
 
-    (:max_belief_depth 1)
+    (:max_belief_depth 2)
 
     (:rules
     )

@@ -3,17 +3,15 @@ import logging
 import sys
 import traceback
 import util
-import time
 from epistemic_handler import model_builder, problem_builder
-import copy
 import json
-import profile
 import re
+import copy
 
 
 
 c_logging_level = logging.INFO
-THIS_LOGGER_LEVEL = logging.DEBUG
+THIS_LOGGER_LEVEL = 25
 LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'fatal': logging.FATAL,
                   'error': logging.ERROR,
@@ -118,21 +116,21 @@ if __name__ == '__main__':
                 print(f)
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
 
-        path_len, path = util.check_bfs(model.copy())
-        if path_len == -1:
-            util.LOGGER.error(f"Model's goal setting do not have solution")
-            print("Model's goal setting do not have solution")
-            exit(0)
+        # path_len, path = util.check_bfs(model.copy())
+        # if path_len == -1:
+        #     util.LOGGER.error(f"Model's goal setting do not have solution")
+        #     print("Model's goal setting do not have solution")
+        #     exit(0)
 
-        print(f"Standard Path Length: {path_len}")
-        print(f"Path: {path}")
+        # print(f"Standard Path Length: {path_len}")
+        # print(f"Path: {path}")
 
         if not args.generate_problem:
             step_lst = []
             time_lst = []
             for i in range(1, args.num_multi_tests + 1):
                 print(f"{i}th Simulation:")
-                running_model = copy.deepcopy(model)
+                running_model = model.duplicate()
                 steps, time_used = running_model.simulate(running_model.agents[start_index].name)
                 step_lst.append(steps)
                 time_lst.append(time_used)

@@ -504,8 +504,8 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
             successors[agent.name] = node.model.get_agent_successors(agent.name)
         for name, succs in successors.items():
             for succ in succs:
-                # if time.perf_counter() - start > 120:
-                #     return -1
+                if time.perf_counter() - start > 120:
+                    return -1, -1
                 next_model = node.model.copy()
                 next_model.move(name, succ)
                 # 过滤机制
@@ -544,7 +544,7 @@ class BFSNode:
     
     @property
     def priority(self):
-        return len(self.actions) + (self.heuristic * 0)
+        return len(self.actions) + (self.heuristic)
 
     def __lt__(self, other):
         return self.priority < other.priority

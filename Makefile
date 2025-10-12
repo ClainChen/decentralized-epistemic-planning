@@ -76,7 +76,7 @@ deliver2a2i_2:
 		-d deliver/domain.pddl \
 		-p deliver/2a2i_2 \
 		-ob deliver.py \
-		--strategy experiment/share.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules deliver.py \
 		$(args)
 
@@ -112,7 +112,7 @@ grapevine3a2s:
 		-d grapevine/domain.pddl \
 		-p grapevine/3a2s \
 		-ob grapevine.py \
-		--strategy experiment/share.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules grapevine.py \
 		$(args)
 
@@ -121,7 +121,7 @@ grapevine3a2s2d:
 		-d grapevine/domain.pddl \
 		-p grapevine/3a2s2d \
 		-ob grapevine.py \
-		--strategy experiment/filtergoal.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules grapevine.py \
 		$(args)
 
@@ -139,7 +139,7 @@ grapevine4a1s2d:
 		-d grapevine/domain.pddl \
 		-p grapevine/4a1s2d \
 		-ob grapevine.py \
-		--strategy experiment/share.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules grapevine.py \
 		$(args)
 
@@ -148,7 +148,7 @@ grapevine8a1s1d:
 		-d grapevine/domain.pddl \
 		-p grapevine/8a1s1d \
 		-ob grapevine.py \
-		--strategy experiment/share.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules grapevine.py \
 		$(args)
 
@@ -166,7 +166,7 @@ mapf2a7r:
 		-d mapf/domain.pddl \
 		-p mapf/2a7r \
 		-ob mapf.py \
-		--strategy cbfs.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules mapf.py \
 		$(args)
 
@@ -175,7 +175,7 @@ mapf4a8r:
 		-d mapf/domain.pddl \
 		-p mapf/4a8r \
 		-ob mapf.py \
-		--strategy experiment/filtergoal.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules mapf.py \
 		$(args)
 
@@ -184,7 +184,7 @@ mapf4a9r:
 		-d mapf/domain.pddl \
 		-p mapf/4a9r \
 		-ob mapf.py \
-		--strategy experiment/filtergoal.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules mapf.py \
 		$(args)
 
@@ -211,7 +211,7 @@ matrix6r2a1i:
 		-d matrix/domain.pddl \
 		-p matrix/6r2a1i \
 		-ob matrix.py \
-		--strategy s-jbfs.py \
+		--strategy experiment/share.py \
 		--rules matrix.py \
 		$(args)
 

@@ -768,9 +768,9 @@ class Model:
 
             # log
             output = f"{agent_name} takes action: {action.header()}"
-            # print(output)
-            util.LOGGER.info(output)
             exp_log += output + "\n"
+            print(output)
+            # util.LOGGER.exp(output)
             # for agent in self.agents:
             #     util.LOGGER.debug(agent.action_under_jp_worlds)
 
@@ -906,24 +906,28 @@ class Model:
         return new_model
     
     def __deepcopy__(self, memo):
-        new_model = Model()
-        new_model.ALL_FUNCS = self.ALL_FUNCS
+        return self.copy()
 
-        new_model.problem_type = self.problem_type
-        new_model.domain_name = self.domain_name
-        new_model.problem_name = self.problem_name
-        new_model.S_G = self.S_G
-        new_model.max_belief_depth = self.max_belief_depth
-        new_model.possible_belief_sequences = self.possible_belief_sequences
-        new_model.function_schemas = self.function_schemas
-        new_model.action_schemas = self.action_schemas
-        new_model.entities = self.entities
-        new_model.ontic_functions = self.ontic_functions[:]
-        new_model.history = self.history[:]
-        for agent in self.agents:
-            new_model.agents.append(agent.copy())
+    def duplicate(self):
+        cls = type(self)
+        original_class_deepcopy = None
+        has_class_deepcopy = False
+
+        if '__deepcopy__' in cls.__dict__:
+            has_class_deepcopy = True
+            original_class_deepcopy = cls.__deepcopy__
+            delattr(cls, '__deepcopy__')
+
+        # result = copy.deepcopy(self)
+        # return result
+
+        try:
+            result = copy.deepcopy(self)
+            return result
+        finally:
+            if has_class_deepcopy:
+                setattr(cls, '__deepcopy__', original_class_deepcopy)
         
-        return new_model
     
     def __getstate__(self):
         return self.__dict__.copy()

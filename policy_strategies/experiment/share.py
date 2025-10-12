@@ -43,6 +43,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
         
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
+        print(f"vms: {len(all_virtual_model)}")
         samples = {}
         expands = 0
         start = time.perf_counter()

@@ -135,10 +135,10 @@
     )
 
     (:goal_sets
-        agent_at(a)=[all]
-        agent_at(b)=[all]
-        agent_at(c)=[all]
-        agent_at(d)=[all]
+        agent_at(a)=[r8,r2,r5,r3]
+        agent_at(b)=[r8,r2,r5,r3]
+        agent_at(c)=[r8,r2,r5,r3]
+        agent_at(d)=[r8,r2,r5,r3]
     )
 
     (:max_belief_depth 1)

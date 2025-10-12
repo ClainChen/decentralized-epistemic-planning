@@ -1,0 +1,1515 @@
+2025-10-12 19:01:20,798 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.031394s
+2025-10-12 19:01:21,013 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 11
+Time cost: 0.214716s
+2025-10-12 19:01:21,046 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.031902s
+2025-10-12 19:01:21,491 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 17
+Time cost: 0.444552s
+2025-10-12 19:01:21,587 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 7
+Time cost: 0.094698s
+2025-10-12 19:01:21,619 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.031597s
+2025-10-12 19:01:22,843 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 33
+Time cost: 1.222676s
+2025-10-12 19:01:22,875 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032010s
+2025-10-12 19:01:22,936 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.060196s
+2025-10-12 19:01:23,295 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 15
+Time cost: 0.357543s
+2025-10-12 19:01:23,576 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 13
+Time cost: 0.280918s
+2025-10-12 19:01:23,609 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032170s
+2025-10-12 19:01:23,642 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.031868s
+2025-10-12 19:01:23,793 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 9
+Time cost: 0.150422s
+2025-10-12 19:01:23,826 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.031815s
+2025-10-12 19:01:24,240 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 17
+Time cost: 0.413382s
+2025-10-12 19:01:25,140 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 27
+Time cost: 0.899163s
+2025-10-12 19:01:25,484 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 15
+Time cost: 0.343469s
+2025-10-12 19:01:25,646 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 9
+Time cost: 0.161689s
+2025-10-12 19:01:25,679 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032049s
+2025-10-12 19:01:26,915 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 33
+Time cost: 1.234691s
+2025-10-12 19:01:27,012 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 7
+Time cost: 0.096231s
+2025-10-12 19:01:27,044 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.031503s
+2025-10-12 19:01:27,422 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 15
+Time cost: 0.377641s
+2025-10-12 19:01:27,870 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 17
+Time cost: 0.447265s
+2025-10-12 19:01:28,310 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 17
+Time cost: 0.438792s
+2025-10-12 19:01:28,371 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.060558s
+2025-10-12 19:01:28,404 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032029s
+2025-10-12 19:01:28,887 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 19
+Time cost: 0.481897s
+2025-10-12 19:01:29,020 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 9
+Time cost: 0.132892s
+2025-10-12 19:01:31,465 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 49
+Time cost: 2.443760s
+2025-10-12 19:01:31,527 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.061295s
+2025-10-12 19:01:33,673 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 45
+Time cost: 2.144711s
+2025-10-12 19:01:34,976 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 35
+Time cost: 1.302626s
+2025-10-12 19:01:35,251 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 13
+Time cost: 0.273722s
+2025-10-12 19:01:35,626 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 15
+Time cost: 0.374546s
+2025-10-12 19:01:35,790 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 9
+Time cost: 0.163418s
+2025-10-12 19:01:36,011 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 11
+Time cost: 0.219484s
+2025-10-12 19:01:36,048 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.036331s
+2025-10-12 19:01:36,288 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 13
+Time cost: 0.239533s
+2025-10-12 19:01:39,471 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 57
+Time cost: 3.182430s
+2025-10-12 19:01:39,678 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 11
+Time cost: 0.205676s
+2025-10-12 19:01:39,711 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.031954s
+2025-10-12 19:01:39,773 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.061197s
+2025-10-12 19:01:40,642 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 27
+Time cost: 0.868864s
+2025-10-12 19:01:41,352 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 23
+Time cost: 0.708915s
+2025-10-12 19:01:41,385 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032068s
+2025-10-12 19:01:41,447 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.060880s
+2025-10-12 19:01:42,141 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 25
+Time cost: 0.693666s
+2025-10-12 19:01:42,175 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032693s
+2025-10-12 19:01:42,210 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.034812s
+2025-10-12 19:01:42,243 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032448s
+2025-10-12 19:01:42,276 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032216s
+2025-10-12 19:01:42,798 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 19
+Time cost: 0.520755s
+2025-10-12 19:01:42,860 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.061229s
+2025-10-12 19:01:43,359 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 19
+Time cost: 0.498542s
+2025-10-12 19:01:43,421 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.061205s
+2025-10-12 19:01:43,842 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 17
+Time cost: 0.419690s
+2025-10-12 19:01:44,343 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 19
+Time cost: 0.500341s
+2025-10-12 19:01:44,405 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.061191s
+2025-10-12 19:01:44,538 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 9
+Time cost: 0.131976s
+2025-10-12 19:01:44,705 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 9
+Time cost: 0.166308s
+2025-10-12 19:01:44,738 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032042s
+2025-10-12 19:01:44,899 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 9
+Time cost: 0.160366s
+2025-10-12 19:01:44,960 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.060717s
+2025-10-12 19:01:45,318 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 15
+Time cost: 0.357279s
+2025-10-12 19:01:45,380 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.060934s
+2025-10-12 19:01:47,201 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 43
+Time cost: 1.820197s
+2025-10-12 19:01:47,234 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032136s
+2025-10-12 19:01:47,267 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032143s
+2025-10-12 19:01:47,300 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032380s
+2025-10-12 19:01:47,412 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 7
+Time cost: 0.111394s
+2025-10-12 19:01:47,445 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032081s
+2025-10-12 19:01:47,781 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 15
+Time cost: 0.334865s
+2025-10-12 19:01:47,814 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032210s
+2025-10-12 19:01:48,179 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 15
+Time cost: 0.364578s
+2025-10-12 19:01:48,213 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032326s
+2025-10-12 19:01:48,363 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 9
+Time cost: 0.149609s
+2025-10-12 19:01:48,594 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 11
+Time cost: 0.229736s
+2025-10-12 19:01:49,181 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 21
+Time cost: 0.586840s
+2025-10-12 19:01:50,604 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 37
+Time cost: 1.421972s
+2025-10-12 19:01:51,539 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 27
+Time cost: 0.933853s
+2025-10-12 19:01:51,750 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 11
+Time cost: 0.210857s
+2025-10-12 19:01:51,812 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 5
+Time cost: 0.060990s
+2025-10-12 19:01:52,031 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 11
+Time cost: 0.218207s
+2025-10-12 19:01:52,677 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: move_left_with_item(['b', 'i'])
+a takes action: move_left_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 23
+Time cost: 0.644476s
+2025-10-12 19:01:52,710 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032353s
+2025-10-12 19:01:52,936 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 11
+Time cost: 0.225590s
+2025-10-12 19:01:53,373 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 17
+Time cost: 0.436251s
+2025-10-12 19:01:53,406 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032185s
+2025-10-12 19:01:53,874 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 19
+Time cost: 0.466668s
+2025-10-12 19:01:53,907 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032577s
+2025-10-12 19:01:54,326 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 17
+Time cost: 0.418157s
+2025-10-12 19:01:54,359 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.031817s
+2025-10-12 19:01:54,392 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032192s
+2025-10-12 19:01:54,425 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032120s
+2025-10-12 19:01:54,458 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032326s
+2025-10-12 19:01:55,255 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'i'])
+a takes action: move_right_without_item(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: pick_up(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+a takes action: stay(['a'])
+b takes action: drop_item(['b', 'i'])
+a takes action: stay(['a'])
+b takes action: move_left_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 25
+Time cost: 0.796924s
+2025-10-12 19:01:55,289 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.032360s
+2025-10-12 19:01:55,321 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.031901s
+2025-10-12 19:01:55,321 EXP - __main__.Logger.exp:
+Avg Steps: 12.12
+Avg Time: 0.344758s
