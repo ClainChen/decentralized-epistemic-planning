@@ -1,4 +1,4 @@
-.PHONY: help coin1 coin2 deliver2a1i_1 deliver2a2i_1 deliver2a2i_2 deliver4a4i_1 deliver4a2i_1 grapevine2a2s grapevine3a2s grapevine3a2s2d grapevine4a1s1d grapevine4a1s2d grapevine8a1s1d mapf1 mapf2 mapf3 mapf4 mapf5 mapf6 matrix3r2a1i matrix4r2a1i matrix4r2a1i clean
+.PHONY: help coin1 coin2 deliver2a1i_1 deliver2a2i_1 deliver2a2i_2 deliver4a4i deliver4a2i grapevine2a2s grapevine3a2s grapevine3a2s2d grapevine4a1s1d grapevine4a1s2d grapevine8a1s1d mapf2a4r mapf2a7r mapf4a8r mapf4a9r matrix3r2a1i matrix4r2a1i matrix4r2a1i clean
 
 .DEFAULT_GOAL := help
 
@@ -6,29 +6,32 @@ args ?=
 
 help:
 	@echo Useful commands:
-	@echo   make coin1         
-	@echo   make coin2         
+	@echo   make coin1
+	@echo   make coin2
+
 	@echo   make deliver2a1i
 	@echo   make deliver2a2i_1
 	@echo   make deliver2a2i_2
 	@echo   make deliver4a2i
 	@echo   make deliver4a4i
-	@echo   make grapevine2a2s    
-	@echo   make grapevine3a2s    
-	@echo   make grapevine3a2s2d    
+
+	@echo   make grapevine2a2s
+	@echo   make grapevine3a2s
+	@echo   make grapevine3a2s2d
 	@echo   make grapevine4a1s1d
 	@echo   make grapevine4a1s2d
 	@echo   make grapevine8a1s1d
-	@echo   make mapf1         
-	@echo   make mapf2     
-	@echo   make mapf3
-	@echo   make mapf4    
-	@echo   make mapf5    
-	@echo   make mapf6    
+
+	@echo   make mapf2a4r
+	@echo   make mapf2a7r
+	@echo   make mapf4a8r
+	@echo   make mapf4a9r
+
 	@echo   make matrix3r2a1i
 	@echo   make matrix4r2a1i
 	@echo   make matrix6r2a1i
-	@echo   make clean         
+	
+	@echo   make clean
 
 # --without_agt_goal --without_agt_exp
 
@@ -149,57 +152,39 @@ grapevine8a1s1d:
 		--rules grapevine.py \
 		$(args)
 
-mapf1:
+mapf2a4r:
 	python entrance.py \
 		-d mapf/domain.pddl \
-		-p mapf/problem1 \
+		-p mapf/2a4r \
 		-ob mapf.py \
 		--strategy experiment/filtergoalexp.py \
 		--rules mapf.py \
 		$(args)
 
-mapf2:
+mapf2a7r:
 	python entrance.py \
 		-d mapf/domain.pddl \
-		-p mapf/problem2 \
+		-p mapf/2a7r \
 		-ob mapf.py \
 		--strategy s-jbfs.py \
 		--rules mapf.py \
 		$(args)
 
-mapf3:
+mapf4a8r:
 	python entrance.py \
 		-d mapf/domain.pddl \
-		-p mapf/problem3 \
+		-p mapf/4a8r \
 		-ob mapf.py \
 		--strategy experiment/filtergoal.py \
 		--rules mapf.py \
 		$(args)
 
-mapf4:
+mapf4a9r:
 	python entrance.py \
 		-d mapf/domain.pddl \
-		-p mapf/problem4 \
+		-p mapf/4a9r \
 		-ob mapf.py \
 		--strategy experiment/filtergoal.py \
-		--rules mapf.py \
-		$(args)
-
-mapf5:
-	python entrance.py \
-		-d mapf/domain.pddl \
-		-p mapf/problem5 \
-		-ob mapf.py \
-		--strategy experiment/filtergoalexp.py \
-		--rules mapf.py \
-		$(args)
-
-mapf6:
-	python entrance.py \
-		-d mapf/domain.pddl \
-		-p mapf/problem6 \
-		-ob mapf.py \
-		--strategy experiment/filtergoalexp.py \
 		--rules mapf.py \
 		$(args)
 
