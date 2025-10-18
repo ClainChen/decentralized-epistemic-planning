@@ -1,0 +1,63 @@
+2025-10-14 14:42:04,104 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.028852s
+2025-10-14 14:42:04,134 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.029233s
+2025-10-14 14:42:04,164 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.029114s
+2025-10-14 14:42:04,193 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.028741s
+2025-10-14 14:42:04,223 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.028796s
+2025-10-14 14:42:04,252 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.028848s
+2025-10-14 14:42:04,282 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.028934s
+2025-10-14 14:42:04,311 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.028631s
+2025-10-14 14:42:04,340 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.028615s
+2025-10-14 14:42:04,369 EXP - __main__.Logger.exp:
+a takes action: drop_item(['a', 'i'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.028751s
+2025-10-14 14:42:04,370 EXP - __main__.Logger.exp:
+Avg Steps: 3.0
+Avg Time: 0.028851s

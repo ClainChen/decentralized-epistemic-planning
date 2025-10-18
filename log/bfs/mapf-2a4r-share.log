@@ -1,0 +1,123 @@
+2025-10-14 15:13:53,018 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.022707s
+2025-10-14 15:13:53,044 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.025308s
+2025-10-14 15:13:53,068 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.023353s
+2025-10-14 15:13:53,092 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.023016s
+2025-10-14 15:13:53,116 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.022969s
+2025-10-14 15:13:53,139 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.022970s
+2025-10-14 15:13:53,163 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.022860s
+2025-10-14 15:13:53,186 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.023106s
+2025-10-14 15:13:53,210 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.023276s
+2025-10-14 15:13:53,234 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r4'])
+b takes action: move(['b', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r2', 'r1'])
+a takes action: move(['a', 'r4', 'r2'])
+b takes action: stay(['b'])
+a takes action: move(['a', 'r2', 'r3'])
+Steps: 9
+Time cost: 0.023231s
+2025-10-14 15:13:53,234 EXP - __main__.Logger.exp:
+Avg Steps: 9.0
+Avg Time: 0.023280s

@@ -18,7 +18,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
     def get_policy(self, model: Model, agent_name: str) -> Action:
         model_copy = copy.deepcopy(model)
         successors = model_copy.get_agent_successors(agent_name)
-        # print([succ.header() for succ in successors])
+        # print(f"{agent_name}: {[succ.header() for succ in successors]}")
         if len(successors) > 1:
             possible_successors = [succ.header() for succ in successors]
             samples = self.bfs(model_copy, agent_name)
@@ -43,7 +43,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
         
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
-        print(f"vms: {len(all_virtual_model)}")
+        # print(f"{agent_name} vms: {len(all_virtual_model)}")
         samples = {}
         expands = 0
         start = time.perf_counter()
@@ -67,11 +67,14 @@ class ShareGoalBFS(AbstractPolicyStrategy):
         find_solution_depth = -1
         while heap:
             node = heapq.heappop(heap)
-            if ((find_solution_depth != -1 and node.priority > find_solution_depth)):
+            # if agent_name == 'b':
+            #     print([act.header() for act in node.actions])
+            
+            if ((find_solution_depth != -1 and len(node.actions) > find_solution_depth)):
                 break
 
             if node.model.full_goal_complete():
-                    find_solution_depth = node.priority
+                    find_solution_depth = len(node.actions)
                     if len(node.actions) > 0:
                         action = node.actions[0]
                         string = action.header()
@@ -101,4 +104,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
                                             node.actions + [succ],
                                             next_model))
                     expand += 1
+        # if len(samples) == 0:
+        #     print(virtual_model)
+        #     exit(0)
         return samples, expand

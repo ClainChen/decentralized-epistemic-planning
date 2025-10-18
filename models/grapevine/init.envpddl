@@ -1,0 +1,90 @@
+(define
+    (problem 8a1s1d)
+    (:domain grapevine)
+
+    (:agents 
+        a1 a2 a3 a4 a5 a6 a7 a8
+    )
+
+    (:objects
+        a1s a2s a3s a4s a5s a6s a7s a8s - secret
+    )
+
+    (:init
+        (assign (agent_loc a1) 1)
+        (assign (agent_loc a2) 1)
+        (assign (agent_loc a3) 1)
+        (assign (agent_loc a4) 1)
+        (assign (agent_loc a5) 1)
+        (assign (agent_loc a6) 1)
+        (assign (agent_loc a7) 1)
+        (assign (agent_loc a8) 1)
+
+        (assign (secret_id a1s) a1s)
+        (assign (secret_id a2s) a2s)
+        (assign (secret_id a3s) a3s)
+        (assign (secret_id a4s) a4s)
+        (assign (secret_id a5s) a5s)
+        (assign (secret_id a6s) a6s)
+        (assign (secret_id a7s) a7s)
+        (assign (secret_id a8s) a8s)
+
+        (assign (shared_value a1s) t)
+        (assign (shared_value a2s) t)
+        (assign (shared_value a3s) t)
+        (assign (shared_value a4s) t)
+        (assign (shared_value a5s) t)
+        (assign (shared_value a6s) t)
+        (assign (shared_value a7s) t)
+        (assign (shared_value a8s) t)
+
+        (assign (shared_loc a1s) 0)
+        (assign (shared_loc a2s) 0)
+        (assign (shared_loc a3s) 0)
+        (assign (shared_loc a4s) 0)
+        (assign (shared_loc a5s) 0)
+        (assign (shared_loc a6s) 0)
+        (assign (shared_loc a7s) 0)
+        (assign (shared_loc a8s) 0)
+
+        (assign (own a1) a1s)
+        (assign (own a2) a2s)
+        (assign (own a3) a3s)
+        (assign (own a4) a4s)
+        (assign (own a5) a5s)
+        (assign (own a6) a6s)
+        (assign (own a7) a7s)
+        (assign (own a8) a8s)
+
+        (assign (sharing_lock) 0)
+
+        (assign (agent_sharing a1) none)
+        (assign (agent_sharing a2) none)
+        (assign (agent_sharing a3) none)
+        (assign (agent_sharing a4) none)
+        (assign (agent_sharing a5) none)
+        (assign (agent_sharing a6) none)
+        (assign (agent_sharing a7) none)
+        (assign (agent_sharing a8) none)
+    )
+
+    (:ranges
+        (agent_loc integer [1,2])
+        (secret_id enumerate [a1s,a2s,a3s,a4s,a5s,a6s,a7s,a8s])
+        (own enumerate [a1s,a2s,a3s,a4s,a5s,a6s,a7s,a8s])
+        (sharing_lock integer [0,1])
+        (agent_sharing enumerate [none,a1s,a2s,a3s,a4s,a5s,a6s,a7s,a8s])
+        (shared_value enumerate [t,f])
+        (shared_loc integer [0,2])
+    )
+    
+
+    (:goal_sets
+        shared_value(a1s)=[all]
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

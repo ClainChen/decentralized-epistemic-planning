@@ -18,7 +18,7 @@ pbar_lock = Lock()
 def goal_set_iterator(values, pbar):
     for comb in product(*values):
         pbar.update(1)
-        if not any(len(c) > 2 for c in comb):
+        if not any(len(c) > 1 for c in comb):
             yield comb
         # yield comb
 
@@ -119,6 +119,7 @@ class ProblemBuilder:
             for comb in goal_set_iterator(value, pbar):
                 jump = False
                 agent_goal_set = dict(zip(key, comb))
+                # print(agent_goal_set)
 
                 # fast jump for mapf
                 if self.base_model.domain_name == "mapf":
@@ -156,8 +157,7 @@ class ProblemBuilder:
                     test_model = self.base_model.copy()
                     for agent in test_model.agents:
                         agent.own_goals = agent_goal_set[agent.name]
-                    num_actions, _ = util.check_bfs(test_model, max_action_length * 2)
-                    max_action_length = max(num_actions, max_action_length)
+                    num_actions, _ = util.check_bfs(test_model)
                     if num_actions >= 0 :
                         results.append(agent_goal_set)
                         valid += 1

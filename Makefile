@@ -94,7 +94,7 @@ deliver4a4i:
 		-d deliver/domain.pddl \
 		-p deliver/4a4i \
 		-ob deliver.py \
-		--strategy s-jbfs.py \
+		--strategy experiment/filtergoalexp.py \
 		--rules deliver.py \
 		$(args)
 
@@ -148,7 +148,7 @@ grapevine8a1s1d:
 		-d grapevine/domain.pddl \
 		-p grapevine/8a1s1d \
 		-ob grapevine.py \
-		--strategy experiment/filtergoalexp.py \
+		--strategy experiment/share.py \
 		--rules grapevine.py \
 		$(args)
 
@@ -202,7 +202,7 @@ matrix4r2a1i:
 		-d matrix/domain.pddl \
 		-p matrix/4r2a1i \
 		-ob matrix.py \
-		--strategy s-jbfs.py \
+		--strategy experiment/share.py \
 		--rules matrix.py \
 		$(args)
 

@@ -547,6 +547,13 @@ class Agent:
         if agent_name not in self.E[world]:
             self.E[world][agent_name] = set()
         self.E[world][agent_name].add(action)
+    
+    def set_E(self, world, agent_name, action) -> None:
+        if world not in self.E:
+            self.E[world] = {}
+        if agent_name not in self.E[world]:
+            self.E[world][agent_name] = set()
+        self.E[world][agent_name] = {action}
 
 class AcceptableGoal:
     from epistemic_handler.file_parser import ParsingAcceptableGoal
@@ -618,7 +625,7 @@ class Model:
         #     return result
 
         agent = self.get_agent_by_name(agent_name)
-        candidates = []
+        candidates: list[Action] = []
         for action_schema in self.action_schemas:
             poss_params = []
             for param_name, param_type in action_schema.require_parameters.items():
@@ -631,7 +638,8 @@ class Model:
             for param in result_params:
                 successor = Action.create_action(action_schema, param)
                 candidates.append(successor)
-        candidates.append(Action.stay_action(agent_name))
+        if not any('stay' in schema.name for schema in self.action_schemas):
+            candidates.append(Action.stay_action(agent_name))
         for action in candidates:
             if util.is_valid_action(self, action):
                 result.append(action)
@@ -723,6 +731,10 @@ class Model:
                     a.all_possible_goals = remain_possible_goals
 
     def update_agent_belief_actions_in_world(self, last_agent, action):
+        # to avoid the exp mechanism error in grapevine
+        if action.name in ['sharing_stay']:
+            return
+
         for agent in self.agents:
             if last_agent == agent.name:
                 continue
@@ -732,7 +744,8 @@ class Model:
                 continue
             agent_last_jp_world = [f.id for f in util.get_epistemic_world(self, [agent.name])]
             hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
-            agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
+            # agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
+            agent.set_E(hash_set_agent_last_jp_world, last_agent, action)
 
             # if an agent found his done action is the same as the available actions in this environment
             # he will reset the belief actions of himself to empty
@@ -769,8 +782,8 @@ class Model:
             # log
             output = f"{agent_name} takes action: {action.header()}"
             exp_log += output + "\n"
-            print(output)
-            # util.LOGGER.exp(output)
+            # print(output)
+            util.LOGGER.info(output)
             # for agent in self.agents:
             #     util.LOGGER.debug(agent.action_under_jp_worlds)
 
@@ -780,7 +793,7 @@ class Model:
             #     util.LOGGER.exp(exp_log)
             #     exit(0)
             steps += 1
-            if steps == 100:
+            if steps == 500:
                 print("No result, maybe due to a deadlock")
                 util.LOGGER.exp(exp_log)
                 exit(0)

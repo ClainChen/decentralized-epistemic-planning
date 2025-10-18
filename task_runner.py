@@ -10,82 +10,82 @@ import json
 commands = [
 #region
 # coin1
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/share.py --share -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/share.py --share -test 10",
 
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 10",
 
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 10",
     
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/filtergoalexp.py -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/filtergoalexp.py -test 10",
 
 # # coin2
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/share.py --share -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/share.py --share -test 10",
 
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py ---rules coin.py -strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py ---rules coin.py -strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 10",
 
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 10",
     
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/filtergoalexp.py -test 100",
+    # "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/filtergoalexp.py -test 10",
 
 # # deliver2a1i
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/share.py --share -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/share.py --share -test 10",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 10",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 10",
     
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/filtergoalexp.py -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a1i -ob deliver.py --rules deliver.py --strategy experiment/filtergoalexp.py -test 10",
 
 # # deliver2a2i_1
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/share.py --share -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/share.py --share -test 10",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 10",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 10",
     
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/filtergoalexp.py -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_1 -ob deliver.py --rules deliver.py --strategy experiment/filtergoalexp.py -test 10",
 
 # # deliver2a2i_2
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/share.py --share -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/share.py --share -test 10",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 1",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 1",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 1",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 10",
     
-#     "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/filtergoalexp.py -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/2a2i_2 -ob deliver.py --rules deliver.py --strategy experiment/filtergoalexp.py -test 10",
 
 # # deliver4a4i_1
-#     "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/share.py --share -test 10",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/share.py --share -test 2",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 2",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 2",
 
-#     "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 2",
 
-    # "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 10",
     
-    # "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/filtergoalexp.py -test 100",
+    # "python entrance.py -d deliver/domain.pddl -p deliver/4a4i -ob deliver.py --rules deliver.py --strategy experiment/filtergoalexp.py -test 10",
 
 # grapevine3a2s
     # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 10",
@@ -96,9 +96,9 @@ commands = [
 
     # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c] -test 10",
 
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c] -test 3",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c] -test 1",
     
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 3",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 1",
 
 # grapevine4a1s1d
     # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 10",
@@ -109,9 +109,9 @@ commands = [
 
     # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
 
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 3",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 10",
     
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 3",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 10",
 
 # grapevine4a1s2d
     # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s2d -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 10",
@@ -122,51 +122,51 @@ commands = [
 
     # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s2d -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
 
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s2d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s2d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 3",
     
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s2d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s2d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 3",
 
 # grapevine8a1s
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 3",
 
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/stay.py --without_agt_goal [a1,a2,a3,a4,a5,a6,a7,a8] --without_agt_exp [a1,a2,a3,a4,a5,a6,a7,a8] -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/stay.py --without_agt_goal [a1,a2,a3,a4,a5,a6,a7,a8] --without_agt_exp [a1,a2,a3,a4,a5,a6,a7,a8] -test 3",
 
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coop.py --without_agt_goal [a1,a2,a3,a4,a5,a6,a7,a8] --without_agt_exp [a1,a2,a3,a4,a5,a6,a7,a8] -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coop.py --without_agt_goal [a1,a2,a3,a4,a5,a6,a7,a8] --without_agt_exp [a1,a2,a3,a4,a5,a6,a7,a8] -test 3",
 
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a1,a2,a3,a4,a5,a6,a7,a8] -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a1,a2,a3,a4,a5,a6,a7,a8] -test 3",
 
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a1,a2,a3,a4,a5,a6,a7,a8] -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a1,a2,a3,a4,a5,a6,a7,a8] -test 3",
     
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 10",
+    # "python entrance.py -d grapevine/domain.pddl -p grapevine/8a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 3",
 
 # mapf2a4r
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/share.py --share -test 100",
+    "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/share.py --share -test 10",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
+    "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 10",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 10",
     
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/filtergoalexp.py -test 100",
+    "python entrance.py -d mapf/domain.pddl -p mapf/2a4r -ob mapf.py --rules mapf.py --strategy experiment/filtergoalexp.py -test 10",
 
 # mapf2a7r
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/share.py --share -test 100",
+    "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/share.py --share -test 10",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
+    # "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
+    "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 1",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
+    "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 10",
     
-    # "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/filtergoalexp.py -test 100",
+    "python entrance.py -d mapf/domain.pddl -p mapf/2a7r -ob mapf.py --rules mapf.py --strategy experiment/filtergoalexp.py -test 10",
 
 # mapf4a8r
-    # "python entrance.py -d mapf/domain.pddl -p mapf/4a8r -ob mapf.py --rules mapf.py --strategy experiment/share.py --share -test 3",
+    # "python entrance.py -d mapf/domain.pddl -p mapf/4a8r -ob mapf.py --rules mapf.py --strategy experiment/share.py --share -test 2",
 
     # "python entrance.py -d mapf/domain.pddl -p mapf/4a8r -ob mapf.py --rules mapf.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 3",
 
@@ -179,20 +179,20 @@ commands = [
     # "python entrance.py -d mapf/domain.pddl -p mapf/4a8r -ob mapf.py --rules mapf.py --strategy experiment/filtergoalexp.py -test 3",
 
 # mapf4a9r
-    # "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/share.py --share -test 20",
+    # "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/share.py --share -test 2",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 20",
+    # "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 20",
+    # "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
 
-    # "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 20",
+    # "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
 
-    "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 5",
+    "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 1",
     
-    "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/filtergoalexp.py -test 5",
+    "python entrance.py -d mapf/domain.pddl -p mapf/4a9r -ob mapf.py --rules mapf.py --strategy experiment/filtergoalexp.py -test 1",
 
 # matrix3r2a1i
-    # "python entrance.py -d matrix/domain.pddl -p matrix/3r2a1i -ob matrix.py --rules matrix.py --strategy experiment/share.py --share -test 10",
+    "python entrance.py -d matrix/domain.pddl -p matrix/3r2a1i -ob matrix.py --rules matrix.py --strategy experiment/share.py --share -test 5",
 
     # "python entrance.py -d matrix/domain.pddl -p matrix/3r2a1i -ob matrix.py --rules matrix.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
@@ -200,12 +200,12 @@ commands = [
 
     # "python entrance.py -d matrix/domain.pddl -p matrix/3r2a1i -ob matrix.py --rules matrix.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 10",
 
-    # "python entrance.py -d matrix/domain.pddl -p matrix/3r2a1i -ob matrix.py --rules matrix.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 10",
+    "python entrance.py -d matrix/domain.pddl -p matrix/3r2a1i -ob matrix.py --rules matrix.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 2",
     
-    # "python entrance.py -d matrix/domain.pddl -p matrix/3r2a1i -ob matrix.py --rules matrix.py --strategy experiment/filtergoalexp.py -test 10",
+    "python entrance.py -d matrix/domain.pddl -p matrix/3r2a1i -ob matrix.py --rules matrix.py --strategy experiment/filtergoalexp.py -test 2",
 
 # matrix4r2a1i
-    # "python entrance.py -d matrix/domain.pddl -p matrix/4r2a1i -ob matrix.py --rules matrix.py --strategy experiment/share.py --share -test 10",
+    "python entrance.py -d matrix/domain.pddl -p matrix/4r2a1i -ob matrix.py --rules matrix.py --strategy experiment/share.py --share -test 2",
 
     # "python entrance.py -d matrix/domain.pddl -p matrix/4r2a1i -ob matrix.py --rules matrix.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 10",
 
@@ -213,9 +213,9 @@ commands = [
 
     # "python entrance.py -d matrix/domain.pddl -p matrix/4r2a1i -ob matrix.py --rules matrix.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 10",
 
-    "python entrance.py -d matrix/domain.pddl -p matrix/4r2a1i -ob matrix.py --rules matrix.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 3",
+    "python entrance.py -d matrix/domain.pddl -p matrix/4r2a1i -ob matrix.py --rules matrix.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 2",
     
-    "python entrance.py -d matrix/domain.pddl -p matrix/4r2a1i -ob matrix.py --rules matrix.py --strategy experiment/filtergoalexp.py -test 3",
+    "python entrance.py -d matrix/domain.pddl -p matrix/4r2a1i -ob matrix.py --rules matrix.py --strategy experiment/filtergoalexp.py -test 2",
 
 # matrix6r2a1i
     # "python entrance.py -d matrix/domain.pddl -p matrix/6r2a1i -ob matrix.py --rules matrix.py --strategy experiment/share.py --share -test 3",
@@ -312,7 +312,7 @@ def run_command(command):
 
 print(f"{len(commands)} tasks in total.")
 # 使用线程池并行执行
-with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
     # 提交所有任务
     future_to_command = {executor.submit(run_command, cmd): cmd for cmd in commands}
     

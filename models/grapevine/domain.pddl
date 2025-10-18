@@ -9,9 +9,10 @@
     (:functions
         (agent_loc ?a - agent)
         (secret_id ?s - secret)
+        (agent_id ?a - agent)
         (shared_value ?s - secret)
         (shared_loc ?s - secret)
-        (own ?a - agent)
+        (own ?s - secret)
         (sharing_lock)
         (agent_sharing ?a - agent)
     )
@@ -55,13 +56,33 @@
             (assign (shared_value ?s) t)
         )
     )
-    
 
+    (:action sharing_stay
+        :parameters (?self - agent)
+        :precondition (
+            (= (sharing_lock) 1)
+            (= (agent_sharing ?self) none)
+        )
+        :effect (
+            (assign (sharing_lock) 1)
+        )
+    )
+
+    (:action normal_stay
+        :parameters (?self - agent)
+        :precondition (
+            (= (sharing_lock) 0)
+        )
+        :effect (
+            (assign (sharing_lock) 0)
+        )
+    )
+    
     (:action sharing_own_secret
         :parameters (?self - agent ?s - secret)
         :precondition (
             (= (sharing_lock) 0)
-            (= (own ?self) (secret_id ?s))
+            (= (own ?s) (agent_id ?self))
             (= (agent_sharing ?self) none)
         )
         :effect (
@@ -76,7 +97,7 @@
         :parameters (?self - agent ?s - secret)
         :precondition (
             (= (sharing_lock) 0)
-            (= (own ?self) (secret_id ?s))
+            (= (own ?s) (agent_id ?self))
             (= (agent_sharing ?self) none)
         )
         :effect (
@@ -91,7 +112,7 @@
         :parameters (?self - agent ?s - secret)
         :precondition (
             (= (sharing_lock) 0)
-            (!= (own ?self) (secret_id ?s))
+            (!= (own ?s) (agent_id ?self))
             (= (agent_sharing ?self) none)
             (!= (@ep ("b [?self]") (shared_value ?s)) ep.unknown)
         )
