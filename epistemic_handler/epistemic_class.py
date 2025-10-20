@@ -546,7 +546,8 @@ class Agent:
             self.E[world] = {}
         if agent_name not in self.E[world]:
             self.E[world][agent_name] = set()
-        self.E[world][agent_name].add(action)
+        # self.E[world][agent_name].add(action)
+        self.E[world][agent_name] = {action}
 
 class AcceptableGoal:
     from epistemic_handler.file_parser import ParsingAcceptableGoal
@@ -733,13 +734,6 @@ class Model:
             agent_last_jp_world = [f.id for f in util.get_epistemic_world(self, [agent.name])]
             hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
             agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
-
-            # if an agent found his done action is the same as the available actions in this environment
-            # he will reset the belief actions of himself to empty
-            # if last_agent == agent.name:
-            #     this_succs = set(self.get_agent_successors(last_agent))
-            #     if this_succs.issubset(agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent]):
-            #         agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent].difference_update(this_succs)
 
 
     def simulate(self, start_agent = ""):

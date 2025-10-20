@@ -59,6 +59,8 @@ def record_time(func):
     return wrapper
 
 def setup_logger_handlers(log_filename, log_mode='a', c_display=False, c_logger_level=logging.INFO):
+    if not Path(log_filename).parent.exists():
+        Path(log_filename).parent.mkdir(parents=True)
     f_handler = logging.FileHandler(log_filename, mode=log_mode)
     c_handler = logging.StreamHandler()
     c_format = ClassNameFormatter('%(levelname)s - %(name)s.%(classname)s.%(funcName)s:\n%(message)s')
@@ -544,7 +546,7 @@ class BFSNode:
     
     @property
     def priority(self):
-        return len(self.actions) + (self.heuristic)
+        return len(self.actions) + (self.heuristic * 0)
 
     def __lt__(self, other):
         return self.priority < other.priority

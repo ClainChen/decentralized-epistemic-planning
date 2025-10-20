@@ -72,6 +72,8 @@ def loadParameter():
 
     parser.add_argument('--without_agt_exp', dest='without_agt_exp', type=list, help='The given agents will not update their experience of actions', default=[])
 
+    parser.add_argument('-goals', dest='num_goals', type=int, help='The maximum number of goals for each agent to generate problems', default=2)
+
     options = parser.parse_args(sys.argv[1:])
 
     return options
@@ -82,13 +84,16 @@ if __name__ == '__main__':
         if args.c_logging_level:
             c_logging_level = LOGGING_LEVELS[args.c_logging_level]
         c_logging_display = args.c_logging_display
-        log_name = f"{args.problem_path.replace('/', '-')}-{args.strategy[11:-3]}.log"
+        log_folder = f"{args.problem_path.replace('/', '-')}"
+        log_strategy = f"{args.strategy[11:-3]}.log"
         
-        handler = util.setup_logger_handlers(f"log/{log_name}", log_mode='w',
+        handler = util.setup_logger_handlers(f"log/{log_folder}/{log_strategy}", log_mode='w',
                                              c_display=c_logging_display, c_logger_level=c_logging_level)
         util.LOGGER = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
         util.LOGGER.info(f"Start building the model, type: \"{args.problem_type}\"")
         
+        problem_builder.LIMIT = args.num_goals
+
         model = model_builder.build(args)
         # t.diagnose_model_serialization(model)
         
@@ -116,14 +121,14 @@ if __name__ == '__main__':
                 print(f)
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
 
-        # path_len, path = util.check_bfs(model.copy())
-        # if path_len == -1:
-        #     util.LOGGER.error(f"Model's goal setting do not have solution")
-        #     print("Model's goal setting do not have solution")
-        #     exit(0)
+        path_len, path = util.check_bfs(model.copy())
+        if path_len == -1:
+            util.LOGGER.error(f"Model's goal setting do not have solution")
+            print("Model's goal setting do not have solution")
+            exit(0)
 
-        # print(f"Standard Path Length: {path_len}")
-        # print(f"Path: {path}")
+        print(f"Standard Path Length: {path_len}")
+        print(f"Path: {path}")
 
         if not args.generate_problem:
             step_lst = []
