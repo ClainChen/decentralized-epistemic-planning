@@ -1,0 +1,133 @@
+2025-10-20 21:53:56,505 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.114762s
+2025-10-20 21:53:56,623 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.117453s
+2025-10-20 21:53:56,740 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.116642s
+2025-10-20 21:53:56,857 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.116756s
+2025-10-20 21:53:56,973 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.116053s
+2025-10-20 21:53:57,090 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.116546s
+2025-10-20 21:53:57,208 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.117361s
+2025-10-20 21:53:57,326 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.117279s
+2025-10-20 21:53:57,444 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.117440s
+2025-10-20 21:53:57,562 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+Steps: 10
+Time cost: 0.117443s
+2025-10-20 21:53:57,562 EXP - __main__.Logger.exp:
+Avg Steps: 10.0
+Avg Time: 0.116773s

@@ -58,6 +58,7 @@ def run_command(command):
     parse = parse_command_line(command)
     """执行单条命令并返回结果"""
     try:
+
         result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=3600)
         result = {
             'command': command,
@@ -85,6 +86,8 @@ def run_command(command):
 
 def analyze_tasks(tasks):
     for task in tasks:
+        if task['enabled'] == 0:
+            continue
         domain: str = task['model_name']
         problems: list[dict] = task['problems']
         ob: str = task['ob']
@@ -143,8 +146,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
             with open(dire / filename, 'w') as f:
                 f.write(output)
 
+            
             task = f"{parse['problem'].replace('/', '-')}-{parse['strategy'][11:-3]}"
-
             print(f"任务 {task} 执行完成")
         except Exception as exc:
             print(f"任务 {command} 执行时发生异常: {exc}")

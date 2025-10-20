@@ -554,6 +554,26 @@ class Agent:
         if agent_name not in self.E[world]:
             self.E[world][agent_name] = set()
         self.E[world][agent_name] = {action}
+    
+    def print_E(self):
+        result = f"Experience of agent {self.name}:\n"
+        for world, agt_actions in self.E.items():
+            result += f"World: {set(world)}\n"
+            for agt, actions in agt_actions.items():
+                result += f"  Agent: {agt}\n"
+                for action in actions:
+                    result += f"    Action: {action}\n"
+        return result
+
+    def print_poss_goals(self):
+        result = f"Possible Goals of agent {self.name}:\n"
+        for goal_set in self.all_possible_goals:
+            for name, goals in goal_set.items():
+                result += f"  Agent: {name}\n"
+                for goal in goals:
+                    result += f"    Goal: {goal}\n"
+            result += f"{util.SMALL_DIVIDER}\n"
+        return result
 
 class AcceptableGoal:
     from epistemic_handler.file_parser import ParsingAcceptableGoal
@@ -763,6 +783,8 @@ class Model:
             # update the belief goals of each agent, and update their observed world
             if self.problem_type == ProblemType.UNSHARE:
                 self.update_belief_goals()
+                # for a in self.agents:
+                #     util.LOGGER.debug(f"{a.print_poss_goals()}")
 
             # decide the action and do the action
             action = util.STRATEGY[agent_name].get_policy(self, agent_name)
@@ -775,7 +797,7 @@ class Model:
             # log
             output = f"{agent_name} takes action: {action.header()}"
             exp_log += output + "\n"
-            # print(output)
+            print(output)
             util.LOGGER.info(output)
             # for agent in self.agents:
             #     util.LOGGER.debug(agent.action_under_jp_worlds)
