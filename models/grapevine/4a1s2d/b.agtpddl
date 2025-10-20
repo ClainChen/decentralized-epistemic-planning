@@ -5,7 +5,7 @@
 
     (:goal (and
         (= (@ep (" b [b] b [a]") (= (shared_value as) t)) ep.true)
-        (= (@ep (" b [b]") (= (shared_value as) f)) ep.true)
+        (= (@ep (" b [b]") (= (shared_value as) t)) ep.true)
         )
     )
 )

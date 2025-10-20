@@ -544,6 +544,10 @@ class BFSNode:
         self.h = count
         return self.h
     
+    # @property
+    # def priority(self):
+    #     return len(self.actions) + (self.heuristic)
+    
     @property
     def priority(self):
         return len(self.actions) + (self.heuristic * 0)

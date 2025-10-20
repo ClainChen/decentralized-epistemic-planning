@@ -120,7 +120,7 @@ with open('tasks.json', 'r') as f:
     tasks = json.load(f)
 
 # 使用线程池并行执行
-with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
     # 提交所有任务
     future_to_command = {executor.submit(run_command, cmd): cmd for cmd in analyze_tasks(tasks)}
     

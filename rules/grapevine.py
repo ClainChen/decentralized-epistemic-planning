@@ -25,6 +25,9 @@ class GrapevineRules(AbstractRules):
                 if func.parameters['?s'] != func.value:
                     return False
                 secret_info[func.value] = {}
+            elif func.name == 'agent_id':
+                if func.parameters['?a'] != func.value:
+                    return False
             elif func.name == 'shared_value':
                 if func.value not in ['t', 'f']:
                     return False
@@ -33,8 +36,9 @@ class GrapevineRules(AbstractRules):
             elif func.name == 'shared_loc':
                 secret_info[func.parameters['?s']]['loc'] = func.value
             elif func.name == 'own':
-                if func.value != func.parameters['?a']+'s':
-                    return False
+                pass
+                # if func.value  != func.parameters['?a']+'s':
+                #     return False
             elif func.name == 'sharing_lock':
                 some_one_sharing_secret = func.value == 1
             elif func.name == 'agent_sharing':

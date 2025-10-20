@@ -19,11 +19,12 @@ class GrapevineObsFunc(AbstractObservationFunction):
         shared_value_funcs = []
         secret_loc = {}
         agent_sharing_funcs = []
+        own_funcs = {}
         for func in functions:
             if func.name == 'agent_loc':
                 result.add(func)
                 agent_loc[func.parameters['?a']] = func.value
-            elif func.name in ['own', 'secret_id', 'sharing_lock']:
+            elif func.name in ['own', 'secret_id', 'agent_id', 'sharing_lock']:
                 result.add(func)
             elif func.name == 'shared_value':
                 shared_value_funcs.append(func)
