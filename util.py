@@ -487,15 +487,21 @@ def remove_continue_duplicates(lst):
             new_list.append(ele)
     return new_list
 
+sim_timeout = 120
+
 import heapq
 def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
+    global sim_timeout
     heap: list[BFSNode] = []
     heapq.heappush(heap, BFSNode(1, [], virtual_model))
     existed_epistemic_world = set()
     start = time.perf_counter()
     while heap:
         node = heapq.heappop(heap)
+        # util.LOGGER.debug(f"{[act.header() for act in node.actions]}")
         if node.model.full_goal_complete():
+            if (time.perf_counter() - start)*5 < sim_timeout:
+                sim_timeout = max(20, sim_timeout * 0.7)
             # print([act.header() for act in node.actions])
             return len(node.actions), [act.header() for act in node.actions]
         
@@ -506,12 +512,16 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
             successors[agent.name] = node.model.get_agent_successors(agent.name)
         for name, succs in successors.items():
             for succ in succs:
-                if time.perf_counter() - start > 120:
+                if time.perf_counter() - start > sim_timeout:
+                    sim_timeout = min(120, sim_timeout * 1.3)
                     return -1, -1
                 next_model = node.model.copy()
                 next_model.move(name, succ)
                 # 过滤机制
-                observe_funcs = frozenset([frozenset([agt.name] + get_epistemic_world(next_model, [agt.name])) for agt in next_model.agents])
+                observe_funcs = []
+                for bs in next_model.possible_belief_sequences:
+                    observe_funcs.append(frozenset([tuple(bs)] + [s.id for s in get_epistemic_world(next_model, bs)]))
+                observe_funcs = frozenset(observe_funcs)
                 if observe_funcs in existed_epistemic_world:
                     continue
                 existed_epistemic_world.add(observe_funcs)
@@ -550,7 +560,7 @@ class BFSNode:
     
     @property
     def priority(self):
-        return len(self.actions) + (self.heuristic * 0)
+        return len(self.actions) + (self.heuristic)
 
     def __lt__(self, other):
         return self.priority < other.priority

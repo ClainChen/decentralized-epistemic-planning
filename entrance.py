@@ -84,10 +84,10 @@ if __name__ == '__main__':
         if args.c_logging_level:
             c_logging_level = LOGGING_LEVELS[args.c_logging_level]
         c_logging_display = args.c_logging_display
-        log_folder = f"{args.problem_path.replace('/', '-')}"
+        pp = args.problem_path.split('/')
         log_strategy = f"{args.strategy[11:-3]}.log"
         
-        handler = util.setup_logger_handlers(f"log/{log_folder}/{log_strategy}", log_mode='w',
+        handler = util.setup_logger_handlers(f"log/{pp[0]}/{pp[1]}/{log_strategy}", log_mode='w',
                                              c_display=c_logging_display, c_logger_level=c_logging_level)
         util.LOGGER = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
         util.LOGGER.info(f"Start building the model, type: \"{args.problem_type}\"")
