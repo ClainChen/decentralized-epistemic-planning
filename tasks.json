@@ -26,16 +26,16 @@
         "enabled": 1,
         "model_name": "deliver2r",
         "problems": [
-            {"enabled": 1, "limit": 1, "name": "2a1i1", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 2, "name": "2a1i2", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 2, "name": "2a1i3", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 2, "name": "2a1i4", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 1, "name": "2a2i1", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 1, "name": "2a2i2", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 1, "name": "2a1i1", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 2, "name": "2a1i2", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 2, "name": "2a1i3", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 2, "name": "2a1i4", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 1, "name": "2a2i1", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 1, "name": "2a2i2", "agents": ["a", "b"]},
             {"enabled": 1, "limit": 2, "name": "2a2i3", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 3, "name": "2a2i4", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 3, "name": "2a2i4", "agents": ["a", "b"]},
             {"enabled": 0, "limit": 1, "name": "4a4i1", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a4i2", "agents": ["a", "b", "c", "d"]},
+            {"enabled": 0, "limit": 1, "name": "4a4i2", "agents": ["a", "b", "c", "d"]},
             {"enabled": 0, "limit": 2, "name": "4a4i3", "agents": ["a", "b", "c", "d"]},
             {"enabled": 0, "limit": 2, "name": "4a4i4", "agents": ["a", "b", "c", "d"]}
         ],
@@ -47,7 +47,7 @@
             {"enabled": 0, "num":5, "strategy": "stayexp"},
             {"enabled": 0, "num":5, "strategy": "coop"},
             {"enabled": 0, "num":5, "strategy": "coopexp"},
-            {"enabled": 1, "num":3, "strategy": "filtergoal"},
+            {"enabled": 0, "num":3, "strategy": "filtergoal"},
             {"enabled": 1, "num":3, "strategy": "filtergoalexp"}
         ]
     },
