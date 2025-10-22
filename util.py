@@ -25,6 +25,9 @@ OBS_FUNC = {}
 STRATEGY = {}
 RULES = None
 
+# Limitation of num of goals for each agent
+LIMIT = 2
+
 logging.addLevelName(25, "EXP")
 def exp(self, message, *args, **kws):
     if self.isEnabledFor(25):

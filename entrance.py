@@ -92,7 +92,7 @@ if __name__ == '__main__':
         util.LOGGER = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
         util.LOGGER.info(f"Start building the model, type: \"{args.problem_type}\"")
         
-        problem_builder.LIMIT = args.num_goals
+        util.LIMIT = args.num_goals
 
         model = model_builder.build(args)
         # t.diagnose_model_serialization(model)

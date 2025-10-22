@@ -15,12 +15,10 @@ results_lock = Lock()
 valid_lock = Lock()
 pbar_lock = Lock()
 
-LIMIT = 2
-
 def goal_set_iterator(values, pbar):
     for comb in product(*values):
         pbar.update(1)
-        if not any(len(c) > LIMIT for c in comb):
+        if not any(len(c) > util.LIMIT for c in comb):
             yield comb
         # yield comb
 
