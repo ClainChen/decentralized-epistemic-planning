@@ -1,0 +1,70 @@
+2025-10-22 16:34:53,868 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: drop_item(['a', 'o1'])
+Steps: 9
+Time cost: 0.076757s
+2025-10-22 16:34:53,945 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: drop_item(['a', 'o1'])
+Steps: 9
+Time cost: 0.076865s
+2025-10-22 16:34:54,023 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: drop_item(['a', 'o1'])
+Steps: 9
+Time cost: 0.076450s
+2025-10-22 16:34:54,161 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: drop_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+Steps: 16
+Time cost: 0.137523s
+2025-10-22 16:34:54,238 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: drop_item(['a', 'o1'])
+Steps: 9
+Time cost: 0.076281s
+2025-10-22 16:34:54,238 EXP - __main__.Logger.exp:
+Avg Steps: 10.4
+Avg Time: 0.088775s

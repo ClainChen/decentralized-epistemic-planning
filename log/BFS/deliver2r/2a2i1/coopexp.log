@@ -1,0 +1,28 @@
+2025-10-22 16:29:27,420 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+Steps: 2
+Time cost: 0.005629s
+2025-10-22 16:29:27,426 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+Steps: 2
+Time cost: 0.005241s
+2025-10-22 16:29:27,432 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+Steps: 2
+Time cost: 0.005234s
+2025-10-22 16:29:27,438 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+Steps: 2
+Time cost: 0.005142s
+2025-10-22 16:29:27,444 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+Steps: 2
+Time cost: 0.005567s
+2025-10-22 16:29:27,444 EXP - __main__.Logger.exp:
+Avg Steps: 2.0
+Avg Time: 0.005363s

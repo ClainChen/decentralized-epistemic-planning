@@ -575,6 +575,12 @@ class Agent:
             result += f"{util.SMALL_DIVIDER}\n"
         return result
 
+    def print_own_goals(self):
+        result = f"Own Goals of agent {self.name}:\n"
+        for goal in self.own_goals:
+            result += f"  {goal}\n"
+        return result
+
 class AcceptableGoal:
     from epistemic_handler.file_parser import ParsingAcceptableGoal
     def __init__(self):
@@ -713,42 +719,92 @@ class Model:
         return self.ALL_FUNCS.flatten()
 
     def update_belief_goals(self):
+        def goal_comb_generator(ep_worlds: list[tuple[list[str], list[Function]]]):
+            expanded = [("".join(bs[1:]), s) for bs, world in ep_worlds for s in world]
+            # print(expanded)
+
+            for r in range(1, min(util.LIMIT + 1, len(expanded) + 1)):
+                for comb in combinations(expanded, r):
+                    comb = [(bs, f.id) for (bs, f) in comb]
+                    yield set(comb), comb[0][0][0]
         # 只会在Neutral Mode中被调用
         # 如果agent能够看见其他agent，则会根据自己的观察来更新自己对其他agent的goals的信念
         # 每一个历史时间戳上都会有一个对应的history world和agent: action对，用于反映在某个世界下某个agent执行了某个action
         # 如果在那个时间戳时agent无法看见那个正在行动的agent，则他无法得知那个agent在那个时间戳的action
         # 如果观察到某个agent的complete signal为true，则会更好操作
-        for a in self.agents:
-            if not a.consider_goal:
+        for agt in self.agents:
+            # print(agt.name)
+            # skip those agents who do not consider goal
+            if not agt.consider_goal:
                 continue
-            for b in self.agents:
-                if a.name == b.name:
-                    continue
-                current_fb_fa = util.get_epistemic_world(self, [a.name,b.name])
-                # only remain the acceptable functions
-                acceptable_fb_fa = []
-                for func in current_fb_fa:
-                    for sg in self.S_G:
-                        if (sg.condition_function_name == func.name and 
-                            sg.condition_function_parameters == func.parameters and
-                            sg.value == func.value):
-                            acceptable_fb_fa.append(func)
-                # generate all possible goal functions for the target agent
-                possible_func_sets = list(chain.from_iterable(combinations(acceptable_fb_fa, r) for r in range(1, len(acceptable_fb_fa) + 1)))
-                possible_func_sets = [set(func.plain_text() for func in goal_sets) for goal_sets in possible_func_sets]
+            
+            # the epistemic worlds under each belief sequences
+            fw = []
 
-                remain_possible_goals = []
-                if not b.complete_signal:
-                    for goal_set in a.all_possible_goals:
-                        if set(cond.plain_text() for cond in goal_set[b.name]) not in possible_func_sets:
-                            remain_possible_goals.append(goal_set)
-                else:
-                    for goal_set in a.all_possible_goals:
-                        if set(cond.plain_text() for cond in goal_set[b.name]) in possible_func_sets:
-                            remain_possible_goals.append(goal_set)
-                # print(f"len possi func sets: {len(possible_func_sets)}, len remain possi goals: {len(remain_possible_goals)}")
-                if len(remain_possible_goals) > 0 :
-                    a.all_possible_goals = remain_possible_goals
+            for bs in self.possible_belief_sequences:
+                
+                # skip the goal belief sequence that start with the agent itself
+                if agt.name == bs[0]:
+                    continue
+                
+                # the epistemic world under this belief sequence
+                fw.append(([agt.name] + bs, util.get_epistemic_world(self, [agt.name] + bs)))
+            
+            # for each epistemic world, only remains those states that related with the goals
+            fw = [(bs, [f for f in world if self.filter_functions_with_goal(f)]) for (bs, world) in fw]
+
+            lw = {}
+            for comb, agt2 in goal_comb_generator(fw):
+                # print(comb)
+                if agt2 not in lw:
+                    lw[agt2] = []
+                lw[agt2].append(comb)
+
+            remain_possible_goals = []
+            for agt2, agt2_goals in lw.items():
+                agt2_complete = self.get_agent_by_name(agt2).complete_signal
+                for poss_goals in agt.all_possible_goals:
+                        this_goals = set([("".join(cond.belief_sequence), self.ALL_FUNCS.get_function_with_cond(cond).id) 
+                                      for cond in poss_goals[agt2]])
+
+                        if not agt2_complete and this_goals not in agt2_goals:
+                            remain_possible_goals.append(poss_goals)
+                        if agt2_complete and this_goals in agt2_goals:
+                            remain_possible_goals.append(poss_goals)
+            
+            if len(remain_possible_goals) == 0:
+                util.LOGGER.warning(f"Agent {agt.name} has no possible goals left after filtering, keep the previous possible goals")
+                util.LOGGER.warning(f"Previous possible goals:\n{agt.print_poss_goals()}")
+                util.LOGGER.warning(f"{[his['signal'] for his in self.history] + [(agt.name, agt.complete_signal) for agt in self.agents]}")
+                exit(0)
+            if len(remain_possible_goals) > 0:
+                agt.all_possible_goals = remain_possible_goals
+
+            # if the complete signal changed compare with the world in last timestamp, we do further filtering
+            if len(self.history) == 0:
+                continue
+
+            last_signal = self.history[-1]['signal']
+            update_agts = []
+            for agt2 in self.agents:
+                if agt2.name == agt.name:
+                    continue
+                if last_signal[agt2.name] != agt2.complete_signal:
+                    update_agts.append(agt2.name)
+            
+            if len(update_agts) == 0:
+                continue
+            
+            cur_obs_funcs = [f.id for f in util.OBS_FUNC[agt.name].get_observable_functions(self, self.ontic_functions, agt.name)]
+            cur_ep_funcs = [f.id for f in util.get_epistemic_world(self, [agt.name])]
+            possible_changed_functions = [f_id for f_id in cur_ep_funcs if f_id not in cur_obs_funcs]
+            
+
+    def filter_functions_with_goal(self, func) -> bool:
+        for sg in self.S_G:
+            if self.ALL_FUNCS.get_function_with_cond(sg).id == func.id:
+                return True
+        return False
 
     def update_agent_belief_actions_in_world(self, last_agent, action):
         # to avoid the exp mechanism error in grapevine

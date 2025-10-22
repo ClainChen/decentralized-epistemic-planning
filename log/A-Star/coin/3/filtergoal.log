@@ -1,73 +1,73 @@
-2025-10-20 21:59:25,197 EXP - __main__.Logger.exp:
+2025-10-22 16:22:24,636 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.104757s
-2025-10-20 21:59:25,303 EXP - __main__.Logger.exp:
+Time cost: 0.111238s
+2025-10-22 16:22:24,749 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.105982s
-2025-10-20 21:59:25,409 EXP - __main__.Logger.exp:
+Time cost: 0.113052s
+2025-10-22 16:22:24,861 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.105168s
-2025-10-20 21:59:25,515 EXP - __main__.Logger.exp:
+Time cost: 0.111573s
+2025-10-22 16:22:24,973 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.105607s
-2025-10-20 21:59:25,621 EXP - __main__.Logger.exp:
+Time cost: 0.110827s
+2025-10-22 16:22:25,084 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.105485s
-2025-10-20 21:59:25,727 EXP - __main__.Logger.exp:
+Time cost: 0.110851s
+2025-10-22 16:22:25,196 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.105725s
-2025-10-20 21:59:25,833 EXP - __main__.Logger.exp:
+Time cost: 0.112013s
+2025-10-22 16:22:25,310 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.106215s
-2025-10-20 21:59:25,940 EXP - __main__.Logger.exp:
+Time cost: 0.113513s
+2025-10-22 16:22:25,424 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.106585s
-2025-10-20 21:59:26,047 EXP - __main__.Logger.exp:
+Time cost: 0.113120s
+2025-10-22 16:22:25,537 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.106434s
-2025-10-20 21:59:26,154 EXP - __main__.Logger.exp:
+Time cost: 0.113038s
+2025-10-22 16:22:25,649 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
 a takes action: return(['a'])
 b takes action: flip_up(['b', 'c1'])
 Steps: 4
-Time cost: 0.106912s
-2025-10-20 21:59:26,155 EXP - __main__.Logger.exp:
+Time cost: 0.111089s
+2025-10-22 16:22:25,649 EXP - __main__.Logger.exp:
 Avg Steps: 4.0
-Avg Time: 0.105887s
+Avg Time: 0.112032s

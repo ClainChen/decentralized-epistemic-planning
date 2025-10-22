@@ -1,0 +1,63 @@
+2025-10-22 16:35:07,203 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+a takes action: drop_item(['a', 'o1'])
+Steps: 9
+Time cost: 1.133092s
+2025-10-22 16:35:08,343 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+a takes action: drop_item(['a', 'o1'])
+Steps: 9
+Time cost: 1.139477s
+2025-10-22 16:35:09,480 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+a takes action: drop_item(['a', 'o1'])
+Steps: 9
+Time cost: 1.135391s
+2025-10-22 16:35:10,618 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+a takes action: drop_item(['a', 'o1'])
+Steps: 9
+Time cost: 1.137459s
+2025-10-22 16:35:11,768 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: stay(['d'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+d takes action: move_right_without_item(['d'])
+a takes action: drop_item(['a', 'o1'])
+Steps: 9
+Time cost: 1.148832s
+2025-10-22 16:35:11,768 EXP - __main__.Logger.exp:
+Avg Steps: 9.0
+Avg Time: 1.138850s
