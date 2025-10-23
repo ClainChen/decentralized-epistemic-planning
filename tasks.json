@@ -48,7 +48,7 @@
             {"enabled": 0, "num":5, "strategy": "coop"},
             {"enabled": 0, "num":5, "strategy": "coopexp"},
             {"enabled": 0, "num":3, "strategy": "filtergoal"},
-            {"enabled": 1, "num":3, "strategy": "filtergoalexp"}
+            {"enabled": 1, "num":10, "strategy": "filtergoalexp"}
         ]
     },
 

@@ -1,56 +1,113 @@
-2025-10-22 18:37:32,439 WARNING - __main__.Model.update_belief_goals:
-Agent b has no possible goals left after filtering, keep the previous possible goals
-2025-10-22 18:37:32,439 WARNING - __main__.Model.update_belief_goals:
-Previous possible goals:
-Possible Goals of agent b:
-  Agent: a
-    Goal: Condition(['a'] hold_by ['i', 'a'] = 0)
-    Goal: Condition(['a'] hold_by ['j', 'b'] = 1)
-  Agent: b
-    Goal: Condition(['b'] hold_by ['j', 'b'] = 0)
-    Goal: Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
------------------
-
-  Agent: a
-    Goal: Condition(['a', 'b'] hold_by ['j', 'b'] = 1)
-    Goal: Condition(['a'] hold_by ['i', 'a'] = 0)
-  Agent: b
-    Goal: Condition(['b'] hold_by ['j', 'b'] = 0)
-    Goal: Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
------------------
-
-  Agent: a
-    Goal: Condition(['a', 'b'] hold_by ['i', 'a'] = 0)
-    Goal: Condition(['a'] hold_by ['j', 'b'] = 1)
-  Agent: b
-    Goal: Condition(['b'] hold_by ['j', 'b'] = 0)
-    Goal: Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
------------------
-
-  Agent: a
-    Goal: Condition(['a', 'b'] hold_by ['i', 'a'] = 0)
-    Goal: Condition(['a'] hold_by ['i', 'a'] = 1)
-  Agent: b
-    Goal: Condition(['b'] hold_by ['j', 'b'] = 0)
-    Goal: Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
------------------
-
-  Agent: a
-    Goal: Condition(['a', 'b'] hold_by ['i', 'a'] = 0)
-    Goal: Condition(['a', 'b'] hold_by ['j', 'b'] = 1)
-  Agent: b
-    Goal: Condition(['b'] hold_by ['j', 'b'] = 0)
-    Goal: Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
------------------
-
-  Agent: a
-    Goal: Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
-    Goal: Condition(['a'] hold_by ['i', 'a'] = 0)
-  Agent: b
-    Goal: Condition(['b'] hold_by ['j', 'b'] = 0)
-    Goal: Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
------------------
-
-
-2025-10-22 18:37:32,439 WARNING - __main__.Model.update_belief_goals:
-[{'a': False, 'b': False}, {'a': False, 'b': False}, {'a': False, 'b': False}, {'a': False, 'b': False}, {'a': False, 'b': False}, ('a', True), ('b', False)]
+2025-10-23 01:45:06,751 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: move_right_with_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: move_left_with_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+Steps: 9
+Time cost: 8.424176s
+2025-10-23 01:45:14,999 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: move_right_with_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: move_left_with_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+Steps: 9
+Time cost: 8.245815s
+2025-10-23 01:45:19,718 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+Steps: 6
+Time cost: 4.718060s
+2025-10-23 01:45:28,308 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: move_right_with_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: move_left_with_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+Steps: 9
+Time cost: 8.587448s
+2025-10-23 01:45:33,173 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+Steps: 6
+Time cost: 4.863871s
+2025-10-23 01:45:42,215 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: move_right_with_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: move_left_with_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+Steps: 9
+Time cost: 9.040409s
+2025-10-23 01:45:50,948 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: move_right_with_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: move_left_with_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+Steps: 9
+Time cost: 8.730699s
+2025-10-23 01:45:56,787 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: move_right_with_item(['a', 'i'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_left_with_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+Steps: 8
+Time cost: 5.837011s
+2025-10-23 01:46:02,339 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+Steps: 6
+Time cost: 5.550049s
+2025-10-23 01:46:10,792 EXP - __main__.Logger.exp:
+a takes action: pick_up(['a', 'i'])
+b takes action: pick_up(['b', 'j'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'j'])
+a takes action: move_right_with_item(['a', 'i'])
+b takes action: stay(['b'])
+a takes action: move_left_with_item(['a', 'i'])
+b takes action: drop_item(['b', 'j'])
+a takes action: drop_item(['a', 'i'])
+Steps: 9
+Time cost: 8.451541s
+2025-10-23 01:46:10,792 EXP - __main__.Logger.exp:
+Avg Steps: 8.0
+Avg Time: 7.244908s

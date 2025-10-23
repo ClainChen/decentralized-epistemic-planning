@@ -623,11 +623,15 @@ class FinalFunctions:
         
         self.all: dict[str, dict[str, dict[str, Function]]] = {}
         self.id_add: dict[int, Function] = {}
+        self.header_id_add: dict[int, list[Function]] = {}
     
     def add_function(self, function: Function) -> None:
         # get the parameters of function
         # to make sure no order problem will happen during the "get" method, we should use frozenset
         self.id_add[function.id] = function
+        if function.header_id not in self.header_id_add:
+            self.header_id_add[function.header_id] = []
+        self.header_id_add[function.header_id].append(function)
 
         params = f"{list(function.parameters.values())}"
         if function.name not in self.all:
@@ -649,6 +653,9 @@ class FinalFunctions:
     
     def get_function_with_id(self, id) -> Function:
         return self.id_add[id]
+    
+    def get_functions_with_head_id(self, header_id: str) -> list[Function]:
+        return self.header_id_add[header_id]
 
     def flatten(self) -> list[Function]:
         return [
