@@ -263,36 +263,27 @@ def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
     return world
 
 def retrive_function(seq_worlds: list[list[Function]], ts: int, func_header_id: int) -> Function | None:
-    lts = -1
-    rts = -1
-
     if ts == -1:
         return None
     
-    for t in range(ts, -1, -1):
-        if func_header_id in [l.header_id for l in seq_worlds[t]]:
-            lts = t
-            break
+    # 先检查 ts 时间点本身
+    for func in seq_worlds[ts]:
+        if func.header_id == func_header_id:
+            return func
     
-    for t in range(ts, len(seq_worlds)):
-        if func_header_id in [l.header_id for l in seq_worlds[t]]:
-            rts = t
-            break
+    # 向左搜索
+    for t in range(ts - 1, -1, -1):
+        for func in seq_worlds[t]:
+            if func.header_id == func_header_id:
+                return func
     
-    if lts == -1 and rts == -1:
-        return None
-
-    if lts != -1:
-        for l in seq_worlds[lts]:
-            if l.header_id == func_header_id:
-                return l
+    # 向右搜索  
+    for t in range(ts + 1, len(seq_worlds)):
+        for func in seq_worlds[t]:
+            if func.header_id == func_header_id:
+                return func
     
-    if rts != -1:
-        for l in seq_worlds[rts]:
-            if l.header_id == func_header_id:
-                return l
-
-    raise Exception("Unexpected Error in retrive_function: no function found even found lts or rts")
+    return None
 
 def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> list[list[Function]]:
     worlds2 = []

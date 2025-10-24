@@ -87,29 +87,29 @@
     },
 
     {
-        "enabled": 0,
+        "enabled": 1,
         "model_name": "mapf",
         "problems": [
-            {"enabled": 1, "limit": 1, "name": "2a4r", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 1, "name": "2a4r", "agents": ["a", "b"]}, 
             {"enabled": 1, "limit": 1, "name": "2a7r1", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 1, "name": "2a7r2", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 1, "name": "2a7r3", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 1, "name": "2a7r4", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 1, "name": "4a9r1", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a9r2", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a9r3", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a9r4", "agents": ["a", "b", "c", "d"]}
+            {"enabled": 0, "limit": 1, "name": "2a7r2", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 1, "name": "2a7r3", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 1, "name": "2a7r4", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 1, "name": "4a9r1", "agents": ["a", "b", "c", "d"]},
+            {"enabled": 0, "limit": 1, "name": "4a9r2", "agents": ["a", "b", "c", "d"]},
+            {"enabled": 0, "limit": 1, "name": "4a9r3", "agents": ["a", "b", "c", "d"]},
+            {"enabled": 0, "limit": 1, "name": "4a9r4", "agents": ["a", "b", "c", "d"]}
         ],
         "ob": "mapf.py",
         "rules": "mapf.py",
         "tests": [
-            {"enabled": 1, "num":5, "strategy": "share"},
-            {"enabled": 1, "num":5, "strategy": "stay"},
-            {"enabled": 1, "num":5, "strategy": "stayexp"},
-            {"enabled": 1, "num":5, "strategy": "coop"},
-            {"enabled": 1, "num":5, "strategy": "coopexp"},
-            {"enabled": 1, "num":3, "strategy": "filtergoal"},
-            {"enabled": 1, "num":3, "strategy": "filtergoalexp"}
+            {"enabled": 1, "num":3, "strategy": "share"},
+            {"enabled": 0, "num":5, "strategy": "stay"},
+            {"enabled": 0, "num":5, "strategy": "stayexp"},
+            {"enabled": 0, "num":5, "strategy": "coop"},
+            {"enabled": 0, "num":5, "strategy": "coopexp"},
+            {"enabled": 0, "num":3, "strategy": "filtergoal"},
+            {"enabled": 0, "num":3, "strategy": "filtergoalexp"}
         ]
     },
 
