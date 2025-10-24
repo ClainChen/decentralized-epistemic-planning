@@ -6,7 +6,7 @@ LOGGER_LEVEL = logging.DEBUG
 
 class CoinObsFunc(AbstractObservationFunction):
     
-    @cache.obs_func_cache_decorator
+    # @cache.obs_func_cache_decorator
     def get_observable_functions(self, model, functions, agent_name):
         """
         When agent is peeking, he can see everything.

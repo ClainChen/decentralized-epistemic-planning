@@ -7,7 +7,7 @@ from abstracts import AbstractObservationFunction
 LOGGER_LEVEL = logging.DEBUG
 
 class DeliverObsFunc(AbstractObservationFunction):
-    @cache.obs_func_cache_decorator
+    # @cache.obs_func_cache_decorator
     def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
         """
         1. agent_name知道一切与自己在同房间中的信息

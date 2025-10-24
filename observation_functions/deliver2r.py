@@ -7,7 +7,7 @@ from abstracts import AbstractObservationFunction
 LOGGER_LEVEL = logging.DEBUG
 
 class Deliver2rObsFunc(AbstractObservationFunction):
-    @cache.obs_func_cache_decorator
+    # @cache.obs_func_cache_decorator
     def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
         """
         Get all observable functions for an agent based on the given ontic_functions\n

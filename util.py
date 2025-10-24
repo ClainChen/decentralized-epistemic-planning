@@ -6,7 +6,7 @@ from itertools import product
 from pathlib import Path
 from time import perf_counter
 from functools import wraps
-import cache
+from epistemic_world import get_epistemic_world
 
 BIG_DIVIDER = "=================\n"
 MEDIUM_DIVIDER = "*****************\n"
@@ -246,88 +246,9 @@ def check_condition(model: Model, condition: Condition):
     return check_regular_condition(condition, epistemic_world_functions)
         
 
-def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
-    """
-    get the epistemic world from the given function sequence\n
-    this usually use when checking the epistemic condition and generating the virtual world\n
-    """
-    if len(world_seq) == 0:
-        return []
-    
-    world = []
-    headers = set()
-    for functions in reversed(world_seq):
-        for func in functions:
-            if func.header_id not in headers:
-                headers.add(func.header_id)
-                world.append(func)
-    return world
-
-@cache.rf_cache_decorator
-def retrive_function(seq_worlds: list[list[Function]], ts: int, func_header_id: int) -> Function | None:
-    if ts == -1:
-        return None
-    
-    # 先检查 ts 时间点本身
-    for func in seq_worlds[ts]:
-        if func.header_id == func_header_id:
-            return func
-    
-    # 向左搜索
-    for t in range(ts - 1, -1, -1):
-        for func in seq_worlds[t]:
-            if func.header_id == func_header_id:
-                return func
-    
-    # 向右搜索  
-    for t in range(ts + 1, len(seq_worlds)):
-        for func in seq_worlds[t]:
-            if func.header_id == func_header_id:
-                return func
-    
-    return None
-
-@cache.jp_cache_decorator
-def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> list[list[Function]]:
-    worlds2 = []
-    obs_cache = [set(OBS_FUNC[agt_name].get_observable_functions(model, worlds[t], agt_name)) for t in range(len(worlds))]
-
-    for t in range(len(worlds)):
-        dom_wt = [v.header_id for v in worlds[t]]
-        dom_wt = list(set(dom_wt))
-        wt2 = set()
-        for v in dom_wt:
-            ltv = -1
-            for j in range(t, -1, -1):
-                if v in [l.header_id for l in obs_cache[j]]:
-                    ltv = j
-                    break
-
-            e = retrive_function(worlds, ltv, v)
-            if e is not None:
-                wt2.add(e)
-        
-        owt2 = set(OBS_FUNC[agt_name].get_observable_functions(model, list(wt2), agt_name))
-        owt = obs_cache[t]
-        wt1 = wt2 - (owt2 - owt)
-        worlds2.append(list(wt1))
-    return worlds2
 
 
 
-def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[], ts=-1) -> list[Function]:
-    if len(history_functions) == 0:
-        history_functions = model.get_history_functions()
-    if len(history_functions) == 0:
-        return []
-    
-    # [a,b,c] -> f_c(f_b(f_a(ws)))
-    # [] -> ws[-1]
-
-    for agt in reversed(belief_sequence):
-        history_functions = jp_function(history_functions, agt, model)
-
-    return history_functions[ts]
 
 def check_regular_condition(condition: Condition, functions: list[Function]) -> bool:
     """
@@ -358,14 +279,6 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
             return False
 
     return True
-
-def get_functions_with_belief_sequence(functions: list[Function], belief_sequence: list[str], model: Model) -> list[Function]:
-    if len(belief_sequence) == 0:
-        return functions
-    ontic_functions = functions
-    for agent_name in belief_sequence:
-        ontic_functions = util.OBS_FUNC[agent_name].get_observable_functions(model, ontic_functions, agent_name)
-    return ontic_functions
 
 def get_function_with_name_and_params(functions: list[Function], name: str, params: dict[str, str]):
     """
@@ -526,7 +439,7 @@ def remove_continue_duplicates(lst):
             new_list.append(ele)
     return new_list
 
-sim_timeout = 120
+sim_timeout = 300
 
 import heapq
 def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
@@ -599,7 +512,7 @@ class BFSNode:
     
     @property
     def priority(self):
-        return len(self.actions) + (self.heuristic * 0)
+        return len(self.actions) + (self.heuristic)
 
     def __lt__(self, other):
         return self.priority < other.priority
