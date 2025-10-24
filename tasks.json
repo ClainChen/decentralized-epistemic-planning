@@ -23,7 +23,7 @@
     },
     
     {
-        "enabled": 1,
+        "enabled": 0,
         "model_name": "deliver2r",
         "problems": [
             {"enabled": 0, "limit": 1, "name": "2a1i1", "agents": ["a", "b"]}, 
@@ -47,8 +47,8 @@
             {"enabled": 0, "num":5, "strategy": "stayexp"},
             {"enabled": 0, "num":5, "strategy": "coop"},
             {"enabled": 0, "num":5, "strategy": "coopexp"},
-            {"enabled": 0, "num":3, "strategy": "filtergoal"},
-            {"enabled": 1, "num":10, "strategy": "filtergoalexp"}
+            {"enabled": 1, "num":2, "strategy": "filtergoal"},
+            {"enabled": 0, "num":2, "strategy": "filtergoalexp"}
         ]
     },
 
@@ -56,38 +56,38 @@
         "enabled": 0,
         "model_name": "grapevine",
         "problems": [
-            {"enabled": 1, "limit": 1, "name": "2a1s1", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 1, "name": "2a1s2", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 2, "name": "2a1s3", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 2, "name": "2a1s4", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 2, "name": "2a2s1", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 2, "name": "2a2s2", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 2, "name": "2a2s3", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 2, "name": "2a2s4", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 1, "name": "3a1s1", "agents": ["a", "b", "c"]},
-            {"enabled": 1, "limit": 1, "name": "3a1s2", "agents": ["a", "b", "c"]},
-            {"enabled": 1, "limit": 2, "name": "3a1s3", "agents": ["a", "b", "c"]},
-            {"enabled": 1, "limit": 2, "name": "3a1s4", "agents": ["a", "b", "c"]},
+            {"enabled": 0, "limit": 1, "name": "2a1s1", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 1, "name": "2a1s2", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 2, "name": "2a1s3", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 2, "name": "2a1s4", "agents": ["a", "b"]}, 
+            {"enabled": 0, "limit": 2, "name": "2a2s1", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 2, "name": "2a2s2", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 2, "name": "2a2s3", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 2, "name": "2a2s4", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 1, "name": "3a1s1", "agents": ["a", "b", "c"]},
+            {"enabled": 0, "limit": 1, "name": "3a1s2", "agents": ["a", "b", "c"]},
+            {"enabled": 0, "limit": 2, "name": "3a1s3", "agents": ["a", "b", "c"]},
+            {"enabled": 0, "limit": 2, "name": "3a1s4", "agents": ["a", "b", "c"]},
             {"enabled": 1, "limit": 1, "name": "4a1s1", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a1s2", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 2, "name": "4a1s3", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 2, "name": "4a1s4", "agents": ["a", "b", "c", "d"]}
+            {"enabled": 0, "limit": 1, "name": "4a1s2", "agents": ["a", "b", "c", "d"]},
+            {"enabled": 0, "limit": 2, "name": "4a1s3", "agents": ["a", "b", "c", "d"]},
+            {"enabled": 0, "limit": 2, "name": "4a1s4", "agents": ["a", "b", "c", "d"]}
         ],
         "ob": "grapevine.py",
         "rules": "grapevine.py",
         "tests": [
-            {"enabled": 1, "num":5, "strategy": "share"},
-            {"enabled": 1, "num":5, "strategy": "stay"},
-            {"enabled": 1, "num":5, "strategy": "stayexp"},
-            {"enabled": 1, "num":5, "strategy": "coop"},
-            {"enabled": 1, "num":5, "strategy": "coopexp"},
-            {"enabled": 0, "num":3, "strategy": "filtergoal"},
-            {"enabled": 0, "num":3, "strategy": "filtergoalexp"}
+            {"enabled": 0, "num":3, "strategy": "share"},
+            {"enabled": 0, "num":3, "strategy": "stay"},
+            {"enabled": 0, "num":3, "strategy": "stayexp"},
+            {"enabled": 0, "num":3, "strategy": "coop"},
+            {"enabled": 0, "num":3, "strategy": "coopexp"},
+            {"enabled": 1, "num":2, "strategy": "filtergoal"},
+            {"enabled": 0, "num":2, "strategy": "filtergoalexp"}
         ]
     },
 
     {
-        "enabled": 0,
+        "enabled": 1,
         "model_name": "mapf",
         "problems": [
             {"enabled": 1, "limit": 1, "name": "2a4r", "agents": ["a", "b"]}, 
@@ -95,10 +95,10 @@
             {"enabled": 1, "limit": 1, "name": "2a7r2", "agents": ["a", "b"]}, 
             {"enabled": 1, "limit": 1, "name": "2a7r3", "agents": ["a", "b"]}, 
             {"enabled": 1, "limit": 1, "name": "2a7r4", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 1, "name": "4a9s1", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a9s2", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a9s3", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a9s4", "agents": ["a", "b", "c", "d"]}
+            {"enabled": 1, "limit": 1, "name": "4a9r1", "agents": ["a", "b", "c", "d"]},
+            {"enabled": 1, "limit": 1, "name": "4a9r2", "agents": ["a", "b", "c", "d"]},
+            {"enabled": 1, "limit": 1, "name": "4a9r3", "agents": ["a", "b", "c", "d"]},
+            {"enabled": 1, "limit": 1, "name": "4a9r4", "agents": ["a", "b", "c", "d"]}
         ],
         "ob": "mapf.py",
         "rules": "mapf.py",

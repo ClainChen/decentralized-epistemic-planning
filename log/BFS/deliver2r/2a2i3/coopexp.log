@@ -1,43 +1,43 @@
-2025-10-22 16:29:29,594 EXP - __main__.Logger.exp:
+2025-10-23 14:26:51,081 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'i'])
 b takes action: pick_up(['b', 'j'])
 a takes action: move_right_with_item(['a', 'i'])
 b takes action: drop_item(['b', 'j'])
 a takes action: drop_item(['a', 'i'])
 Steps: 5
-Time cost: 0.136836s
-2025-10-22 16:29:29,732 EXP - __main__.Logger.exp:
+Time cost: 0.084457s
+2025-10-23 14:26:51,166 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'i'])
 b takes action: pick_up(['b', 'j'])
 a takes action: move_right_with_item(['a', 'i'])
 b takes action: drop_item(['b', 'j'])
 a takes action: drop_item(['a', 'i'])
 Steps: 5
-Time cost: 0.136942s
-2025-10-22 16:29:29,869 EXP - __main__.Logger.exp:
+Time cost: 0.083702s
+2025-10-23 14:26:51,251 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'i'])
 b takes action: pick_up(['b', 'j'])
 a takes action: move_right_with_item(['a', 'i'])
 b takes action: drop_item(['b', 'j'])
 a takes action: drop_item(['a', 'i'])
 Steps: 5
-Time cost: 0.136677s
-2025-10-22 16:29:30,007 EXP - __main__.Logger.exp:
+Time cost: 0.083834s
+2025-10-23 14:26:51,335 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'i'])
 b takes action: pick_up(['b', 'j'])
 a takes action: move_right_with_item(['a', 'i'])
 b takes action: drop_item(['b', 'j'])
 a takes action: drop_item(['a', 'i'])
 Steps: 5
-Time cost: 0.136732s
-2025-10-22 16:29:30,144 EXP - __main__.Logger.exp:
+Time cost: 0.083863s
+2025-10-23 14:26:51,420 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'i'])
 b takes action: pick_up(['b', 'j'])
 a takes action: move_right_with_item(['a', 'i'])
 b takes action: drop_item(['b', 'j'])
 a takes action: drop_item(['a', 'i'])
 Steps: 5
-Time cost: 0.136689s
-2025-10-22 16:29:30,144 EXP - __main__.Logger.exp:
+Time cost: 0.083782s
+2025-10-23 14:26:51,420 EXP - __main__.Logger.exp:
 Avg Steps: 5.0
-Avg Time: 0.136775s
+Avg Time: 0.083928s

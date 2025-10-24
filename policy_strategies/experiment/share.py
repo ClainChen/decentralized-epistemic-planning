@@ -80,9 +80,9 @@ class ShareGoalBFS(AbstractPolicyStrategy):
                         string = action.header()
                         if string not in samples:
                             samples[string] = [action, 1]
-                        else:
-                            samples[string][1] += 1
-                    # util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
+                        # else:
+                        #     samples[string][1] += 1
+                    util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
                     continue
             if node.current_index == 0:
                 current_agent = [agent_name]
