@@ -326,8 +326,6 @@ def get_epistemic_world(model: Model, belief_sequence: list[str], history_functi
         history_functions = model.get_history_functions()
     if len(history_functions) == 0:
         return []
-    if len(belief_sequence) == 0:
-        return history_functions[-1]
     
     # [a,b,c] -> f_c(f_b(f_a(ws)))
     # [] -> ws[-1]
