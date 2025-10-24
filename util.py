@@ -6,6 +6,7 @@ from itertools import product
 from pathlib import Path
 from time import perf_counter
 from functools import wraps
+import cache
 
 BIG_DIVIDER = "=================\n"
 MEDIUM_DIVIDER = "*****************\n"
@@ -262,6 +263,7 @@ def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
                 world.append(func)
     return world
 
+@cache.rf_cache_decorator
 def retrive_function(seq_worlds: list[list[Function]], ts: int, func_header_id: int) -> Function | None:
     if ts == -1:
         return None
@@ -285,6 +287,7 @@ def retrive_function(seq_worlds: list[list[Function]], ts: int, func_header_id: 
     
     return None
 
+@cache.jp_cache_decorator
 def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> list[list[Function]]:
     worlds2 = []
     obs_cache = [set(OBS_FUNC[agt_name].get_observable_functions(model, worlds[t], agt_name)) for t in range(len(worlds))]
@@ -309,7 +312,7 @@ def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> li
         wt1 = wt2 - (owt2 - owt)
         worlds2.append(list(wt1))
     return worlds2
-        
+
 
 
 def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[], ts=-1) -> list[Function]:

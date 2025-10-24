@@ -924,7 +924,7 @@ class Model:
             #     util.LOGGER.exp(exp_log)
             #     exit(0)
             steps += 1
-            if steps == 500:
+            if steps == 100:
                 print("No result, maybe due to a deadlock")
                 util.LOGGER.exp(exp_log)
                 exit(0)

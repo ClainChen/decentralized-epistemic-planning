@@ -1,4 +1,4 @@
-2025-10-24 15:14:34,443 EXP - __main__.Logger.exp:
+2025-10-24 17:16:29,002 EXP - __main__.Logger.exp:
 a takes action: move(['a', 'r1', 'r2'])
 b takes action: stay(['b'])
 a takes action: move(['a', 'r2', 'r4'])
@@ -9,8 +9,8 @@ a takes action: move(['a', 'r4', 'r2'])
 b takes action: stay(['b'])
 a takes action: move(['a', 'r2', 'r3'])
 Steps: 9
-Time cost: 0.023999s
-2025-10-24 15:14:34,468 EXP - __main__.Logger.exp:
+Time cost: 0.171471s
+2025-10-24 17:16:29,173 EXP - __main__.Logger.exp:
 a takes action: move(['a', 'r1', 'r2'])
 b takes action: stay(['b'])
 a takes action: move(['a', 'r2', 'r4'])
@@ -21,8 +21,8 @@ a takes action: move(['a', 'r4', 'r2'])
 b takes action: stay(['b'])
 a takes action: move(['a', 'r2', 'r3'])
 Steps: 9
-Time cost: 0.023981s
-2025-10-24 15:14:34,494 EXP - __main__.Logger.exp:
+Time cost: 0.170868s
+2025-10-24 17:16:29,343 EXP - __main__.Logger.exp:
 a takes action: move(['a', 'r1', 'r2'])
 b takes action: stay(['b'])
 a takes action: move(['a', 'r2', 'r4'])
@@ -33,31 +33,7 @@ a takes action: move(['a', 'r4', 'r2'])
 b takes action: stay(['b'])
 a takes action: move(['a', 'r2', 'r3'])
 Steps: 9
-Time cost: 0.025425s
-2025-10-24 15:14:34,520 EXP - __main__.Logger.exp:
-a takes action: move(['a', 'r1', 'r2'])
-b takes action: stay(['b'])
-a takes action: move(['a', 'r2', 'r4'])
-b takes action: move(['b', 'r3', 'r2'])
-a takes action: stay(['a'])
-b takes action: move(['b', 'r2', 'r1'])
-a takes action: move(['a', 'r4', 'r2'])
-b takes action: stay(['b'])
-a takes action: move(['a', 'r2', 'r3'])
-Steps: 9
-Time cost: 0.026073s
-2025-10-24 15:14:34,545 EXP - __main__.Logger.exp:
-a takes action: move(['a', 'r1', 'r2'])
-b takes action: stay(['b'])
-a takes action: move(['a', 'r2', 'r4'])
-b takes action: move(['b', 'r3', 'r2'])
-a takes action: stay(['a'])
-b takes action: move(['b', 'r2', 'r1'])
-a takes action: move(['a', 'r4', 'r2'])
-b takes action: stay(['b'])
-a takes action: move(['a', 'r2', 'r3'])
-Steps: 9
-Time cost: 0.024310s
-2025-10-24 15:14:34,545 EXP - __main__.Logger.exp:
+Time cost: 0.169172s
+2025-10-24 17:16:29,343 EXP - __main__.Logger.exp:
 Avg Steps: 9.0
-Avg Time: 0.024758s
+Avg Time: 0.170504s
