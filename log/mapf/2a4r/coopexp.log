@@ -1,4 +1,4 @@
-2025-10-24 15:14:34,563 EXP - __main__.Logger.exp:
+2025-10-24 17:16:29,556 EXP - __main__.Logger.exp:
 a takes action: stay(['a'])
 b takes action: move(['b', 'r3', 'r2'])
 a takes action: stay(['a'])
@@ -10,8 +10,8 @@ b takes action: move(['b', 'r4', 'r2'])
 a takes action: stay(['a'])
 b takes action: move(['b', 'r2', 'r1'])
 Steps: 10
-Time cost: 0.019823s
-2025-10-24 15:14:34,583 EXP - __main__.Logger.exp:
+Time cost: 0.134366s
+2025-10-24 17:16:29,693 EXP - __main__.Logger.exp:
 a takes action: stay(['a'])
 b takes action: move(['b', 'r3', 'r2'])
 a takes action: stay(['a'])
@@ -23,8 +23,8 @@ b takes action: move(['b', 'r4', 'r2'])
 a takes action: stay(['a'])
 b takes action: move(['b', 'r2', 'r1'])
 Steps: 10
-Time cost: 0.019615s
-2025-10-24 15:14:34,604 EXP - __main__.Logger.exp:
+Time cost: 0.135930s
+2025-10-24 17:16:29,832 EXP - __main__.Logger.exp:
 a takes action: stay(['a'])
 b takes action: move(['b', 'r3', 'r2'])
 a takes action: stay(['a'])
@@ -36,8 +36,8 @@ b takes action: move(['b', 'r4', 'r2'])
 a takes action: stay(['a'])
 b takes action: move(['b', 'r2', 'r1'])
 Steps: 10
-Time cost: 0.020049s
-2025-10-24 15:14:34,624 EXP - __main__.Logger.exp:
+Time cost: 0.138794s
+2025-10-24 17:16:29,968 EXP - __main__.Logger.exp:
 a takes action: stay(['a'])
 b takes action: move(['b', 'r3', 'r2'])
 a takes action: stay(['a'])
@@ -49,8 +49,8 @@ b takes action: move(['b', 'r4', 'r2'])
 a takes action: stay(['a'])
 b takes action: move(['b', 'r2', 'r1'])
 Steps: 10
-Time cost: 0.019841s
-2025-10-24 15:14:34,645 EXP - __main__.Logger.exp:
+Time cost: 0.134936s
+2025-10-24 17:16:30,104 EXP - __main__.Logger.exp:
 a takes action: stay(['a'])
 b takes action: move(['b', 'r3', 'r2'])
 a takes action: stay(['a'])
@@ -62,7 +62,7 @@ b takes action: move(['b', 'r4', 'r2'])
 a takes action: stay(['a'])
 b takes action: move(['b', 'r2', 'r1'])
 Steps: 10
-Time cost: 0.019980s
-2025-10-24 15:14:34,645 EXP - __main__.Logger.exp:
+Time cost: 0.135934s
+2025-10-24 17:16:30,104 EXP - __main__.Logger.exp:
 Avg Steps: 10.0
-Avg Time: 0.019862s
+Avg Time: 0.135992s
