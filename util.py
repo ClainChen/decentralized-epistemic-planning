@@ -296,6 +296,8 @@ def retrive_function(seq_worlds: list[list[Function]], ts: int, func_header_id: 
 
 def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> list[list[Function]]:
     worlds2 = []
+    obs_cache = [set(OBS_FUNC[agt_name].get_observable_functions(model, worlds[t], agt_name)) for t in range(len(worlds))]
+
     for t in range(len(worlds)):
         dom_wt = [v.header_id for v in worlds[t]]
         dom_wt = list(set(dom_wt))
@@ -303,7 +305,7 @@ def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> li
         for v in dom_wt:
             ltv = -1
             for j in range(t, -1, -1):
-                if v in [l.header_id for l in OBS_FUNC[agt_name].get_observable_functions(model, worlds[j], agt_name)]:
+                if v in [l.header_id for l in obs_cache[j]]:
                     ltv = j
                     break
 
@@ -312,8 +314,8 @@ def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> li
                 wt2.add(e)
         
         owt2 = set(OBS_FUNC[agt_name].get_observable_functions(model, list(wt2), agt_name))
-        owt = set(OBS_FUNC[agt_name].get_observable_functions(model, worlds[t], agt_name))
-        wt1 = wt2.difference(owt2.difference(owt))
+        owt = obs_cache[t]
+        wt1 = wt2 - (owt2 - owt)
         worlds2.append(list(wt1))
     return worlds2
         
