@@ -1,4 +1,4 @@
-2025-10-22 16:39:35,635 EXP - __main__.Logger.exp:
+2025-10-23 14:08:21,286 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'o1'])
 b takes action: stay(['b'])
 c takes action: stay(['c'])
@@ -9,8 +9,8 @@ c takes action: move_right_without_item(['c'])
 d takes action: stay(['d'])
 a takes action: drop_item(['a', 'o1'])
 Steps: 9
-Time cost: 9.211522s
-2025-10-22 16:39:44,829 EXP - __main__.Logger.exp:
+Time cost: 9.220505s
+2025-10-23 14:08:30,492 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'o1'])
 b takes action: stay(['b'])
 c takes action: stay(['c'])
@@ -21,8 +21,8 @@ c takes action: move_right_without_item(['c'])
 d takes action: stay(['d'])
 a takes action: drop_item(['a', 'o1'])
 Steps: 9
-Time cost: 9.192727s
-2025-10-22 16:39:54,025 EXP - __main__.Logger.exp:
+Time cost: 9.204963s
+2025-10-23 14:08:39,673 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'o1'])
 b takes action: stay(['b'])
 c takes action: stay(['c'])
@@ -33,8 +33,8 @@ c takes action: move_right_without_item(['c'])
 d takes action: stay(['d'])
 a takes action: drop_item(['a', 'o1'])
 Steps: 9
-Time cost: 9.194865s
-2025-10-22 16:40:03,187 EXP - __main__.Logger.exp:
+Time cost: 9.179786s
+2025-10-23 14:08:48,850 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'o1'])
 b takes action: stay(['b'])
 c takes action: stay(['c'])
@@ -45,8 +45,8 @@ c takes action: move_right_without_item(['c'])
 d takes action: stay(['d'])
 a takes action: drop_item(['a', 'o1'])
 Steps: 9
-Time cost: 9.161263s
-2025-10-22 16:40:12,435 EXP - __main__.Logger.exp:
+Time cost: 9.175695s
+2025-10-23 14:08:58,069 EXP - __main__.Logger.exp:
 a takes action: pick_up(['a', 'o1'])
 b takes action: stay(['b'])
 c takes action: stay(['c'])
@@ -57,7 +57,7 @@ c takes action: move_right_without_item(['c'])
 d takes action: stay(['d'])
 a takes action: drop_item(['a', 'o1'])
 Steps: 9
-Time cost: 9.247211s
-2025-10-22 16:40:12,436 EXP - __main__.Logger.exp:
+Time cost: 9.218297s
+2025-10-23 14:08:58,069 EXP - __main__.Logger.exp:
 Avg Steps: 9.0
-Avg Time: 9.201517s
+Avg Time: 9.199849s

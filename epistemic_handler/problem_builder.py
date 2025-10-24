@@ -18,8 +18,9 @@ pbar_lock = Lock()
 def goal_set_iterator(values, pbar):
     for comb in product(*values):
         pbar.update(1)
-        if not any(len(c) > util.LIMIT for c in comb):
-            yield comb
+        yield comb
+        # if not any(len(c) > util.LIMIT for c in comb):
+            
         # yield comb
 
 class ProblemBuilder:
@@ -96,9 +97,10 @@ class ProblemBuilder:
 
         for name, goals in s.items():
             s[name] = get_cross_subsets(goals)
+        for name, goals in s.items():
+            s[name] = [v for v in goals if len(v) <= util.LIMIT]
         s[agent_name] = [self.base_model.get_agent_by_name(agent_name).own_goals]
-        # for name, goals in s.items():
-        #     s[name] = [v for v in goals if len(v) == 1]
+        
 
         key = list(s.keys())
         value = list(s.values())
@@ -111,6 +113,7 @@ class ProblemBuilder:
             valid = 0
             invalid_jump = 0
             invalid_goal_sets: list[set] = []
+            valid_goal_sets: list[set] = []
             start_time = time.perf_counter()
             results = []
             max_action_length = -1
@@ -141,7 +144,7 @@ class ProblemBuilder:
                         valid += 1
                     
                     proceed += 1
-                    pbar.update(1)
+                    # pbar.update(1)
                     pbar.set_postfix({"Valid Count": f"{valid}/{proceed}", "Skip invalid test count": invalid_jump})
                     continue
                 
@@ -153,12 +156,20 @@ class ProblemBuilder:
                         invalid_jump += 1
                         break
 
+                for sett in valid_goal_sets:
+                    if goal_set.issubset(sett):
+                        jump = True
+                        results.append(agent_goal_set)
+                        valid += 1
+                        break
+
                 if not jump:
                     test_model = self.base_model.copy()
                     for agent in test_model.agents:
                         agent.own_goals = agent_goal_set[agent.name]
                     num_actions, _ = util.check_bfs(test_model)
                     if num_actions >= 0 :
+                        valid_goal_sets.append(goal_set)
                         results.append(agent_goal_set)
                         valid += 1
                     else:

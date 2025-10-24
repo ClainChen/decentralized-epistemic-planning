@@ -262,6 +262,45 @@ def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
                 world.append(func)
     return world
 
+def retrive_function(seq_worlds: list[list[Function]], ts: int, func_header_id: int) -> Function | None:
+    lts = -1
+    rts = -1
+    
+    for t in range(ts, -1, -1):
+        if func_header_id in [l.header_id for l in seq_worlds[t]]:
+            lts = t
+            break
+    
+    for t in range(ts, len(seq_worlds)):
+        if func_header_id in [l.header_id for l in seq_worlds[t]]:
+            rts = t
+            break
+    
+    if lts == -1 and rts == -1:
+        return None
+
+    if lts != -1:
+        for l in seq_worlds[lts]:
+            if l.header_id == func_header_id:
+                return l
+    
+    if rts != -1:
+        for l in seq_worlds[rts]:
+            if l.header_id == func_header_id:
+                return l
+
+    raise Exception("Unexpected Error in retrive_function: no function found even found lts or rts")
+
+# def jp_function(worlds: list[list[Function]]):
+#     for ts in range(len(worlds)):
+#         dom_wt = [v.header_id for v in worlds[ts]]
+#         dom_wt = list(set(dom_wt))
+#         for v in dom_wt
+#         ltv = -1
+#         es = []
+#         for j in range(ts, -1, -1):
+#             if 
+
 def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[]) -> list[Function]:
     """
     if belief_sequence = [a,b,c], history = [S0, S1, ..., Sn]
@@ -563,7 +602,7 @@ class BFSNode:
     
     @property
     def priority(self):
-        return len(self.actions) + (self.heuristic)
+        return len(self.actions) + (self.heuristic * 0)
 
     def __lt__(self, other):
         return self.priority < other.priority

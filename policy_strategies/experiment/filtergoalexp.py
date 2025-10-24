@@ -62,8 +62,8 @@ class FilterGoalEXPBFS(AbstractPolicyStrategy):
 
     def single_bfs(self, virtual_model: Model, agent_name: str):
         start_agent = virtual_model.get_agent_by_name(agent_name)
-        for a in virtual_model.agents:
-            util.LOGGER.debug(f"{a.print_own_goals()})")
+        # for a in virtual_model.agents:
+        #     util.LOGGER.debug(f"{a.print_own_goals()})")
         expand = 1
         samples = {}
         heap: list[util.BFSNode] = []
@@ -78,7 +78,7 @@ class FilterGoalEXPBFS(AbstractPolicyStrategy):
             if node.model.full_goal_complete():
                     find_solution_depth = len(node.actions)
                     if len(node.actions) > 0:
-                        util.LOGGER.debug(f"{[action.header() for action in node.actions]}")
+                        # util.LOGGER.debug(f"{[action.header() for action in node.actions]}")
                         action = node.actions[0]
                         string = action.header()
                         if string not in samples:

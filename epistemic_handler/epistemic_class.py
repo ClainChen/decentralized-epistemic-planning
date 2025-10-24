@@ -838,9 +838,11 @@ class Model:
                                     #     output += f"{[(f.header_id, f.id) for f in epfs]}\n"
                                     # util.LOGGER.exp(output)
                                     ep_world = util.get_epistemic_world(self, belief_seq, next_ep_funcs)
+                                    ep_world = [f for f in ep_world if self.filter_functions_with_goal(f)]
                                     goal_func = self.ALL_FUNCS.get_function_with_cond(goal)
                                     # util.LOGGER.exp(f"{belief_seq} - {(goal_func.header_id, goal_func.id)} - {[(f.header_id, f.id) for f in ep_world]}\n")
-                                    matches.append(goal_func.id in [f.id for f in ep_world])
+                                    if goal_func.header_id in [f.header_id for f in ep_world]:
+                                        matches.append(goal_func.id in [f.id for f in ep_world])
                                 # util.LOGGER.exp(matches)
                                 if not all(matches):
                                     removal_goals.append(goal_set)

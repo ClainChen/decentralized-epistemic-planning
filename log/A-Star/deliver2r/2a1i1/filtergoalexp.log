@@ -1,0 +1,15 @@
+2025-10-23 16:41:00,386 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.011950s
+2025-10-23 16:41:00,398 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: move_right_without_item(['b'])
+a takes action: pick_up(['a', 'i'])
+Steps: 3
+Time cost: 0.011890s
+2025-10-23 16:41:00,398 EXP - __main__.Logger.exp:
+Avg Steps: 3.0
+Avg Time: 0.011920s
