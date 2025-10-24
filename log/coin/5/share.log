@@ -1,14 +1,2 @@
-2025-10-24 14:05:18,277 EXP - __main__.Logger.exp:
-a takes action: peek(['a'])
-b takes action: return(['b'])
-a takes action: flip_down(['a', 'c1'])
-b takes action: stay(['b'])
-a takes action: return(['a'])
-b takes action: peek(['b'])
-a takes action: stay(['a'])
-b takes action: return(['b'])
-Steps: 8
-Time cost: 0.144025s
-2025-10-24 14:05:18,277 EXP - __main__.Logger.exp:
-Avg Steps: 8.0
-Avg Time: 0.144025s
+2025-10-24 18:29:11,341 ERROR - __main__._.<module>:
+Model's goal setting do not have solution

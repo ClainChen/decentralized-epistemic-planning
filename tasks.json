@@ -87,7 +87,7 @@
     },
 
     {
-        "enabled": 1,
+        "enabled": 0,
         "model_name": "mapf",
         "problems": [
             {"enabled": 1, "limit": 1, "name": "2a4r", "agents": ["a", "b"]}, 

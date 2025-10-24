@@ -119,7 +119,7 @@ if __name__ == '__main__':
                 print("Agent didn't complete their goals, program will continue to simulate")
             # for f in model.ontic_functions:
             #     print(f)
-            for f in util.get_epistemic_world(model, ['a','b']):
+            for f in util.get_epistemic_world(model, ['b']):
                 print(f)
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
 
