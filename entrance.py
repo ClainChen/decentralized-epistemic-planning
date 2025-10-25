@@ -121,6 +121,7 @@ if __name__ == '__main__':
             #     print(f)
             for f in util.get_epistemic_world(model, ['b', 'a']):
                 print(f)
+            exit(0)
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
 
         path_len, path = util.check_bfs(model.copy())

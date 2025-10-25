@@ -10,9 +10,11 @@ class DeliverObsFunc(AbstractObservationFunction):
     # @cache.obs_func_cache_decorator
     def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
         """
-        1. agent_name知道一切与自己在同房间中的信息
-            1.1 如果ontic functions中没有agent_name所在的房间，该agent_name只能从ontic functions获取connections信息和与自己有关的信息。
-        2. 检测该ontic functions是否是对现实世界进行观测，如果是，则会判断是否所有item都与自己在同一个房间，如果所有item都与自己在同一个房间，则代表该agent_name知道任何不在该房间的其他agent都不会拿着任何item
+        1. agent能看见所有与自己相关的functions
+        2. agent能看见所有与自己当前所在房间相关的functions
+        3. agent能看见所有与自己在同一房间中其他agent有关的functions
+        4. agent能看见所有connected和room_id functions
+        5. 当agent能看见所有item，则知道所有agent的holding和hold_by functions
         """
         observable_functions = set()
         agent_loc_funcs = []
