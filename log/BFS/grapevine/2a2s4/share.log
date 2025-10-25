@@ -1,39 +1,39 @@
-2025-10-23 21:51:56,355 EXP - __main__.Logger.exp:
-a takes action: sharing_own_secret(['a', 'as'])
+2025-10-25 12:21:18,021 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
 b takes action: sharing_stay(['b'])
 a takes action: quiet(['a', 'as'])
-b takes action: sharing_own_secret(['b', 'bs'])
+b takes action: lying_own_secret(['b', 'bs'])
 a takes action: sharing_stay(['a'])
 b takes action: quiet(['b', 'bs'])
 a takes action: move_right(['a'])
 b takes action: normal_stay(['b'])
-a takes action: lying_own_secret(['a', 'as'])
-Steps: 9
-Time cost: 2.952283s
-2025-10-23 21:51:59,353 EXP - __main__.Logger.exp:
 a takes action: sharing_own_secret(['a', 'as'])
+Steps: 9
+Time cost: 3.194042s
+2025-10-25 12:21:21,206 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
 b takes action: sharing_stay(['b'])
 a takes action: quiet(['a', 'as'])
-b takes action: sharing_own_secret(['b', 'bs'])
+b takes action: lying_own_secret(['b', 'bs'])
 a takes action: sharing_stay(['a'])
 b takes action: quiet(['b', 'bs'])
 a takes action: move_right(['a'])
 b takes action: normal_stay(['b'])
-a takes action: lying_own_secret(['a', 'as'])
-Steps: 9
-Time cost: 2.997150s
-2025-10-23 21:52:02,282 EXP - __main__.Logger.exp:
 a takes action: sharing_own_secret(['a', 'as'])
+Steps: 9
+Time cost: 3.184051s
+2025-10-25 12:21:24,397 EXP - __main__.Logger.exp:
+a takes action: lying_own_secret(['a', 'as'])
 b takes action: sharing_stay(['b'])
 a takes action: quiet(['a', 'as'])
-b takes action: sharing_own_secret(['b', 'bs'])
+b takes action: lying_own_secret(['b', 'bs'])
 a takes action: sharing_stay(['a'])
 b takes action: quiet(['b', 'bs'])
 a takes action: move_right(['a'])
 b takes action: normal_stay(['b'])
-a takes action: lying_own_secret(['a', 'as'])
+a takes action: sharing_own_secret(['a', 'as'])
 Steps: 9
-Time cost: 2.927225s
-2025-10-23 21:52:02,282 EXP - __main__.Logger.exp:
+Time cost: 3.189870s
+2025-10-25 12:21:24,397 EXP - __main__.Logger.exp:
 Avg Steps: 9.0
-Avg Time: 2.958886s
+Avg Time: 3.189321s
