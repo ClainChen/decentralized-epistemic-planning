@@ -880,7 +880,7 @@ class Model:
             agent_last_jp_world = [f.id for f in util.get_epistemic_world(self, [agent.name])]
             hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
             # agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
-            agent.set_E(hash_set_agent_last_jp_world, last_agent, action)
+            agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
 
 
     def simulate(self, start_agent = ""):
@@ -899,6 +899,7 @@ class Model:
             # update the belief goals of each agent, and update their observed world
             if self.problem_type == ProblemType.UNSHARE:
                 self.update_belief_goals()
+                print(f"{dict([(agent.name, len(agent.all_possible_goals)) for agent in self.agents])}")
                 # for a in self.agents:
                 #     util.LOGGER.debug(f"{a.print_poss_goals()}")
 

@@ -1,0 +1,712 @@
+2025-10-25 17:58:39,714 INFO - __main__._.<module>:
+Start building the model, type: "False"
+2025-10-25 17:58:39,714 INFO - __main__._.build:
+Start building the model, type: "False"
+2025-10-25 17:58:39,714 INFO - __main__.DomainParser.run:
+Domain "models/deliver2r/domain.pddl" start initialization.
+2025-10-25 17:58:39,715 INFO - __main__.DomainParser.run:
+Domain Parser found "models/deliver2r/domain.pddl"
+2025-10-25 17:58:39,715 INFO - __main__.DomainParser.run:
+Complete file reading.
+2025-10-25 17:58:39,715 INFO - __main__.DomainParser.run:
+Domain name found
+2025-10-25 17:58:39,715 INFO - __main__.DomainParser.run:
+Domain type found
+2025-10-25 17:58:39,716 INFO - __main__.DomainParser.run:
+Domain functions found
+2025-10-25 17:58:39,717 INFO - __main__.DomainParser.run:
+Domain actions found
+2025-10-25 17:58:39,717 DEBUG - __main__.DomainParser.run:
+Parsed Domain Result:
+================= Domain "(deliver2r)" Parsing Result ================
+Domain types: ['item', 'agent']
+=================
+Domain functions:
+Function(name:agent_loc, parameters:{'agent': ['?a']}). 
+Function(name:item_loc, parameters:{'item': ['?i']}). 
+Function(name:holding, parameters:{'agent': ['?a']}). 
+Function(name:hold_by, parameters:{'item': ['?i'], 'agent': ['?a']}). 
+Function(name:is_free, parameters:{'item': ['?i']}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: move_right_without_item
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(holding: ['?self']) = 0)
+2: Condition(Variable(agent_loc: ['?self']) = 1)
+Effects:
+1: Effect('increase' Variable(agent_loc: ['?self']) 1)
+
+-----------------
+Action:
+Name: move_left_without_item
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(holding: ['?self']) = 0)
+2: Condition(Variable(agent_loc: ['?self']) = 2)
+Effects:
+1: Effect('decrease' Variable(agent_loc: ['?self']) 1)
+
+-----------------
+Action:
+Name: move_right_with_item
+Parameters:
+    agent : ['?self']
+    item : ['?i']
+Preconditions:
+1: Condition(Variable(agent_loc: ['?self']) = 1)
+2: Condition(Variable(hold_by: ['?i', '?self']) = 1)
+3: Condition(Variable(is_free: ['?i']) = 0)
+Effects:
+1: Effect('increase' Variable(agent_loc: ['?self']) 1)
+2: Effect('increase' Variable(item_loc: ['?i']) 1)
+
+-----------------
+Action:
+Name: move_left_with_item
+Parameters:
+    agent : ['?self']
+    item : ['?i']
+Preconditions:
+1: Condition(Variable(agent_loc: ['?self']) = 2)
+2: Condition(Variable(hold_by: ['?i', '?self']) = 1)
+3: Condition(Variable(is_free: ['?i']) = 0)
+Effects:
+1: Effect('decrease' Variable(agent_loc: ['?self']) 1)
+2: Effect('decrease' Variable(item_loc: ['?i']) 1)
+
+-----------------
+Action:
+Name: pick_up
+Parameters:
+    agent : ['?self']
+    item : ['?i']
+Preconditions:
+1: Condition(Variable(agent_loc: ['?self']) = Variable(item_loc: ['?i']))
+2: Condition(Variable(holding: ['?self']) = 0)
+3: Condition(Variable(is_free: ['?i']) = 1)
+Effects:
+1: Effect('assign' Variable(holding: ['?self']) 1)
+2: Effect('assign' Variable(hold_by: ['?i', '?self']) 1)
+3: Effect('assign' Variable(is_free: ['?i']) 0)
+
+-----------------
+Action:
+Name: drop_item
+Parameters:
+    agent : ['?self']
+    item : ['?i']
+Preconditions:
+1: Condition(Variable(holding: ['?self']) = 1)
+2: Condition(Variable(hold_by: ['?i', '?self']) = 1)
+3: Condition(Variable(is_free: ['?i']) = 0)
+Effects:
+1: Effect('assign' Variable(holding: ['?self']) 0)
+2: Effect('assign' Variable(hold_by: ['?i', '?self']) 0)
+3: Effect('assign' Variable(is_free: ['?i']) 1)
+
+
+2025-10-25 17:58:39,717 INFO - __main__.ProblemParser.run:
+Problem "models/deliver2r/2a2i3test" start initialization.
+2025-10-25 17:58:39,717 INFO - __main__.ProblemParser.get_files:
+Problem folder found "models/deliver2r/2a2i3test"
+2025-10-25 17:58:39,718 INFO - __main__.ProblemParser.run:
+Found 2 agent files:
+"models/deliver2r/2a2i3test/a.agtpddl"
+"models/deliver2r/2a2i3test/b.agtpddl"
+2025-10-25 17:58:39,718 INFO - __main__.ProblemParser.run:
+Found init file: "models/deliver2r/2a2i3test/init.envpddl"
+2025-10-25 17:58:39,718 INFO - __main__.ProblemParser.run:
+Complete reading environment file.
+2025-10-25 17:58:39,718 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/deliver2r/2a2i3test/a.agtpddl"
+2025-10-25 17:58:39,718 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/deliver2r/2a2i3test/b.agtpddl"
+2025-10-25 17:58:39,718 INFO - __main__.ProblemParser.run:
+Problem domain name "deliver2r" found
+Problem name "2r2a2i3" found
+2025-10-25 17:58:39,719 INFO - __main__.ProblemParser.run:
+Problem agents found
+2025-10-25 17:58:39,719 INFO - __main__.ProblemParser.run:
+Problem objects found
+2025-10-25 17:58:39,720 INFO - __main__.ProblemParser.run:
+Problem ranges found
+2025-10-25 17:58:39,720 INFO - __main__.ProblemParser.run:
+Problem initial states found
+2025-10-25 17:58:39,720 INFO - __main__.ProblemParser.run:
+Problem goals found
+2025-10-25 17:58:39,721 INFO - __main__.ProblemParser.run:
+Problem acceptable goal set found
+2025-10-25 17:58:39,721 INFO - __main__.ProblemParser.run:
+Problem max belief depth found
+2025-10-25 17:58:39,721 DEBUG - __main__.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(deliver2r : 2r2a2i3)" Parsing Result ===========
+Agents: ['a', 'b']
+=================
+Objects:
+item: ['i', 'j']
+=================
+States:
+State(variable: Variable(agent_loc: ['a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['b']), value: 2, target_variable: Variable(None: []))
+State(variable: Variable(holding: ['a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(holding: ['b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(hold_by: ['i', 'a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(hold_by: ['j', 'a']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(hold_by: ['i', 'b']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(hold_by: ['j', 'b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(item_loc: ['i']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(item_loc: ['j']), value: 2, target_variable: Variable(None: []))
+State(variable: Variable(is_free: ['i']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(is_free: ['j']), value: 0, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(hold_by: ['i', 'a']) = 0))
+EpistemicCondition(Belief sequence: ['a', 'b'], epistemic truth: "= true", Condition(Variable(hold_by: ['i', 'a']) = 1))
+-----------------
+b:
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(hold_by: ['j', 'b']) = 0))
+EpistemicCondition(Belief sequence: ['b', 'a'], epistemic truth: "= true", Condition(Variable(hold_by: ['j', 'b']) = 1))
+=================
+Ranges:
+Range(function_name: agent_loc, type: integer, min: 1, max: 2)
+Range(function_name: item_loc, type: integer, min: 1, max: 2)
+Range(function_name: holding, type: integer, min: 0, max: 1)
+Range(function_name: hold_by, type: integer, min: 0, max: 1)
+Range(function_name: is_free, type: integer, min: 0, max: 1)
+
+2025-10-25 17:58:39,721 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-10-25 17:58:39,721 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'i', 'j', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
+2025-10-25 17:58:39,721 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-10-25 17:58:39,721 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-10-25 17:58:39,721 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-10-25 17:58:39,721 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-10-25 17:58:39,722 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-10-25 17:58:39,722 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-10-25 17:58:39,722 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'i', 'j', 'unknown', 'agent_loc', 'item_loc', 'holding', 'hold_by', 'is_free']
+2025-10-25 17:58:39,722 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-10-25 17:58:39,722 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-10-25 17:58:39,722 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-10-25 17:58:39,722 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-10-25 17:58:39,722 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-10-25 17:58:39,724 INFO - __main__._.load_observation_function:
+Loaded observation function Deliver2rObsFunc to agent a
+2025-10-25 17:58:39,724 INFO - __main__._.load_observation_function:
+Loaded observation function Deliver2rObsFunc to agent b
+2025-10-25 17:58:39,734 INFO - __main__._.load_policy_strategy:
+Loaded strategy class FilterGoalEXPBFS for agent a
+2025-10-25 17:58:39,734 INFO - __main__._.load_policy_strategy:
+Loaded strategy class FilterGoalEXPBFS for agent b
+2025-10-25 17:58:39,735 INFO - __main__.Model.init:
+Loaded problem type: "UNSHARE"
+2025-10-25 17:58:39,737 INFO - __main__._.build_model:
+The goal backup found in the folder: possible_goals_backup/deliver2r-2r2a2i3, now loading the goals from the backup.
+2025-10-25 17:58:39,739 DEBUG - __main__._.build_model:
+Model:
+================= Model Result================
+Domain name: deliver2r
+Problem name: 2r2a2i3
+Problem type: "UNSHARE"
+=================
+Function agent_loc:
+Parameters ['a']:
+Value 1: Function([id:1, header_id:1]  agent_loc {'?a': 'a'} = 1)
+Value 2: Function([id:2, header_id:1]  agent_loc {'?a': 'a'} = 2)
+Parameters ['b']:
+Value 1: Function([id:3, header_id:2]  agent_loc {'?a': 'b'} = 1)
+Value 2: Function([id:4, header_id:2]  agent_loc {'?a': 'b'} = 2)
+Function item_loc:
+Parameters ['i']:
+Value 1: Function([id:5, header_id:3]  item_loc {'?i': 'i'} = 1)
+Value 2: Function([id:6, header_id:3]  item_loc {'?i': 'i'} = 2)
+Parameters ['j']:
+Value 1: Function([id:7, header_id:4]  item_loc {'?i': 'j'} = 1)
+Value 2: Function([id:8, header_id:4]  item_loc {'?i': 'j'} = 2)
+Function holding:
+Parameters ['a']:
+Value 0: Function([id:9, header_id:5]  holding {'?a': 'a'} = 0)
+Value 1: Function([id:10, header_id:5]  holding {'?a': 'a'} = 1)
+Parameters ['b']:
+Value 0: Function([id:11, header_id:6]  holding {'?a': 'b'} = 0)
+Value 1: Function([id:12, header_id:6]  holding {'?a': 'b'} = 1)
+Function hold_by:
+Parameters ['i', 'a']:
+Value 0: Function([id:13, header_id:7]  hold_by {'?i': 'i', '?a': 'a'} = 0)
+Value 1: Function([id:14, header_id:7]  hold_by {'?i': 'i', '?a': 'a'} = 1)
+Parameters ['i', 'b']:
+Value 0: Function([id:15, header_id:8]  hold_by {'?i': 'i', '?a': 'b'} = 0)
+Value 1: Function([id:16, header_id:8]  hold_by {'?i': 'i', '?a': 'b'} = 1)
+Parameters ['j', 'a']:
+Value 0: Function([id:17, header_id:9]  hold_by {'?i': 'j', '?a': 'a'} = 0)
+Value 1: Function([id:18, header_id:9]  hold_by {'?i': 'j', '?a': 'a'} = 1)
+Parameters ['j', 'b']:
+Value 0: Function([id:19, header_id:10]  hold_by {'?i': 'j', '?a': 'b'} = 0)
+Value 1: Function([id:20, header_id:10]  hold_by {'?i': 'j', '?a': 'b'} = 1)
+Function is_free:
+Parameters ['i']:
+Value 0: Function([id:21, header_id:11]  is_free {'?i': 'i'} = 0)
+Value 1: Function([id:22, header_id:11]  is_free {'?i': 'i'} = 1)
+Parameters ['j']:
+Value 0: Function([id:23, header_id:12]  is_free {'?i': 'j'} = 0)
+Value 1: Function([id:24, header_id:12]  is_free {'?i': 'j'} = 1)
+
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(i - item)
+Entity(j - item)
+=================
+FunctionSchema(name: agent_loc, range: (1, 2), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: item_loc, range: (1, 2), type: integer, require_parameters: {'?i': 'item'})
+FunctionSchema(name: holding, range: (0, 1), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: hold_by, range: (0, 1), type: integer, require_parameters: {'?i': 'item', '?a': 'agent'})
+FunctionSchema(name: is_free, range: (0, 1), type: integer, require_parameters: {'?i': 'item'})
+=================
+-----------------
+Action Schema: move_right_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_left_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_right_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("INCREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: move_left_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("DECREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: pick_up
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (item_loc {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 0)
+
+-----------------
+Action Schema: drop_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (holding {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold_by {'?i': 'item', '?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (holding {'?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (hold_by {'?i': 'item', '?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 1)
+
+=================
+Function([id:1, header_id:1]  agent_loc {'?a': 'a'} = 1)
+Function([id:4, header_id:2]  agent_loc {'?a': 'b'} = 2)
+Function([id:10, header_id:5]  holding {'?a': 'a'} = 1)
+Function([id:12, header_id:6]  holding {'?a': 'b'} = 1)
+Function([id:14, header_id:7]  hold_by {'?i': 'i', '?a': 'a'} = 1)
+Function([id:17, header_id:9]  hold_by {'?i': 'j', '?a': 'a'} = 0)
+Function([id:15, header_id:8]  hold_by {'?i': 'i', '?a': 'b'} = 0)
+Function([id:20, header_id:10]  hold_by {'?i': 'j', '?a': 'b'} = 1)
+Function([id:5, header_id:3]  item_loc {'?i': 'i'} = 1)
+Function([id:8, header_id:4]  item_loc {'?i': 'j'} = 2)
+Function([id:21, header_id:11]  is_free {'?i': 'i'} = 0)
+Function([id:23, header_id:12]  is_free {'?i': 'j'} = 0)
+=================
+Agent: a
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'True'
+Consider exp: 'True'
+Own Goals:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+Other Goals:
+All Possible Goals:
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['i', 'a'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['j', 'b'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['j', 'b'] = 0)
+Condition(['b'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['j', 'b'] = 0)
+Condition(['b'] hold_by ['i', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+Condition(['b'] hold_by ['i', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['i', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['i', 'a'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['i', 'a'] = 1)
+Condition(['b'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['i', 'a'] = 1)
+Condition(['b'] hold_by ['i', 'a'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['i', 'a'] = 1)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 0)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b', 'a'] hold_by ['i', 'a'] = 1)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+
+Agent: b
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'True'
+Consider exp: 'True'
+Own Goals:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+Other Goals:
+All Possible Goals:
+a:
+Condition(['a'] hold_by ['j', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a'] hold_by ['i', 'a'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['j', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['j', 'b'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['j', 'b'] = 1)
+Condition(['a'] hold_by ['i', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['j', 'b'] = 1)
+Condition(['a'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['j', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 0)
+Condition(['a'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 0)
+Condition(['a', 'b'] hold_by ['j', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+Condition(['a'] hold_by ['j', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+Condition(['a'] hold_by ['i', 'a'] = 0)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+Condition(['a'] hold_by ['i', 'a'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+a:
+Condition(['a', 'b'] hold_by ['i', 'a'] = 1)
+Condition(['a', 'b'] hold_by ['j', 'b'] = 1)
+b:
+Condition(['b'] hold_by ['j', 'b'] = 0)
+Condition(['b', 'a'] hold_by ['j', 'b'] = 1)
+-----------------
+
+
+2025-10-25 17:58:39,739 INFO - __main__._.<module>:
+Model built successfully.
+2025-10-25 17:58:49,167 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 38, Exapnds: 4161, 2.225ms/expand
+2025-10-25 17:58:49,167 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("move_right_with_item(['a', 'i'])", 83)]
+{'a': 19, 'b': 19}
+2025-10-25 17:58:49,168 INFO - __main__.Model.simulate:
+a takes action: move_right_with_item(['a', 'i'])
+2025-10-25 17:58:51,333 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 9, Exapnds: 893, 2.422ms/expand
+2025-10-25 17:58:51,333 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("move_left_with_item(['b', 'j'])", 4), ("stay(['b'])", 9)]
+{'a': 9, 'b': 9}
+2025-10-25 17:58:51,334 INFO - __main__.Model.simulate:
+b takes action: stay(['b'])
+2025-10-25 17:58:55,089 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 9, Exapnds: 1180, 3.181ms/expand
+2025-10-25 17:58:55,089 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("move_left_with_item(['a', 'i'])", 31)]
+{'a': 9, 'b': 9}
+2025-10-25 17:58:55,090 INFO - __main__.Model.simulate:
+a takes action: move_left_with_item(['a', 'i'])
+2025-10-25 17:58:57,431 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 9, Exapnds: 789, 2.965ms/expand
+2025-10-25 17:58:57,431 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("drop_item(['b', 'j'])", 4), ("move_left_with_item(['b', 'j'])", 9)]
+{'a': 9, 'b': 9}
+2025-10-25 17:58:57,432 INFO - __main__.Model.simulate:
+b takes action: move_left_with_item(['b', 'j'])
+2025-10-25 17:59:00,221 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 9, Exapnds: 866, 3.218ms/expand
+2025-10-25 17:59:00,221 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("move_right_with_item(['a', 'i'])", 4), ("stay(['a'])", 9)]
+{'a': 9, 'b': 9}
+2025-10-25 17:59:00,222 INFO - __main__.Model.simulate:
+a takes action: stay(['a'])
+2025-10-25 17:59:04,943 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 9, Exapnds: 1143, 4.129ms/expand
+2025-10-25 17:59:04,943 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("move_right_with_item(['b', 'j'])", 13), ("drop_item(['b', 'j'])", 9)]
+{'a': 9, 'b': 9}
+2025-10-25 17:59:04,943 INFO - __main__.Model.simulate:
+b takes action: move_right_with_item(['b', 'j'])
+2025-10-25 17:59:09,776 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 9, Exapnds: 1056, 4.573ms/expand
+2025-10-25 17:59:09,776 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("drop_item(['a', 'i'])", 4), ("stay(['a'])", 18)]
+{'a': 9, 'b': 9}
+2025-10-25 17:59:09,776 INFO - __main__.Model.simulate:
+a takes action: stay(['a'])
+2025-10-25 17:59:14,901 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 9, Exapnds: 1056, 4.850ms/expand
+2025-10-25 17:59:14,901 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("drop_item(['b', 'j'])", 4), ("stay(['b'])", 18)]
+{'a': 9, 'b': 9}
+2025-10-25 17:59:14,901 INFO - __main__.Model.simulate:
+b takes action: stay(['b'])
+2025-10-25 17:59:20,190 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 9, Exapnds: 1056, 5.005ms/expand
+2025-10-25 17:59:20,190 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("drop_item(['a', 'i'])", 4), ("stay(['a'])", 18)]
+{'a': 9, 'b': 9}
+2025-10-25 17:59:20,190 INFO - __main__.Model.simulate:
+a takes action: stay(['a'])
+2025-10-25 17:59:25,851 INFO - __main__.FilterGoalEXPBFS.bfs:
+Models: 9, Exapnds: 1056, 5.357ms/expand
+2025-10-25 17:59:25,852 INFO - __main__.FilterGoalEXPBFS.get_policy:
+[("drop_item(['b', 'j'])", 4), ("stay(['b'])", 18)]
+{'a': 9, 'b': 9}
+2025-10-25 17:59:25,852 INFO - __main__.Model.simulate:
+b takes action: stay(['b'])
