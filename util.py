@@ -363,7 +363,8 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     all_combs = product(*group_functions.values())
     valid_combs = []
     for comb in all_combs:
-        if util.RULES.check_functions(known_functions + list(comb)):
+        combi = known_functions + list(comb)
+        if util.RULES.check_functions(combi):
             valid_combs.append(comb)
 
     virtual_model = model.copy()

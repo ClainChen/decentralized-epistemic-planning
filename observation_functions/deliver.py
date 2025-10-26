@@ -3,6 +3,7 @@ import logging
 from epistemic_handler.epistemic_class import Model, Agent, Function
 import cache
 from abstracts import AbstractObservationFunction
+from collections import defaultdict
 
 LOGGER_LEVEL = logging.DEBUG
 
@@ -40,44 +41,32 @@ class DeliverObsFunc(AbstractObservationFunction):
             elif func.name == 'is_free':
                 is_free_funcs.append(func)
         
-        agent_at = {}
+        agent_at = defaultdict(str)
         for func in agent_loc_funcs:
             agent_at[func.parameters['?a']] = func.value
 
-        item_at = {}
+        item_at = defaultdict(str)
         for func in item_loc_funcs:
             item_at[func.parameters['?i']] = func.value
 
         try:
             # agent知道所有与自己有关的functions
-            for func in agent_loc_funcs + hold_by_funcs + holding_funcs:
-                if func.parameters['?a'] == agent_name:
+            for func in functions:
+                if func.name == 'agent_loc':
+                    if func.value == agent_at[agent_name]:
+                        observable_functions.add(func)
+                elif func.name == 'item_loc':
+                    if func.value == agent_at[agent_name]:
+                        observable_functions.add(func)
+                elif func.name in ['connected', 'room_id']:
                     observable_functions.add(func)
-
-            # agent知道所有与自己当前所在房间相关的functions
-            # agent知道所有与自己在同一房间中其他agent有关的functions
-            # 如果在functions中没有agent_name的位置，那么只会返回与agent_name有关的functions
-            if agent_name in agent_at:
-                for func in agent_loc_funcs:
-                    if (agent_at[agent_name] == func.value):
+                elif func.name == 'hold_by':
+                    if func.parameters['?a'] == agent_name:
                         observable_functions.add(func)
-                for func in item_loc_funcs:
-                    if (agent_at[agent_name] == func.value):
+                    if agent_at[func.parameters['?a']] == agent_at[agent_name]:
                         observable_functions.add(func)
-                for func in hold_by_funcs:
-                    if func.parameters['?a'] in agent_at and agent_at[func.parameters['?a']] == agent_at[agent_name]:
+                    if item_at[func.parameters['?i']] == agent_at[agent_name]:
                         observable_functions.add(func)
-                    elif func.parameters['?i'] in item_at and item_at[func.parameters['?i']] == agent_at[agent_name]:
-                        observable_functions.add(func)
-                for func in holding_funcs:
-                    if func.parameters['?a'] in agent_at and agent_at[func.parameters['?a']] == agent_at[agent_name]:
-                        observable_functions.add(func)
-                for func in is_free_funcs:
-                    if func.parameters['?i'] in item_at and item_at[func.parameters['?i']] == agent_at[agent_name]:
-                        observable_functions.add(func)
-
-            observable_functions = observable_functions.union(connected_funcs).union(room_id_funcs)
-                
 
             return list(observable_functions)
         except KeyError as e:

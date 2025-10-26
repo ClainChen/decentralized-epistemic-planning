@@ -809,6 +809,7 @@ class Model:
             for i in range(1, len(poss_changed_funcs) + 1):
                 combs.extend(list(combinations(poss_changed_funcs, i)))
             
+            removal_goals = []
             for fs in combs:
                 changed_funcs = {}
                 for f in fs:
@@ -825,8 +826,10 @@ class Model:
                                 next_ep_funcs.append(cur_f)
                         
                         next_ep_funcs = cur_world_seq + [[self.ALL_FUNCS.get_function_with_id(f_id) for f_id in next_ep_funcs]]
-                        removal_goals = []
+                        
                         for goal_set in agt.all_possible_goals:
+                            if goal_set in removal_goals:
+                                continue
                             for agt2, goals in goal_set.items():
                                 if agt2 not in update_agts or agt2 == agt.name:
                                     continue
@@ -847,12 +850,12 @@ class Model:
                                 if not all(matches):
                                     removal_goals.append(goal_set)
                                     break
-                        
-                        
-                        for rg in removal_goals:
-                            if rg in agt.all_possible_goals:
-                                agt.all_possible_goals.remove(rg)
-                                # removed = True
+            if len(removal_goals) == len(agt.all_possible_goals):
+                continue
+            for rg in removal_goals:
+                if rg in agt.all_possible_goals:
+                    agt.all_possible_goals.remove(rg)
+                    # removed = True
               
         # util.LOGGER.exp(f"{[(agt.name, agt.complete_signal) for agt in self.agents]}\n{dict([(agent.name, len(agent.all_possible_goals)) for agent in self.agents])}")
         # if removed:
@@ -880,7 +883,7 @@ class Model:
             agent_last_jp_world = [f.id for f in util.get_epistemic_world(self, [agent.name])]
             hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
             # agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
-            agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
+            agent.set_E(hash_set_agent_last_jp_world, last_agent, action)
 
 
     def simulate(self, start_agent = ""):
