@@ -909,9 +909,9 @@ class Model:
             # decide the action and do the action
             action = util.STRATEGY[agent_name].get_policy(self, agent_name)
 
-            if self.problem_type == ProblemType.UNSHARE:
-                self.update_agent_belief_actions_in_world(agent_name, action)
-
+            # if self.problem_type == ProblemType.UNSHARE:
+            #     self.update_agent_belief_actions_in_world(agent_name, action)
+            self.update_agent_belief_actions_in_world(agent_name, action)
             self.move(agent_name, action)
 
             # log

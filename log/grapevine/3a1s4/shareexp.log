@@ -1,0 +1,956 @@
+2025-10-27 17:54:14,385 INFO - __main__._.<module>:
+Start building the model, type: "True"
+2025-10-27 17:54:14,385 INFO - __main__._.build:
+Start building the model, type: "True"
+2025-10-27 17:54:14,385 INFO - __main__.DomainParser.run:
+Domain "models/grapevine/domain.pddl" start initialization.
+2025-10-27 17:54:14,385 INFO - __main__.DomainParser.run:
+Domain Parser found "models/grapevine/domain.pddl"
+2025-10-27 17:54:14,385 INFO - __main__.DomainParser.run:
+Complete file reading.
+2025-10-27 17:54:14,385 INFO - __main__.DomainParser.run:
+Domain name found
+2025-10-27 17:54:14,385 INFO - __main__.DomainParser.run:
+Domain type found
+2025-10-27 17:54:14,385 INFO - __main__.DomainParser.run:
+Domain functions found
+2025-10-27 17:54:14,386 INFO - __main__.DomainParser.run:
+Domain actions found
+2025-10-27 17:54:14,386 DEBUG - __main__.DomainParser.run:
+Parsed Domain Result:
+================= Domain "(grapevine)" Parsing Result ================
+Domain types: ['secret', 'agent']
+=================
+Domain functions:
+Function(name:agent_loc, parameters:{'agent': ['?a']}). 
+Function(name:secret_id, parameters:{'secret': ['?s']}). 
+Function(name:agent_id, parameters:{'agent': ['?a']}). 
+Function(name:shared_value, parameters:{'secret': ['?s']}). 
+Function(name:shared_loc, parameters:{'secret': ['?s']}). 
+Function(name:own, parameters:{'secret': ['?s']}). 
+Function(name:sharing_lock, parameters:{}). 
+Function(name:agent_sharing, parameters:{'agent': ['?a']}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: move_right
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(agent_sharing: ['?self']) = none)
+3: Condition(Variable(agent_loc: ['?self']) = 1)
+Effects:
+1: Effect('assign' Variable(agent_loc: ['?self']) 2)
+
+-----------------
+Action:
+Name: move_left
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(agent_sharing: ['?self']) = none)
+3: Condition(Variable(agent_loc: ['?self']) = 2)
+Effects:
+1: Effect('assign' Variable(agent_loc: ['?self']) 1)
+
+-----------------
+Action:
+Name: quiet
+Parameters:
+    agent : ['?self']
+    secret : ['?s']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 1)
+2: Condition(Variable(agent_sharing: ['?self']) = Variable(secret_id: ['?s']))
+3: Condition(Variable(shared_loc: ['?s']) != 0)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 0)
+2: Effect('assign' Variable(agent_sharing: ['?self']) none)
+3: Effect('assign' Variable(shared_loc: ['?s']) 0)
+4: Effect('assign' Variable(shared_value: ['?s']) t)
+
+-----------------
+Action:
+Name: sharing_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 1)
+2: Condition(Variable(agent_sharing: ['?self']) = none)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 1)
+
+-----------------
+Action:
+Name: normal_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 0)
+
+-----------------
+Action:
+Name: sharing_own_secret
+Parameters:
+    agent : ['?self']
+    secret : ['?s']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(own: ['?s']) = Variable(agent_id: ['?self']))
+3: Condition(Variable(agent_sharing: ['?self']) = none)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 1)
+2: Effect(effect_operator:'assign' Variable(agent_sharing: ['?self']) Variable(secret_id: ['?s']))
+3: Effect(effect_operator:'assign' Variable(shared_loc: ['?s']) Variable(agent_loc: ['?self']))
+4: Effect('assign' Variable(shared_value: ['?s']) t)
+
+-----------------
+Action:
+Name: lying_own_secret
+Parameters:
+    agent : ['?self']
+    secret : ['?s']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(own: ['?s']) = Variable(agent_id: ['?self']))
+3: Condition(Variable(agent_sharing: ['?self']) = none)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 1)
+2: Effect(effect_operator:'assign' Variable(agent_sharing: ['?self']) Variable(secret_id: ['?s']))
+3: Effect(effect_operator:'assign' Variable(shared_loc: ['?s']) Variable(agent_loc: ['?self']))
+4: Effect('assign' Variable(shared_value: ['?s']) f)
+
+-----------------
+Action:
+Name: sharing_others_secret
+Parameters:
+    agent : ['?self']
+    secret : ['?s']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(own: ['?s']) != Variable(agent_id: ['?self']))
+3: Condition(Variable(agent_sharing: ['?self']) = none)
+4: EpistemicCondition(Belief sequence: ['?self'], epistemic truth: "!= unknown", Condition(Variable(shared_value: ['?s'])  ))
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 1)
+2: Effect(effect_operator:'assign' Variable(agent_sharing: ['?self']) Variable(secret_id: ['?s']))
+3: Effect(effect_operator:'assign' Variable(shared_loc: ['?s']) Variable(agent_loc: ['?self']))
+4: Effect(effect_operator:'assign' Variable(shared_value: ['?s']) Variable(shared_value: ['?s']))
+
+
+2025-10-27 17:54:14,386 INFO - __main__.ProblemParser.run:
+Problem "models/grapevine/3a1s4" start initialization.
+2025-10-27 17:54:14,386 INFO - __main__.ProblemParser.get_files:
+Problem folder found "models/grapevine/3a1s4"
+2025-10-27 17:54:14,386 INFO - __main__.ProblemParser.run:
+Found 3 agent files:
+"models/grapevine/3a1s4/b.agtpddl"
+"models/grapevine/3a1s4/a.agtpddl"
+"models/grapevine/3a1s4/c.agtpddl"
+2025-10-27 17:54:14,386 INFO - __main__.ProblemParser.run:
+Found init file: "models/grapevine/3a1s4/init.envpddl"
+2025-10-27 17:54:14,386 INFO - __main__.ProblemParser.run:
+Complete reading environment file.
+2025-10-27 17:54:14,386 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grapevine/3a1s4/b.agtpddl"
+2025-10-27 17:54:14,386 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grapevine/3a1s4/a.agtpddl"
+2025-10-27 17:54:14,386 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grapevine/3a1s4/c.agtpddl"
+2025-10-27 17:54:14,386 INFO - __main__.ProblemParser.run:
+Problem domain name "grapevine" found
+Problem name "3a1s3" found
+2025-10-27 17:54:14,387 INFO - __main__.ProblemParser.run:
+Problem agents found
+2025-10-27 17:54:14,387 INFO - __main__.ProblemParser.run:
+Problem objects found
+2025-10-27 17:54:14,387 INFO - __main__.ProblemParser.run:
+Problem ranges found
+2025-10-27 17:54:14,387 INFO - __main__.ProblemParser.run:
+Problem initial states found
+2025-10-27 17:54:14,387 INFO - __main__.ProblemParser.run:
+Problem goals found
+2025-10-27 17:54:14,387 INFO - __main__.ProblemParser.run:
+Problem acceptable goal set found
+2025-10-27 17:54:14,387 INFO - __main__.ProblemParser.run:
+Problem max belief depth found
+2025-10-27 17:54:14,387 DEBUG - __main__.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(grapevine : 3a1s3)" Parsing Result ===========
+Agents: ['a', 'b', 'c']
+=================
+Objects:
+secret: ['as']
+=================
+States:
+State(variable: Variable(agent_loc: ['a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['c']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(secret_id: ['as']), value: as, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['a']), value: a, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['b']), value: b, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['c']), value: c, target_variable: Variable(None: []))
+State(variable: Variable(shared_value: ['as']), value: t, target_variable: Variable(None: []))
+State(variable: Variable(shared_loc: ['as']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(own: ['as']), value: a, target_variable: Variable(None: []))
+State(variable: Variable(sharing_lock: []), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(agent_sharing: ['a']), value: none, target_variable: Variable(None: []))
+State(variable: Variable(agent_sharing: ['b']), value: none, target_variable: Variable(None: []))
+State(variable: Variable(agent_sharing: ['c']), value: none, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a', 'b'], epistemic truth: "= true", Condition(Variable(shared_value: ['as']) = t))
+EpistemicCondition(Belief sequence: ['a', 'c'], epistemic truth: "= true", Condition(Variable(shared_value: ['as']) = f))
+-----------------
+b:
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(shared_value: ['as']) = f))
+-----------------
+c:
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(shared_value: ['as']) = f))
+=================
+Ranges:
+Range(function_name: agent_loc, type: integer, min: 1, max: 2)
+Range(function_name: secret_id, type: enumerate, enumerates: ['as'])
+Range(function_name: agent_id, type: enumerate, enumerates: ['a', 'b', 'c'])
+Range(function_name: own, type: enumerate, enumerates: ['a'])
+Range(function_name: sharing_lock, type: integer, min: 0, max: 1)
+Range(function_name: agent_sharing, type: enumerate, enumerates: ['none', 'as'])
+Range(function_name: shared_value, type: enumerate, enumerates: ['t', 'f'])
+Range(function_name: shared_loc, type: integer, min: 0, max: 2)
+
+2025-10-27 17:54:14,387 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-10-27 17:54:14,387 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c', 'as', 'unknown', 'agent_loc', 'secret_id', 'agent_id', 'shared_value', 'shared_loc', 'own', 'sharing_lock', 'agent_sharing']
+2025-10-27 17:54:14,387 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-10-27 17:54:14,387 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-10-27 17:54:14,387 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-10-27 17:54:14,387 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-10-27 17:54:14,387 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-10-27 17:54:14,388 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-10-27 17:54:14,388 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c', 'as', 'unknown', 'agent_loc', 'secret_id', 'agent_id', 'shared_value', 'shared_loc', 'own', 'sharing_lock', 'agent_sharing']
+2025-10-27 17:54:14,388 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-10-27 17:54:14,388 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-10-27 17:54:14,388 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-10-27 17:54:14,388 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-10-27 17:54:14,388 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-10-27 17:54:14,388 INFO - __main__._.load_observation_function:
+Loaded observation function GrapevineObsFunc to agent a
+2025-10-27 17:54:14,388 INFO - __main__._.load_observation_function:
+Loaded observation function GrapevineObsFunc to agent b
+2025-10-27 17:54:14,388 INFO - __main__._.load_observation_function:
+Loaded observation function GrapevineObsFunc to agent c
+2025-10-27 17:54:14,389 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareEXPGoalBFS for agent a
+2025-10-27 17:54:14,389 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareEXPGoalBFS for agent b
+2025-10-27 17:54:14,389 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareEXPGoalBFS for agent c
+2025-10-27 17:54:14,389 INFO - __main__.Model.init:
+Loaded problem type: "SHARE"
+2025-10-27 17:54:14,390 DEBUG - __main__._.build_model:
+Model:
+================= Model Result================
+Domain name: grapevine
+Problem name: 3a1s3
+Problem type: "SHARE"
+=================
+Function agent_loc:
+Parameters ['a']:
+Value 1: Function([id:1, header_id:1]  agent_loc {'?a': 'a'} = 1)
+Value 2: Function([id:2, header_id:1]  agent_loc {'?a': 'a'} = 2)
+Parameters ['b']:
+Value 1: Function([id:3, header_id:2]  agent_loc {'?a': 'b'} = 1)
+Value 2: Function([id:4, header_id:2]  agent_loc {'?a': 'b'} = 2)
+Parameters ['c']:
+Value 1: Function([id:5, header_id:3]  agent_loc {'?a': 'c'} = 1)
+Value 2: Function([id:6, header_id:3]  agent_loc {'?a': 'c'} = 2)
+Function secret_id:
+Parameters ['as']:
+Value as: Function([id:7, header_id:4]  secret_id {'?s': 'as'} = as)
+Function agent_id:
+Parameters ['a']:
+Value a: Function([id:8, header_id:5]  agent_id {'?a': 'a'} = a)
+Value b: Function([id:9, header_id:5]  agent_id {'?a': 'a'} = b)
+Value c: Function([id:10, header_id:5]  agent_id {'?a': 'a'} = c)
+Parameters ['b']:
+Value a: Function([id:11, header_id:6]  agent_id {'?a': 'b'} = a)
+Value b: Function([id:12, header_id:6]  agent_id {'?a': 'b'} = b)
+Value c: Function([id:13, header_id:6]  agent_id {'?a': 'b'} = c)
+Parameters ['c']:
+Value a: Function([id:14, header_id:7]  agent_id {'?a': 'c'} = a)
+Value b: Function([id:15, header_id:7]  agent_id {'?a': 'c'} = b)
+Value c: Function([id:16, header_id:7]  agent_id {'?a': 'c'} = c)
+Function shared_value:
+Parameters ['as']:
+Value t: Function([id:17, header_id:8]  shared_value {'?s': 'as'} = t)
+Value f: Function([id:18, header_id:8]  shared_value {'?s': 'as'} = f)
+Function shared_loc:
+Parameters ['as']:
+Value 0: Function([id:19, header_id:9]  shared_loc {'?s': 'as'} = 0)
+Value 1: Function([id:20, header_id:9]  shared_loc {'?s': 'as'} = 1)
+Value 2: Function([id:21, header_id:9]  shared_loc {'?s': 'as'} = 2)
+Function own:
+Parameters ['as']:
+Value a: Function([id:22, header_id:10]  own {'?s': 'as'} = a)
+Function sharing_lock:
+Parameters []:
+Value 0: Function([id:23, header_id:11]  sharing_lock {} = 0)
+Value 1: Function([id:24, header_id:11]  sharing_lock {} = 1)
+Function agent_sharing:
+Parameters ['a']:
+Value none: Function([id:25, header_id:12]  agent_sharing {'?a': 'a'} = none)
+Value as: Function([id:26, header_id:12]  agent_sharing {'?a': 'a'} = as)
+Parameters ['b']:
+Value none: Function([id:27, header_id:13]  agent_sharing {'?a': 'b'} = none)
+Value as: Function([id:28, header_id:13]  agent_sharing {'?a': 'b'} = as)
+Parameters ['c']:
+Value none: Function([id:29, header_id:14]  agent_sharing {'?a': 'c'} = none)
+Value as: Function([id:30, header_id:14]  agent_sharing {'?a': 'c'} = as)
+
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(c - agent)
+Entity(as - secret)
+=================
+FunctionSchema(name: agent_loc, range: (1, 2), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: secret_id, range: ['as'], type: enumerate, require_parameters: {'?s': 'secret'})
+FunctionSchema(name: agent_id, range: ['a', 'b', 'c'], type: enumerate, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: shared_value, range: ['t', 'f'], type: enumerate, require_parameters: {'?s': 'secret'})
+FunctionSchema(name: shared_loc, range: (0, 2), type: integer, require_parameters: {'?s': 'secret'})
+FunctionSchema(name: own, range: ['a'], type: enumerate, require_parameters: {'?s': 'secret'})
+FunctionSchema(name: sharing_lock, range: (0, 1), type: integer, require_parameters: {})
+FunctionSchema(name: agent_sharing, range: ['none', 'as'], type: enumerate, require_parameters: {'?a': 'agent'})
+=================
+-----------------
+Action Schema: move_right
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_sharing {'?self': 'agent'}) = none)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (agent_loc {'?self': 'agent'}) = 2)
+
+-----------------
+Action Schema: move_left
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_sharing {'?self': 'agent'}) = none)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+Effect Schemas:
+EffectSchema("ASSIGN" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: quiet
+Parameters: {'?self': 'agent', '?s': 'secret'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing_lock {}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_sharing {'?self': 'agent'}) = (secret_id {'?s': 'secret'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (shared_loc {'?s': 'secret'}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (sharing_lock {}) = 0)
+EffectSchema("ASSIGN" (agent_sharing {'?self': 'agent'}) = none)
+EffectSchema("ASSIGN" (shared_loc {'?s': 'secret'}) = 0)
+EffectSchema("ASSIGN" (shared_value {'?s': 'secret'}) = t)
+
+-----------------
+Action Schema: sharing_stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing_lock {}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_sharing {'?self': 'agent'}) = none)
+Effect Schemas:
+EffectSchema("ASSIGN" (sharing_lock {}) = 1)
+
+-----------------
+Action Schema: normal_stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing_lock {}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (sharing_lock {}) = 0)
+
+-----------------
+Action Schema: sharing_own_secret
+Parameters: {'?self': 'agent', '?s': 'secret'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (own {'?s': 'secret'}) = (agent_id {'?self': 'agent'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_sharing {'?self': 'agent'}) = none)
+Effect Schemas:
+EffectSchema("ASSIGN" (sharing_lock {}) = 1)
+EffectSchema("ASSIGN" (agent_sharing {'?self': 'agent'}) = (secret_id {'?s': 'secret'}))
+EffectSchema("ASSIGN" (shared_loc {'?s': 'secret'}) = (agent_loc {'?self': 'agent'}))
+EffectSchema("ASSIGN" (shared_value {'?s': 'secret'}) = t)
+
+-----------------
+Action Schema: lying_own_secret
+Parameters: {'?self': 'agent', '?s': 'secret'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (own {'?s': 'secret'}) = (agent_id {'?self': 'agent'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_sharing {'?self': 'agent'}) = none)
+Effect Schemas:
+EffectSchema("ASSIGN" (sharing_lock {}) = 1)
+EffectSchema("ASSIGN" (agent_sharing {'?self': 'agent'}) = (secret_id {'?s': 'secret'}))
+EffectSchema("ASSIGN" (shared_loc {'?s': 'secret'}) = (agent_loc {'?self': 'agent'}))
+EffectSchema("ASSIGN" (shared_value {'?s': 'secret'}) = f)
+
+-----------------
+Action Schema: sharing_others_secret
+Parameters: {'?self': 'agent', '?s': 'secret'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (own {'?s': 'secret'}) = (agent_id {'?self': 'agent'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_sharing {'?self': 'agent'}) = none)
+ConditionSchema(("EP_NOT_EQUAL" ['?self'] "EP_UNKNOWN") "NONE" (shared_value {'?s': 'secret'}) = )
+Effect Schemas:
+EffectSchema("ASSIGN" (sharing_lock {}) = 1)
+EffectSchema("ASSIGN" (agent_sharing {'?self': 'agent'}) = (secret_id {'?s': 'secret'}))
+EffectSchema("ASSIGN" (shared_loc {'?s': 'secret'}) = (agent_loc {'?self': 'agent'}))
+EffectSchema("ASSIGN" (shared_value {'?s': 'secret'}) = (['?self'] shared_value {'?s': 'secret'}))
+
+=================
+Function([id:1, header_id:1]  agent_loc {'?a': 'a'} = 1)
+Function([id:3, header_id:2]  agent_loc {'?a': 'b'} = 1)
+Function([id:5, header_id:3]  agent_loc {'?a': 'c'} = 1)
+Function([id:7, header_id:4]  secret_id {'?s': 'as'} = as)
+Function([id:8, header_id:5]  agent_id {'?a': 'a'} = a)
+Function([id:12, header_id:6]  agent_id {'?a': 'b'} = b)
+Function([id:16, header_id:7]  agent_id {'?a': 'c'} = c)
+Function([id:17, header_id:8]  shared_value {'?s': 'as'} = t)
+Function([id:19, header_id:9]  shared_loc {'?s': 'as'} = 0)
+Function([id:22, header_id:10]  own {'?s': 'as'} = a)
+Function([id:23, header_id:11]  sharing_lock {} = 0)
+Function([id:25, header_id:12]  agent_sharing {'?a': 'a'} = none)
+Function([id:27, header_id:13]  agent_sharing {'?a': 'b'} = none)
+Function([id:29, header_id:14]  agent_sharing {'?a': 'c'} = none)
+=================
+Agent: a
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['a', 'b'] shared_value ['as'] = t)
+Condition(['a', 'c'] shared_value ['as'] = f)
+Other Goals:
+b:
+Condition(['b'] shared_value ['as'] = f)
+c:
+Condition(['c'] shared_value ['as'] = f)
+All Possible Goals:
+
+Agent: b
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['b'] shared_value ['as'] = f)
+Other Goals:
+a:
+Condition(['a', 'b'] shared_value ['as'] = t)
+Condition(['a', 'c'] shared_value ['as'] = f)
+c:
+Condition(['c'] shared_value ['as'] = f)
+All Possible Goals:
+
+Agent: c
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['c'] shared_value ['as'] = f)
+Other Goals:
+a:
+Condition(['a', 'b'] shared_value ['as'] = t)
+Condition(['a', 'c'] shared_value ['as'] = f)
+b:
+Condition(['b'] shared_value ['as'] = f)
+All Possible Goals:
+
+
+2025-10-27 17:54:14,390 INFO - __main__._.<module>:
+Model built successfully.
+2025-10-27 17:54:19,210 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 2, Exapnds: 1078, 3.199ms/expand
+2025-10-27 17:54:19,210 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("lying_own_secret(['a', 'as'])", 2), ("sharing_own_secret(['a', 'as'])", 2)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:19,210 INFO - __main__.Model.simulate:
+a takes action: lying_own_secret(['a', 'as'])
+2025-10-27 17:54:19,211 INFO - __main__.ShareEXPGoalBFS.get_policy:
+Only one successor: sharing_stay(['b'])
+2025-10-27 17:54:19,211 INFO - __main__.Model.simulate:
+b takes action: sharing_stay(['b'])
+2025-10-27 17:54:19,211 INFO - __main__.ShareEXPGoalBFS.get_policy:
+Only one successor: sharing_stay(['c'])
+2025-10-27 17:54:19,211 INFO - __main__.Model.simulate:
+c takes action: sharing_stay(['c'])
+2025-10-27 17:54:19,211 INFO - __main__.ShareEXPGoalBFS.get_policy:
+Only one successor: quiet(['a', 'as'])
+2025-10-27 17:54:19,211 INFO - __main__.Model.simulate:
+a takes action: quiet(['a', 'as'])
+2025-10-27 17:54:20,115 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 209, 4.322ms/expand
+2025-10-27 17:54:20,115 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['b'])", 1), ("move_right(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:20,115 INFO - __main__.Model.simulate:
+b takes action: move_right(['b'])
+2025-10-27 17:54:21,038 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 4.754ms/expand
+2025-10-27 17:54:21,038 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['c'])", 1), ("normal_stay(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:21,038 INFO - __main__.Model.simulate:
+c takes action: move_right(['c'])
+2025-10-27 17:54:21,987 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 188, 5.045ms/expand
+2025-10-27 17:54:21,988 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1), ("move_right(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:21,988 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:22,717 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 153, 4.759ms/expand
+2025-10-27 17:54:22,717 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:22,717 INFO - __main__.Model.simulate:
+b takes action: move_left(['b'])
+2025-10-27 17:54:23,536 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 156, 5.247ms/expand
+2025-10-27 17:54:23,536 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:23,536 INFO - __main__.Model.simulate:
+c takes action: normal_stay(['c'])
+2025-10-27 17:54:24,051 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 113, 4.552ms/expand
+2025-10-27 17:54:24,051 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("sharing_own_secret(['a', 'as'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:24,052 INFO - __main__.Model.simulate:
+a takes action: sharing_own_secret(['a', 'as'])
+2025-10-27 17:54:24,052 INFO - __main__.ShareEXPGoalBFS.get_policy:
+Only one successor: sharing_stay(['b'])
+2025-10-27 17:54:24,052 INFO - __main__.Model.simulate:
+b takes action: sharing_stay(['b'])
+2025-10-27 17:54:24,053 INFO - __main__.ShareEXPGoalBFS.get_policy:
+Only one successor: sharing_stay(['c'])
+2025-10-27 17:54:24,053 INFO - __main__.Model.simulate:
+c takes action: sharing_stay(['c'])
+2025-10-27 17:54:24,053 INFO - __main__.ShareEXPGoalBFS.get_policy:
+Only one successor: quiet(['a', 'as'])
+2025-10-27 17:54:24,053 INFO - __main__.Model.simulate:
+a takes action: quiet(['a', 'as'])
+2025-10-27 17:54:24,195 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 36, 3.888ms/expand
+2025-10-27 17:54:24,195 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:24,195 INFO - __main__.Model.simulate:
+b takes action: move_right(['b'])
+2025-10-27 17:54:25,661 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 7.549ms/expand
+2025-10-27 17:54:25,661 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:25,661 INFO - __main__.Model.simulate:
+c takes action: normal_stay(['c'])
+2025-10-27 17:54:25,836 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 4.133ms/expand
+2025-10-27 17:54:25,836 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:25,836 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:26,018 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 4.299ms/expand
+2025-10-27 17:54:26,018 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:26,018 INFO - __main__.Model.simulate:
+b takes action: normal_stay(['b'])
+2025-10-27 17:54:27,657 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 8.437ms/expand
+2025-10-27 17:54:27,657 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:27,657 INFO - __main__.Model.simulate:
+c takes action: normal_stay(['c'])
+2025-10-27 17:54:27,855 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 4.680ms/expand
+2025-10-27 17:54:27,855 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:27,855 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:28,060 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 4.826ms/expand
+2025-10-27 17:54:28,060 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:28,060 INFO - __main__.Model.simulate:
+b takes action: normal_stay(['b'])
+2025-10-27 17:54:29,873 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 9.335ms/expand
+2025-10-27 17:54:29,873 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:29,873 INFO - __main__.Model.simulate:
+c takes action: move_left(['c'])
+2025-10-27 17:54:30,450 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 81, 7.098ms/expand
+2025-10-27 17:54:30,450 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['a'])", 1), ("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:30,450 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:30,909 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 66, 6.911ms/expand
+2025-10-27 17:54:30,909 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['b'])", 1), ("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:30,909 INFO - __main__.Model.simulate:
+b takes action: move_left(['b'])
+2025-10-27 17:54:32,410 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 156, 9.609ms/expand
+2025-10-27 17:54:32,410 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:32,410 INFO - __main__.Model.simulate:
+c takes action: move_right(['c'])
+2025-10-27 17:54:32,968 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 75, 7.396ms/expand
+2025-10-27 17:54:32,968 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1), ("move_right(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:32,968 INFO - __main__.Model.simulate:
+a takes action: move_right(['a'])
+2025-10-27 17:54:33,473 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 66, 7.618ms/expand
+2025-10-27 17:54:33,473 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['b'])", 1), ("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:33,473 INFO - __main__.Model.simulate:
+b takes action: move_right(['b'])
+2025-10-27 17:54:35,119 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 156, 10.534ms/expand
+2025-10-27 17:54:35,120 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:35,120 INFO - __main__.Model.simulate:
+c takes action: move_left(['c'])
+2025-10-27 17:54:35,730 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 75, 8.103ms/expand
+2025-10-27 17:54:35,730 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1), ("move_left(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:35,730 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:35,976 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 36, 6.752ms/expand
+2025-10-27 17:54:35,976 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:35,976 INFO - __main__.Model.simulate:
+b takes action: move_left(['b'])
+2025-10-27 17:54:38,337 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 12.153ms/expand
+2025-10-27 17:54:38,337 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_right(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:38,338 INFO - __main__.Model.simulate:
+c takes action: move_right(['c'])
+2025-10-27 17:54:39,093 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 81, 9.293ms/expand
+2025-10-27 17:54:39,094 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['a'])", 1), ("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:39,094 INFO - __main__.Model.simulate:
+a takes action: move_left(['a'])
+2025-10-27 17:54:39,361 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 36, 7.322ms/expand
+2025-10-27 17:54:39,361 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:39,361 INFO - __main__.Model.simulate:
+b takes action: move_right(['b'])
+2025-10-27 17:54:41,896 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 13.049ms/expand
+2025-10-27 17:54:41,896 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:41,896 INFO - __main__.Model.simulate:
+c takes action: move_left(['c'])
+2025-10-27 17:54:42,714 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 81, 10.056ms/expand
+2025-10-27 17:54:42,714 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['a'])", 1), ("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:42,715 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:43,358 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 66, 9.693ms/expand
+2025-10-27 17:54:43,358 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['b'])", 1), ("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:43,358 INFO - __main__.Model.simulate:
+b takes action: move_left(['b'])
+2025-10-27 17:54:45,415 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 156, 13.157ms/expand
+2025-10-27 17:54:45,415 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:45,415 INFO - __main__.Model.simulate:
+c takes action: move_right(['c'])
+2025-10-27 17:54:46,181 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 75, 10.153ms/expand
+2025-10-27 17:54:46,181 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1), ("move_right(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:46,181 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:46,489 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 36, 8.423ms/expand
+2025-10-27 17:54:46,489 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:46,489 INFO - __main__.Model.simulate:
+b takes action: move_right(['b'])
+2025-10-27 17:54:49,378 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 14.872ms/expand
+2025-10-27 17:54:49,379 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:49,379 INFO - __main__.Model.simulate:
+c takes action: normal_stay(['c'])
+2025-10-27 17:54:49,742 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 8.549ms/expand
+2025-10-27 17:54:49,742 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:49,742 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:50,112 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 8.681ms/expand
+2025-10-27 17:54:50,112 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:50,112 INFO - __main__.Model.simulate:
+b takes action: normal_stay(['b'])
+2025-10-27 17:54:53,174 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 15.754ms/expand
+2025-10-27 17:54:53,174 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:53,174 INFO - __main__.Model.simulate:
+c takes action: normal_stay(['c'])
+2025-10-27 17:54:53,561 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 9.094ms/expand
+2025-10-27 17:54:53,561 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:53,561 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:53,953 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 9.211ms/expand
+2025-10-27 17:54:53,954 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:53,954 INFO - __main__.Model.simulate:
+b takes action: normal_stay(['b'])
+2025-10-27 17:54:57,196 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 16.685ms/expand
+2025-10-27 17:54:57,196 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:57,196 INFO - __main__.Model.simulate:
+c takes action: normal_stay(['c'])
+2025-10-27 17:54:57,606 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 9.623ms/expand
+2025-10-27 17:54:57,606 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:57,606 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:54:58,021 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 9.734ms/expand
+2025-10-27 17:54:58,021 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:54:58,021 INFO - __main__.Model.simulate:
+b takes action: normal_stay(['b'])
+2025-10-27 17:55:01,437 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 17.572ms/expand
+2025-10-27 17:55:01,437 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:01,437 INFO - __main__.Model.simulate:
+c takes action: move_left(['c'])
+2025-10-27 17:55:02,548 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 81, 13.642ms/expand
+2025-10-27 17:55:02,548 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['a'])", 1), ("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:02,548 INFO - __main__.Model.simulate:
+a takes action: move_right(['a'])
+2025-10-27 17:55:02,943 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 36, 10.783ms/expand
+2025-10-27 17:55:02,943 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:02,943 INFO - __main__.Model.simulate:
+b takes action: move_left(['b'])
+2025-10-27 17:55:06,540 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 18.503ms/expand
+2025-10-27 17:55:06,540 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_right(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:06,540 INFO - __main__.Model.simulate:
+c takes action: move_right(['c'])
+2025-10-27 17:55:07,713 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 81, 14.395ms/expand
+2025-10-27 17:55:07,713 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['a'])", 1), ("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:07,713 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:55:08,630 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 66, 13.779ms/expand
+2025-10-27 17:55:08,630 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['b'])", 1), ("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:08,630 INFO - __main__.Model.simulate:
+b takes action: normal_stay(['b'])
+2025-10-27 17:55:12,398 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 19.381ms/expand
+2025-10-27 17:55:12,398 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['c'])", 1), ("normal_stay(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:12,398 INFO - __main__.Model.simulate:
+c takes action: move_left(['c'])
+2025-10-27 17:55:12,879 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 11.280ms/expand
+2025-10-27 17:55:12,879 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:12,880 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:55:13,365 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 42, 11.369ms/expand
+2025-10-27 17:55:13,365 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:13,365 INFO - __main__.Model.simulate:
+b takes action: normal_stay(['b'])
+2025-10-27 17:55:17,308 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 20.282ms/expand
+2025-10-27 17:55:17,308 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_right(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:17,308 INFO - __main__.Model.simulate:
+c takes action: move_right(['c'])
+2025-10-27 17:55:18,597 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 81, 15.809ms/expand
+2025-10-27 17:55:18,597 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['a'])", 1), ("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:18,597 INFO - __main__.Model.simulate:
+a takes action: move_left(['a'])
+2025-10-27 17:55:19,052 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 36, 12.393ms/expand
+2025-10-27 17:55:19,052 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:19,052 INFO - __main__.Model.simulate:
+b takes action: move_right(['b'])
+2025-10-27 17:55:23,175 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 194, 21.204ms/expand
+2025-10-27 17:55:23,175 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['c'])", 1), ("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:23,175 INFO - __main__.Model.simulate:
+c takes action: move_left(['c'])
+2025-10-27 17:55:24,520 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 81, 16.495ms/expand
+2025-10-27 17:55:24,520 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['a'])", 1), ("normal_stay(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:24,520 INFO - __main__.Model.simulate:
+a takes action: normal_stay(['a'])
+2025-10-27 17:55:25,571 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 66, 15.777ms/expand
+2025-10-27 17:55:25,571 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['b'])", 1), ("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:25,571 INFO - __main__.Model.simulate:
+b takes action: move_left(['b'])
+2025-10-27 17:55:28,839 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 156, 20.888ms/expand
+2025-10-27 17:55:28,839 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:28,839 INFO - __main__.Model.simulate:
+c takes action: move_right(['c'])
+2025-10-27 17:55:30,067 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 75, 16.252ms/expand
+2025-10-27 17:55:30,068 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1), ("move_right(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:30,068 INFO - __main__.Model.simulate:
+a takes action: move_right(['a'])
+2025-10-27 17:55:31,166 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 66, 16.486ms/expand
+2025-10-27 17:55:31,166 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_right(['b'])", 1), ("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:31,166 INFO - __main__.Model.simulate:
+b takes action: move_right(['b'])
+2025-10-27 17:55:34,576 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 156, 21.789ms/expand
+2025-10-27 17:55:34,576 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['c'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:34,576 INFO - __main__.Model.simulate:
+c takes action: move_left(['c'])
+2025-10-27 17:55:35,859 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 75, 16.967ms/expand
+2025-10-27 17:55:35,859 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("normal_stay(['a'])", 1), ("move_left(['a'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:35,859 INFO - __main__.Model.simulate:
+a takes action: move_left(['a'])
+2025-10-27 17:55:37,005 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 66, 17.195ms/expand
+2025-10-27 17:55:37,005 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("move_left(['b'])", 1), ("normal_stay(['b'])", 1)]
+{'a': 0, 'b': 0, 'c': 0}
+2025-10-27 17:55:37,005 INFO - __main__.Model.simulate:
+b takes action: move_left(['b'])
