@@ -1,0 +1,146 @@
+(define
+    (problem 3a9r1)
+    (:domain mapf)
+
+    (:agents 
+        a b c
+    )
+
+    (:objects
+        r1 r2 r3 r4 r5 r6 r7 r8 r9 - room
+    )
+
+    (:init
+        (assign (connected r1 r1) 0)
+        (assign (connected r1 r2) 1)
+        (assign (connected r1 r3) 0)
+        (assign (connected r1 r4) 1)
+        (assign (connected r1 r5) 0)
+        (assign (connected r1 r6) 0)
+        (assign (connected r1 r7) 0)
+        (assign (connected r1 r8) 0)
+        (assign (connected r1 r9) 0)
+
+        (assign (connected r2 r1) 1)
+        (assign (connected r2 r2) 0)
+        (assign (connected r2 r3) 1)
+        (assign (connected r2 r4) 0)
+        (assign (connected r2 r5) 1)
+        (assign (connected r2 r6) 0)
+        (assign (connected r2 r7) 0)
+        (assign (connected r2 r8) 0)
+        (assign (connected r2 r9) 0)
+
+        (assign (connected r3 r1) 0)
+        (assign (connected r3 r2) 1)
+        (assign (connected r3 r3) 0)
+        (assign (connected r3 r4) 0)
+        (assign (connected r3 r5) 0)
+        (assign (connected r3 r6) 1)
+        (assign (connected r3 r7) 0)
+        (assign (connected r3 r8) 0)
+        (assign (connected r3 r9) 0)
+
+        (assign (connected r4 r1) 1)
+        (assign (connected r4 r2) 0)
+        (assign (connected r4 r3) 0)
+        (assign (connected r4 r4) 0)
+        (assign (connected r4 r5) 1)
+        (assign (connected r4 r6) 0)
+        (assign (connected r4 r7) 1)
+        (assign (connected r4 r8) 0)
+        (assign (connected r4 r9) 0)
+
+        (assign (connected r5 r1) 0)
+        (assign (connected r5 r2) 1)
+        (assign (connected r5 r3) 0)
+        (assign (connected r5 r4) 1)
+        (assign (connected r5 r5) 0)
+        (assign (connected r5 r6) 1)
+        (assign (connected r5 r7) 0)
+        (assign (connected r5 r8) 1)
+        (assign (connected r5 r9) 0)
+
+        (assign (connected r6 r1) 0)
+        (assign (connected r6 r2) 0)
+        (assign (connected r6 r3) 1)
+        (assign (connected r6 r4) 0)
+        (assign (connected r6 r5) 1)
+        (assign (connected r6 r6) 0)
+        (assign (connected r6 r7) 0)
+        (assign (connected r6 r8) 0)
+        (assign (connected r6 r9) 1)
+
+        (assign (connected r7 r1) 0)
+        (assign (connected r7 r2) 0)
+        (assign (connected r7 r3) 0)
+        (assign (connected r7 r4) 1)
+        (assign (connected r7 r5) 0)
+        (assign (connected r7 r6) 0)
+        (assign (connected r7 r7) 0)
+        (assign (connected r7 r8) 1)
+        (assign (connected r7 r9) 0)
+
+        (assign (connected r8 r1) 0)
+        (assign (connected r8 r2) 0)
+        (assign (connected r8 r3) 0)
+        (assign (connected r8 r4) 0)
+        (assign (connected r8 r5) 1)
+        (assign (connected r8 r6) 0)
+        (assign (connected r8 r7) 1)
+        (assign (connected r8 r8) 0)
+        (assign (connected r8 r9) 1)
+
+        (assign (connected r9 r1) 0)
+        (assign (connected r9 r2) 0)
+        (assign (connected r9 r3) 0)
+        (assign (connected r9 r4) 0)
+        (assign (connected r9 r5) 0)
+        (assign (connected r9 r6) 1)
+        (assign (connected r9 r7) 0)
+        (assign (connected r9 r8) 1)
+        (assign (connected r9 r9) 0)
+
+        (assign (room_id r1) r1)
+        (assign (room_id r2) r2)
+        (assign (room_id r3) r3)
+        (assign (room_id r4) r4)
+        (assign (room_id r5) r5)
+        (assign (room_id r6) r6)
+        (assign (room_id r7) r7)
+        (assign (room_id r8) r8)
+        (assign (room_id r9) r9)
+
+        (assign (agent_at a) r1)
+        (assign (agent_at b) r7)
+        (assign (agent_at c) r6)
+
+        (assign (room_has_agent r1) 1)
+        (assign (room_has_agent r2) 0)
+        (assign (room_has_agent r3) 0)
+        (assign (room_has_agent r4) 0)
+        (assign (room_has_agent r5) 0)
+        (assign (room_has_agent r6) 1)
+        (assign (room_has_agent r7) 1)
+        (assign (room_has_agent r8) 0)
+        (assign (room_has_agent r9) 0)
+    )
+
+    (:ranges
+        (agent_at enumerate [r1,r2,r3,r4,r5,r6,r7,r8,r9])
+        (room_id enumerate [r1,r2,r3,r4,r5,r6,r7,r8,r9])
+        (connected integer [0,1])
+        (room_has_agent integer [0,1])
+    )
+
+    (:goal_sets
+        agent_at(a)=[r3,r4,r8]
+        agent_at(b)=[r3,r4,r8]
+        agent_at(c)=[r3,r4,r8]
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

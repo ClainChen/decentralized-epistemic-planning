@@ -766,13 +766,15 @@ class Model:
             for agt2, agt2_goals in lw.items():
                 agt2_complete = self.get_agent_by_name(agt2).complete_signal
                 for poss_goals in agt.all_possible_goals:
-                        this_goals = set([("".join(cond.belief_sequence), self.ALL_FUNCS.get_function_with_cond(cond).id) 
-                                      for cond in poss_goals[agt2]])
+                    if poss_goals in remain_possible_goals:
+                        continue
+                    this_goals = set([("".join(cond.belief_sequence), self.ALL_FUNCS.get_function_with_cond(cond).id) 
+                                  for cond in poss_goals[agt2]])
 
-                        if not agt2_complete and this_goals not in agt2_goals:
-                            remain_possible_goals.append(poss_goals)
-                        if agt2_complete and this_goals in agt2_goals:
-                            remain_possible_goals.append(poss_goals)
+                    if not agt2_complete and this_goals not in agt2_goals:
+                        remain_possible_goals.append(poss_goals)
+                    if agt2_complete and this_goals in agt2_goals:
+                        remain_possible_goals.append(poss_goals)
             
             # if len(remain_possible_goals) == 0:
             #     util.LOGGER.warning(f"Agent {agt.name} has no possible goals left after filtering, keep the previous possible goals")

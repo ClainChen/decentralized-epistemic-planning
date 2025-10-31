@@ -1,0 +1,30 @@
+2025-11-01 00:34:38,157 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: move(['b', 'r7', 'r4'])
+c takes action: move(['c', 'r6', 'r9'])
+a takes action: move(['a', 'r2', 'r3'])
+b takes action: stay(['b'])
+c takes action: move(['c', 'r9', 'r8'])
+Steps: 6
+Time cost: 0.066365s
+2025-11-01 00:34:38,226 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: move(['b', 'r7', 'r4'])
+c takes action: move(['c', 'r6', 'r9'])
+a takes action: move(['a', 'r2', 'r3'])
+b takes action: stay(['b'])
+c takes action: move(['c', 'r9', 'r8'])
+Steps: 6
+Time cost: 0.066438s
+2025-11-01 00:34:38,296 EXP - __main__.Logger.exp:
+a takes action: move(['a', 'r1', 'r2'])
+b takes action: move(['b', 'r7', 'r4'])
+c takes action: move(['c', 'r6', 'r9'])
+a takes action: move(['a', 'r2', 'r3'])
+b takes action: stay(['b'])
+c takes action: move(['c', 'r9', 'r8'])
+Steps: 6
+Time cost: 0.068864s
+2025-11-01 00:34:38,297 EXP - __main__.Logger.exp:
+Avg Steps: 6.0
+Avg Time: 0.067223s
