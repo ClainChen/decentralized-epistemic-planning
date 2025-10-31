@@ -1,5 +1,3 @@
-;Header and description
-
 (define
     (domain deliver2r)
 

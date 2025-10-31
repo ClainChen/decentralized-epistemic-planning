@@ -37,7 +37,7 @@ class CoopWithEXPBFS(AbstractPolicyStrategy):
             
             succs = [value for value in samples.values() if value[0].header() in possible_successors]
             if len(succs) == 0:
-                return Action.stay_action(agent_name) if len(successors) == 0 else random.choice(successors)
+                return Action.stay_action(agent_name)
             succs.sort(reverse=True, key=lambda x: x[1])
             maxx = succs[0][1]
             succs = [value[0] for value in succs if value[1] == maxx]
