@@ -11,7 +11,7 @@ import copy
 
 
 c_logging_level = logging.INFO
-THIS_LOGGER_LEVEL = logging.DEBUG
+THIS_LOGGER_LEVEL = 25
 LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'fatal': logging.FATAL,
                   'error': logging.ERROR,
