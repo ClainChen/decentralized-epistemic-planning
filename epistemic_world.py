@@ -106,7 +106,7 @@ def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> li
         #     print("\nowt")
         #     for f in owt:
         #         print(f)
-        #     print("\nwt1")
+        #     print("\nwt1")*-+
         #     for f in wt1:
         #         print(f)
         #     print("------")
