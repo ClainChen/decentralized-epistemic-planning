@@ -48,7 +48,7 @@ class DeliverRules(AbstractRules):
         item_loc = {func.parameters['?i']: func.value for func in item_loc_funcs}
 
 
-        # 如果agent holding为true，则必然有一个hold by agent item为true
+        # If agent holding is true, there must have one hold by agent item is true
         for holding_func in holding_funcs:
             count_hold_by = 0
             for hold_by_func in hold_by_funcs:
@@ -60,11 +60,11 @@ class DeliverRules(AbstractRules):
                 or (holding_func.value == 0 and count_hold_by == 1)):
                 return False
 
-
-        #如果hold by为true，则:
-        # 1. agent和item必然在同一个房间中。
-        # 2. agent必然holding item = 1
-        # 3. item必然is free = 0
+       
+        # if hold by is true, then:
+        # 1. agent and item must be in the same room.
+        # 2. agent must be holding item = 1
+        # 3. item must is free = 0
         for hold_by_func in hold_by_funcs:
             if hold_by_func.value == 1:
                 if agent_loc[hold_by_func.parameters['?a']] != item_loc[hold_by_func.parameters['?i']]:
@@ -78,7 +78,7 @@ class DeliverRules(AbstractRules):
                         and is_free_func.value == 1):
                         return False
         
-        # 如果is free为true，则不会有任何agent持有该物品
+        # if is free is true, then no agent holds the item
         for is_free_func in is_free_funcs:
             count = 0
             for hold_by_func in hold_by_funcs:

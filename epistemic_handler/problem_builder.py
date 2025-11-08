@@ -6,8 +6,9 @@ import time
 from pathlib import Path
 from tqdm import tqdm
 from string import Template
-import concurrent.futures
 from threading import Lock
+from epistemic_handler.goal_preprocesses.goal_preprocess import goal_preprocesses
+
 
 TAP = "        "
 
@@ -124,20 +125,9 @@ class ProblemBuilder:
                 agent_goal_set = dict(zip(key, comb))
                 # print(agent_goal_set)
 
-                # fast jump for mapf
-                if self.base_model.domain_name == "mapf":
-                    
-                    # agent goal no more than 1
-                    # if any(len(goals) > 1 for goals in agent_goal_set.values()):
-                    #     jump = True
-
-                    # easy conflict check
-                    if not jump:
-                        goal_set = {goal for goals in agent_goal_set.values() for goal in goals}
-                        for goal1, goal2 in itertools.combinations(goal_set, 2):
-                            if not util.RULES.check_valid_pair(goal1, goal2, self.base_model):
-                                jump = True
-                                break
+                preprocess = goal_preprocesses(self.base_model, agent_goal_set)
+                if preprocess != -1:
+                    jump = preprocess
 
                     if not jump:
                         results.append(agent_goal_set)

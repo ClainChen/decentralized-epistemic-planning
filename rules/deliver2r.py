@@ -65,7 +65,7 @@ class Deliver2rRules(AbstractRules):
             # util.LOGGER.info("Not all agents and items have locations")
             return False
         
-        # 如果agent holding为true，则必然有一个hold by agent item为true
+        # If agent holding is true, there must have one hold by agent item is true
         for holding_func in holding_funcs:
             count_hold_by = 0
             for hold_by_func in hold_by_funcs:
@@ -78,12 +78,12 @@ class Deliver2rRules(AbstractRules):
                 # util.LOGGER.info(f"holding functions has invalid settings")
                 return False
 
-
-        #如果hold by为true，则:
-        # 1. agent和item必然在同一个房间中。
-        # 2. agent必然holding item = 1
-        # 3. item必然is free = 0
-        # 4. 必然不会有另一个agent正在hold同一个item
+        
+        #if hold by is true, then:
+        # 1. agent and item must be in the same room.
+        # 2. agent must holding item = 1
+        # 3. item must is free = 0
+        # 4. there must not have another agent holding the same item
         for hold_by_func in hold_by_funcs:
             if hold_by_func.value == 1:
                 if agent_loc[hold_by_func.parameters['?a']] != item_loc[hold_by_func.parameters['?i']]:
@@ -106,7 +106,7 @@ class Deliver2rRules(AbstractRules):
                         # util.LOGGER.info(f"hold by functions has invalid settings")
                         return False
         
-        # 如果is free为true，则不会有任何agent持有该物品
+        # if is free is true, then no agent holds the item
         for is_free_func in is_free_funcs:
             count = 0
             for hold_by_func in hold_by_funcs:
