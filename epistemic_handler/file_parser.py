@@ -34,7 +34,7 @@ RANGES_SPLIT_REGEX = r"\((.+) (\w+) \[(.+)\]\)"
 AGENT_INIT_REGEX = r"\(:init$\n([\s\S]*?)^\s+\)"
 INIT_STATE_EXTRACT_REGEX = r"\(:init$\n([\s\S]*?)^\s+\)"
 GOAL_SET_EXTRACT_REGEX = r"\(:goal_sets$\n([\s\S]*?)^\s+\)"
-GOAL_SET_SPLIT_REGEX = r"\s+(.+)\((.+)\)=\[(.+)\]"
+GOAL_SET_SPLIT_REGEX = r"\s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\]"
 MAX_BELIEF_DEPTH_REGEX = r"\(:max_belief_depth (\d+)\)"
 # SHARED_INIT_STATE_EXTRACT_REGEX = r"\(:shared-init$\n([\s\S]*?)^\s+\)"
 INIT_STATE_SPLIT_REGEX = r"assign \((.+?)\) \(?('\w+'|\d*|.+?)\){1,2}"
@@ -227,11 +227,12 @@ class ParsingAcceptableGoal:
     """
     def __init__(self):
         self.function_name: str = None
+        self.belief_sequence: list[str] = []
         self.parameters: list = []
         self.values: list = []
     
     def __str__(self):
-        return f"Acceptable(function_name: {self.function_name}, parameters: {self.parameters}, values: {self.values})"
+        return f"Acceptable(belief_sequence: {self.belief_sequence}, function_name: {self.function_name}, parameters: {self.parameters}, values: {self.values})"
     
     def __repr__(self):
         return self.__str__()
@@ -767,15 +768,19 @@ class ProblemParser:
         goal_sets = []
         goal_set_lines = util.regex_search(GOAL_SET_EXTRACT_REGEX, env_content)
         goal_set_lines: str = goal_set_lines[0]
+        # print(goal_set_lines)
         goal_set_lines: list[str] = util.regex_search(GOAL_SET_SPLIT_REGEX, goal_set_lines)
         # print(goal_set_lines)
 
-        for func_name, params, values in goal_set_lines:
+        for bs, func_name, params, values in goal_set_lines:
+            # print(bs, func_name, params, values)
             new_goal_set = ParsingAcceptableGoal()
             new_goal_set.function_name = func_name
+            new_goal_set.belief_sequence = bs.split(',')
             new_goal_set.parameters = params.split(',')
             new_goal_set.values = values.split(',')
             goal_sets.append(new_goal_set)
+            # print(new_goal_set)
 
         return goal_sets
 

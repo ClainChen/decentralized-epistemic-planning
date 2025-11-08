@@ -69,20 +69,21 @@ class ProblemBuilder:
                     if any(combo)]
         
         # Generate all possible belief sequences
-        belief_sequences = self.base_model.possible_belief_sequences
+        # belief_sequences = self.base_model.possible_belief_sequences
 
-        groups: list[Condition] = []
-        for sg in self.base_model.S_G:
-            for bs in belief_sequences:
-                if bs[0] == agent_name:
-                    continue
-                bg = Condition()
-                bg.belief_sequence = bs
-                bg.condition_function_name = sg.condition_function_name
-                bg.condition_function_parameters = sg.condition_function_parameters
-                bg.condition_operator = sg.condition_operator
-                bg.value = sg.value
-                groups.append(bg)
+        groups: list[Condition] = [sg for sg in self.base_model.S_G if sg.belief_sequence[0] != agent_name]
+        # for sg in self.base_model.S_G:
+        #     for bs in belief_sequences:
+        #         if bs[0] == agent_name:
+        #             continue
+        #         bg = Condition()
+        #         bg.belief_sequence = bs
+        #         bg.condition_function_name = sg.condition_function_name
+        #         bg.condition_function_parameters = sg.condition_function_parameters
+        #         bg.condition_operator = sg.condition_operator
+        #         bg.value = sg.value
+        #         groups.append(bg)
+        #     groups.append(sg)
         
         s = {}
         for a in self.base_model.agents:
