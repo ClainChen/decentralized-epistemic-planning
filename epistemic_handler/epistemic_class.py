@@ -734,130 +734,105 @@ class Model:
         # 如果观察到某个agent的complete signal为true，则会更好操作
 
         # removed = False
+        agent_complete = {agt.name: agt.complete_signal for agt in self.agents}
         for agt in self.agents:
-            # print(agt.name)
             # skip those agents who do not consider goal
             if not agt.consider_goal:
                 continue
             
-            # the epistemic worlds under each belief sequences
-            fw = []
-
-            for bs in self.possible_belief_sequences:
-                
-                # skip the goal belief sequence that start with the agent itself
-                if agt.name == bs[0]:
-                    continue
-                
-                # the epistemic world under this belief sequence
-                fw.append(([agt.name] + bs, util.get_epistemic_world(self, [agt.name] + bs)))
-            
-            # for each epistemic world, only remains those states that related with the goals
-            fw = [(bs, [f for f in world if self.filter_functions_with_goal(f)]) for (bs, world) in fw]
-
-            lw = {}
-            for comb, agt2 in goal_comb_generator(fw):
-                # print(comb)
-                if agt2 not in lw:
-                    lw[agt2] = []
-                lw[agt2].append(comb)
-
-            remain_possible_goals = []
-            for agt2, agt2_goals in lw.items():
-                agt2_complete = self.get_agent_by_name(agt2).complete_signal
-                for poss_goals in agt.all_possible_goals:
-                    if poss_goals in remain_possible_goals:
-                        continue
-                    this_goals = set([("".join(cond.belief_sequence), self.ALL_FUNCS.get_function_with_cond(cond).id) 
-                                  for cond in poss_goals[agt2]])
-
-                    if not agt2_complete and this_goals not in agt2_goals:
-                        remain_possible_goals.append(poss_goals)
-                    if agt2_complete and this_goals in agt2_goals:
-                        remain_possible_goals.append(poss_goals)
-            
-            # if len(remain_possible_goals) == 0:
-            #     util.LOGGER.warning(f"Agent {agt.name} has no possible goals left after filtering, keep the previous possible goals")
-            #     util.LOGGER.warning(f"Previous possible goals:\n{agt.print_poss_goals()}")
-            #     util.LOGGER.warning(f"{[his['signal'] for his in self.history] + [(agt.name, agt.complete_signal) for agt in self.agents]}")
-            #     exit(0)
-            if len(remain_possible_goals) > 0:
-                agt.all_possible_goals = remain_possible_goals
+            ep_worlds = {}
+            remain_goals = []
+            for poss_goals in agt.all_possible_goals:
+                goal_valid = True
+                for a, goals in poss_goals.items():
+                    for g in goals:
+                        bs = f"{agt.name}{g.belief_sequence}"
+                        if bs not in ep_worlds:
+                            ep_worlds[bs] = util.get_epistemic_world(self, [agt.name] + g.belief_sequence)
+                        if util.check_regular_condition(g, ep_worlds[bs]) != agent_complete[a]:
+                            goal_valid = False
+                            break
+                    if not goal_valid:
+                        break
+                if goal_valid:
+                    remain_goals.append(poss_goals)
+            if len(remain_goals) > 0:
+                agt.all_possible_goals = remain_goals
 
             # if the complete signal changed compare with the world in last timestamp, we do further filtering
-            if len(self.history) == 0:
-                continue
+            # if len(self.history) == 0:
+            #     continue
 
-            last_signal = self.history[-1]['signal']
-            update_agts = []
-            for agt2 in self.agents:
-                if agt2.name == agt.name:
-                    continue
-                if last_signal[agt2.name] != agt2.complete_signal:
-                    update_agts.append(agt2.name)
+            # last_signal = self.history[-1]['signal']
+            # update_agts = []
+            # for agt2 in self.agents:
+            #     if agt2.name == agt.name:
+            #         continue
+            #     if last_signal[agt2.name] != agt2.complete_signal:
+            #         update_agts.append(agt2.name)
             
-            if len(update_agts) == 0:
-                continue
+            # if len(update_agts) == 0:
+            #     continue
             
-            cur_obs_funcs = [f.id for f in util.OBS_FUNC[agt.name].get_observable_functions(self, self.ontic_functions, agt.name)]
-            cur_ep_funcs = [f.id for f in util.get_epistemic_world(self, [agt.name])]
-            poss_changed_funcs = [f_id for f_id in cur_ep_funcs if 
-                                  f_id not in cur_obs_funcs and 
-                                  self.filter_functions_with_goal(self.ALL_FUNCS.get_function_with_id(f_id))]
-            cur_world_seq = self.get_history_functions_of_agent(agt.name) + [self.get_functions_of_agent(agt.name)]
+            # cur_obs_funcs = [f.id for f in util.OBS_FUNC[agt.name].get_observable_functions(self, self.ontic_functions, agt.name)]
+            # cur_ep_funcs = [f.id for f in util.get_epistemic_world(self, [agt.name])]
+            # poss_changed_funcs = [f_id for f_id in cur_ep_funcs if 
+            #                       f_id not in cur_obs_funcs and 
+            #                       self.filter_functions_with_goal(self.ALL_FUNCS.get_function_with_id(f_id))]
+            # cur_world_seq = self.get_history_functions_of_agent(agt.name) + [self.get_functions_of_agent(agt.name)]
 
-            # 将poss_changed_funcs中涉及到的functions的值改变之后形成新的next_funcs
-            combs = []
-            for i in range(1, len(poss_changed_funcs) + 1):
-                combs.extend(list(combinations(poss_changed_funcs, i)))
+            # # 将poss_changed_funcs中涉及到的functions的值改变之后形成新的next_funcs
+            # combs = []
+            # for i in range(1, len(poss_changed_funcs) + 1):
+            #     combs.extend(list(combinations(poss_changed_funcs, i)))
             
-            removal_goals = []
-            for fs in combs:
-                changed_funcs = {}
-                for f in fs:
-                    changed_funcs[f] = [f1 for f1 in self.ALL_FUNCS.get_functions_with_head_id(self.ALL_FUNCS.get_function_with_id(f).header_id) if f1.id != f]
-                # util.LOGGER.exp(changed_funcs)
+            # removal_goals = []
+            # for fs in combs:
+            #     changed_funcs = {}
+            #     for f in fs:
+            #         changed_funcs[f] = [f1 for f1 in self.ALL_FUNCS.get_functions_with_head_id(self.ALL_FUNCS.get_function_with_id(f).header_id) if f1.id != f]
+            #     # util.LOGGER.exp(changed_funcs)
                 
-                for old_f, new_fs in changed_funcs.items():
-                    for new_f in new_fs:
-                        next_ep_funcs = []
-                        for cur_f in cur_ep_funcs:
-                            if cur_f == old_f:
-                                next_ep_funcs.append(new_f.id)
-                            else:
-                                next_ep_funcs.append(cur_f)
+            #     for old_f, new_fs in changed_funcs.items():
+            #         for new_f in new_fs:
+            #             next_ep_funcs = []
+            #             for cur_f in cur_ep_funcs:
+            #                 if cur_f == old_f:
+            #                     next_ep_funcs.append(new_f.id)
+            #                 else:
+            #                     next_ep_funcs.append(cur_f)
                         
-                        next_ep_funcs = cur_world_seq + [[self.ALL_FUNCS.get_function_with_id(f_id) for f_id in next_ep_funcs]]
+            #             next_ep_funcs = cur_world_seq + [[self.ALL_FUNCS.get_function_with_id(f_id) for f_id in next_ep_funcs]]
                         
-                        for goal_set in agt.all_possible_goals:
-                            if goal_set in removal_goals:
-                                continue
-                            for agt2, goals in goal_set.items():
-                                if agt2 not in update_agts or agt2 == agt.name:
-                                    continue
-                                matches = []
-                                for goal in goals:
-                                    belief_seq = goal.belief_sequence
-                                    # output = ""
-                                    # for epfs in next_ep_funcs:
-                                    #     output += f"{[(f.header_id, f.id) for f in epfs]}\n"
-                                    # util.LOGGER.exp(output)
-                                    ep_world = util.get_epistemic_world(self, belief_seq, next_ep_funcs)
-                                    ep_world = [f for f in ep_world if self.filter_functions_with_goal(f)]
-                                    goal_func = self.ALL_FUNCS.get_function_with_cond(goal)
-                                    # util.LOGGER.exp(f"{belief_seq} - {(goal_func.header_id, goal_func.id)} - {[(f.header_id, f.id) for f in ep_world]}\n")
-                                    if goal_func.header_id in [f.header_id for f in ep_world]:
-                                        matches.append(goal_func.id in [f.id for f in ep_world])
-                                # util.LOGGER.exp(matches)
-                                if not all(matches):
-                                    removal_goals.append(goal_set)
-                                    break
-            if len(removal_goals) == len(agt.all_possible_goals):
-                continue
-            for rg in removal_goals:
-                if rg in agt.all_possible_goals:
-                    agt.all_possible_goals.remove(rg)
-                    # removed = True
+            #             for goal_set in agt.all_possible_goals:
+            #                 if goal_set in removal_goals:
+            #                     continue
+            #                 for agt2, goals in goal_set.items():
+            #                     if agt2 not in update_agts or agt2 == agt.name:
+            #                         continue
+            #                     matches = []
+            #                     for goal in goals:
+            #                         belief_seq = goal.belief_sequence
+            #                         # output = ""
+            #                         # for epfs in next_ep_funcs:
+            #                         #     output += f"{[(f.header_id, f.id) for f in epfs]}\n"
+            #                         # util.LOGGER.exp(output)
+            #                         ep_world = util.get_epistemic_world(self, belief_seq, next_ep_funcs)
+            #                         ep_world = [f for f in ep_world if self.filter_functions_with_goal(f)]
+            #                         goal_func = self.ALL_FUNCS.get_function_with_cond(goal)
+            #                         # util.LOGGER.exp(f"{belief_seq} - {(goal_func.header_id, goal_func.id)} - {[(f.header_id, f.id) for f in ep_world]}\n")
+            #                         if goal_func.header_id in [f.header_id for f in ep_world]:
+            #                             matches.append(goal_func.id in [f.id for f in ep_world])
+            #                     # util.LOGGER.exp(matches)
+            #                     if not all(matches):
+            #                         removal_goals.append(goal_set)
+            #                         break
+            # if len(removal_goals) == len(agt.all_possible_goals):
+            #     continue
+            # for rg in removal_goals:
+            #     if rg in agt.all_possible_goals:
+            #         agt.all_possible_goals.remove(rg)
+            #         # removed = True
               
         # util.LOGGER.exp(f"{[(agt.name, agt.complete_signal) for agt in self.agents]}\n{dict([(agent.name, len(agent.all_possible_goals)) for agent in self.agents])}")
         # if removed:

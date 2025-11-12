@@ -153,6 +153,7 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
                 values = ag.values
             for v in values:
                 sgp = Condition()
+                sgp.belief_sequence = ag.belief_sequence
                 sgp.condition_function_name = sg.condition_function_name
                 sgp.condition_function_parameters = sg.condition_function_parameters
                 sgp.condition_operator = ConditionOperator.EQUAL

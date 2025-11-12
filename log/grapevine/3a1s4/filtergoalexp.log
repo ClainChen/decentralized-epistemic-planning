@@ -1,0 +1,276 @@
+2025-11-12 22:07:31,030 INFO - __main__._.<module>:
+Start building the model, type: "False"
+2025-11-12 22:07:31,030 INFO - __main__._.build:
+Start building the model, type: "False"
+2025-11-12 22:07:31,030 INFO - __main__.DomainParser.run:
+Domain "models/grapevine/domain.pddl" start initialization.
+2025-11-12 22:07:31,030 INFO - __main__.DomainParser.run:
+Domain Parser found "models/grapevine/domain.pddl"
+2025-11-12 22:07:31,030 INFO - __main__.DomainParser.run:
+Complete file reading.
+2025-11-12 22:07:31,031 INFO - __main__.DomainParser.run:
+Domain name found
+2025-11-12 22:07:31,031 INFO - __main__.DomainParser.run:
+Domain type found
+2025-11-12 22:07:31,032 INFO - __main__.DomainParser.run:
+Domain functions found
+2025-11-12 22:07:31,033 INFO - __main__.DomainParser.run:
+Domain actions found
+2025-11-12 22:07:31,033 DEBUG - __main__.DomainParser.run:
+Parsed Domain Result:
+================= Domain "(grapevine)" Parsing Result ================
+Domain types: ['secret', 'agent']
+=================
+Domain functions:
+Function(name:agent_loc, parameters:{'agent': ['?a']}). 
+Function(name:secret_id, parameters:{'secret': ['?s']}). 
+Function(name:agent_id, parameters:{'agent': ['?a']}). 
+Function(name:shared_value, parameters:{'secret': ['?s']}). 
+Function(name:shared_loc, parameters:{'secret': ['?s']}). 
+Function(name:own, parameters:{'secret': ['?s']}). 
+Function(name:sharing_lock, parameters:{}). 
+Function(name:agent_sharing, parameters:{'agent': ['?a']}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: move_right
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(agent_sharing: ['?self']) = none)
+3: Condition(Variable(agent_loc: ['?self']) = 1)
+Effects:
+1: Effect('assign' Variable(agent_loc: ['?self']) 2)
+
+-----------------
+Action:
+Name: move_left
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(agent_sharing: ['?self']) = none)
+3: Condition(Variable(agent_loc: ['?self']) = 2)
+Effects:
+1: Effect('assign' Variable(agent_loc: ['?self']) 1)
+
+-----------------
+Action:
+Name: quiet
+Parameters:
+    agent : ['?self']
+    secret : ['?s']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 1)
+2: Condition(Variable(agent_sharing: ['?self']) = Variable(secret_id: ['?s']))
+3: Condition(Variable(shared_loc: ['?s']) != 0)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 0)
+2: Effect('assign' Variable(agent_sharing: ['?self']) none)
+3: Effect('assign' Variable(shared_loc: ['?s']) 0)
+4: Effect('assign' Variable(shared_value: ['?s']) t)
+
+-----------------
+Action:
+Name: sharing_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 1)
+2: Condition(Variable(agent_sharing: ['?self']) = none)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 1)
+
+-----------------
+Action:
+Name: normal_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 0)
+
+-----------------
+Action:
+Name: sharing_own_secret
+Parameters:
+    agent : ['?self']
+    secret : ['?s']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(own: ['?s']) = Variable(agent_id: ['?self']))
+3: Condition(Variable(agent_sharing: ['?self']) = none)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 1)
+2: Effect(effect_operator:'assign' Variable(agent_sharing: ['?self']) Variable(secret_id: ['?s']))
+3: Effect(effect_operator:'assign' Variable(shared_loc: ['?s']) Variable(agent_loc: ['?self']))
+4: Effect('assign' Variable(shared_value: ['?s']) t)
+
+-----------------
+Action:
+Name: lying_own_secret
+Parameters:
+    agent : ['?self']
+    secret : ['?s']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(own: ['?s']) = Variable(agent_id: ['?self']))
+3: Condition(Variable(agent_sharing: ['?self']) = none)
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 1)
+2: Effect(effect_operator:'assign' Variable(agent_sharing: ['?self']) Variable(secret_id: ['?s']))
+3: Effect(effect_operator:'assign' Variable(shared_loc: ['?s']) Variable(agent_loc: ['?self']))
+4: Effect('assign' Variable(shared_value: ['?s']) f)
+
+-----------------
+Action:
+Name: sharing_others_secret
+Parameters:
+    agent : ['?self']
+    secret : ['?s']
+Preconditions:
+1: Condition(Variable(sharing_lock: []) = 0)
+2: Condition(Variable(own: ['?s']) != Variable(agent_id: ['?self']))
+3: Condition(Variable(agent_sharing: ['?self']) = none)
+4: EpistemicCondition(Belief sequence: ['?self'], epistemic truth: "!= unknown", Condition(Variable(shared_value: ['?s'])  ))
+Effects:
+1: Effect('assign' Variable(sharing_lock: []) 1)
+2: Effect(effect_operator:'assign' Variable(agent_sharing: ['?self']) Variable(secret_id: ['?s']))
+3: Effect(effect_operator:'assign' Variable(shared_loc: ['?s']) Variable(agent_loc: ['?self']))
+4: Effect(effect_operator:'assign' Variable(shared_value: ['?s']) Variable(shared_value: ['?s']))
+
+
+2025-11-12 22:07:31,033 INFO - __main__.ProblemParser.run:
+Problem "models/grapevine/3a1s4" start initialization.
+2025-11-12 22:07:31,033 INFO - __main__.ProblemParser.get_files:
+Problem folder found "models/grapevine/3a1s4"
+2025-11-12 22:07:31,034 INFO - __main__.ProblemParser.run:
+Found 3 agent files:
+"models/grapevine/3a1s4/a.agtpddl"
+"models/grapevine/3a1s4/b.agtpddl"
+"models/grapevine/3a1s4/c.agtpddl"
+2025-11-12 22:07:31,034 INFO - __main__.ProblemParser.run:
+Found init file: "models/grapevine/3a1s4/init.envpddl"
+2025-11-12 22:07:31,035 INFO - __main__.ProblemParser.run:
+Complete reading environment file.
+2025-11-12 22:07:31,035 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grapevine/3a1s4/a.agtpddl"
+2025-11-12 22:07:31,035 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grapevine/3a1s4/b.agtpddl"
+2025-11-12 22:07:31,035 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grapevine/3a1s4/c.agtpddl"
+2025-11-12 22:07:31,036 INFO - __main__.ProblemParser.run:
+Problem domain name "grapevine" found
+Problem name "3a1s4" found
+2025-11-12 22:07:31,036 INFO - __main__.ProblemParser.run:
+Problem agents found
+2025-11-12 22:07:31,037 INFO - __main__.ProblemParser.run:
+Problem objects found
+2025-11-12 22:07:31,037 INFO - __main__.ProblemParser.run:
+Problem ranges found
+2025-11-12 22:07:31,037 INFO - __main__.ProblemParser.run:
+Problem initial states found
+2025-11-12 22:07:31,038 INFO - __main__.ProblemParser.run:
+Problem goals found
+2025-11-12 22:07:31,038 INFO - __main__.ProblemParser.run:
+Problem acceptable goal set found
+2025-11-12 22:07:31,038 INFO - __main__.ProblemParser.run:
+Problem max belief depth found
+2025-11-12 22:07:31,038 DEBUG - __main__.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(grapevine : 3a1s4)" Parsing Result ===========
+Agents: ['a', 'b', 'c']
+=================
+Objects:
+secret: ['as']
+=================
+States:
+State(variable: Variable(agent_loc: ['a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['c']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(secret_id: ['as']), value: as, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['a']), value: a, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['b']), value: b, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['c']), value: c, target_variable: Variable(None: []))
+State(variable: Variable(shared_value: ['as']), value: t, target_variable: Variable(None: []))
+State(variable: Variable(shared_loc: ['as']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(own: ['as']), value: a, target_variable: Variable(None: []))
+State(variable: Variable(sharing_lock: []), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(agent_sharing: ['a']), value: none, target_variable: Variable(None: []))
+State(variable: Variable(agent_sharing: ['b']), value: none, target_variable: Variable(None: []))
+State(variable: Variable(agent_sharing: ['c']), value: none, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a', 'b'], epistemic truth: "= true", Condition(Variable(shared_value: ['as']) = t))
+EpistemicCondition(Belief sequence: ['a', 'c'], epistemic truth: "= true", Condition(Variable(shared_value: ['as']) = f))
+-----------------
+b:
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(shared_value: ['as']) = f))
+-----------------
+c:
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(shared_value: ['as']) = f))
+=================
+Ranges:
+Range(function_name: agent_loc, type: integer, min: 1, max: 2)
+Range(function_name: secret_id, type: enumerate, enumerates: ['as'])
+Range(function_name: agent_id, type: enumerate, enumerates: ['a', 'b', 'c'])
+Range(function_name: own, type: enumerate, enumerates: ['a'])
+Range(function_name: sharing_lock, type: integer, min: 0, max: 1)
+Range(function_name: agent_sharing, type: enumerate, enumerates: ['none', 'as'])
+Range(function_name: shared_value, type: enumerate, enumerates: ['t', 'f'])
+Range(function_name: shared_loc, type: integer, min: 0, max: 2)
+
+2025-11-12 22:07:31,038 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-12 22:07:31,038 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c', 'as', 'unknown', 'agent_loc', 'secret_id', 'agent_id', 'shared_value', 'shared_loc', 'own', 'sharing_lock', 'agent_sharing']
+2025-11-12 22:07:31,038 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-12 22:07:31,038 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-12 22:07:31,038 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-12 22:07:31,038 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-12 22:07:31,038 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-12 22:07:31,038 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-12 22:07:31,039 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c', 'as', 'unknown', 'agent_loc', 'secret_id', 'agent_id', 'shared_value', 'shared_loc', 'own', 'sharing_lock', 'agent_sharing']
+2025-11-12 22:07:31,039 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-12 22:07:31,039 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-12 22:07:31,039 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-12 22:07:31,039 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-12 22:07:31,039 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-12 22:07:31,042 INFO - __main__._.load_observation_function:
+Loaded observation function GrapevineObsFunc to agent a
+2025-11-12 22:07:31,043 INFO - __main__._.load_observation_function:
+Loaded observation function GrapevineObsFunc to agent b
+2025-11-12 22:07:31,044 INFO - __main__._.load_observation_function:
+Loaded observation function GrapevineObsFunc to agent c
+2025-11-12 22:07:31,049 INFO - __main__._.load_policy_strategy:
+Loaded strategy class FilterGoalEXPBFS for agent a
+2025-11-12 22:07:31,050 INFO - __main__._.load_policy_strategy:
+Loaded strategy class FilterGoalEXPBFS for agent b
+2025-11-12 22:07:31,050 INFO - __main__._.load_policy_strategy:
+Loaded strategy class FilterGoalEXPBFS for agent c
+2025-11-12 22:07:31,051 INFO - __main__.Model.init:
+Loaded problem type: "UNSHARE"
+2025-11-12 22:07:31,053 INFO - __main__._.build_model:
+No goal backup found or the backup is not complete, now start to build the possible goals.
+The result will automatically be stored in the folder: possible_goals_backup/grapevine-3a1s4.
+Please do not change the problem setup inside the problem file, 
+you can just create a new problem, copy it or whatever, 
+hange the name of problem, and do what you want to do.
+

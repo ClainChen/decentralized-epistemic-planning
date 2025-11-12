@@ -244,10 +244,6 @@ def is_valid_action(model: Model, action: Action) -> bool:
 def check_condition(model: Model, condition: Condition):
     epistemic_world_functions = get_epistemic_world(model, condition.belief_sequence)
     return check_regular_condition(condition, epistemic_world_functions)
-        
-
-
-
 
 
 def check_regular_condition(condition: Condition, functions: list[Function]) -> bool:
