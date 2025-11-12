@@ -1,5 +1,5 @@
 (define
-    (problem 3a1s3)
+    (problem 3a1s4)
     (:domain grapevine)
     (:agent b)
 

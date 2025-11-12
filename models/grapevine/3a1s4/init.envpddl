@@ -1,5 +1,5 @@
 (define
-    (problem 3a1s3)
+    (problem 3a1s4)
     (:domain grapevine)
 
     (:agents 
@@ -47,7 +47,10 @@
     
 
     (:goal_sets
-        shared_value(as)=[all]
+        b[a,b] shared_value(as)=[all]
+        b[a,c] shared_value(as)=[all]
+        b[b] shared_value(as)=[all]
+        b[c] shared_value(as)=[all]
     )
 
     (:max_belief_depth 2)
