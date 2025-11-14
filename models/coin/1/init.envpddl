@@ -22,7 +22,8 @@
     )
 
     (:goal_sets
-        coin(c1)=[all]
+        b[a] coin(c1)=[all]
+        b[b] coin(c1)=[all]
     )
 
     (:max_belief_depth 1)

@@ -1,22 +1,22 @@
-2025-11-12 19:22:32,302 INFO - __main__._.<module>:
+2025-11-14 16:47:40,737 INFO - __main__._.<module>:
 Start building the model, type: "True"
-2025-11-12 19:22:32,302 INFO - __main__._.build:
+2025-11-14 16:47:40,737 INFO - __main__._.build:
 Start building the model, type: "True"
-2025-11-12 19:22:32,302 INFO - __main__.DomainParser.run:
+2025-11-14 16:47:40,738 INFO - __main__.DomainParser.run:
 Domain "models/grapevine/domain.pddl" start initialization.
-2025-11-12 19:22:32,302 INFO - __main__.DomainParser.run:
+2025-11-14 16:47:40,738 INFO - __main__.DomainParser.run:
 Domain Parser found "models/grapevine/domain.pddl"
-2025-11-12 19:22:32,302 INFO - __main__.DomainParser.run:
+2025-11-14 16:47:40,738 INFO - __main__.DomainParser.run:
 Complete file reading.
-2025-11-12 19:22:32,302 INFO - __main__.DomainParser.run:
+2025-11-14 16:47:40,738 INFO - __main__.DomainParser.run:
 Domain name found
-2025-11-12 19:22:32,302 INFO - __main__.DomainParser.run:
+2025-11-14 16:47:40,738 INFO - __main__.DomainParser.run:
 Domain type found
-2025-11-12 19:22:32,302 INFO - __main__.DomainParser.run:
+2025-11-14 16:47:40,738 INFO - __main__.DomainParser.run:
 Domain functions found
-2025-11-12 19:22:32,303 INFO - __main__.DomainParser.run:
+2025-11-14 16:47:40,740 INFO - __main__.DomainParser.run:
 Domain actions found
-2025-11-12 19:22:32,303 DEBUG - __main__.DomainParser.run:
+2025-11-14 16:47:40,740 DEBUG - __main__.DomainParser.run:
 Parsed Domain Result:
 ================= Domain "(grapevine)" Parsing Result ================
 Domain types: ['secret', 'agent']
@@ -143,43 +143,43 @@ Effects:
 4: Effect(effect_operator:'assign' Variable(shared_value: ['?s']) Variable(shared_value: ['?s']))
 
 
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,740 INFO - __main__.ProblemParser.run:
 Problem "models/grapevine/3a1s4" start initialization.
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.get_files:
+2025-11-14 16:47:40,740 INFO - __main__.ProblemParser.get_files:
 Problem folder found "models/grapevine/3a1s4"
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,740 INFO - __main__.ProblemParser.run:
 Found 3 agent files:
-"models/grapevine/3a1s4/b.agtpddl"
 "models/grapevine/3a1s4/a.agtpddl"
+"models/grapevine/3a1s4/b.agtpddl"
 "models/grapevine/3a1s4/c.agtpddl"
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,740 INFO - __main__.ProblemParser.run:
 Found init file: "models/grapevine/3a1s4/init.envpddl"
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,741 INFO - __main__.ProblemParser.run:
 Complete reading environment file.
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.run:
-Copmlete reading agent file "models/grapevine/3a1s4/b.agtpddl"
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,741 INFO - __main__.ProblemParser.run:
 Copmlete reading agent file "models/grapevine/3a1s4/a.agtpddl"
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,741 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grapevine/3a1s4/b.agtpddl"
+2025-11-14 16:47:40,741 INFO - __main__.ProblemParser.run:
 Copmlete reading agent file "models/grapevine/3a1s4/c.agtpddl"
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,742 INFO - __main__.ProblemParser.run:
 Problem domain name "grapevine" found
 Problem name "3a1s4" found
-2025-11-12 19:22:32,303 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,742 INFO - __main__.ProblemParser.run:
 Problem agents found
-2025-11-12 19:22:32,304 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,742 INFO - __main__.ProblemParser.run:
 Problem objects found
-2025-11-12 19:22:32,304 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,742 INFO - __main__.ProblemParser.run:
 Problem ranges found
-2025-11-12 19:22:32,304 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,743 INFO - __main__.ProblemParser.run:
 Problem initial states found
-2025-11-12 19:22:32,304 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,743 INFO - __main__.ProblemParser.run:
 Problem goals found
-2025-11-12 19:22:32,304 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,743 INFO - __main__.ProblemParser.run:
 Problem acceptable goal set found
-2025-11-12 19:22:32,304 INFO - __main__.ProblemParser.run:
+2025-11-14 16:47:40,743 INFO - __main__.ProblemParser.run:
 Problem max belief depth found
-2025-11-12 19:22:32,304 DEBUG - __main__.ProblemParser.run:
+2025-11-14 16:47:40,743 DEBUG - __main__.ProblemParser.run:
 Parsed Problem Result:
 ============ Problem "(grapevine : 3a1s4)" Parsing Result ===========
 Agents: ['a', 'b', 'c']
@@ -225,49 +225,49 @@ Range(function_name: agent_sharing, type: enumerate, enumerates: ['none', 'as'])
 Range(function_name: shared_value, type: enumerate, enumerates: ['t', 'f'])
 Range(function_name: shared_loc, type: integer, min: 0, max: 2)
 
-2025-11-12 19:22:32,304 INFO - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,743 INFO - __main__.ModelChecker.check_validity:
 checking the validity...
-2025-11-12 19:22:32,304 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Valid names: ['a', 'b', 'c', 'as', 'unknown', 'agent_loc', 'secret_id', 'agent_id', 'shared_value', 'shared_loc', 'own', 'sharing_lock', 'agent_sharing']
-2025-11-12 19:22:32,304 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Checking the states
-2025-11-12 19:22:32,304 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Checking the goals
-2025-11-12 19:22:32,305 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Checking the ranges
-2025-11-12 19:22:32,305 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Checking the actions
-2025-11-12 19:22:32,305 INFO - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 INFO - __main__.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-11-12 19:22:32,305 INFO - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 INFO - __main__.ModelChecker.check_validity:
 checking the validity...
-2025-11-12 19:22:32,305 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Valid names: ['a', 'b', 'c', 'as', 'unknown', 'agent_loc', 'secret_id', 'agent_id', 'shared_value', 'shared_loc', 'own', 'sharing_lock', 'agent_sharing']
-2025-11-12 19:22:32,305 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Checking the states
-2025-11-12 19:22:32,305 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Checking the goals
-2025-11-12 19:22:32,305 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Checking the ranges
-2025-11-12 19:22:32,305 DEBUG - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 DEBUG - __main__.ModelChecker.check_validity:
 Checking the actions
-2025-11-12 19:22:32,305 INFO - __main__.ModelChecker.check_validity:
+2025-11-14 16:47:40,744 INFO - __main__.ModelChecker.check_validity:
 The domain and problem pass the checker.
-2025-11-12 19:22:32,305 INFO - __main__._.load_observation_function:
+2025-11-14 16:47:40,746 INFO - __main__._.load_observation_function:
 Loaded observation function GrapevineObsFunc to agent a
-2025-11-12 19:22:32,305 INFO - __main__._.load_observation_function:
+2025-11-14 16:47:40,746 INFO - __main__._.load_observation_function:
 Loaded observation function GrapevineObsFunc to agent b
-2025-11-12 19:22:32,305 INFO - __main__._.load_observation_function:
+2025-11-14 16:47:40,747 INFO - __main__._.load_observation_function:
 Loaded observation function GrapevineObsFunc to agent c
-2025-11-12 19:22:32,306 INFO - __main__._.load_policy_strategy:
+2025-11-14 16:47:40,751 INFO - __main__._.load_policy_strategy:
 Loaded strategy class ShareGoalBFS for agent a
-2025-11-12 19:22:32,306 INFO - __main__._.load_policy_strategy:
+2025-11-14 16:47:40,752 INFO - __main__._.load_policy_strategy:
 Loaded strategy class ShareGoalBFS for agent b
-2025-11-12 19:22:32,306 INFO - __main__._.load_policy_strategy:
+2025-11-14 16:47:40,752 INFO - __main__._.load_policy_strategy:
 Loaded strategy class ShareGoalBFS for agent c
-2025-11-12 19:22:32,306 INFO - __main__.Model.init:
+2025-11-14 16:47:40,752 INFO - __main__.Model.init:
 Loaded problem type: "SHARE"
-2025-11-12 19:22:32,307 DEBUG - __main__._.build_model:
+2025-11-14 16:47:40,754 DEBUG - __main__._.build_model:
 Model:
 ================= Model Result================
 Domain name: grapevine
@@ -462,6 +462,11 @@ Condition(['b'] shared_value ['as'] = f)
 c:
 Condition(['c'] shared_value ['as'] = f)
 All Possible Goals:
+b:
+Condition(['b'] shared_value ['as'] = f)
+c:
+Condition(['c'] shared_value ['as'] = f)
+-----------------
 
 Agent: b
 Max move time: inf
@@ -477,6 +482,12 @@ Condition(['a', 'c'] shared_value ['as'] = f)
 c:
 Condition(['c'] shared_value ['as'] = f)
 All Possible Goals:
+a:
+Condition(['a', 'b'] shared_value ['as'] = t)
+Condition(['a', 'c'] shared_value ['as'] = f)
+c:
+Condition(['c'] shared_value ['as'] = f)
+-----------------
 
 Agent: c
 Max move time: inf
@@ -492,213 +503,256 @@ Condition(['a', 'c'] shared_value ['as'] = f)
 b:
 Condition(['b'] shared_value ['as'] = f)
 All Possible Goals:
+a:
+Condition(['a', 'b'] shared_value ['as'] = t)
+Condition(['a', 'c'] shared_value ['as'] = f)
+b:
+Condition(['b'] shared_value ['as'] = f)
+-----------------
 
 
-2025-11-12 19:22:32,307 INFO - __main__._.<module>:
+2025-11-14 16:47:40,754 INFO - __main__._.<module>:
 Model built successfully.
-2025-11-12 19:22:34,261 INFO - __main__.ShareGoalBFS.bfs:
-Models: 2, Exapnds: 536, 2.736ms/expand
-2025-11-12 19:22:34,261 INFO - __main__.ShareGoalBFS.get_policy:
-[("lying_own_secret(['a', 'as'])", 2), ("sharing_own_secret(['a', 'as'])", 2)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:34,261 INFO - __main__.Model.simulate:
-a takes action: lying_own_secret(['a', 'as'])
-2025-11-12 19:22:34,261 INFO - __main__.ShareGoalBFS.get_policy:
-Only one successor: sharing_stay(['b'])
-2025-11-12 19:22:34,261 INFO - __main__.Model.simulate:
-b takes action: sharing_stay(['b'])
-2025-11-12 19:22:34,261 INFO - __main__.ShareGoalBFS.get_policy:
-Only one successor: sharing_stay(['c'])
-2025-11-12 19:22:34,262 INFO - __main__.Model.simulate:
-c takes action: sharing_stay(['c'])
-2025-11-12 19:22:34,262 INFO - __main__.ShareGoalBFS.get_policy:
-Only one successor: quiet(['a', 'as'])
-2025-11-12 19:22:34,262 INFO - __main__.Model.simulate:
-a takes action: quiet(['a', 'as'])
-2025-11-12 19:22:34,834 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 146, 3.917ms/expand
-2025-11-12 19:22:34,834 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_right(['b'])", 1), ("normal_stay(['b'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:34,834 INFO - __main__.Model.simulate:
-b takes action: move_right(['b'])
-2025-11-12 19:22:35,470 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 148, 4.290ms/expand
-2025-11-12 19:22:35,470 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_right(['c'])", 1), ("normal_stay(['c'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:35,470 INFO - __main__.Model.simulate:
-c takes action: normal_stay(['c'])
-2025-11-12 19:22:35,950 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 108, 4.441ms/expand
-2025-11-12 19:22:35,950 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_right(['a'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:35,951 INFO - __main__.Model.simulate:
-a takes action: move_right(['a'])
-2025-11-12 19:22:36,400 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 91, 4.932ms/expand
-2025-11-12 19:22:36,400 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['b'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:36,400 INFO - __main__.Model.simulate:
-b takes action: normal_stay(['b'])
-2025-11-12 19:22:36,786 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 88, 4.369ms/expand
-2025-11-12 19:22:36,786 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['c'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:36,786 INFO - __main__.Model.simulate:
-c takes action: normal_stay(['c'])
-2025-11-12 19:22:37,134 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 78, 4.451ms/expand
-2025-11-12 19:22:37,134 INFO - __main__.ShareGoalBFS.get_policy:
-[("sharing_own_secret(['a', 'as'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:37,134 INFO - __main__.Model.simulate:
+2025-11-14 16:47:59,017 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 706, 20.775ms/expand
+2025-11-14 16:47:59,017 INFO - __main__.ShareGoalBFS.get_policy:
+[("sharing_own_secret(['a', 'as'])", 2), ("lying_own_secret(['a', 'as'])", 2)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:47:59,018 INFO - __main__.Model.simulate:
 a takes action: sharing_own_secret(['a', 'as'])
-2025-11-12 19:22:37,135 INFO - __main__.ShareGoalBFS.get_policy:
+2025-11-14 16:47:59,018 INFO - __main__.ShareGoalBFS.get_policy:
 Only one successor: sharing_stay(['b'])
-2025-11-12 19:22:37,135 INFO - __main__.Model.simulate:
+2025-11-14 16:47:59,018 INFO - __main__.Model.simulate:
 b takes action: sharing_stay(['b'])
-2025-11-12 19:22:37,135 INFO - __main__.ShareGoalBFS.get_policy:
+2025-11-14 16:47:59,019 INFO - __main__.ShareGoalBFS.get_policy:
 Only one successor: sharing_stay(['c'])
-2025-11-12 19:22:37,135 INFO - __main__.Model.simulate:
+2025-11-14 16:47:59,019 INFO - __main__.Model.simulate:
 c takes action: sharing_stay(['c'])
-2025-11-12 19:22:37,136 INFO - __main__.ShareGoalBFS.get_policy:
+2025-11-14 16:47:59,020 INFO - __main__.ShareGoalBFS.get_policy:
 Only one successor: quiet(['a', 'as'])
-2025-11-12 19:22:37,136 INFO - __main__.Model.simulate:
+2025-11-14 16:47:59,020 INFO - __main__.Model.simulate:
 a takes action: quiet(['a', 'as'])
-2025-11-12 19:22:37,276 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 36, 3.851ms/expand
-2025-11-12 19:22:37,276 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_left(['b'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:37,276 INFO - __main__.Model.simulate:
-b takes action: move_left(['b'])
-2025-11-12 19:22:38,201 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 132, 6.996ms/expand
-2025-11-12 19:22:38,201 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_right(['c'])", 1), ("normal_stay(['c'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:38,201 INFO - __main__.Model.simulate:
-c takes action: move_right(['c'])
-2025-11-12 19:22:38,494 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 55, 5.296ms/expand
-2025-11-12 19:22:38,494 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['a'])", 1), ("move_left(['a'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:38,494 INFO - __main__.Model.simulate:
-a takes action: normal_stay(['a'])
-2025-11-12 19:22:38,791 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 53, 5.582ms/expand
-2025-11-12 19:22:38,792 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['b'])", 1), ("move_right(['b'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:38,792 INFO - __main__.Model.simulate:
+2025-11-14 16:48:01,208 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 107, 20.422ms/expand
+2025-11-14 16:48:01,208 INFO - __main__.ShareGoalBFS.get_policy:
+[("move_right(['b'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:01,208 INFO - __main__.Model.simulate:
 b takes action: move_right(['b'])
-2025-11-12 19:22:39,369 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 85, 6.778ms/expand
-2025-11-12 19:22:39,370 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_left(['c'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:39,370 INFO - __main__.Model.simulate:
-c takes action: move_left(['c'])
-2025-11-12 19:22:39,763 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 66, 5.939ms/expand
-2025-11-12 19:22:39,764 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_left(['a'])", 1), ("normal_stay(['a'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:39,764 INFO - __main__.Model.simulate:
-a takes action: normal_stay(['a'])
-2025-11-12 19:22:39,945 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 36, 4.998ms/expand
-2025-11-12 19:22:39,946 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_left(['b'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:39,946 INFO - __main__.Model.simulate:
-b takes action: move_left(['b'])
-2025-11-12 19:22:41,108 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 132, 8.792ms/expand
-2025-11-12 19:22:41,108 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_right(['c'])", 1), ("normal_stay(['c'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:41,108 INFO - __main__.Model.simulate:
+2025-11-14 16:48:03,395 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 97, 22.516ms/expand
+2025-11-14 16:48:03,395 INFO - __main__.ShareGoalBFS.get_policy:
+[("normal_stay(['c'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:03,396 INFO - __main__.Model.simulate:
+c takes action: normal_stay(['c'])
+2025-11-14 16:48:05,175 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 70, 25.386ms/expand
+2025-11-14 16:48:05,175 INFO - __main__.ShareGoalBFS.get_policy:
+[("lying_own_secret(['a', 'as'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:05,176 INFO - __main__.Model.simulate:
+a takes action: lying_own_secret(['a', 'as'])
+2025-11-14 16:48:05,178 INFO - __main__.ShareGoalBFS.get_policy:
+Only one successor: sharing_stay(['b'])
+2025-11-14 16:48:05,178 INFO - __main__.Model.simulate:
+b takes action: sharing_stay(['b'])
+2025-11-14 16:48:05,181 INFO - __main__.ShareGoalBFS.get_policy:
+Only one successor: sharing_stay(['c'])
+2025-11-14 16:48:05,181 INFO - __main__.Model.simulate:
+c takes action: sharing_stay(['c'])
+2025-11-14 16:48:05,184 INFO - __main__.ShareGoalBFS.get_policy:
+Only one successor: quiet(['a', 'as'])
+2025-11-14 16:48:05,184 INFO - __main__.Model.simulate:
+a takes action: quiet(['a', 'as'])
+2025-11-14 16:48:09,015 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 101, 37.860ms/expand
+2025-11-14 16:48:09,015 INFO - __main__.ShareGoalBFS.get_policy:
+[("normal_stay(['b'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:09,015 INFO - __main__.Model.simulate:
+b takes action: normal_stay(['b'])
+2025-11-14 16:48:10,184 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 36, 32.297ms/expand
+2025-11-14 16:48:10,194 INFO - __main__.ShareGoalBFS.get_policy:
+[("move_right(['c'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:10,194 INFO - __main__.Model.simulate:
 c takes action: move_right(['c'])
-2025-11-12 19:22:41,480 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 55, 6.725ms/expand
-2025-11-12 19:22:41,480 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['a'])", 1), ("move_left(['a'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:41,481 INFO - __main__.Model.simulate:
+2025-11-14 16:48:11,452 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 40, 31.319ms/expand
+2025-11-14 16:48:11,453 INFO - __main__.ShareGoalBFS.get_policy:
+[("normal_stay(['a'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:11,453 INFO - __main__.Model.simulate:
 a takes action: normal_stay(['a'])
-2025-11-12 19:22:41,854 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 53, 6.997ms/expand
-2025-11-12 19:22:41,854 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['b'])", 1), ("move_right(['b'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:41,854 INFO - __main__.Model.simulate:
-b takes action: normal_stay(['b'])
-2025-11-12 19:22:43,249 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 148, 9.409ms/expand
-2025-11-12 19:22:43,249 INFO - __main__.ShareGoalBFS.get_policy:
+2025-11-14 16:48:22,494 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 174, 63.395ms/expand
+2025-11-14 16:48:22,494 INFO - __main__.ShareGoalBFS.get_policy:
+[("move_left(['b'])", 1), ("normal_stay(['b'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:22,495 INFO - __main__.Model.simulate:
+b takes action: move_left(['b'])
+2025-11-14 16:48:25,585 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 65, 47.389ms/expand
+2025-11-14 16:48:25,586 INFO - __main__.ShareGoalBFS.get_policy:
 [("move_left(['c'])", 1), ("normal_stay(['c'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:43,249 INFO - __main__.Model.simulate:
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:25,586 INFO - __main__.Model.simulate:
+c takes action: normal_stay(['c'])
+2025-11-14 16:48:29,836 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 75, 56.517ms/expand
+2025-11-14 16:48:29,836 INFO - __main__.ShareGoalBFS.get_policy:
+[("normal_stay(['a'])", 1), ("move_right(['a'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:29,836 INFO - __main__.Model.simulate:
+a takes action: move_right(['a'])
+2025-11-14 16:48:35,497 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 101, 55.919ms/expand
+2025-11-14 16:48:35,497 INFO - __main__.ShareGoalBFS.get_policy:
+[("normal_stay(['b'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:35,497 INFO - __main__.Model.simulate:
+b takes action: normal_stay(['b'])
+2025-11-14 16:48:37,121 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 36, 44.798ms/expand
+2025-11-14 16:48:37,122 INFO - __main__.ShareGoalBFS.get_policy:
+[("move_left(['c'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:37,122 INFO - __main__.Model.simulate:
 c takes action: move_left(['c'])
-2025-11-12 19:22:43,470 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 40, 5.461ms/expand
-2025-11-12 19:22:43,470 INFO - __main__.ShareGoalBFS.get_policy:
+2025-11-14 16:48:39,037 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 40, 47.549ms/expand
+2025-11-14 16:48:39,037 INFO - __main__.ShareGoalBFS.get_policy:
 [("normal_stay(['a'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:43,470 INFO - __main__.Model.simulate:
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:39,038 INFO - __main__.Model.simulate:
 a takes action: normal_stay(['a'])
-2025-11-12 19:22:43,693 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 36, 6.125ms/expand
-2025-11-12 19:22:43,693 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['b'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:43,693 INFO - __main__.Model.simulate:
+2025-11-14 16:48:54,426 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 174, 88.333ms/expand
+2025-11-14 16:48:54,426 INFO - __main__.ShareGoalBFS.get_policy:
+[("move_right(['b'])", 1), ("normal_stay(['b'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:54,426 INFO - __main__.Model.simulate:
 b takes action: normal_stay(['b'])
-2025-11-12 19:22:45,079 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 132, 10.476ms/expand
-2025-11-12 19:22:45,079 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_right(['c'])", 1), ("normal_stay(['c'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:45,079 INFO - __main__.Model.simulate:
+2025-11-14 16:48:54,983 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 15, 35.826ms/expand
+2025-11-14 16:48:54,984 INFO - __main__.ShareGoalBFS.get_policy:
+[("sharing_others_secret(['c', 'as'])", 1)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-14 16:48:54,985 INFO - __main__.Model.simulate:
+c takes action: sharing_others_secret(['c', 'as'])
+2025-11-14 16:48:54,991 DEBUG - __main__.Model.simulate:
+====== Solution ======
+Step 1:
+a: sharing_own_secret(['a', 'as'])
+{'a': False, 'b': False, 'c': False}
+-----------------
+Step 2:
+b: sharing_stay(['b'])
+{'a': False, 'b': False, 'c': False}
+-----------------
+Step 3:
+c: sharing_stay(['c'])
+{'a': False, 'b': False, 'c': False}
+-----------------
+Step 4:
+a: quiet(['a', 'as'])
+{'a': False, 'b': False, 'c': False}
+-----------------
+Step 5:
+b: move_right(['b'])
+{'a': False, 'b': False, 'c': False}
+-----------------
+Step 6:
+c: normal_stay(['c'])
+{'a': False, 'b': False, 'c': False}
+-----------------
+Step 7:
+a: lying_own_secret(['a', 'as'])
+{'a': False, 'b': False, 'c': False}
+-----------------
+Step 8:
+b: sharing_stay(['b'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 9:
+c: sharing_stay(['c'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 10:
+a: quiet(['a', 'as'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 11:
+b: normal_stay(['b'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 12:
+c: move_right(['c'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 13:
+a: normal_stay(['a'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 14:
+b: move_left(['b'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 15:
+c: normal_stay(['c'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 16:
+a: move_right(['a'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 17:
+b: normal_stay(['b'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 18:
+c: move_left(['c'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 19:
+a: normal_stay(['a'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 20:
+b: normal_stay(['b'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+Step 21:
+c: sharing_others_secret(['c', 'as'])
+{'a': True, 'b': False, 'c': True}
+-----------------
+
+2025-11-14 16:48:54,991 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
 c takes action: normal_stay(['c'])
-2025-11-12 19:22:45,321 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 40, 5.978ms/expand
-2025-11-12 19:22:45,321 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['a'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:45,321 INFO - __main__.Model.simulate:
-a takes action: normal_stay(['a'])
-2025-11-12 19:22:45,565 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 36, 6.675ms/expand
-2025-11-12 19:22:45,565 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['b'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:45,565 INFO - __main__.Model.simulate:
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+a takes action: quiet(['a', 'as'])
 b takes action: normal_stay(['b'])
-2025-11-12 19:22:47,072 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 132, 11.395ms/expand
-2025-11-12 19:22:47,072 INFO - __main__.ShareGoalBFS.get_policy:
-[("move_right(['c'])", 1), ("normal_stay(['c'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:47,072 INFO - __main__.Model.simulate:
+c takes action: move_right(['c'])
+a takes action: normal_stay(['a'])
+b takes action: move_left(['b'])
 c takes action: normal_stay(['c'])
-2025-11-12 19:22:47,334 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 40, 6.471ms/expand
-2025-11-12 19:22:47,334 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['a'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:47,335 INFO - __main__.Model.simulate:
-a takes action: normal_stay(['a'])
-2025-11-12 19:22:47,597 INFO - __main__.ShareGoalBFS.bfs:
-Models: 1, Exapnds: 36, 7.195ms/expand
-2025-11-12 19:22:47,597 INFO - __main__.ShareGoalBFS.get_policy:
-[("normal_stay(['b'])", 1)]
-{'a': 0, 'b': 0, 'c': 0}
-2025-11-12 19:22:47,597 INFO - __main__.Model.simulate:
+a takes action: move_right(['a'])
 b takes action: normal_stay(['b'])
+c takes action: move_left(['c'])
+a takes action: normal_stay(['a'])
+b takes action: normal_stay(['b'])
+c takes action: sharing_others_secret(['c', 'as'])
+Steps: 21
+Time cost: 70.641594s
+2025-11-14 16:48:54,991 EXP - __main__.Logger.exp:
+Avg Steps: 21.0
+Avg Time: 70.641594s

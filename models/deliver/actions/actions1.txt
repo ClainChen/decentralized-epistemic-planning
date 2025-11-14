@@ -1,5 +1,2 @@
 a: move_without_item a r1 r2
 a: move_without_item a r2 r3
-a: pick_up a i r3
-a: move_with_item a i r3 r2
-a: move_with_item a i r2 r1

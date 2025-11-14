@@ -1,0 +1,281 @@
+2025-11-13 18:04:52,483 INFO - __main__._.<module>:
+Start building the model, type: "True"
+2025-11-13 18:04:52,483 INFO - __main__._.build:
+Start building the model, type: "True"
+2025-11-13 18:04:52,483 INFO - __main__.DomainParser.run:
+Domain "models/coin/domain.pddl" start initialization.
+2025-11-13 18:04:52,483 INFO - __main__.DomainParser.run:
+Domain Parser found "models/coin/domain.pddl"
+2025-11-13 18:04:52,483 INFO - __main__.DomainParser.run:
+Complete file reading.
+2025-11-13 18:04:52,484 INFO - __main__.DomainParser.run:
+Domain name found
+2025-11-13 18:04:52,484 INFO - __main__.DomainParser.run:
+Domain type found
+2025-11-13 18:04:52,484 INFO - __main__.DomainParser.run:
+Domain functions found
+2025-11-13 18:04:52,484 INFO - __main__.DomainParser.run:
+Domain actions found
+2025-11-13 18:04:52,484 DEBUG - __main__.DomainParser.run:
+Parsed Domain Result:
+================= Domain "(coin)" Parsing Result ================
+Domain types: ['coin', 'agent']
+=================
+Domain functions:
+Function(name:peeking, parameters:{'agent': ['?a']}). 
+Function(name:coin, parameters:{'coin': ['?c']}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: peek
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(peeking: ['?self']) = 0)
+Effects:
+1: Effect('assign' Variable(peeking: ['?self']) 1)
+
+-----------------
+Action:
+Name: return
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(peeking: ['?self']) = 1)
+Effects:
+1: Effect('assign' Variable(peeking: ['?self']) 0)
+
+-----------------
+Action:
+Name: flip_up
+Parameters:
+    agent : ['?self']
+    coin : ['?c']
+Preconditions:
+1: Condition(Variable(peeking: ['?self']) = 1)
+2: Condition(Variable(coin: ['?c']) = 0)
+Effects:
+1: Effect('assign' Variable(coin: ['?c']) 1)
+
+-----------------
+Action:
+Name: flip_down
+Parameters:
+    agent : ['?self']
+    coin : ['?c']
+Preconditions:
+1: Condition(Variable(peeking: ['?self']) = 1)
+2: Condition(Variable(coin: ['?c']) = 1)
+Effects:
+1: Effect('assign' Variable(coin: ['?c']) 0)
+
+
+2025-11-13 18:04:52,484 INFO - __main__.ProblemParser.run:
+Problem "models/coin/1" start initialization.
+2025-11-13 18:04:52,484 INFO - __main__.ProblemParser.get_files:
+Problem folder found "models/coin/1"
+2025-11-13 18:04:52,485 INFO - __main__.ProblemParser.run:
+Found 2 agent files:
+"models/coin/1/a.agtpddl"
+"models/coin/1/b.agtpddl"
+2025-11-13 18:04:52,485 INFO - __main__.ProblemParser.run:
+Found init file: "models/coin/1/init.envpddl"
+2025-11-13 18:04:52,485 INFO - __main__.ProblemParser.run:
+Complete reading environment file.
+2025-11-13 18:04:52,486 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/coin/1/a.agtpddl"
+2025-11-13 18:04:52,486 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/coin/1/b.agtpddl"
+2025-11-13 18:04:52,486 INFO - __main__.ProblemParser.run:
+Problem domain name "coin" found
+Problem name "1" found
+2025-11-13 18:04:52,486 INFO - __main__.ProblemParser.run:
+Problem agents found
+2025-11-13 18:04:52,486 INFO - __main__.ProblemParser.run:
+Problem objects found
+2025-11-13 18:04:52,486 INFO - __main__.ProblemParser.run:
+Problem ranges found
+2025-11-13 18:04:52,487 INFO - __main__.ProblemParser.run:
+Problem initial states found
+2025-11-13 18:04:52,487 INFO - __main__.ProblemParser.run:
+Problem goals found
+2025-11-13 18:04:52,487 INFO - __main__.ProblemParser.run:
+Problem acceptable goal set found
+2025-11-13 18:04:52,487 INFO - __main__.ProblemParser.run:
+Problem max belief depth found
+2025-11-13 18:04:52,487 DEBUG - __main__.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(coin : 1)" Parsing Result ===========
+Agents: ['a', 'b']
+=================
+Objects:
+coin: ['c1']
+=================
+States:
+State(variable: Variable(peeking: ['a']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(peeking: ['b']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(coin: ['c1']), value: 0, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(coin: ['c1']) = 1))
+-----------------
+b:
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(coin: ['c1']) = 0))
+=================
+Ranges:
+Range(function_name: peeking, type: integer, min: 0, max: 1)
+Range(function_name: coin, type: integer, min: 0, max: 1)
+
+2025-11-13 18:04:52,488 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c1', 'unknown', 'peeking', 'coin']
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-13 18:04:52,488 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-13 18:04:52,488 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c1', 'unknown', 'peeking', 'coin']
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-13 18:04:52,488 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-13 18:04:52,488 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-13 18:04:52,490 INFO - __main__._.load_observation_function:
+Loaded observation function CoinObsFunc to agent a
+2025-11-13 18:04:52,491 INFO - __main__._.load_observation_function:
+Loaded observation function CoinObsFunc to agent b
+2025-11-13 18:04:52,494 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent a
+2025-11-13 18:04:52,495 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent b
+2025-11-13 18:04:52,495 INFO - __main__.Model.init:
+Loaded problem type: "SHARE"
+2025-11-13 18:04:52,495 DEBUG - __main__._.build_model:
+Model:
+================= Model Result================
+Domain name: coin
+Problem name: 1
+Problem type: "SHARE"
+=================
+Function peeking:
+Parameters ['a']:
+Value 0: Function([id:1, header_id:1]  peeking {'?a': 'a'} = 0)
+Value 1: Function([id:2, header_id:1]  peeking {'?a': 'a'} = 1)
+Parameters ['b']:
+Value 0: Function([id:3, header_id:2]  peeking {'?a': 'b'} = 0)
+Value 1: Function([id:4, header_id:2]  peeking {'?a': 'b'} = 1)
+Function coin:
+Parameters ['c1']:
+Value 0: Function([id:5, header_id:3]  coin {'?c': 'c1'} = 0)
+Value 1: Function([id:6, header_id:3]  coin {'?c': 'c1'} = 1)
+
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(c1 - coin)
+=================
+FunctionSchema(name: peeking, range: (0, 1), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: coin, range: (0, 1), type: integer, require_parameters: {'?c': 'coin'})
+=================
+-----------------
+Action Schema: peek
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (peeking {'?self': 'agent'}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (peeking {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: return
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (peeking {'?self': 'agent'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (peeking {'?self': 'agent'}) = 0)
+
+-----------------
+Action Schema: flip_up
+Parameters: {'?self': 'agent', '?c': 'coin'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (peeking {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (coin {'?c': 'coin'}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (coin {'?c': 'coin'}) = 1)
+
+-----------------
+Action Schema: flip_down
+Parameters: {'?self': 'agent', '?c': 'coin'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (peeking {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (coin {'?c': 'coin'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (coin {'?c': 'coin'}) = 0)
+
+=================
+Function([id:1, header_id:1]  peeking {'?a': 'a'} = 0)
+Function([id:3, header_id:2]  peeking {'?a': 'b'} = 0)
+Function([id:5, header_id:3]  coin {'?c': 'c1'} = 0)
+=================
+Agent: a
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['a'] coin ['c1'] = 1)
+Other Goals:
+b:
+Condition(['b'] coin ['c1'] = 0)
+All Possible Goals:
+
+Agent: b
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['b'] coin ['c1'] = 0)
+Other Goals:
+a:
+Condition(['a'] coin ['c1'] = 1)
+All Possible Goals:
+
+
+2025-11-13 18:04:52,496 INFO - __main__._.<module>:
+Model built successfully.
+2025-11-13 18:04:52,496 INFO - __main__._.<module>:
+Run under modified action sequence mode.
+2025-11-13 18:04:52,496 INFO - __main__._.load_action_sequence:
+Complete reading action sequence file "models/coin/actions/actions1.txt"
+a: peek a
+a: return a
+b: peek b
+2025-11-13 18:04:52,496 INFO - __main__._.load_action_sequence:
+Complete parsing the actions:
+a: peek(['a'])
+a: return(['a'])
+b: peek(['b'])
+
+2025-11-13 18:04:52,496 INFO - __main__.Model.sim_move:
+a takes action: peek(['a'])
+2025-11-13 18:04:52,496 INFO - __main__.Model.sim_move:
+a takes action: return(['a'])
+2025-11-13 18:04:52,496 INFO - __main__.Model.sim_move:
+b takes action: peek(['b'])

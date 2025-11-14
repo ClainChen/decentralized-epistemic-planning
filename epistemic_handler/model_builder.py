@@ -245,6 +245,7 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
                 for agent2 in model.agents:
                     if agent1.name != agent2.name:
                         agent1.other_goals[agent2.name] = agent2.own_goals
+                agent1.all_possible_goals.append(agent1.other_goals)
         
         # build possible belief sequences
         agents = [agent.name for agent in model.agents]

@@ -112,15 +112,18 @@ if __name__ == '__main__':
             for action in action_sequence:
                 model.sim_move(action[0], action[1])
                 # check whether the agents are complete their goals
-            if model.full_goal_complete():
-                print("Agent are complete their goals, simulate finish")
-                exit(0)
-            else:
-                print("Agent didn't complete their goals, program will continue to simulate")
+            # if model.full_goal_complete():
+            #     print("Agent are complete their goals, simulate finish")
+            #     exit(0)
+            # else:
+            #     print("Agent didn't complete their goals, program will continue to simulate")
             # for f in model.ontic_functions:
             #     print(f)
-            for f in util.get_epistemic_world(model, ['b']):
+            # for f in util.OBS_FUNC['a'].get_observable_functions(model, model.ontic_functions, 'a'):
+            for f in util.get_epistemic_world(model, ['b','c','b'], debug=True):
                 print(f)
+            # for act in model.get_agent_successors('b'):
+            #     print(act.header())
             # print(model.get_agent_by_name('b').print_poss_goals())
             exit(0)
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))

@@ -1,4 +1,5 @@
-from epistemic_handler.epistemic_class import Function, Model
+from epistemic_handler.epistemic_class import Function, Model, Condition
+import copy
 import util
 
 
@@ -25,7 +26,7 @@ def retrieval_function(seq_worlds: list[list[Function]], ts: int, func_header_id
     
     return None
 
-def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[], ts=-1) -> list[Function]:
+def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[], ts=-1, debug=False, goal_filter=True) -> list[Function]:
     if len(history_functions) == 0:
         history_functions = model.get_history_functions()
     if len(history_functions) == 0:
@@ -33,31 +34,12 @@ def get_epistemic_world(model: Model, belief_sequence: list[str], history_functi
     
     # [a,b,c] -> f_c(f_b(f_a(ws)))
     # [] -> ws[-1]
-    level = 0
-    if len(belief_sequence) > 0:
-        a = belief_sequence[0]
     
-    for agt in belief_sequence:
-        history_functions = jp_function(history_functions, agt, model)
-        # if level == 0:
-        #     goal_signal_filter(history_functions, agt, model)
-        #     level = 1
+    for i in range(len(belief_sequence)):
+        history_functions = jp_function(history_functions, belief_sequence[:i+1], model, debug=debug, goal_filter=goal_filter)
+        # goal_filter = False
                 
     return history_functions[ts]
-
-def goal_signal_filter(his_functions: list[list[Function]], agent_name: str, model: Model):
-    histories = model.history + [{'signal': {agent.name: agent.complete_signal for agent in model.agents}}]
-    poss_goals = model.get_agent_by_name(agent_name).all_possible_goals
-    for funcs, history in zip(his_functions, histories):
-        goal_signal = history['signal']
-        for poss_goal in poss_goals:
-            for a, gs in poss_goal.items():
-                for g in gs:
-                    if util.check_regular_condition(g, funcs) != goal_signal[a]:
-                        # remove those functions that do not satisfy the goal signal
-                        f = model.ALL_FUNCS.get_function_with_cond(g)
-                        if f in funcs:
-                            funcs.remove(model.ALL_FUNCS.get_function_with_cond(g))
 
 
 def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
@@ -78,9 +60,9 @@ def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
     return world
 
 
-
-def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> list[list[Function]]:
+def jp_function(worlds: list[list[Function]], agts: list[str], model: Model, debug=False, goal_filter=False) -> list[list[Function]]:
     from util import OBS_FUNC
+    agt_name = agts[-1]
     worlds2 = []
     obs_cache = [set(OBS_FUNC[agt_name].get_observable_functions(model, worlds[t], agt_name)) for t in range(len(worlds))]
 
@@ -88,58 +70,101 @@ def jp_function(worlds: list[list[Function]], agt_name: str, model: Model) -> li
         dom_wt = [v.header_id for v in worlds[t]]
         dom_wt = list(set(dom_wt))
         wt2 = set()
+
         for v in dom_wt:
             ltv = -1
             for j in range(t, -1, -1):
                 if v in [l.header_id for l in obs_cache[j]]:
                     ltv = j
                     break
-
             e = retrieval_function(worlds, ltv, v)
             if e is not None:
                 wt2.add(e)
-
-        owt2 = set(OBS_FUNC[agt_name].get_observable_functions(model, list(wt2), agt_name))
         owt = obs_cache[t]
-        diff = owt2 - owt
+        diff = wt2 - owt
+
         for e in diff:
-            owt3 = owt.union({e})
-            if set(OBS_FUNC[agt_name].get_observable_functions(model, list(owt3), agt_name)) != owt:
-                wt2 = wt2 - {e}
+            v = [f for f in owt if f.header_id == e.header_id]
+            if len(v) == 0:
+                v = None
+            else:
+                v = v[0]
+            owte = owt - {v} | {e}
+            oowte = OBS_FUNC[agt_name].get_observable_functions(model, list(owte), agt_name)
+            if v not in oowte:
+                wt2 = wt2 - {v} | {e}
+            else:
+                wt2 = wt2 - {e} | {v}
+        if goal_filter:
+            goal_signal_filter(wt2, owt, agts, model, t)
         worlds2.append(list(wt2))
-    # print("--------")
     return worlds2
 
-def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[]) -> list[Function]:
-    from util import OBS_FUNC
-    """
-    if belief_sequence = [a,b,c], history = [S0, S1, ..., Sn]
-    output: st' = st'' / ( Oc(st'') / Oc(st) )
-    st = fb(fa(St))
-    st'' = fc(fb(fa(St)))
-    """
-    if len(history_functions) == 0:
-        history_functions = model.get_history_functions()
-    if len(history_functions) == 0:
-        return []
-    if len(belief_sequence) == 0:
-        return history_functions[-1]
 
-    # st''
-    history_beliefs = [get_functions_with_belief_sequence(functions, belief_sequence, model) for functions in history_functions]
-    st2 = get_unfiltered_st(history_beliefs)
+def goal_signal_filter(functions: list[Function], obs_funcs: list[Function], agts: list[str], model: Model, t: int):
+    if len(model.history) == 0:
+        goal_signal = None
+    else:
+        goal_signal = model.history[t]['signal'] if t < len(model.history) else {agt.name: agt.complete_signal for agt in model.agents}
+    agent_name = agts[0]
+    poss_goals = model.get_agent_by_name(agent_name).all_possible_goals
 
-    # st
-    st = get_epistemic_world(model, belief_sequence[:-1], history_functions)
+    for poss_goal in poss_goals:
+        for a, gs in poss_goal.items():
+            for g in gs:
+                needs_filter = len(g.belief_sequence) == len(agts) - 1
+                if not needs_filter:
+                    continue
+                obs_f = model.ALL_FUNCS.get_function_with_cond(g)
+                for i, j in zip(g.belief_sequence, agts[1:]):
+                    if i != j:
+                        needs_filter = False
+                        break
+                if (needs_filter and
+                    goal_signal is not None and 
+                    obs_f not in obs_funcs and 
+                    util.check_regular_condition(g, functions) != goal_signal[a]):
+                    # remove those functions that do not satisfy the goal signal
+                    # if t >= len(model.history):
+                    #     print(agts, g.belief_sequence)
+                    #     print(obs_f)
+                    #     for f in functions:
+                    #         print(f)
+                    #     print("=====")
+                    target = util.get_function_with_name_and_params(functions, obs_f.name, obs_f.parameters)
+                    if target is not None:
+                        functions.remove(target)
 
-    # Oi(st'')
-    last_agt = belief_sequence[-1]
-    Oi_st2 = set(OBS_FUNC[last_agt].get_observable_functions(model, st2, last_agt))
+# def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[]) -> list[Function]:
+#     from util import OBS_FUNC
+#     """
+#     if belief_sequence = [a,b,c], history = [S0, S1, ..., Sn]
+#     output: st' = st'' / ( Oc(st'') / Oc(st) )
+#     st = fb(fa(St))
+#     st'' = fc(fb(fa(St)))
+#     """
+#     if len(history_functions) == 0:
+#         history_functions = model.get_history_functions()
+#     if len(history_functions) == 0:
+#         return []
+#     if len(belief_sequence) == 0:
+#         return history_functions[-1]
+
+#     # st''
+#     history_beliefs = [get_functions_with_belief_sequence(functions, belief_sequence, model) for functions in history_functions]
+#     st2 = get_unfiltered_st(history_beliefs)
+
+#     # st
+#     st = get_epistemic_world(model, belief_sequence[:-1], history_functions)
+
+#     # Oi(st'')
+#     last_agt = belief_sequence[-1]
+#     Oi_st2 = set(OBS_FUNC[last_agt].get_observable_functions(model, st2, last_agt))
     
-    # Oi(st)
-    Oi_st = set(OBS_FUNC[last_agt].get_observable_functions(model, st, last_agt))
+#     # Oi(st)
+#     Oi_st = set(OBS_FUNC[last_agt].get_observable_functions(model, st, last_agt))
 
-    return list(set(st2).difference(Oi_st2.difference(Oi_st)))
+#     return list(set(st2).difference(Oi_st2.difference(Oi_st)))
 
 def get_functions_with_belief_sequence(functions: list[Function], belief_sequence: list[str], model: Model) -> list[Function]:
     from util import OBS_FUNC

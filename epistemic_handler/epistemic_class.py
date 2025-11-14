@@ -674,11 +674,7 @@ class Model:
     def agent_goal_complete(self, agent_name: str):
         agent = self.get_agent_by_name(agent_name)
         goals = agent.own_goals.copy()
-        agent.complete_signal = True
-        for goal in goals:
-            if not util.check_condition(self, goal):
-                agent.complete_signal = False
-                break
+        agent.complete_signal = all([util.check_condition(self, goal) for goal in goals])
         return agent.complete_signal
     
     def full_goal_complete(self):

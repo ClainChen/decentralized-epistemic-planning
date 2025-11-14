@@ -16,10 +16,9 @@ class GrapevineObsFunc(AbstractObservationFunction):
         """
         agent_loc = {}
         result = set()
-        shared_value_funcs = []
-        secret_loc = {}
+        shared_value_funcs = {}
+        secret_loc_funcs = {}
         agent_sharing_funcs = []
-        own_funcs = {}
         for func in functions:
             if func.name == 'agent_loc':
                 result.add(func)
@@ -27,23 +26,21 @@ class GrapevineObsFunc(AbstractObservationFunction):
             elif func.name in ['own', 'secret_id', 'agent_id', 'sharing_lock']:
                 result.add(func)
             elif func.name == 'shared_value':
-                shared_value_funcs.append(func)
+                shared_value_funcs[func.parameters['?s']] = func
             elif func.name == 'shared_loc':
-                secret_loc[func.parameters['?s']] = [func.value, func]
+                secret_loc_funcs[func.parameters['?s']] = func
             else:
                 agent_sharing_funcs.append(func)
-        for func in shared_value_funcs:
-            if secret_loc[func.parameters['?s']][0] == agent_loc[agent_name]:
+        for s, func in secret_loc_funcs.items():
+            if func.value == agent_loc[agent_name]:
                 result.add(func)
-                result.add(secret_loc[func.parameters['?s']][1])
+                result.add(shared_value_funcs[s])
+            else:
+                result.add(model.ALL_FUNCS.get_function(func.name, func.parameters, 0))
         # use the old jp setting, if agent didn't see the secret is sharing, agent suppose the secret is in 0
-        for value in secret_loc.values():
-            if value[0] != agent_loc[agent_name]:
-                result.add(value[1])
         for func in agent_sharing_funcs:
             if agent_loc[agent_name] == agent_loc[func.parameters['?a']]:
                 result.add(func)
-
         return list(result)
 
     def get_observable_agents(self, model, functions, agent_name):
