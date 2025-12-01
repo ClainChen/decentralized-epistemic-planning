@@ -1,0 +1,1032 @@
+2025-11-23 16:16:28,161 INFO - __main__._.<module>:
+Start building the model, type: "True"
+2025-11-23 16:16:28,162 INFO - __main__._.build:
+Start building the model, type: "True"
+2025-11-23 16:16:28,162 INFO - __main__.DomainParser.run:
+Domain "models/consecutive_number/domain.pddl" start initialization.
+2025-11-23 16:16:28,162 INFO - __main__.DomainParser.run:
+Domain Parser found "models/consecutive_number/domain.pddl"
+2025-11-23 16:16:28,162 INFO - __main__.DomainParser.run:
+Complete file reading.
+2025-11-23 16:16:28,162 INFO - __main__.DomainParser.run:
+Domain name found
+2025-11-23 16:16:28,162 INFO - __main__.DomainParser.run:
+Domain type found
+2025-11-23 16:16:28,163 INFO - __main__.DomainParser.run:
+Domain functions found
+2025-11-23 16:16:28,164 INFO - __main__.DomainParser.run:
+Domain actions found
+2025-11-23 16:16:28,164 DEBUG - __main__.DomainParser.run:
+Parsed Domain Result:
+================= Domain "(consecutive_number)" Parsing Result ================
+Domain types: ['agent']
+=================
+Domain functions:
+Function(name:number_range_min, parameters:{}). 
+Function(name:number_range_max, parameters:{}). 
+Function(name:agent_id, parameters:{'agent': ['?a']}). 
+Function(name:agent_number, parameters:{'agent': ['?a']}). 
+Function(name:agent_know, parameters:{'agent': ['?a']}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: say_unknown
+Parameters:
+    agent : ['?self']
+Preconditions:
+Effects:
+1: Effect('increase' Variable(number_range_min: []) 1)
+2: Effect('decrease' Variable(number_range_max: []) 1)
+
+-----------------
+Action:
+Name: say_known
+Parameters:
+    agent : ['?self', '?b']
+Preconditions:
+1: Condition(Variable(agent_id: ['?self']) != Variable(agent_id: ['?b']))
+2: EpistemicCondition(Belief sequence: ['?self'], epistemic truth: "!= unknown", Condition(Variable(agent_number: ['?b'])  ))
+Effects:
+1: Effect('assign' Variable(agent_know: ['?self']) 1)
+
+
+2025-11-23 16:16:28,164 INFO - __main__.ProblemParser.run:
+Problem "models/consecutive_number/number1" start initialization.
+2025-11-23 16:16:28,164 INFO - __main__.ProblemParser.get_files:
+Problem folder found "models/consecutive_number/number1"
+2025-11-23 16:16:28,164 INFO - __main__.ProblemParser.run:
+Found 2 agent files:
+"models/consecutive_number/number1/a.agtpddl"
+"models/consecutive_number/number1/b.agtpddl"
+2025-11-23 16:16:28,164 INFO - __main__.ProblemParser.run:
+Found init file: "models/consecutive_number/number1/init.envpddl"
+2025-11-23 16:16:28,165 INFO - __main__.ProblemParser.run:
+Complete reading environment file.
+2025-11-23 16:16:28,166 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/consecutive_number/number1/a.agtpddl"
+2025-11-23 16:16:28,166 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/consecutive_number/number1/b.agtpddl"
+2025-11-23 16:16:28,166 INFO - __main__.ProblemParser.run:
+Problem domain name "consecutive_number" found
+Problem name "number1" found
+2025-11-23 16:16:28,167 INFO - __main__.ProblemParser.run:
+Problem agents found
+2025-11-23 16:16:28,167 INFO - __main__.ProblemParser.run:
+Problem objects found
+2025-11-23 16:16:28,167 INFO - __main__.ProblemParser.run:
+Problem ranges found
+2025-11-23 16:16:28,168 INFO - __main__.ProblemParser.run:
+Problem initial states found
+2025-11-23 16:16:28,168 INFO - __main__.ProblemParser.run:
+Problem goals found
+2025-11-23 16:16:28,168 INFO - __main__.ProblemParser.run:
+Problem acceptable goal set found
+2025-11-23 16:16:28,169 INFO - __main__.ProblemParser.run:
+Problem max belief depth found
+2025-11-23 16:16:28,169 DEBUG - __main__.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(consecutive_number : number1)" Parsing Result ===========
+Agents: ['a', 'b']
+=================
+Objects:
+=================
+States:
+State(variable: Variable(number_range_min: []), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(number_range_max: []), value: 100, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['a']), value: a, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['b']), value: b, target_variable: Variable(None: []))
+State(variable: Variable(agent_number: ['a']), value: 22, target_variable: Variable(None: []))
+State(variable: Variable(agent_number: ['b']), value: 21, target_variable: Variable(None: []))
+State(variable: Variable(agent_know: ['a']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(agent_know: ['b']), value: 0, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(agent_know: ['a']) = 1))
+-----------------
+b:
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(agent_know: ['b']) = 1))
+=================
+Ranges:
+Range(function_name: number_range_min, type: integer, min: 0, max: 100)
+Range(function_name: number_range_max, type: integer, min: 0, max: 100)
+Range(function_name: agent_id, type: enumerate, enumerates: ['a', 'b'])
+Range(function_name: agent_number, type: integer, min: 0, max: 100)
+Range(function_name: agent_know, type: integer, min: 0, max: 1)
+
+2025-11-23 16:16:28,169 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-23 16:16:28,169 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'unknown', 'number_range_min', 'number_range_max', 'agent_id', 'agent_number', 'agent_know']
+2025-11-23 16:16:28,169 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-23 16:16:28,169 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-23 16:16:28,169 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-23 16:16:28,169 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-23 16:16:28,170 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-23 16:16:28,170 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-23 16:16:28,170 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'unknown', 'number_range_min', 'number_range_max', 'agent_id', 'agent_number', 'agent_know']
+2025-11-23 16:16:28,170 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-23 16:16:28,170 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-23 16:16:28,170 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-23 16:16:28,170 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-23 16:16:28,170 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-23 16:16:28,173 INFO - __main__._.load_observation_function:
+Loaded observation function ConsecutiveNumberObsFunc to agent a
+2025-11-23 16:16:28,173 INFO - __main__._.load_observation_function:
+Loaded observation function ConsecutiveNumberObsFunc to agent b
+2025-11-23 16:16:28,178 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent a
+2025-11-23 16:16:28,178 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent b
+2025-11-23 16:16:28,178 INFO - __main__.Model.init:
+Loaded problem type: "SHARE"
+2025-11-23 16:16:28,181 DEBUG - __main__._.build_model:
+Model:
+================= Model Result================
+Domain name: consecutive_number
+Problem name: number1
+Problem type: "SHARE"
+=================
+Function number_range_min:
+Parameters []:
+Value 0: Function([id:1, header_id:1]  number_range_min {} = 0)
+Value 1: Function([id:2, header_id:1]  number_range_min {} = 1)
+Value 2: Function([id:3, header_id:1]  number_range_min {} = 2)
+Value 3: Function([id:4, header_id:1]  number_range_min {} = 3)
+Value 4: Function([id:5, header_id:1]  number_range_min {} = 4)
+Value 5: Function([id:6, header_id:1]  number_range_min {} = 5)
+Value 6: Function([id:7, header_id:1]  number_range_min {} = 6)
+Value 7: Function([id:8, header_id:1]  number_range_min {} = 7)
+Value 8: Function([id:9, header_id:1]  number_range_min {} = 8)
+Value 9: Function([id:10, header_id:1]  number_range_min {} = 9)
+Value 10: Function([id:11, header_id:1]  number_range_min {} = 10)
+Value 11: Function([id:12, header_id:1]  number_range_min {} = 11)
+Value 12: Function([id:13, header_id:1]  number_range_min {} = 12)
+Value 13: Function([id:14, header_id:1]  number_range_min {} = 13)
+Value 14: Function([id:15, header_id:1]  number_range_min {} = 14)
+Value 15: Function([id:16, header_id:1]  number_range_min {} = 15)
+Value 16: Function([id:17, header_id:1]  number_range_min {} = 16)
+Value 17: Function([id:18, header_id:1]  number_range_min {} = 17)
+Value 18: Function([id:19, header_id:1]  number_range_min {} = 18)
+Value 19: Function([id:20, header_id:1]  number_range_min {} = 19)
+Value 20: Function([id:21, header_id:1]  number_range_min {} = 20)
+Value 21: Function([id:22, header_id:1]  number_range_min {} = 21)
+Value 22: Function([id:23, header_id:1]  number_range_min {} = 22)
+Value 23: Function([id:24, header_id:1]  number_range_min {} = 23)
+Value 24: Function([id:25, header_id:1]  number_range_min {} = 24)
+Value 25: Function([id:26, header_id:1]  number_range_min {} = 25)
+Value 26: Function([id:27, header_id:1]  number_range_min {} = 26)
+Value 27: Function([id:28, header_id:1]  number_range_min {} = 27)
+Value 28: Function([id:29, header_id:1]  number_range_min {} = 28)
+Value 29: Function([id:30, header_id:1]  number_range_min {} = 29)
+Value 30: Function([id:31, header_id:1]  number_range_min {} = 30)
+Value 31: Function([id:32, header_id:1]  number_range_min {} = 31)
+Value 32: Function([id:33, header_id:1]  number_range_min {} = 32)
+Value 33: Function([id:34, header_id:1]  number_range_min {} = 33)
+Value 34: Function([id:35, header_id:1]  number_range_min {} = 34)
+Value 35: Function([id:36, header_id:1]  number_range_min {} = 35)
+Value 36: Function([id:37, header_id:1]  number_range_min {} = 36)
+Value 37: Function([id:38, header_id:1]  number_range_min {} = 37)
+Value 38: Function([id:39, header_id:1]  number_range_min {} = 38)
+Value 39: Function([id:40, header_id:1]  number_range_min {} = 39)
+Value 40: Function([id:41, header_id:1]  number_range_min {} = 40)
+Value 41: Function([id:42, header_id:1]  number_range_min {} = 41)
+Value 42: Function([id:43, header_id:1]  number_range_min {} = 42)
+Value 43: Function([id:44, header_id:1]  number_range_min {} = 43)
+Value 44: Function([id:45, header_id:1]  number_range_min {} = 44)
+Value 45: Function([id:46, header_id:1]  number_range_min {} = 45)
+Value 46: Function([id:47, header_id:1]  number_range_min {} = 46)
+Value 47: Function([id:48, header_id:1]  number_range_min {} = 47)
+Value 48: Function([id:49, header_id:1]  number_range_min {} = 48)
+Value 49: Function([id:50, header_id:1]  number_range_min {} = 49)
+Value 50: Function([id:51, header_id:1]  number_range_min {} = 50)
+Value 51: Function([id:52, header_id:1]  number_range_min {} = 51)
+Value 52: Function([id:53, header_id:1]  number_range_min {} = 52)
+Value 53: Function([id:54, header_id:1]  number_range_min {} = 53)
+Value 54: Function([id:55, header_id:1]  number_range_min {} = 54)
+Value 55: Function([id:56, header_id:1]  number_range_min {} = 55)
+Value 56: Function([id:57, header_id:1]  number_range_min {} = 56)
+Value 57: Function([id:58, header_id:1]  number_range_min {} = 57)
+Value 58: Function([id:59, header_id:1]  number_range_min {} = 58)
+Value 59: Function([id:60, header_id:1]  number_range_min {} = 59)
+Value 60: Function([id:61, header_id:1]  number_range_min {} = 60)
+Value 61: Function([id:62, header_id:1]  number_range_min {} = 61)
+Value 62: Function([id:63, header_id:1]  number_range_min {} = 62)
+Value 63: Function([id:64, header_id:1]  number_range_min {} = 63)
+Value 64: Function([id:65, header_id:1]  number_range_min {} = 64)
+Value 65: Function([id:66, header_id:1]  number_range_min {} = 65)
+Value 66: Function([id:67, header_id:1]  number_range_min {} = 66)
+Value 67: Function([id:68, header_id:1]  number_range_min {} = 67)
+Value 68: Function([id:69, header_id:1]  number_range_min {} = 68)
+Value 69: Function([id:70, header_id:1]  number_range_min {} = 69)
+Value 70: Function([id:71, header_id:1]  number_range_min {} = 70)
+Value 71: Function([id:72, header_id:1]  number_range_min {} = 71)
+Value 72: Function([id:73, header_id:1]  number_range_min {} = 72)
+Value 73: Function([id:74, header_id:1]  number_range_min {} = 73)
+Value 74: Function([id:75, header_id:1]  number_range_min {} = 74)
+Value 75: Function([id:76, header_id:1]  number_range_min {} = 75)
+Value 76: Function([id:77, header_id:1]  number_range_min {} = 76)
+Value 77: Function([id:78, header_id:1]  number_range_min {} = 77)
+Value 78: Function([id:79, header_id:1]  number_range_min {} = 78)
+Value 79: Function([id:80, header_id:1]  number_range_min {} = 79)
+Value 80: Function([id:81, header_id:1]  number_range_min {} = 80)
+Value 81: Function([id:82, header_id:1]  number_range_min {} = 81)
+Value 82: Function([id:83, header_id:1]  number_range_min {} = 82)
+Value 83: Function([id:84, header_id:1]  number_range_min {} = 83)
+Value 84: Function([id:85, header_id:1]  number_range_min {} = 84)
+Value 85: Function([id:86, header_id:1]  number_range_min {} = 85)
+Value 86: Function([id:87, header_id:1]  number_range_min {} = 86)
+Value 87: Function([id:88, header_id:1]  number_range_min {} = 87)
+Value 88: Function([id:89, header_id:1]  number_range_min {} = 88)
+Value 89: Function([id:90, header_id:1]  number_range_min {} = 89)
+Value 90: Function([id:91, header_id:1]  number_range_min {} = 90)
+Value 91: Function([id:92, header_id:1]  number_range_min {} = 91)
+Value 92: Function([id:93, header_id:1]  number_range_min {} = 92)
+Value 93: Function([id:94, header_id:1]  number_range_min {} = 93)
+Value 94: Function([id:95, header_id:1]  number_range_min {} = 94)
+Value 95: Function([id:96, header_id:1]  number_range_min {} = 95)
+Value 96: Function([id:97, header_id:1]  number_range_min {} = 96)
+Value 97: Function([id:98, header_id:1]  number_range_min {} = 97)
+Value 98: Function([id:99, header_id:1]  number_range_min {} = 98)
+Value 99: Function([id:100, header_id:1]  number_range_min {} = 99)
+Value 100: Function([id:101, header_id:1]  number_range_min {} = 100)
+Function number_range_max:
+Parameters []:
+Value 0: Function([id:102, header_id:2]  number_range_max {} = 0)
+Value 1: Function([id:103, header_id:2]  number_range_max {} = 1)
+Value 2: Function([id:104, header_id:2]  number_range_max {} = 2)
+Value 3: Function([id:105, header_id:2]  number_range_max {} = 3)
+Value 4: Function([id:106, header_id:2]  number_range_max {} = 4)
+Value 5: Function([id:107, header_id:2]  number_range_max {} = 5)
+Value 6: Function([id:108, header_id:2]  number_range_max {} = 6)
+Value 7: Function([id:109, header_id:2]  number_range_max {} = 7)
+Value 8: Function([id:110, header_id:2]  number_range_max {} = 8)
+Value 9: Function([id:111, header_id:2]  number_range_max {} = 9)
+Value 10: Function([id:112, header_id:2]  number_range_max {} = 10)
+Value 11: Function([id:113, header_id:2]  number_range_max {} = 11)
+Value 12: Function([id:114, header_id:2]  number_range_max {} = 12)
+Value 13: Function([id:115, header_id:2]  number_range_max {} = 13)
+Value 14: Function([id:116, header_id:2]  number_range_max {} = 14)
+Value 15: Function([id:117, header_id:2]  number_range_max {} = 15)
+Value 16: Function([id:118, header_id:2]  number_range_max {} = 16)
+Value 17: Function([id:119, header_id:2]  number_range_max {} = 17)
+Value 18: Function([id:120, header_id:2]  number_range_max {} = 18)
+Value 19: Function([id:121, header_id:2]  number_range_max {} = 19)
+Value 20: Function([id:122, header_id:2]  number_range_max {} = 20)
+Value 21: Function([id:123, header_id:2]  number_range_max {} = 21)
+Value 22: Function([id:124, header_id:2]  number_range_max {} = 22)
+Value 23: Function([id:125, header_id:2]  number_range_max {} = 23)
+Value 24: Function([id:126, header_id:2]  number_range_max {} = 24)
+Value 25: Function([id:127, header_id:2]  number_range_max {} = 25)
+Value 26: Function([id:128, header_id:2]  number_range_max {} = 26)
+Value 27: Function([id:129, header_id:2]  number_range_max {} = 27)
+Value 28: Function([id:130, header_id:2]  number_range_max {} = 28)
+Value 29: Function([id:131, header_id:2]  number_range_max {} = 29)
+Value 30: Function([id:132, header_id:2]  number_range_max {} = 30)
+Value 31: Function([id:133, header_id:2]  number_range_max {} = 31)
+Value 32: Function([id:134, header_id:2]  number_range_max {} = 32)
+Value 33: Function([id:135, header_id:2]  number_range_max {} = 33)
+Value 34: Function([id:136, header_id:2]  number_range_max {} = 34)
+Value 35: Function([id:137, header_id:2]  number_range_max {} = 35)
+Value 36: Function([id:138, header_id:2]  number_range_max {} = 36)
+Value 37: Function([id:139, header_id:2]  number_range_max {} = 37)
+Value 38: Function([id:140, header_id:2]  number_range_max {} = 38)
+Value 39: Function([id:141, header_id:2]  number_range_max {} = 39)
+Value 40: Function([id:142, header_id:2]  number_range_max {} = 40)
+Value 41: Function([id:143, header_id:2]  number_range_max {} = 41)
+Value 42: Function([id:144, header_id:2]  number_range_max {} = 42)
+Value 43: Function([id:145, header_id:2]  number_range_max {} = 43)
+Value 44: Function([id:146, header_id:2]  number_range_max {} = 44)
+Value 45: Function([id:147, header_id:2]  number_range_max {} = 45)
+Value 46: Function([id:148, header_id:2]  number_range_max {} = 46)
+Value 47: Function([id:149, header_id:2]  number_range_max {} = 47)
+Value 48: Function([id:150, header_id:2]  number_range_max {} = 48)
+Value 49: Function([id:151, header_id:2]  number_range_max {} = 49)
+Value 50: Function([id:152, header_id:2]  number_range_max {} = 50)
+Value 51: Function([id:153, header_id:2]  number_range_max {} = 51)
+Value 52: Function([id:154, header_id:2]  number_range_max {} = 52)
+Value 53: Function([id:155, header_id:2]  number_range_max {} = 53)
+Value 54: Function([id:156, header_id:2]  number_range_max {} = 54)
+Value 55: Function([id:157, header_id:2]  number_range_max {} = 55)
+Value 56: Function([id:158, header_id:2]  number_range_max {} = 56)
+Value 57: Function([id:159, header_id:2]  number_range_max {} = 57)
+Value 58: Function([id:160, header_id:2]  number_range_max {} = 58)
+Value 59: Function([id:161, header_id:2]  number_range_max {} = 59)
+Value 60: Function([id:162, header_id:2]  number_range_max {} = 60)
+Value 61: Function([id:163, header_id:2]  number_range_max {} = 61)
+Value 62: Function([id:164, header_id:2]  number_range_max {} = 62)
+Value 63: Function([id:165, header_id:2]  number_range_max {} = 63)
+Value 64: Function([id:166, header_id:2]  number_range_max {} = 64)
+Value 65: Function([id:167, header_id:2]  number_range_max {} = 65)
+Value 66: Function([id:168, header_id:2]  number_range_max {} = 66)
+Value 67: Function([id:169, header_id:2]  number_range_max {} = 67)
+Value 68: Function([id:170, header_id:2]  number_range_max {} = 68)
+Value 69: Function([id:171, header_id:2]  number_range_max {} = 69)
+Value 70: Function([id:172, header_id:2]  number_range_max {} = 70)
+Value 71: Function([id:173, header_id:2]  number_range_max {} = 71)
+Value 72: Function([id:174, header_id:2]  number_range_max {} = 72)
+Value 73: Function([id:175, header_id:2]  number_range_max {} = 73)
+Value 74: Function([id:176, header_id:2]  number_range_max {} = 74)
+Value 75: Function([id:177, header_id:2]  number_range_max {} = 75)
+Value 76: Function([id:178, header_id:2]  number_range_max {} = 76)
+Value 77: Function([id:179, header_id:2]  number_range_max {} = 77)
+Value 78: Function([id:180, header_id:2]  number_range_max {} = 78)
+Value 79: Function([id:181, header_id:2]  number_range_max {} = 79)
+Value 80: Function([id:182, header_id:2]  number_range_max {} = 80)
+Value 81: Function([id:183, header_id:2]  number_range_max {} = 81)
+Value 82: Function([id:184, header_id:2]  number_range_max {} = 82)
+Value 83: Function([id:185, header_id:2]  number_range_max {} = 83)
+Value 84: Function([id:186, header_id:2]  number_range_max {} = 84)
+Value 85: Function([id:187, header_id:2]  number_range_max {} = 85)
+Value 86: Function([id:188, header_id:2]  number_range_max {} = 86)
+Value 87: Function([id:189, header_id:2]  number_range_max {} = 87)
+Value 88: Function([id:190, header_id:2]  number_range_max {} = 88)
+Value 89: Function([id:191, header_id:2]  number_range_max {} = 89)
+Value 90: Function([id:192, header_id:2]  number_range_max {} = 90)
+Value 91: Function([id:193, header_id:2]  number_range_max {} = 91)
+Value 92: Function([id:194, header_id:2]  number_range_max {} = 92)
+Value 93: Function([id:195, header_id:2]  number_range_max {} = 93)
+Value 94: Function([id:196, header_id:2]  number_range_max {} = 94)
+Value 95: Function([id:197, header_id:2]  number_range_max {} = 95)
+Value 96: Function([id:198, header_id:2]  number_range_max {} = 96)
+Value 97: Function([id:199, header_id:2]  number_range_max {} = 97)
+Value 98: Function([id:200, header_id:2]  number_range_max {} = 98)
+Value 99: Function([id:201, header_id:2]  number_range_max {} = 99)
+Value 100: Function([id:202, header_id:2]  number_range_max {} = 100)
+Function agent_id:
+Parameters ['a']:
+Value a: Function([id:203, header_id:3]  agent_id {'?a': 'a'} = a)
+Value b: Function([id:204, header_id:3]  agent_id {'?a': 'a'} = b)
+Parameters ['b']:
+Value a: Function([id:205, header_id:4]  agent_id {'?a': 'b'} = a)
+Value b: Function([id:206, header_id:4]  agent_id {'?a': 'b'} = b)
+Function agent_number:
+Parameters ['a']:
+Value 0: Function([id:207, header_id:5]  agent_number {'?a': 'a'} = 0)
+Value 1: Function([id:208, header_id:5]  agent_number {'?a': 'a'} = 1)
+Value 2: Function([id:209, header_id:5]  agent_number {'?a': 'a'} = 2)
+Value 3: Function([id:210, header_id:5]  agent_number {'?a': 'a'} = 3)
+Value 4: Function([id:211, header_id:5]  agent_number {'?a': 'a'} = 4)
+Value 5: Function([id:212, header_id:5]  agent_number {'?a': 'a'} = 5)
+Value 6: Function([id:213, header_id:5]  agent_number {'?a': 'a'} = 6)
+Value 7: Function([id:214, header_id:5]  agent_number {'?a': 'a'} = 7)
+Value 8: Function([id:215, header_id:5]  agent_number {'?a': 'a'} = 8)
+Value 9: Function([id:216, header_id:5]  agent_number {'?a': 'a'} = 9)
+Value 10: Function([id:217, header_id:5]  agent_number {'?a': 'a'} = 10)
+Value 11: Function([id:218, header_id:5]  agent_number {'?a': 'a'} = 11)
+Value 12: Function([id:219, header_id:5]  agent_number {'?a': 'a'} = 12)
+Value 13: Function([id:220, header_id:5]  agent_number {'?a': 'a'} = 13)
+Value 14: Function([id:221, header_id:5]  agent_number {'?a': 'a'} = 14)
+Value 15: Function([id:222, header_id:5]  agent_number {'?a': 'a'} = 15)
+Value 16: Function([id:223, header_id:5]  agent_number {'?a': 'a'} = 16)
+Value 17: Function([id:224, header_id:5]  agent_number {'?a': 'a'} = 17)
+Value 18: Function([id:225, header_id:5]  agent_number {'?a': 'a'} = 18)
+Value 19: Function([id:226, header_id:5]  agent_number {'?a': 'a'} = 19)
+Value 20: Function([id:227, header_id:5]  agent_number {'?a': 'a'} = 20)
+Value 21: Function([id:228, header_id:5]  agent_number {'?a': 'a'} = 21)
+Value 22: Function([id:229, header_id:5]  agent_number {'?a': 'a'} = 22)
+Value 23: Function([id:230, header_id:5]  agent_number {'?a': 'a'} = 23)
+Value 24: Function([id:231, header_id:5]  agent_number {'?a': 'a'} = 24)
+Value 25: Function([id:232, header_id:5]  agent_number {'?a': 'a'} = 25)
+Value 26: Function([id:233, header_id:5]  agent_number {'?a': 'a'} = 26)
+Value 27: Function([id:234, header_id:5]  agent_number {'?a': 'a'} = 27)
+Value 28: Function([id:235, header_id:5]  agent_number {'?a': 'a'} = 28)
+Value 29: Function([id:236, header_id:5]  agent_number {'?a': 'a'} = 29)
+Value 30: Function([id:237, header_id:5]  agent_number {'?a': 'a'} = 30)
+Value 31: Function([id:238, header_id:5]  agent_number {'?a': 'a'} = 31)
+Value 32: Function([id:239, header_id:5]  agent_number {'?a': 'a'} = 32)
+Value 33: Function([id:240, header_id:5]  agent_number {'?a': 'a'} = 33)
+Value 34: Function([id:241, header_id:5]  agent_number {'?a': 'a'} = 34)
+Value 35: Function([id:242, header_id:5]  agent_number {'?a': 'a'} = 35)
+Value 36: Function([id:243, header_id:5]  agent_number {'?a': 'a'} = 36)
+Value 37: Function([id:244, header_id:5]  agent_number {'?a': 'a'} = 37)
+Value 38: Function([id:245, header_id:5]  agent_number {'?a': 'a'} = 38)
+Value 39: Function([id:246, header_id:5]  agent_number {'?a': 'a'} = 39)
+Value 40: Function([id:247, header_id:5]  agent_number {'?a': 'a'} = 40)
+Value 41: Function([id:248, header_id:5]  agent_number {'?a': 'a'} = 41)
+Value 42: Function([id:249, header_id:5]  agent_number {'?a': 'a'} = 42)
+Value 43: Function([id:250, header_id:5]  agent_number {'?a': 'a'} = 43)
+Value 44: Function([id:251, header_id:5]  agent_number {'?a': 'a'} = 44)
+Value 45: Function([id:252, header_id:5]  agent_number {'?a': 'a'} = 45)
+Value 46: Function([id:253, header_id:5]  agent_number {'?a': 'a'} = 46)
+Value 47: Function([id:254, header_id:5]  agent_number {'?a': 'a'} = 47)
+Value 48: Function([id:255, header_id:5]  agent_number {'?a': 'a'} = 48)
+Value 49: Function([id:256, header_id:5]  agent_number {'?a': 'a'} = 49)
+Value 50: Function([id:257, header_id:5]  agent_number {'?a': 'a'} = 50)
+Value 51: Function([id:258, header_id:5]  agent_number {'?a': 'a'} = 51)
+Value 52: Function([id:259, header_id:5]  agent_number {'?a': 'a'} = 52)
+Value 53: Function([id:260, header_id:5]  agent_number {'?a': 'a'} = 53)
+Value 54: Function([id:261, header_id:5]  agent_number {'?a': 'a'} = 54)
+Value 55: Function([id:262, header_id:5]  agent_number {'?a': 'a'} = 55)
+Value 56: Function([id:263, header_id:5]  agent_number {'?a': 'a'} = 56)
+Value 57: Function([id:264, header_id:5]  agent_number {'?a': 'a'} = 57)
+Value 58: Function([id:265, header_id:5]  agent_number {'?a': 'a'} = 58)
+Value 59: Function([id:266, header_id:5]  agent_number {'?a': 'a'} = 59)
+Value 60: Function([id:267, header_id:5]  agent_number {'?a': 'a'} = 60)
+Value 61: Function([id:268, header_id:5]  agent_number {'?a': 'a'} = 61)
+Value 62: Function([id:269, header_id:5]  agent_number {'?a': 'a'} = 62)
+Value 63: Function([id:270, header_id:5]  agent_number {'?a': 'a'} = 63)
+Value 64: Function([id:271, header_id:5]  agent_number {'?a': 'a'} = 64)
+Value 65: Function([id:272, header_id:5]  agent_number {'?a': 'a'} = 65)
+Value 66: Function([id:273, header_id:5]  agent_number {'?a': 'a'} = 66)
+Value 67: Function([id:274, header_id:5]  agent_number {'?a': 'a'} = 67)
+Value 68: Function([id:275, header_id:5]  agent_number {'?a': 'a'} = 68)
+Value 69: Function([id:276, header_id:5]  agent_number {'?a': 'a'} = 69)
+Value 70: Function([id:277, header_id:5]  agent_number {'?a': 'a'} = 70)
+Value 71: Function([id:278, header_id:5]  agent_number {'?a': 'a'} = 71)
+Value 72: Function([id:279, header_id:5]  agent_number {'?a': 'a'} = 72)
+Value 73: Function([id:280, header_id:5]  agent_number {'?a': 'a'} = 73)
+Value 74: Function([id:281, header_id:5]  agent_number {'?a': 'a'} = 74)
+Value 75: Function([id:282, header_id:5]  agent_number {'?a': 'a'} = 75)
+Value 76: Function([id:283, header_id:5]  agent_number {'?a': 'a'} = 76)
+Value 77: Function([id:284, header_id:5]  agent_number {'?a': 'a'} = 77)
+Value 78: Function([id:285, header_id:5]  agent_number {'?a': 'a'} = 78)
+Value 79: Function([id:286, header_id:5]  agent_number {'?a': 'a'} = 79)
+Value 80: Function([id:287, header_id:5]  agent_number {'?a': 'a'} = 80)
+Value 81: Function([id:288, header_id:5]  agent_number {'?a': 'a'} = 81)
+Value 82: Function([id:289, header_id:5]  agent_number {'?a': 'a'} = 82)
+Value 83: Function([id:290, header_id:5]  agent_number {'?a': 'a'} = 83)
+Value 84: Function([id:291, header_id:5]  agent_number {'?a': 'a'} = 84)
+Value 85: Function([id:292, header_id:5]  agent_number {'?a': 'a'} = 85)
+Value 86: Function([id:293, header_id:5]  agent_number {'?a': 'a'} = 86)
+Value 87: Function([id:294, header_id:5]  agent_number {'?a': 'a'} = 87)
+Value 88: Function([id:295, header_id:5]  agent_number {'?a': 'a'} = 88)
+Value 89: Function([id:296, header_id:5]  agent_number {'?a': 'a'} = 89)
+Value 90: Function([id:297, header_id:5]  agent_number {'?a': 'a'} = 90)
+Value 91: Function([id:298, header_id:5]  agent_number {'?a': 'a'} = 91)
+Value 92: Function([id:299, header_id:5]  agent_number {'?a': 'a'} = 92)
+Value 93: Function([id:300, header_id:5]  agent_number {'?a': 'a'} = 93)
+Value 94: Function([id:301, header_id:5]  agent_number {'?a': 'a'} = 94)
+Value 95: Function([id:302, header_id:5]  agent_number {'?a': 'a'} = 95)
+Value 96: Function([id:303, header_id:5]  agent_number {'?a': 'a'} = 96)
+Value 97: Function([id:304, header_id:5]  agent_number {'?a': 'a'} = 97)
+Value 98: Function([id:305, header_id:5]  agent_number {'?a': 'a'} = 98)
+Value 99: Function([id:306, header_id:5]  agent_number {'?a': 'a'} = 99)
+Value 100: Function([id:307, header_id:5]  agent_number {'?a': 'a'} = 100)
+Parameters ['b']:
+Value 0: Function([id:308, header_id:6]  agent_number {'?a': 'b'} = 0)
+Value 1: Function([id:309, header_id:6]  agent_number {'?a': 'b'} = 1)
+Value 2: Function([id:310, header_id:6]  agent_number {'?a': 'b'} = 2)
+Value 3: Function([id:311, header_id:6]  agent_number {'?a': 'b'} = 3)
+Value 4: Function([id:312, header_id:6]  agent_number {'?a': 'b'} = 4)
+Value 5: Function([id:313, header_id:6]  agent_number {'?a': 'b'} = 5)
+Value 6: Function([id:314, header_id:6]  agent_number {'?a': 'b'} = 6)
+Value 7: Function([id:315, header_id:6]  agent_number {'?a': 'b'} = 7)
+Value 8: Function([id:316, header_id:6]  agent_number {'?a': 'b'} = 8)
+Value 9: Function([id:317, header_id:6]  agent_number {'?a': 'b'} = 9)
+Value 10: Function([id:318, header_id:6]  agent_number {'?a': 'b'} = 10)
+Value 11: Function([id:319, header_id:6]  agent_number {'?a': 'b'} = 11)
+Value 12: Function([id:320, header_id:6]  agent_number {'?a': 'b'} = 12)
+Value 13: Function([id:321, header_id:6]  agent_number {'?a': 'b'} = 13)
+Value 14: Function([id:322, header_id:6]  agent_number {'?a': 'b'} = 14)
+Value 15: Function([id:323, header_id:6]  agent_number {'?a': 'b'} = 15)
+Value 16: Function([id:324, header_id:6]  agent_number {'?a': 'b'} = 16)
+Value 17: Function([id:325, header_id:6]  agent_number {'?a': 'b'} = 17)
+Value 18: Function([id:326, header_id:6]  agent_number {'?a': 'b'} = 18)
+Value 19: Function([id:327, header_id:6]  agent_number {'?a': 'b'} = 19)
+Value 20: Function([id:328, header_id:6]  agent_number {'?a': 'b'} = 20)
+Value 21: Function([id:329, header_id:6]  agent_number {'?a': 'b'} = 21)
+Value 22: Function([id:330, header_id:6]  agent_number {'?a': 'b'} = 22)
+Value 23: Function([id:331, header_id:6]  agent_number {'?a': 'b'} = 23)
+Value 24: Function([id:332, header_id:6]  agent_number {'?a': 'b'} = 24)
+Value 25: Function([id:333, header_id:6]  agent_number {'?a': 'b'} = 25)
+Value 26: Function([id:334, header_id:6]  agent_number {'?a': 'b'} = 26)
+Value 27: Function([id:335, header_id:6]  agent_number {'?a': 'b'} = 27)
+Value 28: Function([id:336, header_id:6]  agent_number {'?a': 'b'} = 28)
+Value 29: Function([id:337, header_id:6]  agent_number {'?a': 'b'} = 29)
+Value 30: Function([id:338, header_id:6]  agent_number {'?a': 'b'} = 30)
+Value 31: Function([id:339, header_id:6]  agent_number {'?a': 'b'} = 31)
+Value 32: Function([id:340, header_id:6]  agent_number {'?a': 'b'} = 32)
+Value 33: Function([id:341, header_id:6]  agent_number {'?a': 'b'} = 33)
+Value 34: Function([id:342, header_id:6]  agent_number {'?a': 'b'} = 34)
+Value 35: Function([id:343, header_id:6]  agent_number {'?a': 'b'} = 35)
+Value 36: Function([id:344, header_id:6]  agent_number {'?a': 'b'} = 36)
+Value 37: Function([id:345, header_id:6]  agent_number {'?a': 'b'} = 37)
+Value 38: Function([id:346, header_id:6]  agent_number {'?a': 'b'} = 38)
+Value 39: Function([id:347, header_id:6]  agent_number {'?a': 'b'} = 39)
+Value 40: Function([id:348, header_id:6]  agent_number {'?a': 'b'} = 40)
+Value 41: Function([id:349, header_id:6]  agent_number {'?a': 'b'} = 41)
+Value 42: Function([id:350, header_id:6]  agent_number {'?a': 'b'} = 42)
+Value 43: Function([id:351, header_id:6]  agent_number {'?a': 'b'} = 43)
+Value 44: Function([id:352, header_id:6]  agent_number {'?a': 'b'} = 44)
+Value 45: Function([id:353, header_id:6]  agent_number {'?a': 'b'} = 45)
+Value 46: Function([id:354, header_id:6]  agent_number {'?a': 'b'} = 46)
+Value 47: Function([id:355, header_id:6]  agent_number {'?a': 'b'} = 47)
+Value 48: Function([id:356, header_id:6]  agent_number {'?a': 'b'} = 48)
+Value 49: Function([id:357, header_id:6]  agent_number {'?a': 'b'} = 49)
+Value 50: Function([id:358, header_id:6]  agent_number {'?a': 'b'} = 50)
+Value 51: Function([id:359, header_id:6]  agent_number {'?a': 'b'} = 51)
+Value 52: Function([id:360, header_id:6]  agent_number {'?a': 'b'} = 52)
+Value 53: Function([id:361, header_id:6]  agent_number {'?a': 'b'} = 53)
+Value 54: Function([id:362, header_id:6]  agent_number {'?a': 'b'} = 54)
+Value 55: Function([id:363, header_id:6]  agent_number {'?a': 'b'} = 55)
+Value 56: Function([id:364, header_id:6]  agent_number {'?a': 'b'} = 56)
+Value 57: Function([id:365, header_id:6]  agent_number {'?a': 'b'} = 57)
+Value 58: Function([id:366, header_id:6]  agent_number {'?a': 'b'} = 58)
+Value 59: Function([id:367, header_id:6]  agent_number {'?a': 'b'} = 59)
+Value 60: Function([id:368, header_id:6]  agent_number {'?a': 'b'} = 60)
+Value 61: Function([id:369, header_id:6]  agent_number {'?a': 'b'} = 61)
+Value 62: Function([id:370, header_id:6]  agent_number {'?a': 'b'} = 62)
+Value 63: Function([id:371, header_id:6]  agent_number {'?a': 'b'} = 63)
+Value 64: Function([id:372, header_id:6]  agent_number {'?a': 'b'} = 64)
+Value 65: Function([id:373, header_id:6]  agent_number {'?a': 'b'} = 65)
+Value 66: Function([id:374, header_id:6]  agent_number {'?a': 'b'} = 66)
+Value 67: Function([id:375, header_id:6]  agent_number {'?a': 'b'} = 67)
+Value 68: Function([id:376, header_id:6]  agent_number {'?a': 'b'} = 68)
+Value 69: Function([id:377, header_id:6]  agent_number {'?a': 'b'} = 69)
+Value 70: Function([id:378, header_id:6]  agent_number {'?a': 'b'} = 70)
+Value 71: Function([id:379, header_id:6]  agent_number {'?a': 'b'} = 71)
+Value 72: Function([id:380, header_id:6]  agent_number {'?a': 'b'} = 72)
+Value 73: Function([id:381, header_id:6]  agent_number {'?a': 'b'} = 73)
+Value 74: Function([id:382, header_id:6]  agent_number {'?a': 'b'} = 74)
+Value 75: Function([id:383, header_id:6]  agent_number {'?a': 'b'} = 75)
+Value 76: Function([id:384, header_id:6]  agent_number {'?a': 'b'} = 76)
+Value 77: Function([id:385, header_id:6]  agent_number {'?a': 'b'} = 77)
+Value 78: Function([id:386, header_id:6]  agent_number {'?a': 'b'} = 78)
+Value 79: Function([id:387, header_id:6]  agent_number {'?a': 'b'} = 79)
+Value 80: Function([id:388, header_id:6]  agent_number {'?a': 'b'} = 80)
+Value 81: Function([id:389, header_id:6]  agent_number {'?a': 'b'} = 81)
+Value 82: Function([id:390, header_id:6]  agent_number {'?a': 'b'} = 82)
+Value 83: Function([id:391, header_id:6]  agent_number {'?a': 'b'} = 83)
+Value 84: Function([id:392, header_id:6]  agent_number {'?a': 'b'} = 84)
+Value 85: Function([id:393, header_id:6]  agent_number {'?a': 'b'} = 85)
+Value 86: Function([id:394, header_id:6]  agent_number {'?a': 'b'} = 86)
+Value 87: Function([id:395, header_id:6]  agent_number {'?a': 'b'} = 87)
+Value 88: Function([id:396, header_id:6]  agent_number {'?a': 'b'} = 88)
+Value 89: Function([id:397, header_id:6]  agent_number {'?a': 'b'} = 89)
+Value 90: Function([id:398, header_id:6]  agent_number {'?a': 'b'} = 90)
+Value 91: Function([id:399, header_id:6]  agent_number {'?a': 'b'} = 91)
+Value 92: Function([id:400, header_id:6]  agent_number {'?a': 'b'} = 92)
+Value 93: Function([id:401, header_id:6]  agent_number {'?a': 'b'} = 93)
+Value 94: Function([id:402, header_id:6]  agent_number {'?a': 'b'} = 94)
+Value 95: Function([id:403, header_id:6]  agent_number {'?a': 'b'} = 95)
+Value 96: Function([id:404, header_id:6]  agent_number {'?a': 'b'} = 96)
+Value 97: Function([id:405, header_id:6]  agent_number {'?a': 'b'} = 97)
+Value 98: Function([id:406, header_id:6]  agent_number {'?a': 'b'} = 98)
+Value 99: Function([id:407, header_id:6]  agent_number {'?a': 'b'} = 99)
+Value 100: Function([id:408, header_id:6]  agent_number {'?a': 'b'} = 100)
+Function agent_know:
+Parameters ['a']:
+Value 0: Function([id:409, header_id:7]  agent_know {'?a': 'a'} = 0)
+Value 1: Function([id:410, header_id:7]  agent_know {'?a': 'a'} = 1)
+Parameters ['b']:
+Value 0: Function([id:411, header_id:8]  agent_know {'?a': 'b'} = 0)
+Value 1: Function([id:412, header_id:8]  agent_know {'?a': 'b'} = 1)
+
+=================
+Entity(a - agent)
+Entity(b - agent)
+=================
+FunctionSchema(name: number_range_min, range: (0, 100), type: integer, require_parameters: {})
+FunctionSchema(name: number_range_max, range: (0, 100), type: integer, require_parameters: {})
+FunctionSchema(name: agent_id, range: ['a', 'b'], type: enumerate, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: agent_number, range: (0, 100), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: agent_know, range: (0, 1), type: integer, require_parameters: {'?a': 'agent'})
+=================
+-----------------
+Action Schema: say_unknown
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+Effect Schemas:
+EffectSchema("INCREASE" (number_range_min {}) = 1)
+EffectSchema("DECREASE" (number_range_max {}) = 1)
+
+-----------------
+Action Schema: say_known
+Parameters: {'?self': 'agent', '?b': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (agent_id {'?self': 'agent'}) = (agent_id {'?b': 'agent'}))
+ConditionSchema(("EP_NOT_EQUAL" ['?self'] "EP_UNKNOWN") "NONE" (agent_number {'?b': 'agent'}) = )
+Effect Schemas:
+EffectSchema("ASSIGN" (agent_know {'?self': 'agent'}) = 1)
+
+=================
+Function([id:1, header_id:1]  number_range_min {} = 0)
+Function([id:202, header_id:2]  number_range_max {} = 100)
+Function([id:203, header_id:3]  agent_id {'?a': 'a'} = a)
+Function([id:206, header_id:4]  agent_id {'?a': 'b'} = b)
+Function([id:229, header_id:5]  agent_number {'?a': 'a'} = 22)
+Function([id:329, header_id:6]  agent_number {'?a': 'b'} = 21)
+Function([id:409, header_id:7]  agent_know {'?a': 'a'} = 0)
+Function([id:411, header_id:8]  agent_know {'?a': 'b'} = 0)
+=================
+Agent: a
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['a'] agent_know ['a'] = 1)
+Other Goals:
+b:
+Condition(['b'] agent_know ['b'] = 1)
+All Possible Goals:
+b:
+Condition(['b'] agent_know ['b'] = 1)
+-----------------
+
+Agent: b
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['b'] agent_know ['b'] = 1)
+Other Goals:
+a:
+Condition(['a'] agent_know ['a'] = 1)
+All Possible Goals:
+a:
+Condition(['a'] agent_know ['a'] = 1)
+-----------------
+
+
+2025-11-23 16:16:28,181 INFO - __main__._.<module>:
+Model built successfully.
+2025-11-23 16:16:28,319 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:28,410 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:28,426 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 64, 2.738ms/expand
+2025-11-23 16:16:28,426 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:28,427 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:28,486 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:28,558 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:28,576 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 60, 2.467ms/expand
+2025-11-23 16:16:28,576 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:28,576 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:28,632 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:28,713 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:28,732 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 60, 2.571ms/expand
+2025-11-23 16:16:28,732 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:28,733 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:28,813 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:28,884 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:28,904 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 56, 2.997ms/expand
+2025-11-23 16:16:28,904 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:28,904 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:28,999 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:29,080 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:29,094 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 56, 3.360ms/expand
+2025-11-23 16:16:29,095 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:29,095 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:29,152 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:29,232 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:29,254 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 52, 3.044ms/expand
+2025-11-23 16:16:29,254 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:29,255 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:29,316 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:29,392 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:29,406 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 52, 2.861ms/expand
+2025-11-23 16:16:29,406 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:29,407 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:29,468 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:29,530 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:29,548 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 48, 2.687ms/expand
+2025-11-23 16:16:29,549 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:29,549 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:29,606 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:29,682 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:29,696 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 48, 3.017ms/expand
+2025-11-23 16:16:29,696 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:29,697 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:29,747 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:29,813 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:29,836 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 44, 3.098ms/expand
+2025-11-23 16:16:29,836 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:29,836 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:29,896 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:29,972 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:29,987 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 44, 3.328ms/expand
+2025-11-23 16:16:29,987 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:29,988 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:30,031 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:30,089 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:30,109 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 40, 2.936ms/expand
+2025-11-23 16:16:30,109 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:30,109 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:30,161 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:30,232 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:30,246 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 40, 3.307ms/expand
+2025-11-23 16:16:30,246 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:30,247 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:30,290 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:30,347 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:30,368 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 36, 3.254ms/expand
+2025-11-23 16:16:30,368 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:30,369 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:30,409 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:30,466 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:30,480 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 36, 2.935ms/expand
+2025-11-23 16:16:30,480 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:30,480 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:30,517 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:30,564 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:30,583 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 32, 3.073ms/expand
+2025-11-23 16:16:30,584 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:30,584 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:30,621 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:30,677 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:30,690 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 32, 3.093ms/expand
+2025-11-23 16:16:30,690 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:30,690 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:30,721 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:30,762 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:30,780 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 28, 3.009ms/expand
+2025-11-23 16:16:30,781 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:30,781 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:30,813 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:30,866 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:30,881 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 28, 3.360ms/expand
+2025-11-23 16:16:30,882 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:30,882 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:30,919 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:30,955 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['b'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:30,973 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 24, 3.464ms/expand
+2025-11-23 16:16:30,973 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['b'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:30,974 INFO - __main__.Model.simulate:
+b takes action: say_unknown(['b'])
+2025-11-23 16:16:31,002 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:31,049 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+2025-11-23 16:16:31,063 INFO - __main__.ShareGoalBFS.bfs:
+Models: 2, Exapnds: 24, 3.389ms/expand
+2025-11-23 16:16:31,063 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_unknown(['a'])", 2)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:31,063 INFO - __main__.Model.simulate:
+a takes action: say_unknown(['a'])
+2025-11-23 16:16:31,085 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+2025-11-23 16:16:31,109 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 11, 3.233ms/expand
+2025-11-23 16:16:31,109 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_known(['b', 'a'])", 1)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:31,109 INFO - __main__.Model.simulate:
+b takes action: say_known(['b', 'a'])
+2025-11-23 16:16:31,125 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["say_known(['a', 'b'])"]
+2025-11-23 16:16:31,138 INFO - __main__.ShareGoalBFS.bfs:
+Models: 1, Exapnds: 6, 3.284ms/expand
+2025-11-23 16:16:31,138 INFO - __main__.ShareGoalBFS.get_policy:
+[("say_known(['a', 'b'])", 1)]
+{'a': 1, 'b': 1}
+2025-11-23 16:16:31,138 INFO - __main__.Model.simulate:
+a takes action: say_known(['a', 'b'])
+2025-11-23 16:16:31,139 DEBUG - __main__.Model.simulate:
+====== Solution ======
+Step 1:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 2:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 3:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 4:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 5:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 6:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 7:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 8:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 9:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 10:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 11:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 12:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 13:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 14:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 15:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 16:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 17:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 18:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 19:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 20:
+b: say_unknown(['b'])
+{'a': False, 'b': False}
+-----------------
+Step 21:
+a: say_unknown(['a'])
+{'a': False, 'b': False}
+-----------------
+Step 22:
+b: say_known(['b', 'a'])
+{'a': False, 'b': False}
+-----------------
+Step 23:
+a: say_known(['a', 'b'])
+{'a': False, 'b': True}
+-----------------
+
+2025-11-23 16:16:31,139 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 23
+Time cost: 2.889455s
+2025-11-23 16:16:31,139 EXP - __main__.Logger.exp:
+Avg Steps: 23.0
+Avg Time: 2.889455s

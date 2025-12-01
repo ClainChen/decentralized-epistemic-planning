@@ -5,118 +5,6 @@ import shlex
 from pathlib import Path
 import json
 
-# 要执行的命令列表
-
-commands = [
-#region
-# # coin1
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/share.py --share -test 100",
-
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
-
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
-    
-#     "python entrance.py -d coin/domain.pddl -p coin/problem1 -ob coin.py --rules coin.py --strategy experiment/filtergoalexp.py -test 100",
-
-# # coin2
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/share.py --share -test 100",
-
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py ---rules coin.py -strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
-
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
-    
-#     "python entrance.py -d coin/domain.pddl -p coin/problem2 -ob coin.py --rules coin.py --strategy experiment/filtergoalexp.py -test 100",
-
-# # corridor2a1i
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a1i_1 -ob corridor.py --rules corridor.py --strategy experiment/share.py --share -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a1i_1 -ob corridor.py --rules corridor.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a1i_1 -ob corridor.py --rules corridor.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a1i_1 -ob corridor.py --rules corridor.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a1i_1 -ob corridor.py --rules corridor.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
-    
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a1i_1 -ob corridor.py --rules corridor.py --strategy experiment/filtergoalexp.py -test 100",
-
-# # corridor2a2i_1
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_1 -ob corridor.py --rules corridor.py --strategy experiment/share.py --share -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_1 -ob corridor.py --rules corridor.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_1 -ob corridor.py --rules corridor.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_1 -ob corridor.py --rules corridor.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_1 -ob corridor.py --rules corridor.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
-    
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_1 -ob corridor.py --rules corridor.py --strategy experiment/filtergoalexp.py -test 100",
-
-# # corridor2a2i_2
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_2 -ob corridor.py --rules corridor.py --strategy experiment/share.py --share -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_2 -ob corridor.py --rules corridor.py --strategy experiment/stay.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_2 -ob corridor.py --rules corridor.py --strategy experiment/coop.py --without_agt_goal [a,b] --without_agt_exp [a,b] -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_2 -ob corridor.py --rules corridor.py --strategy experiment/coopexp.py --without_agt_goal [a,b] -test 100",
-
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_2 -ob corridor.py --rules corridor.py --strategy experiment/filtergoal.py --without_agt_exp [a,b] -test 100",
-    
-#     "python entrance.py -d corridor/domain.pddl -p corridor/2a2i_2 -ob corridor.py --rules corridor.py --strategy experiment/filtergoalexp.py -test 100",
-
-# corridor4a4i_1
-    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/share.py --share -test 10",
-
-    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
-
-    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
-
-    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
-
-    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 100",
-    
-    # "python entrance.py -d corridor/domain.pddl -p corridor/4a4i_1 -ob corridor.py --rules corridor.py --strategy experiment/filtergoalexp.py -test 100",
-
-# grapevine4a1s1d
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 10",
-
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/stay.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
-
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coop.py --without_agt_goal [a,b,c,d] --without_agt_exp [a,b,c,d] -test 10",
-
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c,d] -test 10",
-
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c,d] -test 10",
-    
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/4a1s1d -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 10",
-
-# grapevine3a2s
-    "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/share.py --share -test 10",
-
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/stay.py --without_agt_goal [a,b,c] --without_agt_exp [a,b,c] -test 10",
-
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/coop.py --without_agt_goal [a,b,c] --without_agt_exp [a,b,c] -test 10",
-
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/coopexp.py --without_agt_goal [a,b,c] -test 10",
-
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoal.py --without_agt_exp [a,b,c] -test 10",
-    
-    # "python entrance.py -d grapevine/domain.pddl -p grapevine/3a2s -ob grapevine.py --rules grapevine.py --strategy experiment/filtergoalexp.py -test 10",
-
-
-#endregion
-]
-
 
 
 def dict_to_pretty_str(data_dict, indent=2):
@@ -170,6 +58,7 @@ def run_command(command):
     parse = parse_command_line(command)
     """执行单条命令并返回结果"""
     try:
+
         result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=3600)
         result = {
             'command': command,
@@ -195,10 +84,48 @@ def run_command(command):
         }
         return parse, result
 
+def analyze_tasks(tasks):
+    for task in tasks:
+        if task['enabled'] == 0:
+            continue
+        domain: str = task['model_name']
+        problems: list[dict] = task['problems']
+        ob: str = task['ob']
+        rules: str = task['rules']
+        tests: list[dict] = task['tests']
+        for problem in problems:
+            if problem['enabled'] == 0:
+                continue
+            agents = f"{problem['agents']}".replace("\'", '')
+            agents = agents.replace(" ", '')
+            for test in tests:
+                if test['enabled'] == 0:
+                    continue
+                strategy: str = test['strategy']
+                num_tests: int = test['num']
+                if strategy == 'share':
+                    command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy experiment/{strategy}.py --share -tests {num_tests}"
+                elif strategy == 'stay':
+                    command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy experiment/{strategy}.py --without_agt_goal '{agents}' --without_agt_exp '{agents}' -tests {num_tests}"
+                elif strategy == 'stayexp':
+                    command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy experiment/{strategy}.py --without_agt_goal '{agents}' -tests {num_tests}"
+                elif strategy == 'coop':
+                    command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy experiment/{strategy}.py --without_agt_goal '{agents}' --without_agt_exp '{agents}' -tests {num_tests}"
+                elif strategy == 'coopexp':
+                    command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy experiment/{strategy}.py --without_agt_goal '{agents}' -tests {num_tests}"
+                elif strategy == 'filtergoal':
+                    command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy experiment/{strategy}.py --without_agt_exp '{agents}' -tests {num_tests} -goals {problem['limit']}"
+                else:
+                    command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy experiment/{strategy}.py -tests {num_tests} -goals {problem['limit']}"
+                yield command
+
+with open('tasks.json', 'r') as f:
+    tasks = json.load(f)
+
 # 使用线程池并行执行
 with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
     # 提交所有任务
-    future_to_command = {executor.submit(run_command, cmd): cmd for cmd in commands}
+    future_to_command = {executor.submit(run_command, cmd): cmd for cmd in analyze_tasks(tasks)}
     
     # 获取结果
     for future in concurrent.futures.as_completed(future_to_command):
@@ -219,8 +146,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
             with open(dire / filename, 'w') as f:
                 f.write(output)
 
+            
             task = f"{parse['problem'].replace('/', '-')}-{parse['strategy'][11:-3]}"
-
             print(f"任务 {task} 执行完成")
         except Exception as exc:
             print(f"任务 {command} 执行时发生异常: {exc}")

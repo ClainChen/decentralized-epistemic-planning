@@ -1,5 +1,4 @@
 from epistemic_handler.epistemic_class import Model, Function, Action, Condition
-import util
 
 class AbstractObservationFunction:
     """

@@ -1,0 +1,10 @@
+(define
+    (problem 2a7r3)
+    (:domain mapf)
+    (:agent a)
+
+    (:goal (and
+        (= (@ep (" b [a]") (= (agent_at a) r5)) ep.true)
+        )
+    )
+)

@@ -1,0 +1,820 @@
+2025-11-24 19:28:02,937 INFO - __main__._.<module>:
+Start building the model, type: "True"
+2025-11-24 19:28:02,937 INFO - __main__._.build:
+Start building the model, type: "True"
+2025-11-24 19:28:02,938 INFO - __main__.DomainParser.run:
+Domain "models/light_bulb/domain.pddl" start initialization.
+2025-11-24 19:28:02,938 INFO - __main__.DomainParser.run:
+Domain Parser found "models/light_bulb/domain.pddl"
+2025-11-24 19:28:02,938 INFO - __main__.DomainParser.run:
+Complete file reading.
+2025-11-24 19:28:02,938 INFO - __main__.DomainParser.run:
+Domain name found
+2025-11-24 19:28:02,938 INFO - __main__.DomainParser.run:
+Domain type found
+2025-11-24 19:28:02,939 INFO - __main__.DomainParser.run:
+Domain functions found
+2025-11-24 19:28:02,939 INFO - __main__.DomainParser.run:
+Domain actions found
+2025-11-24 19:28:02,940 DEBUG - __main__.DomainParser.run:
+Parsed Domain Result:
+================= Domain "(muddy_children)" Parsing Result ================
+Domain types: ['agent', 'light', 'button', 'bs']
+=================
+Domain functions:
+Function(name:light_on, parameters:{'light': ['?l']}). 
+Function(name:light_off, parameters:{'light': ['?l']}). 
+Function(name:button_state, parameters:{'button': ['?b']}). 
+Function(name:button_light_state, parameters:{'button': ['?b'], 'bs': ['?bs']}). 
+Function(name:connected, parameters:{'button': ['?b']}). 
+Function(name:agent_id, parameters:{'agent': ['?a']}). 
+Function(name:tell_lock, parameters:{}). 
+Function(name:telling, parameters:{'agent': ['?a']}). 
+Function(name:a_observable, parameters:{'light': ['?l']}). 
+Function(name:observable, parameters:{'light': ['?l']}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: press_on_button
+Parameters:
+    agent : ['?self']
+    button : ['?b']
+Preconditions:
+1: Condition(Variable(tell_lock: []) = 0)
+2: Condition(Variable(agent_id: ['?self']) = a)
+3: Condition(Variable(button_state: ['?b']) = off)
+Effects:
+1: Effect('assign' Variable(button_state: ['?b']) on)
+
+-----------------
+Action:
+Name: press_off_button
+Parameters:
+    agent : ['?self']
+    button : ['?b']
+Preconditions:
+1: Condition(Variable(tell_lock: []) = 0)
+2: Condition(Variable(agent_id: ['?self']) = a)
+3: Condition(Variable(button_state: ['?b']) = on)
+Effects:
+1: Effect('assign' Variable(button_state: ['?b']) off)
+
+-----------------
+Action:
+Name: tell
+Parameters:
+    agent : ['?self']
+    light : ['?l']
+Preconditions:
+1: Condition(Variable(agent_id: ['?self']) != a)
+2: Condition(Variable(observable: ['?l']) = Variable(agent_id: ['?self']))
+3: Condition(Variable(telling: ['?self']) = 0)
+4: Condition(Variable(tell_lock: []) = 0)
+Effects:
+1: Effect('assign' Variable(telling: ['?self']) 1)
+2: Effect('assign' Variable(tell_lock: []) 1)
+3: Effect('assign' Variable(a_observable: ['?l']) 1)
+
+-----------------
+Action:
+Name: quiet
+Parameters:
+    agent : ['?self']
+    light : ['?l']
+Preconditions:
+1: Condition(Variable(agent_id: ['?self']) != a)
+2: Condition(Variable(observable: ['?l']) = Variable(agent_id: ['?self']))
+3: Condition(Variable(telling: ['?self']) = 1)
+4: Condition(Variable(tell_lock: []) = 1)
+Effects:
+1: Effect('assign' Variable(telling: ['?self']) 0)
+2: Effect('assign' Variable(tell_lock: []) 0)
+3: Effect('assign' Variable(a_observable: ['?l']) 0)
+
+-----------------
+Action:
+Name: normal_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(tell_lock: []) = 0)
+Effects:
+
+-----------------
+Action:
+Name: lock_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(tell_lock: []) = 1)
+2: Condition(Variable(telling: ['?self']) = 0)
+Effects:
+
+
+2025-11-24 19:28:02,940 INFO - __main__.ProblemParser.run:
+Problem "models/light_bulb/light2" start initialization.
+2025-11-24 19:28:02,940 INFO - __main__.ProblemParser.get_files:
+Problem folder found "models/light_bulb/light2"
+2025-11-24 19:28:02,940 INFO - __main__.ProblemParser.run:
+Found 3 agent files:
+"models/light_bulb/light2/a.agtpddl"
+"models/light_bulb/light2/b.agtpddl"
+"models/light_bulb/light2/c.agtpddl"
+2025-11-24 19:28:02,940 INFO - __main__.ProblemParser.run:
+Found init file: "models/light_bulb/light2/init.envpddl"
+2025-11-24 19:28:02,940 INFO - __main__.ProblemParser.run:
+Complete reading environment file.
+2025-11-24 19:28:02,941 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/light_bulb/light2/a.agtpddl"
+2025-11-24 19:28:02,941 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/light_bulb/light2/b.agtpddl"
+2025-11-24 19:28:02,941 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/light_bulb/light2/c.agtpddl"
+2025-11-24 19:28:02,941 INFO - __main__.ProblemParser.run:
+Problem domain name "light_bulb" found
+Problem name "light2" found
+2025-11-24 19:28:02,942 INFO - __main__.ProblemParser.run:
+Problem agents found
+2025-11-24 19:28:02,942 INFO - __main__.ProblemParser.run:
+Problem objects found
+2025-11-24 19:28:02,942 INFO - __main__.ProblemParser.run:
+Problem ranges found
+2025-11-24 19:28:02,942 INFO - __main__.ProblemParser.run:
+Problem initial states found
+2025-11-24 19:28:02,943 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-11-24 19:28:02,943 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-11-24 19:28:02,943 INFO - __main__.ProblemParser.run:
+Problem goals found
+2025-11-24 19:28:02,943 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         b[a] light_on(all) = t
+
+2025-11-24 19:28:02,943 INFO - __main__.ProblemParser.run:
+Problem acceptable goal set found
+2025-11-24 19:28:02,943 INFO - __main__.ProblemParser.run:
+Problem max belief depth found
+2025-11-24 19:28:02,944 DEBUG - __main__.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(light_bulb : light2)" Parsing Result ===========
+Agents: ['a', 'b', 'c']
+=================
+Objects:
+light: ['l1', 'l2']
+button: ['b1', 'b2']
+bs: ['on', 'off']
+=================
+States:
+State(variable: Variable(light_on: ['l1']), value: t, target_variable: Variable(None: []))
+State(variable: Variable(light_on: ['l2']), value: t, target_variable: Variable(None: []))
+State(variable: Variable(light_off: ['l1']), value: t, target_variable: Variable(None: []))
+State(variable: Variable(light_off: ['l2']), value: t, target_variable: Variable(None: []))
+State(variable: Variable(button_state: ['b1']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_state: ['b2']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b1', 'on']), value: on, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b1', 'off']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b2', 'on']), value: on, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b2', 'off']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['b1']), value: l1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['b2']), value: l2, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['a']), value: a, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['b']), value: b, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['c']), value: c, target_variable: Variable(None: []))
+State(variable: Variable(tell_lock: []), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(telling: ['a']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(telling: ['b']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(telling: ['c']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(a_observable: ['l1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(a_observable: ['l2']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(observable: ['l1']), value: b, target_variable: Variable(None: []))
+State(variable: Variable(observable: ['l2']), value: c, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(light_on: ['l1']) = t))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(light_on: ['l2']) = t))
+-----------------
+b:
+-----------------
+c:
+=================
+Ranges:
+Range(function_name: light_on, type: enumerate, enumerates: ['t'])
+Range(function_name: light_off, type: enumerate, enumerates: ['t'])
+Range(function_name: button_state, type: enumerate, enumerates: ['on', 'off'])
+Range(function_name: button_light_state, type: enumerate, enumerates: ['on', 'off'])
+Range(function_name: connected, type: enumerate, enumerates: ['l1', 'l2'])
+Range(function_name: agent_id, type: enumerate, enumerates: ['a', 'b', 'c'])
+Range(function_name: tell_lock, type: integer, min: 0, max: 1)
+Range(function_name: telling, type: integer, min: 0, max: 1)
+Range(function_name: a_observable, type: integer, min: 0, max: 1)
+Range(function_name: observable, type: enumerate, enumerates: ['b', 'c'])
+
+2025-11-24 19:28:02,944 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+The domain name is different from the problem's domain name
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c', 'l1', 'l2', 'b1', 'b2', 'on', 'off', 'unknown', 'light_on', 'light_off', 'button_state', 'button_light_state', 'connected', 'agent_id', 'tell_lock', 'telling', 'a_observable', 'observable']
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-24 19:28:02,944 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-24 19:28:02,944 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+The domain name is different from the problem's domain name
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c', 'l1', 'l2', 'b1', 'b2', 'on', 'off', 'unknown', 'light_on', 'light_off', 'button_state', 'button_light_state', 'connected', 'agent_id', 'tell_lock', 'telling', 'a_observable', 'observable']
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-24 19:28:02,944 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-24 19:28:02,944 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-24 19:28:02,946 INFO - __main__._.load_observation_function:
+Loaded observation function LightBulbObsFunc to agent a
+2025-11-24 19:28:02,947 INFO - __main__._.load_observation_function:
+Loaded observation function LightBulbObsFunc to agent b
+2025-11-24 19:28:02,947 INFO - __main__._.load_observation_function:
+Loaded observation function LightBulbObsFunc to agent c
+2025-11-24 19:28:02,951 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent a
+2025-11-24 19:28:02,951 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent b
+2025-11-24 19:28:02,952 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent c
+2025-11-24 19:28:02,952 INFO - __main__.Model.init:
+Loaded problem type: "SHARE"
+2025-11-24 19:28:02,953 DEBUG - __main__._.build_model:
+Model:
+================= Model Result================
+Domain name: muddy_children
+Problem name: light2
+Problem type: "SHARE"
+=================
+Function light_on:
+Parameters ['l1']:
+Value None: Function([id:1, header_id:1]  light_on {'?l': 'l1'} = None)
+Value t: Function([id:2, header_id:1]  light_on {'?l': 'l1'} = t)
+Parameters ['l2']:
+Value None: Function([id:3, header_id:2]  light_on {'?l': 'l2'} = None)
+Value t: Function([id:4, header_id:2]  light_on {'?l': 'l2'} = t)
+Function light_off:
+Parameters ['l1']:
+Value None: Function([id:5, header_id:3]  light_off {'?l': 'l1'} = None)
+Value t: Function([id:6, header_id:3]  light_off {'?l': 'l1'} = t)
+Parameters ['l2']:
+Value None: Function([id:7, header_id:4]  light_off {'?l': 'l2'} = None)
+Value t: Function([id:8, header_id:4]  light_off {'?l': 'l2'} = t)
+Function button_state:
+Parameters ['b1']:
+Value None: Function([id:9, header_id:5]  button_state {'?b': 'b1'} = None)
+Value on: Function([id:10, header_id:5]  button_state {'?b': 'b1'} = on)
+Value off: Function([id:11, header_id:5]  button_state {'?b': 'b1'} = off)
+Parameters ['b2']:
+Value None: Function([id:12, header_id:6]  button_state {'?b': 'b2'} = None)
+Value on: Function([id:13, header_id:6]  button_state {'?b': 'b2'} = on)
+Value off: Function([id:14, header_id:6]  button_state {'?b': 'b2'} = off)
+Function button_light_state:
+Parameters ['b1', 'on']:
+Value None: Function([id:15, header_id:7]  button_light_state {'?b': 'b1', '?bs': 'on'} = None)
+Value on: Function([id:16, header_id:7]  button_light_state {'?b': 'b1', '?bs': 'on'} = on)
+Value off: Function([id:17, header_id:7]  button_light_state {'?b': 'b1', '?bs': 'on'} = off)
+Parameters ['b1', 'off']:
+Value None: Function([id:18, header_id:8]  button_light_state {'?b': 'b1', '?bs': 'off'} = None)
+Value on: Function([id:19, header_id:8]  button_light_state {'?b': 'b1', '?bs': 'off'} = on)
+Value off: Function([id:20, header_id:8]  button_light_state {'?b': 'b1', '?bs': 'off'} = off)
+Parameters ['b2', 'on']:
+Value None: Function([id:21, header_id:9]  button_light_state {'?b': 'b2', '?bs': 'on'} = None)
+Value on: Function([id:22, header_id:9]  button_light_state {'?b': 'b2', '?bs': 'on'} = on)
+Value off: Function([id:23, header_id:9]  button_light_state {'?b': 'b2', '?bs': 'on'} = off)
+Parameters ['b2', 'off']:
+Value None: Function([id:24, header_id:10]  button_light_state {'?b': 'b2', '?bs': 'off'} = None)
+Value on: Function([id:25, header_id:10]  button_light_state {'?b': 'b2', '?bs': 'off'} = on)
+Value off: Function([id:26, header_id:10]  button_light_state {'?b': 'b2', '?bs': 'off'} = off)
+Function connected:
+Parameters ['b1']:
+Value None: Function([id:27, header_id:11]  connected {'?b': 'b1'} = None)
+Value l1: Function([id:28, header_id:11]  connected {'?b': 'b1'} = l1)
+Value l2: Function([id:29, header_id:11]  connected {'?b': 'b1'} = l2)
+Parameters ['b2']:
+Value None: Function([id:30, header_id:12]  connected {'?b': 'b2'} = None)
+Value l1: Function([id:31, header_id:12]  connected {'?b': 'b2'} = l1)
+Value l2: Function([id:32, header_id:12]  connected {'?b': 'b2'} = l2)
+Function agent_id:
+Parameters ['a']:
+Value None: Function([id:33, header_id:13]  agent_id {'?a': 'a'} = None)
+Value a: Function([id:34, header_id:13]  agent_id {'?a': 'a'} = a)
+Value b: Function([id:35, header_id:13]  agent_id {'?a': 'a'} = b)
+Value c: Function([id:36, header_id:13]  agent_id {'?a': 'a'} = c)
+Parameters ['b']:
+Value None: Function([id:37, header_id:14]  agent_id {'?a': 'b'} = None)
+Value a: Function([id:38, header_id:14]  agent_id {'?a': 'b'} = a)
+Value b: Function([id:39, header_id:14]  agent_id {'?a': 'b'} = b)
+Value c: Function([id:40, header_id:14]  agent_id {'?a': 'b'} = c)
+Parameters ['c']:
+Value None: Function([id:41, header_id:15]  agent_id {'?a': 'c'} = None)
+Value a: Function([id:42, header_id:15]  agent_id {'?a': 'c'} = a)
+Value b: Function([id:43, header_id:15]  agent_id {'?a': 'c'} = b)
+Value c: Function([id:44, header_id:15]  agent_id {'?a': 'c'} = c)
+Function tell_lock:
+Parameters []:
+Value None: Function([id:45, header_id:16]  tell_lock {} = None)
+Value 0: Function([id:46, header_id:16]  tell_lock {} = 0)
+Value 1: Function([id:47, header_id:16]  tell_lock {} = 1)
+Function telling:
+Parameters ['a']:
+Value None: Function([id:48, header_id:17]  telling {'?a': 'a'} = None)
+Value 0: Function([id:49, header_id:17]  telling {'?a': 'a'} = 0)
+Value 1: Function([id:50, header_id:17]  telling {'?a': 'a'} = 1)
+Parameters ['b']:
+Value None: Function([id:51, header_id:18]  telling {'?a': 'b'} = None)
+Value 0: Function([id:52, header_id:18]  telling {'?a': 'b'} = 0)
+Value 1: Function([id:53, header_id:18]  telling {'?a': 'b'} = 1)
+Parameters ['c']:
+Value None: Function([id:54, header_id:19]  telling {'?a': 'c'} = None)
+Value 0: Function([id:55, header_id:19]  telling {'?a': 'c'} = 0)
+Value 1: Function([id:56, header_id:19]  telling {'?a': 'c'} = 1)
+Function a_observable:
+Parameters ['l1']:
+Value None: Function([id:57, header_id:20]  a_observable {'?l': 'l1'} = None)
+Value 0: Function([id:58, header_id:20]  a_observable {'?l': 'l1'} = 0)
+Value 1: Function([id:59, header_id:20]  a_observable {'?l': 'l1'} = 1)
+Parameters ['l2']:
+Value None: Function([id:60, header_id:21]  a_observable {'?l': 'l2'} = None)
+Value 0: Function([id:61, header_id:21]  a_observable {'?l': 'l2'} = 0)
+Value 1: Function([id:62, header_id:21]  a_observable {'?l': 'l2'} = 1)
+Function observable:
+Parameters ['l1']:
+Value None: Function([id:63, header_id:22]  observable {'?l': 'l1'} = None)
+Value b: Function([id:64, header_id:22]  observable {'?l': 'l1'} = b)
+Value c: Function([id:65, header_id:22]  observable {'?l': 'l1'} = c)
+Parameters ['l2']:
+Value None: Function([id:66, header_id:23]  observable {'?l': 'l2'} = None)
+Value b: Function([id:67, header_id:23]  observable {'?l': 'l2'} = b)
+Value c: Function([id:68, header_id:23]  observable {'?l': 'l2'} = c)
+
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(c - agent)
+Entity(l1 - light)
+Entity(l2 - light)
+Entity(b1 - button)
+Entity(b2 - button)
+Entity(on - bs)
+Entity(off - bs)
+=================
+FunctionSchema(name: light_on, range: ['t'], type: enumerate, require_parameters: {'?l': 'light'})
+FunctionSchema(name: light_off, range: ['t'], type: enumerate, require_parameters: {'?l': 'light'})
+FunctionSchema(name: button_state, range: ['on', 'off'], type: enumerate, require_parameters: {'?b': 'button'})
+FunctionSchema(name: button_light_state, range: ['on', 'off'], type: enumerate, require_parameters: {'?b': 'button', '?bs': 'bs'})
+FunctionSchema(name: connected, range: ['l1', 'l2'], type: enumerate, require_parameters: {'?b': 'button'})
+FunctionSchema(name: agent_id, range: ['a', 'b', 'c'], type: enumerate, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: tell_lock, range: (0, 1), type: integer, require_parameters: {})
+FunctionSchema(name: telling, range: (0, 1), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: a_observable, range: (0, 1), type: integer, require_parameters: {'?l': 'light'})
+FunctionSchema(name: observable, range: ['b', 'c'], type: enumerate, require_parameters: {'?l': 'light'})
+=================
+-----------------
+Action Schema: press_on_button
+Parameters: {'?self': 'agent', '?b': 'button'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_id {'?self': 'agent'}) = a)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (button_state {'?b': 'button'}) = off)
+Effect Schemas:
+EffectSchema("ASSIGN" (button_state {'?b': 'button'}) = on)
+
+-----------------
+Action Schema: press_off_button
+Parameters: {'?self': 'agent', '?b': 'button'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_id {'?self': 'agent'}) = a)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (button_state {'?b': 'button'}) = on)
+Effect Schemas:
+EffectSchema("ASSIGN" (button_state {'?b': 'button'}) = off)
+
+-----------------
+Action Schema: tell
+Parameters: {'?self': 'agent', '?l': 'light'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (agent_id {'?self': 'agent'}) = a)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (observable {'?l': 'light'}) = (agent_id {'?self': 'agent'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (telling {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (telling {'?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (tell_lock {}) = 1)
+EffectSchema("ASSIGN" (a_observable {'?l': 'light'}) = 1)
+
+-----------------
+Action Schema: quiet
+Parameters: {'?self': 'agent', '?l': 'light'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (agent_id {'?self': 'agent'}) = a)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (observable {'?l': 'light'}) = (agent_id {'?self': 'agent'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (telling {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (telling {'?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (tell_lock {}) = 0)
+EffectSchema("ASSIGN" (a_observable {'?l': 'light'}) = 0)
+
+-----------------
+Action Schema: normal_stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 0)
+Effect Schemas:
+
+-----------------
+Action Schema: lock_stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (telling {'?self': 'agent'}) = 0)
+Effect Schemas:
+
+=================
+Function([id:2, header_id:1]  light_on {'?l': 'l1'} = t)
+Function([id:4, header_id:2]  light_on {'?l': 'l2'} = t)
+Function([id:6, header_id:3]  light_off {'?l': 'l1'} = t)
+Function([id:8, header_id:4]  light_off {'?l': 'l2'} = t)
+Function([id:11, header_id:5]  button_state {'?b': 'b1'} = off)
+Function([id:14, header_id:6]  button_state {'?b': 'b2'} = off)
+Function([id:16, header_id:7]  button_light_state {'?b': 'b1', '?bs': 'on'} = on)
+Function([id:20, header_id:8]  button_light_state {'?b': 'b1', '?bs': 'off'} = off)
+Function([id:22, header_id:9]  button_light_state {'?b': 'b2', '?bs': 'on'} = on)
+Function([id:26, header_id:10]  button_light_state {'?b': 'b2', '?bs': 'off'} = off)
+Function([id:28, header_id:11]  connected {'?b': 'b1'} = l1)
+Function([id:32, header_id:12]  connected {'?b': 'b2'} = l2)
+Function([id:34, header_id:13]  agent_id {'?a': 'a'} = a)
+Function([id:39, header_id:14]  agent_id {'?a': 'b'} = b)
+Function([id:44, header_id:15]  agent_id {'?a': 'c'} = c)
+Function([id:46, header_id:16]  tell_lock {} = 0)
+Function([id:49, header_id:17]  telling {'?a': 'a'} = 0)
+Function([id:52, header_id:18]  telling {'?a': 'b'} = 0)
+Function([id:55, header_id:19]  telling {'?a': 'c'} = 0)
+Function([id:58, header_id:20]  a_observable {'?l': 'l1'} = 0)
+Function([id:61, header_id:21]  a_observable {'?l': 'l2'} = 0)
+Function([id:64, header_id:22]  observable {'?l': 'l1'} = b)
+Function([id:68, header_id:23]  observable {'?l': 'l2'} = c)
+=================
+Agent: a
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['a'] light_on ['l1'] = t)
+Condition(['a'] light_on ['l2'] = t)
+Other Goals:
+b:
+c:
+All Possible Goals:
+b:
+c:
+-----------------
+
+Agent: b
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Other Goals:
+a:
+Condition(['a'] light_on ['l1'] = t)
+Condition(['a'] light_on ['l2'] = t)
+c:
+All Possible Goals:
+a:
+Condition(['a'] light_on ['l1'] = t)
+Condition(['a'] light_on ['l2'] = t)
+c:
+-----------------
+
+Agent: c
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Other Goals:
+a:
+Condition(['a'] light_on ['l1'] = t)
+Condition(['a'] light_on ['l2'] = t)
+b:
+All Possible Goals:
+a:
+Condition(['a'] light_on ['l1'] = t)
+Condition(['a'] light_on ['l2'] = t)
+b:
+-----------------
+
+
+2025-11-24 19:28:02,954 INFO - __main__._.<module>:
+Model built successfully.
+2025-11-24 19:28:03,222 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b1'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:03,229 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b2'])", "tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b1'])", "tell(['b', 'l1'])"]
+2025-11-24 19:28:03,408 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b2'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:03,409 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b1'])", "tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b2'])", "tell(['b', 'l1'])"]
+2025-11-24 19:28:03,532 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b1'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:03,533 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b1'])", "tell(['c', 'l2'])", "quiet(['c', 'l2'])", "tell(['b', 'l1'])"]
+2025-11-24 19:28:03,679 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b1'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:03,681 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b1'])", "tell(['c', 'l2'])", "quiet(['c', 'l2'])", "tell(['b', 'l1'])"]
+2025-11-24 19:28:03,817 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b2'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:03,818 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b2'])", "tell(['c', 'l2'])", "quiet(['c', 'l2'])", "tell(['b', 'l1'])"]
+2025-11-24 19:28:03,940 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b2'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:03,941 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b2'])", "tell(['c', 'l2'])", "quiet(['c', 'l2'])", "tell(['b', 'l1'])"]
+2025-11-24 19:28:04,061 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['a'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:04,080 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['a'])", "tell(['c', 'l2'])", "quiet(['c', 'l2'])", "tell(['b', 'l1'])"]
+2025-11-24 19:28:04,203 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['a'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:04,204 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['a'])", "tell(['c', 'l2'])", "quiet(['c', 'l2'])", "tell(['b', 'l1'])"]
+2025-11-24 19:28:04,267 INFO - __main__.ShareGoalBFS.bfs:
+Models: 8, Exapnds: 247, 4.841ms/expand
+2025-11-24 19:28:04,268 INFO - __main__.ShareGoalBFS.get_policy:
+[("press_on_button(['a', 'b1'])", 4), ("press_on_button(['a', 'b2'])", 4), ("normal_stay(['a'])", 2)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-24 19:28:04,268 INFO - __main__.Model.simulate:
+a takes action: press_on_button(['a', 'b2'])
+2025-11-24 19:28:04,296 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:04,372 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:04,494 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:04,626 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:04,773 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:04,988 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:05,220 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b1'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:05,381 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b2'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:05,536 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:05,679 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:05,801 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:05,912 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:06,162 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b1'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:06,330 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b2'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:06,481 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:06,633 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:06,749 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:06,886 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:07,048 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b1'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:07,279 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b2'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:07,356 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:07,421 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:07,526 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:07,626 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:07,869 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b1'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:08,046 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b2'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:08,190 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:08,340 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:08,444 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:08,556 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:08,629 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:08,695 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['b', 'l1'])", "quiet(['b', 'l1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:08,735 INFO - __main__.ShareGoalBFS.bfs:
+Models: 32, Exapnds: 864, 5.168ms/expand
+2025-11-24 19:28:08,735 INFO - __main__.ShareGoalBFS.get_policy:
+[("tell(['b', 'l1'])", 32)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-24 19:28:08,735 INFO - __main__.Model.simulate:
+b takes action: tell(['b', 'l1'])
+2025-11-24 19:28:08,736 INFO - __main__.ShareGoalBFS.get_policy:
+Only one successor: lock_stay(['c'])
+2025-11-24 19:28:08,736 INFO - __main__.Model.simulate:
+c takes action: lock_stay(['c'])
+2025-11-24 19:28:08,737 INFO - __main__.ShareGoalBFS.get_policy:
+Only one successor: lock_stay(['a'])
+2025-11-24 19:28:08,737 INFO - __main__.Model.simulate:
+a takes action: lock_stay(['a'])
+2025-11-24 19:28:08,738 INFO - __main__.ShareGoalBFS.get_policy:
+Only one successor: quiet(['b', 'l1'])
+2025-11-24 19:28:08,738 INFO - __main__.Model.simulate:
+b takes action: quiet(['b', 'l1'])
+2025-11-24 19:28:08,751 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])"]
+2025-11-24 19:28:08,779 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])"]
+2025-11-24 19:28:08,856 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:08,879 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:09,030 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:09,032 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:09,178 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b1'])"]
+2025-11-24 19:28:09,180 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:09,316 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:09,339 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b1'])"]
+2025-11-24 19:28:09,553 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b1'])", "press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:09,588 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b1'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:09,797 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b2'])", "press_off_button(['a', 'b1'])"]
+2025-11-24 19:28:09,816 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b2'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:09,917 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:09,937 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b2'])"]
+2025-11-24 19:28:10,084 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b2'])"]
+2025-11-24 19:28:10,086 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:10,174 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])"]
+2025-11-24 19:28:10,200 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])"]
+2025-11-24 19:28:10,379 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b1'])", "press_on_button(['a', 'b2'])"]
+2025-11-24 19:28:10,412 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b1'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:10,610 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b2'])", "press_off_button(['a', 'b1'])"]
+2025-11-24 19:28:10,630 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b2'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:10,740 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b1'])"]
+2025-11-24 19:28:10,742 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:10,877 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:10,898 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b1'])"]
+2025-11-24 19:28:11,044 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:11,046 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:11,191 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:11,211 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:11,448 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b1'])", "press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:11,470 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b1'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:11,653 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b2'])", "press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:11,687 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b2'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:11,735 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])"]
+2025-11-24 19:28:11,764 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])"]
+2025-11-24 19:28:11,836 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:11,857 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:11,993 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:11,995 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_off_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:12,249 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b1'])", "press_on_button(['a', 'b2'])"]
+2025-11-24 19:28:12,284 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b1'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:12,483 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b2'])", "press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:12,503 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b2'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:12,615 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:12,618 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:12,761 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b1'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:12,786 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:12,923 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:12,945 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b2'])"]
+2025-11-24 19:28:13,080 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])", "quiet(['c', 'l2'])", "press_on_button(['a', 'b2'])"]
+2025-11-24 19:28:13,082 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['c'])", "press_on_button(['a', 'b2'])", "tell(['c', 'l2'])"]
+2025-11-24 19:28:13,170 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])"]
+2025-11-24 19:28:13,195 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["tell(['c', 'l2'])"]
+2025-11-24 19:28:13,212 INFO - __main__.ShareGoalBFS.bfs:
+Models: 32, Exapnds: 488, 9.160ms/expand
+2025-11-24 19:28:13,212 INFO - __main__.ShareGoalBFS.get_policy:
+[("tell(['c', 'l2'])", 32), ("normal_stay(['c'])", 24)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-24 19:28:13,213 INFO - __main__.Model.simulate:
+c takes action: tell(['c', 'l2'])
+2025-11-24 19:28:13,214 INFO - __main__.ShareGoalBFS.get_policy:
+Only one successor: lock_stay(['a'])
+2025-11-24 19:28:13,214 INFO - __main__.Model.simulate:
+a takes action: lock_stay(['a'])
+2025-11-24 19:28:13,216 INFO - __main__.ShareGoalBFS.get_policy:
+Only one successor: lock_stay(['b'])
+2025-11-24 19:28:13,216 INFO - __main__.Model.simulate:
+b takes action: lock_stay(['b'])
+2025-11-24 19:28:13,217 INFO - __main__.ShareGoalBFS.get_policy:
+Only one successor: quiet(['c', 'l2'])
+2025-11-24 19:28:13,217 INFO - __main__.Model.simulate:
+c takes action: quiet(['c', 'l2'])
+2025-11-24 19:28:13,243 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:13,299 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:13,401 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_off_button(['a', 'b2'])", "press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:13,548 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_off_button(['a', 'b2'])", "press_on_button(['a', 'b1'])"]
+2025-11-24 19:28:13,629 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: []
+2025-11-24 19:28:13,631 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: []
+2025-11-24 19:28:13,646 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:13,704 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:13,749 INFO - __main__.ShareGoalBFS.bfs:
+Models: 8, Exapnds: 60, 8.668ms/expand
+2025-11-24 19:28:13,749 INFO - __main__.ShareGoalBFS.get_policy:
+[("press_on_button(['a', 'b1'])", 2), ("press_off_button(['a', 'b2'])", 4)]
+{'a': 1, 'b': 1, 'c': 1}
+2025-11-24 19:28:13,750 INFO - __main__.Model.simulate:
+a takes action: press_off_button(['a', 'b2'])
+2025-11-24 19:28:13,762 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: []
+2025-11-24 19:28:13,765 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: []
+2025-11-24 19:28:13,826 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['b'])", "press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:13,933 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['b'])", "press_off_button(['a', 'b2'])"]
+2025-11-24 19:28:14,045 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['b'])", "press_off_button(['a', 'b1'])"]
+2025-11-24 19:28:14,157 DEBUG - __main__.ShareGoalBFS.single_bfs:
+Complete path: ["normal_stay(['b'])", "press_off_button(['a', 'b1'])"]

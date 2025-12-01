@@ -1,0 +1,2 @@
+a: move_without_item a r1 r2
+a: move_without_item a r2 r3

@@ -3,17 +3,15 @@ import logging
 import sys
 import traceback
 import util
-import time
 from epistemic_handler import model_builder, problem_builder
-import copy
 import json
-import profile
 import re
+import copy
 
 
 
 c_logging_level = logging.INFO
-THIS_LOGGER_LEVEL = 25
+THIS_LOGGER_LEVEL = logging.DEBUG
 LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'fatal': logging.FATAL,
                   'error': logging.ERROR,
@@ -74,6 +72,8 @@ def loadParameter():
 
     parser.add_argument('--without_agt_exp', dest='without_agt_exp', type=list, help='The given agents will not update their experience of actions', default=[])
 
+    parser.add_argument('-goals', dest='num_goals', type=int, help='The maximum number of goals for each agent to generate problems', default=2)
+
     options = parser.parse_args(sys.argv[1:])
 
     return options
@@ -84,13 +84,16 @@ if __name__ == '__main__':
         if args.c_logging_level:
             c_logging_level = LOGGING_LEVELS[args.c_logging_level]
         c_logging_display = args.c_logging_display
-        log_name = f"{args.problem_path.replace('/', '-')}-{args.strategy[11:-3]}.log"
+        pp = args.problem_path.split('/')
+        log_strategy = f"{args.strategy[11:-3]}.log"
         
-        handler = util.setup_logger_handlers(f"log/{log_name}", log_mode='w',
+        handler = util.setup_logger_handlers(f"log/{pp[0]}/{pp[1]}/{log_strategy}", log_mode='w',
                                              c_display=c_logging_display, c_logger_level=c_logging_level)
         util.LOGGER = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
         util.LOGGER.info(f"Start building the model, type: \"{args.problem_type}\"")
         
+        util.LIMIT = args.num_goals
+
         model = model_builder.build(args)
         # t.diagnose_model_serialization(model)
         
@@ -109,13 +112,20 @@ if __name__ == '__main__':
             for action in action_sequence:
                 model.sim_move(action[0], action[1])
                 # check whether the agents are complete their goals
-            if model.full_goal_complete():
-                print("Agent are complete their goals, simulate finish")
-                exit(0)
-            else:
-                print("Agent didn't complete their goals, program will continue to simulate")
-            for f in model.ontic_functions:
+            # if model.full_goal_complete():
+            #     print("Agent are complete their goals, simulate finish")
+            #     exit(0)
+            # else:
+            #     print("Agent didn't complete their goals, program will continue to simulate")
+            # for f in model.ontic_functions:
+            #     print(f)
+            # for f in util.OBS_FUNC['a'].get_observable_functions(model, model.ontic_functions, 'a'):
+            for f in util.get_epistemic_world(model, ['c','a'], debug=True):
                 print(f)
+            # for act in model.get_agent_successors('b'):
+            #     print(act.header())
+            # print(model.get_agent_by_name('b').print_poss_goals())
+            exit(0)
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
 
         path_len, path = util.check_bfs(model.copy())
@@ -132,7 +142,7 @@ if __name__ == '__main__':
             time_lst = []
             for i in range(1, args.num_multi_tests + 1):
                 print(f"{i}th Simulation:")
-                running_model = copy.deepcopy(model)
+                running_model = model.duplicate()
                 steps, time_used = running_model.simulate(running_model.agents[start_index].name)
                 step_lst.append(steps)
                 time_lst.append(time_used)

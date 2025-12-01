@@ -18,7 +18,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
     def get_policy(self, model: Model, agent_name: str) -> Action:
         model_copy = copy.deepcopy(model)
         successors = model_copy.get_agent_successors(agent_name)
-        # print([succ.header() for succ in successors])
+        # print(f"{agent_name}: {[succ.header() for succ in successors]}")
         if len(successors) > 1:
             possible_successors = [succ.header() for succ in successors]
             samples = self.bfs(model_copy, agent_name)
@@ -28,7 +28,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
             
             succs = [value for value in samples.values() if value[0].header() in possible_successors]
             if len(succs) == 0:
-                return Action.stay_action(agent_name) if len(successors) == 0 else random.choice(successors)
+                return Action.stay_action(agent_name)
             succs.sort(reverse=True, key=lambda x: x[1])
             maxx = succs[0][1]
             succs = [value[0] for value in succs if value[1] == maxx]
@@ -43,6 +43,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
         
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
+        # print(f"{agent_name} vms: {len(all_virtual_model)}")
         samples = {}
         expands = 0
         start = time.perf_counter()
@@ -66,19 +67,22 @@ class ShareGoalBFS(AbstractPolicyStrategy):
         find_solution_depth = -1
         while heap:
             node = heapq.heappop(heap)
-            if ((find_solution_depth != -1 and node.priority > find_solution_depth)):
+            # if agent_name == 'b':
+            #     print([act.header() for act in node.actions])
+            
+            if ((find_solution_depth != -1 and len(node.actions) > find_solution_depth)):
                 break
 
             if node.model.full_goal_complete():
-                    find_solution_depth = node.priority
+                    find_solution_depth = len(node.actions)
                     if len(node.actions) > 0:
                         action = node.actions[0]
                         string = action.header()
                         if string not in samples:
                             samples[string] = [action, 1]
-                        else:
-                            samples[string][1] += 1
-                    # util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
+                        # else:
+                        #     samples[string][1] += 1
+                    util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
                     continue
             if node.current_index == 0:
                 current_agent = [agent_name]
@@ -90,7 +94,10 @@ class ShareGoalBFS(AbstractPolicyStrategy):
                     next_model = node.model.copy()
                     next_model.move(name, succ)
 
-                    observe_funcs = frozenset([frozenset([agt.name] + [f.id for f in util.get_epistemic_world(next_model, [agt.name])]) for agt in next_model.agents])
+                    observe_funcs = []
+                    for bs in next_model.possible_belief_sequences:
+                        observe_funcs.append(frozenset([tuple(bs)] + [s.id for s in util.get_epistemic_world(next_model, bs)]))
+                    observe_funcs = frozenset(observe_funcs)
                     if observe_funcs in existed_epistemic_world:
                         continue
                     existed_epistemic_world.add(observe_funcs)
@@ -100,4 +107,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
                                             node.actions + [succ],
                                             next_model))
                     expand += 1
+        # if len(samples) == 0:
+        #     print(virtual_model)
+        #     exit(0)
         return samples, expand

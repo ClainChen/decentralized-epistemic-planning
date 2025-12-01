@@ -1,0 +1,23 @@
+2025-11-01 14:11:23,151 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 1
+Time cost: 0.003462s
+2025-11-01 14:11:23,155 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 1
+Time cost: 0.003386s
+2025-11-01 14:11:23,159 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 1
+Time cost: 0.003274s
+2025-11-01 14:11:23,164 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 1
+Time cost: 0.003332s
+2025-11-01 14:11:23,168 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 1
+Time cost: 0.003316s
+2025-11-01 14:11:23,168 EXP - __main__.Logger.exp:
+Avg Steps: 1.0
+Avg Time: 0.003354s

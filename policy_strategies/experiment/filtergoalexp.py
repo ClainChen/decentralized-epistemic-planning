@@ -28,7 +28,7 @@ class FilterGoalEXPBFS(AbstractPolicyStrategy):
             
             succs = [value for value in samples.values() if value[0].header() in possible_successors]
             if len(succs) == 0:
-                return Action.stay_action(agent_name) if len(successors) == 0 else random.choice(successors)
+                return Action.stay_action(agent_name)
             succs.sort(reverse=True, key=lambda x: x[1])
             maxx = succs[0][1]
             succs = [value[0] for value in succs if value[1] == maxx]
@@ -44,6 +44,7 @@ class FilterGoalEXPBFS(AbstractPolicyStrategy):
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
         # print(f"Generated {len(all_virtual_model)} virtual models")
+        # util.LOGGER.exp(f"Models: {len(all_virtual_model)}")
         samples = {}
         expands = 0
         start = time.perf_counter()
@@ -61,7 +62,8 @@ class FilterGoalEXPBFS(AbstractPolicyStrategy):
 
     def single_bfs(self, virtual_model: Model, agent_name: str):
         start_agent = virtual_model.get_agent_by_name(agent_name)
-        # util.LOGGER.debug(f"{virtual_model}")
+        # for a in virtual_model.agents:
+        #     util.LOGGER.debug(f"{a.print_own_goals()})")
         expand = 1
         samples = {}
         heap: list[util.BFSNode] = []
@@ -76,12 +78,13 @@ class FilterGoalEXPBFS(AbstractPolicyStrategy):
             if node.model.full_goal_complete():
                     find_solution_depth = len(node.actions)
                     if len(node.actions) > 0:
+                        # util.LOGGER.debug(f"{[action.header() for action in node.actions]}")
                         action = node.actions[0]
                         string = action.header()
                         if string not in samples:
                             samples[string] = [action, 1]
-                        else:
-                            samples[string][1] += 1
+                        # else:
+                        #     samples[string][1] += 1
                     # util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
                     continue
             if node.current_index == 0:
@@ -107,7 +110,10 @@ class FilterGoalEXPBFS(AbstractPolicyStrategy):
                     next_model = node.model.copy()
                     next_model.move(name, succ)
                     # 过滤机制
-                    observe_funcs = frozenset([frozenset([agt.name] + [f.id for f in util.get_epistemic_world(next_model, [agt.name])]) for agt in next_model.agents])
+                    observe_funcs = []
+                    for bs in next_model.possible_belief_sequences:
+                        observe_funcs.append(frozenset([tuple(bs)] + [s.id for s in util.get_epistemic_world(next_model, bs)]))
+                    observe_funcs = frozenset(observe_funcs)
                     if observe_funcs in existed_epistemic_world:
                         continue
                     existed_epistemic_world.add(observe_funcs)
