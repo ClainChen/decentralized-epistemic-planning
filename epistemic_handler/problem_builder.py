@@ -6,8 +6,23 @@ import time
 from pathlib import Path
 from tqdm import tqdm
 from string import Template
+from threading import Lock
+from epistemic_handler.goal_preprocesses.goal_preprocess import goal_preprocesses
+
 
 TAP = "        "
+
+results_lock = Lock()
+valid_lock = Lock()
+pbar_lock = Lock()
+
+def goal_set_iterator(values, pbar):
+    for comb in product(*values):
+        pbar.update(1)
+        yield comb
+        # if not any(len(c) > util.LIMIT for c in comb):
+            
+        # yield comb
 
 class ProblemBuilder:
     def __init__(self, base_model):
@@ -54,20 +69,21 @@ class ProblemBuilder:
                     if any(combo)]
         
         # Generate all possible belief sequences
-        belief_sequences = self.base_model.possible_belief_sequences
+        # belief_sequences = self.base_model.possible_belief_sequences
 
-        groups: list[Condition] = []
-        for sg in self.base_model.S_G:
-            for bs in belief_sequences:
-                if bs[0] == agent_name:
-                    continue
-                bg = Condition()
-                bg.belief_sequence = bs
-                bg.condition_function_name = sg.condition_function_name
-                bg.condition_function_parameters = sg.condition_function_parameters
-                bg.condition_operator = sg.condition_operator
-                bg.value = sg.value
-                groups.append(bg)
+        groups: list[Condition] = [sg for sg in self.base_model.S_G if sg.belief_sequence[0] != agent_name]
+        # for sg in self.base_model.S_G:
+        #     for bs in belief_sequences:
+        #         if bs[0] == agent_name:
+        #             continue
+        #         bg = Condition()
+        #         bg.belief_sequence = bs
+        #         bg.condition_function_name = sg.condition_function_name
+        #         bg.condition_function_parameters = sg.condition_function_parameters
+        #         bg.condition_operator = sg.condition_operator
+        #         bg.value = sg.value
+        #         groups.append(bg)
+        #     groups.append(sg)
         
         s = {}
         for a in self.base_model.agents:
@@ -83,77 +99,77 @@ class ProblemBuilder:
 
         for name, goals in s.items():
             s[name] = get_cross_subsets(goals)
+        for name, goals in s.items():
+            s[name] = [v for v in goals if len(v) <= util.LIMIT]
         s[agent_name] = [self.base_model.get_agent_by_name(agent_name).own_goals]
-        # for name, goals in s.items():
-        #     s[name] = [v for v in goals if len(v) == 1]
+        
 
         key = list(s.keys())
         value = list(s.values())
+        total = 1
+        for v in value:
+            total *= len(v)
 
-        agent_goal_sets = []
-        for comb in product(*value):
-            agent_goal_sets.append(dict(zip(key, comb)))
-
-        agent_goal_sets.sort(key=lambda x: [j.plain_text() for i in x.values() for j in i ])
-        agent_goal_sets.sort(key=lambda x: sum([len(value) for value in x.values()]))
-        # for se in agent_goal_sets:
-        #     print(se)
-
-        valid = 0
-        invalid_jump = 0
-        total = len(agent_goal_sets)
-
-        invalid_goal_sets: list[set] = []
-        start_time = time.perf_counter()
-
-        results = []
-        print(f"Total goal settings: {len(agent_goal_sets)}, now begin to test each setting")
-        with tqdm(range(total), desc="progress") as pbar:
+        print(f"Total goal settings: {total}, now begin to test each setting")
+        with tqdm(total=total, desc="progress") as pbar:
+            valid = 0
+            invalid_jump = 0
+            invalid_goal_sets: list[set] = []
+            valid_goal_sets: list[set] = []
+            start_time = time.perf_counter()
+            results = []
             max_action_length = -1
-            for i in pbar:
-                agent_goal_set = agent_goal_sets[i]
-                goal_set = set().union(*agent_goal_set.values())
+            proceed = 0
+            
+            for comb in goal_set_iterator(value, pbar):
+                jump = False
+                agent_goal_set = dict(zip(key, comb))
+                # print(agent_goal_set)
+
+                preprocess = goal_preprocesses(self.base_model, agent_goal_set)
+                if preprocess != -1:
+                    jump = preprocess
+
+                    if not jump:
+                        results.append(agent_goal_set)
+                        valid += 1
+                    
+                    proceed += 1
+                    # pbar.update(1)
+                    pbar.set_postfix({"Valid Count": f"{valid}/{proceed}", "Skip invalid test count": invalid_jump})
+                    continue
                 
-                jump= False
+                goal_set = set().union(*agent_goal_set.values())
+                # regular fast jump
                 for sett in invalid_goal_sets:
                     if sett.issubset(goal_set): 
                         jump = True
                         invalid_jump += 1
                         break
-                
 
-                goal_lst = list(goal_set)
-                # print(goal_lst)
-                for ig1 in range(len(goal_lst) - 1):
-                    for ig2 in range(ig1 + 1, len(goal_lst)):
-                        # output = f"checking:\n{goal_lst[ig1]}\n{goal_lst[ig2]}"1
-                        # print(output)
-                        if util.RULES.check_valid_pair(goal_lst[ig1], goal_lst[ig2], self.base_model) == False:
-                            jump = True
-                            invalid_goal_sets.append(goal_set)
-                            break
+                for sett in valid_goal_sets:
+                    if goal_set.issubset(sett):
+                        jump = True
+                        results.append(agent_goal_set)
+                        valid += 1
+                        break
 
                 if not jump:
                     test_model = self.base_model.copy()
                     for agent in test_model.agents:
                         agent.own_goals = agent_goal_set[agent.name]
-                    num_actions = util.check_bfs(test_model, max(12, max_action_length * 2))
-                    max_action_length = max(num_actions, max_action_length)
+                    num_actions, _ = util.check_bfs(test_model)
                     if num_actions >= 0 :
+                        valid_goal_sets.append(goal_set)
                         results.append(agent_goal_set)
                         valid += 1
                     else:
+                        # print(goal_set)
                         invalid_goal_sets.append(goal_set)
-                pbar.set_postfix({"Valid Count": f"{valid}/{total}", "Skip invalid test count": invalid_jump})
-        
-        # for sett in results:
-        #     result = "\n"
-        #     for agent, goals in sett.items():
-        #         result += f"{agent}:\n"
-        #         for goal in goals:
-        #             result += f"{goal}\n"
-        #         result += f"-----\n"
-        #     util.LOGGER.debug(result)
+                
+                proceed += 1
+                # pbar.update(1)
+                pbar.set_postfix({"Valid Count": f"{valid}/{proceed}", "Skip invalid test count": invalid_jump})
         
         return results, -1 if agent_name == "" else (time.perf_counter() - start_time) / max(1, valid)
 

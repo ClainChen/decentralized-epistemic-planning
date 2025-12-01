@@ -1,0 +1,26 @@
+a: share a r1
+a: quiet a
+a: move a r1 r2
+a: share a r2
+a: quiet a
+a: move a r2 r3
+a: share a r3
+a: quiet a
+a: move a r3 r6
+a: share a r6
+a: quiet a
+a: move a r6 r5
+a: share a r5
+a: quiet a
+a: move a r5 r4
+a: share a r4
+a: quiet a
+a: move a r4 r7
+a: share_survivor a s1 r7
+a: quiet a
+a: move a r7 r8
+a: share a r8
+a: quiet a
+a: move a r8 r9
+a: share a r9
+a: quiet a

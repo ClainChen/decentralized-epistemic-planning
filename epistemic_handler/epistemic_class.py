@@ -503,11 +503,15 @@ class Agent:
         new_agent.complete_signal = self.complete_signal
         new_agent.all_possible_goals = self.all_possible_goals
         new_agent.E = self.E
+        new_agent.consider_E = self.consider_E
+        new_agent.consider_goal = self.consider_goal
         return new_agent
 
     def __str__(self):
         result = f"Agent: {self.name}\nMax move time: {self.max_time}\n"
         result += f"Goal completed: \'{self.complete_signal}\'\n"
+        result += f"Consider goal: \'{self.consider_goal}\'\n"
+        result += f"Consider exp: \'{self.consider_E}\'\n"
         result += f"Own Goals:\n"
         for goal in self.own_goals:
             result += f"{goal}\n"
@@ -543,6 +547,39 @@ class Agent:
         if agent_name not in self.E[world]:
             self.E[world][agent_name] = set()
         self.E[world][agent_name].add(action)
+    
+    def set_E(self, world, agent_name, action) -> None:
+        if world not in self.E:
+            self.E[world] = {}
+        if agent_name not in self.E[world]:
+            self.E[world][agent_name] = set()
+        self.E[world][agent_name] = {action}
+    
+    def print_E(self):
+        result = f"Experience of agent {self.name}:\n"
+        for world, agt_actions in self.E.items():
+            result += f"World: {set(world)}\n"
+            for agt, actions in agt_actions.items():
+                result += f"  Agent: {agt}\n"
+                for action in actions:
+                    result += f"    Action: {action}\n"
+        return result
+
+    def print_poss_goals(self):
+        result = f"Possible Goals of agent {self.name}:\n"
+        for goal_set in self.all_possible_goals:
+            for name, goals in goal_set.items():
+                result += f"  Agent: {name}\n"
+                for goal in goals:
+                    result += f"    Goal: {goal}\n"
+            result += f"{util.SMALL_DIVIDER}\n"
+        return result
+
+    def print_own_goals(self):
+        result = f"Own Goals of agent {self.name}:\n"
+        for goal in self.own_goals:
+            result += f"  {goal}\n"
+        return result
 
 class AcceptableGoal:
     from epistemic_handler.file_parser import ParsingAcceptableGoal
@@ -614,7 +651,7 @@ class Model:
         #     return result
 
         agent = self.get_agent_by_name(agent_name)
-        candidates = []
+        candidates: list[Action] = []
         for action_schema in self.action_schemas:
             poss_params = []
             for param_name, param_type in action_schema.require_parameters.items():
@@ -627,7 +664,8 @@ class Model:
             for param in result_params:
                 successor = Action.create_action(action_schema, param)
                 candidates.append(successor)
-        candidates.append(Action.stay_action(agent_name))
+        if not any('stay' in schema.name for schema in self.action_schemas):
+            candidates.append(Action.stay_action(agent_name))
         for action in candidates:
             if util.is_valid_action(self, action):
                 result.append(action)
@@ -636,11 +674,7 @@ class Model:
     def agent_goal_complete(self, agent_name: str):
         agent = self.get_agent_by_name(agent_name)
         goals = agent.own_goals.copy()
-        agent.complete_signal = True
-        for goal in goals:
-            if not util.check_condition(self, goal):
-                agent.complete_signal = False
-                break
+        agent.complete_signal = all([util.check_condition(self, goal) for goal in goals])
         return agent.complete_signal
     
     def full_goal_complete(self):
@@ -681,44 +715,137 @@ class Model:
         return self.ALL_FUNCS.flatten()
 
     def update_belief_goals(self):
+        def goal_comb_generator(ep_worlds: list[tuple[list[str], list[Function]]]):
+            expanded = [("".join(bs[1:]), s) for bs, world in ep_worlds for s in world]
+            # print(expanded)
+
+            for r in range(1, min(util.LIMIT + 1, len(expanded) + 1)):
+                for comb in combinations(expanded, r):
+                    comb = [(bs, f.id) for (bs, f) in comb]
+                    yield set(comb), comb[0][0][0]
         # 只会在Neutral Mode中被调用
         # 如果agent能够看见其他agent，则会根据自己的观察来更新自己对其他agent的goals的信念
         # 每一个历史时间戳上都会有一个对应的history world和agent: action对，用于反映在某个世界下某个agent执行了某个action
         # 如果在那个时间戳时agent无法看见那个正在行动的agent，则他无法得知那个agent在那个时间戳的action
         # 如果观察到某个agent的complete signal为true，则会更好操作
-        for a in self.agents:
-            if not a.consider_goal:
-                continue
-            for b in self.agents:
-                if a.name == b.name:
-                    continue
-                current_fb_fa = util.get_epistemic_world(self, [a.name,b.name])
-                # only remain the acceptable functions
-                acceptable_fb_fa = []
-                for func in current_fb_fa:
-                    for sg in self.S_G:
-                        if (sg.condition_function_name == func.name and 
-                            sg.condition_function_parameters == func.parameters and
-                            sg.value == func.value):
-                            acceptable_fb_fa.append(func)
-                # generate all possible goal functions for the target agent
-                possible_func_sets = list(chain.from_iterable(combinations(acceptable_fb_fa, r) for r in range(1, len(acceptable_fb_fa) + 1)))
-                possible_func_sets = [set(func.plain_text() for func in goal_sets) for goal_sets in possible_func_sets]
 
-                remain_possible_goals = []
-                if not b.complete_signal:
-                    for goal_set in a.all_possible_goals:
-                        if set(cond.plain_text() for cond in goal_set[b.name]) not in possible_func_sets:
-                            remain_possible_goals.append(goal_set)
-                else:
-                    for goal_set in a.all_possible_goals:
-                        if set(cond.plain_text() for cond in goal_set[b.name]) in possible_func_sets:
-                            remain_possible_goals.append(goal_set)
-                # print(f"len possi func sets: {len(possible_func_sets)}, len remain possi goals: {len(remain_possible_goals)}")
-                if len(remain_possible_goals) > 0 :
-                    a.all_possible_goals = remain_possible_goals
+        # removed = False
+        agent_complete = {agt.name: agt.complete_signal for agt in self.agents}
+        for agt in self.agents:
+            # skip those agents who do not consider goal
+            if not agt.consider_goal:
+                continue
+            
+            ep_worlds = {}
+            remain_goals = []
+            for poss_goals in agt.all_possible_goals:
+                goal_valid = True
+                for a, goals in poss_goals.items():
+                    for g in goals:
+                        bs = f"{agt.name}{g.belief_sequence}"
+                        if bs not in ep_worlds:
+                            ep_worlds[bs] = util.get_epistemic_world(self, [agt.name] + g.belief_sequence)
+                        if util.check_regular_condition(g, ep_worlds[bs]) != agent_complete[a]:
+                            goal_valid = False
+                            break
+                    if not goal_valid:
+                        break
+                if goal_valid:
+                    remain_goals.append(poss_goals)
+            if len(remain_goals) > 0:
+                agt.all_possible_goals = remain_goals
+
+            # if the complete signal changed compare with the world in last timestamp, we do further filtering
+            # if len(self.history) == 0:
+            #     continue
+
+            # last_signal = self.history[-1]['signal']
+            # update_agts = []
+            # for agt2 in self.agents:
+            #     if agt2.name == agt.name:
+            #         continue
+            #     if last_signal[agt2.name] != agt2.complete_signal:
+            #         update_agts.append(agt2.name)
+            
+            # if len(update_agts) == 0:
+            #     continue
+            
+            # cur_obs_funcs = [f.id for f in util.OBS_FUNC[agt.name].get_observable_functions(self, self.ontic_functions, agt.name)]
+            # cur_ep_funcs = [f.id for f in util.get_epistemic_world(self, [agt.name])]
+            # poss_changed_funcs = [f_id for f_id in cur_ep_funcs if 
+            #                       f_id not in cur_obs_funcs and 
+            #                       self.filter_functions_with_goal(self.ALL_FUNCS.get_function_with_id(f_id))]
+            # cur_world_seq = self.get_history_functions_of_agent(agt.name) + [self.get_functions_of_agent(agt.name)]
+
+            # # 将poss_changed_funcs中涉及到的functions的值改变之后形成新的next_funcs
+            # combs = []
+            # for i in range(1, len(poss_changed_funcs) + 1):
+            #     combs.extend(list(combinations(poss_changed_funcs, i)))
+            
+            # removal_goals = []
+            # for fs in combs:
+            #     changed_funcs = {}
+            #     for f in fs:
+            #         changed_funcs[f] = [f1 for f1 in self.ALL_FUNCS.get_functions_with_head_id(self.ALL_FUNCS.get_function_with_id(f).header_id) if f1.id != f]
+            #     # util.LOGGER.exp(changed_funcs)
+                
+            #     for old_f, new_fs in changed_funcs.items():
+            #         for new_f in new_fs:
+            #             next_ep_funcs = []
+            #             for cur_f in cur_ep_funcs:
+            #                 if cur_f == old_f:
+            #                     next_ep_funcs.append(new_f.id)
+            #                 else:
+            #                     next_ep_funcs.append(cur_f)
+                        
+            #             next_ep_funcs = cur_world_seq + [[self.ALL_FUNCS.get_function_with_id(f_id) for f_id in next_ep_funcs]]
+                        
+            #             for goal_set in agt.all_possible_goals:
+            #                 if goal_set in removal_goals:
+            #                     continue
+            #                 for agt2, goals in goal_set.items():
+            #                     if agt2 not in update_agts or agt2 == agt.name:
+            #                         continue
+            #                     matches = []
+            #                     for goal in goals:
+            #                         belief_seq = goal.belief_sequence
+            #                         # output = ""
+            #                         # for epfs in next_ep_funcs:
+            #                         #     output += f"{[(f.header_id, f.id) for f in epfs]}\n"
+            #                         # util.LOGGER.exp(output)
+            #                         ep_world = util.get_epistemic_world(self, belief_seq, next_ep_funcs)
+            #                         ep_world = [f for f in ep_world if self.filter_functions_with_goal(f)]
+            #                         goal_func = self.ALL_FUNCS.get_function_with_cond(goal)
+            #                         # util.LOGGER.exp(f"{belief_seq} - {(goal_func.header_id, goal_func.id)} - {[(f.header_id, f.id) for f in ep_world]}\n")
+            #                         if goal_func.header_id in [f.header_id for f in ep_world]:
+            #                             matches.append(goal_func.id in [f.id for f in ep_world])
+            #                     # util.LOGGER.exp(matches)
+            #                     if not all(matches):
+            #                         removal_goals.append(goal_set)
+            #                         break
+            # if len(removal_goals) == len(agt.all_possible_goals):
+            #     continue
+            # for rg in removal_goals:
+            #     if rg in agt.all_possible_goals:
+            #         agt.all_possible_goals.remove(rg)
+            #         # removed = True
+              
+        # util.LOGGER.exp(f"{[(agt.name, agt.complete_signal) for agt in self.agents]}\n{dict([(agent.name, len(agent.all_possible_goals)) for agent in self.agents])}")
+        # if removed:
+        #     for agt in self.agents:
+        #         util.LOGGER.exp(agt.print_poss_goals())
+
+    def filter_functions_with_goal(self, func) -> bool:
+        for sg in self.S_G:
+            if self.ALL_FUNCS.get_function_with_cond(sg).id == func.id:
+                return True
+        return False
 
     def update_agent_belief_actions_in_world(self, last_agent, action):
+        # to avoid the exp mechanism error in grapevine
+        if action.name in ['sharing_stay']:
+            return
+
         for agent in self.agents:
             if last_agent == agent.name:
                 continue
@@ -728,20 +855,15 @@ class Model:
                 continue
             agent_last_jp_world = [f.id for f in util.get_epistemic_world(self, [agent.name])]
             hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
-            agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
-
-            # if an agent found his done action is the same as the available actions in this environment
-            # he will reset the belief actions of himself to empty
-            # if last_agent == agent.name:
-            #     this_succs = set(self.get_agent_successors(last_agent))
-            #     if this_succs.issubset(agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent]):
-            #         agent.action_under_jp_worlds[hash_set_agent_last_jp_world][last_agent].difference_update(this_succs)
+            # agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
+            agent.set_E(hash_set_agent_last_jp_world, last_agent, action)
 
 
     def simulate(self, start_agent = ""):
         """
         Simulate the model until all agents have reached a terminal state
         """
+        # util.LOGGER.exp(f"{self.ALL_FUNCS}")
         start = time.perf_counter()
         exp_log = ""
         if start_agent == "":
@@ -753,20 +875,23 @@ class Model:
             # update the belief goals of each agent, and update their observed world
             if self.problem_type == ProblemType.UNSHARE:
                 self.update_belief_goals()
+                print(f"{dict([(agent.name, len(agent.all_possible_goals)) for agent in self.agents])}")
+                # for a in self.agents:
+                #     util.LOGGER.debug(f"{a.print_poss_goals()}")
 
             # decide the action and do the action
             action = util.STRATEGY[agent_name].get_policy(self, agent_name)
 
-            if self.problem_type == ProblemType.UNSHARE:
-                self.update_agent_belief_actions_in_world(agent_name, action)
-
+            # if self.problem_type == ProblemType.UNSHARE:
+            #     self.update_agent_belief_actions_in_world(agent_name, action)
+            self.update_agent_belief_actions_in_world(agent_name, action)
             self.move(agent_name, action)
 
             # log
             output = f"{agent_name} takes action: {action.header()}"
-            # print(output)
-            util.LOGGER.info(output)
             exp_log += output + "\n"
+            print(output)
+            util.LOGGER.info(output)
             # for agent in self.agents:
             #     util.LOGGER.debug(agent.action_under_jp_worlds)
 
@@ -809,7 +934,7 @@ class Model:
 
         if self.problem_type == ProblemType.UNSHARE:
             self.update_belief_goals()
-            self.update_agent_belief_actions_in_world(agent_name, action)
+        self.update_agent_belief_actions_in_world(agent_name, action)
 
         self.move(agent_name, action)
 
@@ -902,24 +1027,28 @@ class Model:
         return new_model
     
     def __deepcopy__(self, memo):
-        new_model = Model()
-        new_model.ALL_FUNCS = self.ALL_FUNCS
+        return self.copy()
 
-        new_model.problem_type = self.problem_type
-        new_model.domain_name = self.domain_name
-        new_model.problem_name = self.problem_name
-        new_model.S_G = self.S_G
-        new_model.max_belief_depth = self.max_belief_depth
-        new_model.possible_belief_sequences = self.possible_belief_sequences
-        new_model.function_schemas = self.function_schemas
-        new_model.action_schemas = self.action_schemas
-        new_model.entities = self.entities
-        new_model.ontic_functions = self.ontic_functions[:]
-        new_model.history = self.history[:]
-        for agent in self.agents:
-            new_model.agents.append(agent.copy())
+    def duplicate(self):
+        cls = type(self)
+        original_class_deepcopy = None
+        has_class_deepcopy = False
+
+        if '__deepcopy__' in cls.__dict__:
+            has_class_deepcopy = True
+            original_class_deepcopy = cls.__deepcopy__
+            delattr(cls, '__deepcopy__')
+
+        # result = copy.deepcopy(self)
+        # return result
+
+        try:
+            result = copy.deepcopy(self)
+            return result
+        finally:
+            if has_class_deepcopy:
+                setattr(cls, '__deepcopy__', original_class_deepcopy)
         
-        return new_model
     
     def __getstate__(self):
         return self.__dict__.copy()

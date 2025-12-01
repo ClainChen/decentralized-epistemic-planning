@@ -109,6 +109,16 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
             for param in params:
                 parameters = dict(zip(func_schema.require_parameters.keys(), param))
                 header_id += 1
+                # add unknwon function
+                id += 1
+                func = Function()
+                func.id = id
+                func.header_id = header_id
+                func.name = func_schema.name
+                func.parameters = parameters
+                func.value = None
+                model.ALL_FUNCS.add_function(func)
+
                 if func_schema.type == ValueType.INTEGER:
                     minn, maxx = func_schema.range
                     for v in range(minn, maxx + 1):
@@ -153,6 +163,7 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
                 values = ag.values
             for v in values:
                 sgp = Condition()
+                sgp.belief_sequence = ag.belief_sequence
                 sgp.condition_function_name = sg.condition_function_name
                 sgp.condition_function_parameters = sg.condition_function_parameters
                 sgp.condition_operator = ConditionOperator.EQUAL
@@ -244,6 +255,7 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
                 for agent2 in model.agents:
                     if agent1.name != agent2.name:
                         agent1.other_goals[agent2.name] = agent2.own_goals
+                agent1.all_possible_goals.append(agent1.other_goals)
         
         # build possible belief sequences
         agents = [agent.name for agent in model.agents]

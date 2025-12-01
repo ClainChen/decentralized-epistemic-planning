@@ -84,7 +84,7 @@ class CompleteBFS(AbstractPolicyStrategy):
                             samples[string] = [node.actions[0], 1]
                         else:
                             samples[string][1] += 1
-                    util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
+                    # util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
                     continue
             current_agent = node.model.agents[node.current_index]
             successors = node.model.get_agent_successors(current_agent.name)

@@ -1,0 +1,11 @@
+(define
+    (problem 4)
+    (:domain coin)
+    (:agent a)
+
+    (:goal (and
+        (= (@ep (" b [a]") (= (coin c1) 0)) ep.true)
+        (= (@ep (" b [a] b [b]") (= (coin c1) 1)) ep.true)
+        )
+    )
+)

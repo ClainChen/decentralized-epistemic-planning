@@ -6,6 +6,7 @@ from itertools import product
 from pathlib import Path
 from time import perf_counter
 from functools import wraps
+from epistemic_world import get_epistemic_world
 
 BIG_DIVIDER = "=================\n"
 MEDIUM_DIVIDER = "*****************\n"
@@ -24,6 +25,9 @@ LOGGER = None
 OBS_FUNC = {}
 STRATEGY = {}
 RULES = None
+
+# Limitation of num of goals for each agent
+LIMIT = 2
 
 logging.addLevelName(25, "EXP")
 def exp(self, message, *args, **kws):
@@ -59,6 +63,8 @@ def record_time(func):
     return wrapper
 
 def setup_logger_handlers(log_filename, log_mode='a', c_display=False, c_logger_level=logging.INFO):
+    if not Path(log_filename).parent.exists():
+        Path(log_filename).parent.mkdir(parents=True)
     f_handler = logging.FileHandler(log_filename, mode=log_mode)
     c_handler = logging.StreamHandler()
     c_format = ClassNameFormatter('%(levelname)s - %(name)s.%(classname)s.%(funcName)s:\n%(message)s')
@@ -89,7 +95,8 @@ def regex_search(regex, string):
     result = re.findall(regex, string, re.M)
     if not result :
         LOGGER.error(f"result not found: {regex} in {string}")
-        raise Exception(f"result not found: {regex} in {string}")
+        return []
+        # raise Exception(f"result not found: {regex} in {string}")
     return result
 
 def regex_match(regex, string):
@@ -189,6 +196,9 @@ def load_rules(rules_path: str):
         raise ValueError(f"Failed to load rules class from {path}")
 
 def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOperator) -> bool:
+    if a is None or b is None:
+        return False
+
     strategies = {
         ConditionOperator.EQUAL: lambda a, b: a == b,
         ConditionOperator.NOT_EQUAL: lambda a, b: a != b,
@@ -199,6 +209,7 @@ def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOper
     }
 
     if strategy not in strategies:
+        print(a,b,strategy)
         raise ValueError(f"strategy {strategy} is not supported")
     if not isinstance(a, type(b)) or (isinstance(a, str) and strategy not in [ConditionOperator.EQUAL, ConditionOperator.NOT_EQUAL]):
         raise ValueError(f"strategy {strategy} is not supported for type {type(a)} and {type(b)}")
@@ -236,56 +247,8 @@ def is_valid_action(model: Model, action: Action) -> bool:
     return True
 
 def check_condition(model: Model, condition: Condition):
-    epistemic_world_functions = get_epistemic_world(model, condition.belief_sequence)
+    epistemic_world_functions = get_epistemic_world(model, condition.belief_sequence, goal_filter=False)
     return check_regular_condition(condition, epistemic_world_functions)
-        
-
-def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
-    """
-    get the epistemic world from the given function sequence\n
-    this usually use when checking the epistemic condition and generating the virtual world\n
-    """
-    if len(world_seq) == 0:
-        return []
-    
-    world = []
-    headers = set()
-    for functions in reversed(world_seq):
-        for func in functions:
-            if func.header_id not in headers:
-                headers.add(func.header_id)
-                world.append(func)
-    return world
-
-def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[]) -> list[Function]:
-    """
-    if belief_sequence = [a,b,c], history = [S0, S1, ..., Sn]
-    output: st' = st'' / ( Oc(st'') / Oc(st) )
-    st = fb(fa(St))
-    st'' = fc(fb(fa(St)))
-    """
-    if len(history_functions) == 0:
-        history_functions = model.get_history_functions()
-    if len(history_functions) == 0:
-        return []
-    if len(belief_sequence) == 0:
-        return history_functions[-1]
-
-    # st''
-    history_beliefs = [get_functions_with_belief_sequence(functions, belief_sequence, model) for functions in history_functions]
-    st2 = get_unfiltered_st(history_beliefs)
-
-    # st
-    st = get_epistemic_world(model, belief_sequence[:-1], history_functions)
-
-    # Oi(st'')
-    last_agt = belief_sequence[-1]
-    Oi_st2 = set(util.OBS_FUNC[last_agt].get_observable_functions(model, st2, last_agt))
-    
-    # Oi(st)
-    Oi_st = set(util.OBS_FUNC[last_agt].get_observable_functions(model, st, last_agt))
-
-    return list(set(st2).difference(Oi_st2.difference(Oi_st)))
 
 
 def check_regular_condition(condition: Condition, functions: list[Function]) -> bool:
@@ -299,7 +262,7 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
     # solve the situation when it is an epistemic condition with an ep.none operator in it
     # if it is ep.none, then we only need to check whther the checking_function is exist or not depends on the epistemic operator
     if condition.ep_truth == EpistemicTruth.UNKNOWN:
-        return checking_function is None if condition.ep_operator == EpistemicOperator.EQUAL else checking_function is not None
+        return checking_function is None or checking_function.value is None if condition.ep_operator == EpistemicOperator.EQUAL else not (checking_function is None or checking_function.value is None) 
     
     if checking_function is None:
         return False
@@ -318,19 +281,12 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
 
     return True
 
-def get_functions_with_belief_sequence(functions: list[Function], belief_sequence: list[str], model: Model) -> list[Function]:
-    if len(belief_sequence) == 0:
-        return functions
-    ontic_functions = functions
-    for agent_name in belief_sequence:
-        ontic_functions = util.OBS_FUNC[agent_name].get_observable_functions(model, ontic_functions, agent_name)
-    return ontic_functions
-
 def get_function_with_name_and_params(functions: list[Function], name: str, params: dict[str, str]):
     """
     get the function with the given locator
     """
     for function in functions:
+        assert isinstance(function, Function), f"function {function} is not a Function"
         if function.name == name and frozenset(function.parameters.values()) == frozenset(params.values()):
             return function
     return None
@@ -348,20 +304,14 @@ def get_unknown_functions(model: Model, functions: list[Function], agent_name: s
     """
     get agent's unknown functions based on what agent knows
     """
-    all_functions = model.generate_all_possible_functions()
     # remove the functions that agent already knows
+    funcs_hid = [f.header_id for f in functions if f.value != None]
 
-    all_functions = [function for function in all_functions if function not in functions]
+    unknown_headers = [hid for hid in model.ALL_FUNCS.header_id_add if hid not in funcs_hid]
     unknown_functions = []
     # filter the functions that are conflict with what agent knows
-    for func in all_functions:
-        is_conflict = False
-        for known_func in functions:
-            if util.is_conflict_functions(func, known_func):
-                is_conflict = True
-                break
-        if not is_conflict:
-            unknown_functions.append(func)
+    for hid in unknown_headers:
+        unknown_functions.extend([f for f in model.ALL_FUNCS.get_functions_with_head_id(hid) if f.value != None])
     return unknown_functions
 
 def function_belongs_to(model: Model, function: Function) -> str:
@@ -393,6 +343,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     """
 
     known_functions = get_epistemic_world(model, [agent_name])
+    known_functions = [f for f in known_functions if f.value != None]
     unknown_functions = get_unknown_functions(model, known_functions, agent_name)
 
     # group the functions by name and parameters
@@ -409,7 +360,8 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     all_combs = product(*group_functions.values())
     valid_combs = []
     for comb in all_combs:
-        if util.RULES.check_functions(known_functions + list(comb)):
+        combi = known_functions + list(comb)
+        if util.RULES.check_functions(combi):
             valid_combs.append(comb)
 
     virtual_model = model.copy()
@@ -433,9 +385,8 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     # update the model history to the history based on current_agent's perspective 
     current_history = []
     new_history_functions = []
-    for history in virtual_model.history:
-        current_history.append(history['functions'])
-        new_history = {'functions': get_epistemic_world(virtual_model, [agent_name], history_functions=current_history), 
+    for history, ts in zip(virtual_model.history, range(len(virtual_model.history))):
+        new_history = {'functions': get_epistemic_world(virtual_model, [agent_name], ts=ts), 
                        'agent': history['agent'],
                        'action': history['action'],
                        'signal': history['signal']}
@@ -485,15 +436,21 @@ def remove_continue_duplicates(lst):
             new_list.append(ele)
     return new_list
 
+sim_timeout = 300
+
 import heapq
 def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
+    global sim_timeout
     heap: list[BFSNode] = []
     heapq.heappush(heap, BFSNode(1, [], virtual_model))
     existed_epistemic_world = set()
     start = time.perf_counter()
     while heap:
         node = heapq.heappop(heap)
+        # util.LOGGER.debug(f"{[act.header() for act in node.actions]}")
         if node.model.full_goal_complete():
+            if (time.perf_counter() - start)*5 < sim_timeout:
+                sim_timeout = max(20, sim_timeout * 0.7)
             # print([act.header() for act in node.actions])
             return len(node.actions), [act.header() for act in node.actions]
         
@@ -504,12 +461,16 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
             successors[agent.name] = node.model.get_agent_successors(agent.name)
         for name, succs in successors.items():
             for succ in succs:
-                # if time.perf_counter() - start > 120:
-                #     return -1
+                if time.perf_counter() - start > sim_timeout:
+                    sim_timeout = min(120, sim_timeout * 1.3)
+                    return -1, -1
                 next_model = node.model.copy()
                 next_model.move(name, succ)
                 # 过滤机制
-                observe_funcs = frozenset([frozenset([agt.name] + get_epistemic_world(next_model, [agt.name])) for agt in next_model.agents])
+                observe_funcs = []
+                for bs in next_model.possible_belief_sequences:
+                    observe_funcs.append(frozenset([tuple(bs)] + [s.id for s in get_epistemic_world(next_model, bs)]))
+                observe_funcs = frozenset(observe_funcs)
                 if observe_funcs in existed_epistemic_world:
                     continue
                 existed_epistemic_world.add(observe_funcs)
@@ -519,7 +480,7 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
                                         node.actions + [succ],
                                         next_model))
     
-    return -1
+    return -1, -1
 
 class BFSNode:
     def __init__(self, current_index, action, model):
@@ -542,9 +503,13 @@ class BFSNode:
         self.h = count
         return self.h
     
+    # @property
+    # def priority(self):
+    #     return len(self.actions) + (self.heuristic)
+    
     @property
     def priority(self):
-        return len(self.actions) + self.heuristic
+        return len(self.actions) + (self.heuristic)
 
     def __lt__(self, other):
         return self.priority < other.priority
@@ -604,11 +569,15 @@ class FinalFunctions:
         
         self.all: dict[str, dict[str, dict[str, Function]]] = {}
         self.id_add: dict[int, Function] = {}
+        self.header_id_add: dict[int, list[Function]] = {}
     
     def add_function(self, function: Function) -> None:
         # get the parameters of function
         # to make sure no order problem will happen during the "get" method, we should use frozenset
         self.id_add[function.id] = function
+        if function.header_id not in self.header_id_add:
+            self.header_id_add[function.header_id] = []
+        self.header_id_add[function.header_id].append(function)
 
         params = f"{list(function.parameters.values())}"
         if function.name not in self.all:
@@ -616,6 +585,13 @@ class FinalFunctions:
         if params not in self.all[function.name]:
             self.all[function.name][params] = {}
         self.all[function.name][params][str(function.value)] = function
+    
+    def get_unknown_function(self, header_id: int) -> Function | None:
+        if header_id in self.header_id_add:
+            for function in self.header_id_add[header_id]:
+                if function.value == None:
+                    return function
+        return None
     
     def get_function(self, function_name: str, parameters: dict[str, str], value: str) -> Function:
         params = f"{list(parameters.values())}"
@@ -630,6 +606,9 @@ class FinalFunctions:
     
     def get_function_with_id(self, id) -> Function:
         return self.id_add[id]
+    
+    def get_functions_with_head_id(self, header_id: str) -> list[Function]:
+        return self.header_id_add[header_id]
 
     def flatten(self) -> list[Function]:
         return [

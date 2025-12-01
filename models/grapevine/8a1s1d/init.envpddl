@@ -7,7 +7,7 @@
     )
 
     (:objects
-        a1s a2s a3s a4s a5s a6s a7s a8s - secret
+        a1s - secret
     )
 
     (:init
@@ -21,40 +21,21 @@
         (assign (agent_loc a8) 1)
 
         (assign (secret_id a1s) a1s)
-        (assign (secret_id a2s) a2s)
-        (assign (secret_id a3s) a3s)
-        (assign (secret_id a4s) a4s)
-        (assign (secret_id a5s) a5s)
-        (assign (secret_id a6s) a6s)
-        (assign (secret_id a7s) a7s)
-        (assign (secret_id a8s) a8s)
+
+        (assign (agent_id a1) a1)
+        (assign (agent_id a2) a2)
+        (assign (agent_id a3) a3)
+        (assign (agent_id a4) a4)
+        (assign (agent_id a5) a5)
+        (assign (agent_id a6) a6)
+        (assign (agent_id a7) a7)
+        (assign (agent_id a8) a8)
 
         (assign (shared_value a1s) t)
-        (assign (shared_value a2s) t)
-        (assign (shared_value a3s) t)
-        (assign (shared_value a4s) t)
-        (assign (shared_value a5s) t)
-        (assign (shared_value a6s) t)
-        (assign (shared_value a7s) t)
-        (assign (shared_value a8s) t)
 
         (assign (shared_loc a1s) 0)
-        (assign (shared_loc a2s) 0)
-        (assign (shared_loc a3s) 0)
-        (assign (shared_loc a4s) 0)
-        (assign (shared_loc a5s) 0)
-        (assign (shared_loc a6s) 0)
-        (assign (shared_loc a7s) 0)
-        (assign (shared_loc a8s) 0)
 
-        (assign (own a1) a1s)
-        (assign (own a2) a2s)
-        (assign (own a3) a3s)
-        (assign (own a4) a4s)
-        (assign (own a5) a5s)
-        (assign (own a6) a6s)
-        (assign (own a7) a7s)
-        (assign (own a8) a8s)
+        (assign (own a1s) a1)
 
         (assign (sharing_lock) 0)
 
@@ -70,10 +51,11 @@
 
     (:ranges
         (agent_loc integer [1,2])
-        (secret_id enumerate [a1s,a2s,a3s,a4s,a5s,a6s,a7s,a8s])
-        (own enumerate [a1s,a2s,a3s,a4s,a5s,a6s,a7s,a8s])
+        (secret_id enumerate [a1s])
+        (agent_id enumerate [a1,a2,a3,a4,a5,a6,a7,a8])
+        (own enumerate [a1])
         (sharing_lock integer [0,1])
-        (agent_sharing enumerate [none,a1s,a2s,a3s,a4s,a5s,a6s,a7s,a8s])
+        (agent_sharing enumerate [none,a1s])
         (shared_value enumerate [t,f])
         (shared_loc integer [0,2])
     )

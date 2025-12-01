@@ -1,0 +1,4 @@
+a: move_right_with_item a i
+a: move_left_with_item a i
+a: drop_item a i
+b: drop_item b j

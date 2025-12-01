@@ -1,6 +1,7 @@
-a: sharing_own_secret a as
-a: quiet a as
-b: move_right b
 a: lying_own_secret a as
 a: quiet a as
+a: move_right a
+a: sharing_own_secret a as
+a: quiet a as
 c: move_right c
+b: sharing_others_secret b as

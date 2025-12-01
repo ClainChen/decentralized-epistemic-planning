@@ -1,0 +1,10 @@
+(define
+    (problem muddy1)
+    (:domain muddy_children)
+    (:agent teacher)
+
+    (:goal (and
+
+        )
+    )
+)

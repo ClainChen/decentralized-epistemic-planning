@@ -37,7 +37,7 @@ class CoopWithEXPBFS(AbstractPolicyStrategy):
             
             succs = [value for value in samples.values() if value[0].header() in possible_successors]
             if len(succs) == 0:
-                return Action.stay_action(agent_name) if len(successors) == 0 else random.choice(successors)
+                return Action.stay_action(agent_name)
             succs.sort(reverse=True, key=lambda x: x[1])
             maxx = succs[0][1]
             succs = [value[0] for value in succs if value[1] == maxx]
@@ -88,8 +88,8 @@ class CoopWithEXPBFS(AbstractPolicyStrategy):
                     string = action.header()
                     if string not in samples:
                         samples[string] = [action, 1]
-                    else:
-                        samples[string][1] += 1
+                    # else:
+                    #     samples[string][1] += 1
                     # util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
                     continue
             if node.current_index == 0:
@@ -114,7 +114,10 @@ class CoopWithEXPBFS(AbstractPolicyStrategy):
                     next_model = node.model.copy()
                     next_model.move(name, succ)
                     # 过滤机制
-                    observe_funcs = frozenset([frozenset([agt.name] + [f.id for f in util.get_epistemic_world(next_model, [agt.name])]) for agt in next_model.agents])
+                    observe_funcs = []
+                    for bs in next_model.possible_belief_sequences:
+                        observe_funcs.append(frozenset([tuple(bs)] + [s.id for s in util.get_epistemic_world(next_model, bs)]))
+                    observe_funcs = frozenset(observe_funcs)
                     if observe_funcs in existed_epistemic_world:
                         continue
                     existed_epistemic_world.add(observe_funcs)
