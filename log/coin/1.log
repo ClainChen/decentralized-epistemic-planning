@@ -1,22 +1,22 @@
-2025-12-01 22:45:50,811 INFO - __main__._.<module>:
+2025-12-01 22:47:35,201 INFO - __main__._.<module>:
 Start building the model, type: "True"
-2025-12-01 22:45:50,811 INFO - __main__._.build:
+2025-12-01 22:47:35,202 INFO - __main__._.build:
 Start building the model, type: "True"
-2025-12-01 22:45:50,811 INFO - __main__.DomainParser.run:
+2025-12-01 22:47:35,202 INFO - __main__.DomainParser.run:
 Domain "models/coin/domain.pddl" start initialization.
-2025-12-01 22:45:50,811 INFO - __main__.DomainParser.run:
+2025-12-01 22:47:35,202 INFO - __main__.DomainParser.run:
 Domain Parser found "models/coin/domain.pddl"
-2025-12-01 22:45:50,812 INFO - __main__.DomainParser.run:
+2025-12-01 22:47:35,202 INFO - __main__.DomainParser.run:
 Complete file reading.
-2025-12-01 22:45:50,812 INFO - __main__.DomainParser.run:
+2025-12-01 22:47:35,203 INFO - __main__.DomainParser.run:
 Domain name found
-2025-12-01 22:45:50,812 INFO - __main__.DomainParser.run:
+2025-12-01 22:47:35,203 INFO - __main__.DomainParser.run:
 Domain type found
-2025-12-01 22:45:50,813 INFO - __main__.DomainParser.run:
+2025-12-01 22:47:35,203 INFO - __main__.DomainParser.run:
 Domain functions found
-2025-12-01 22:45:50,813 INFO - __main__.DomainParser.run:
+2025-12-01 22:47:35,204 INFO - __main__.DomainParser.run:
 Domain actions found
-2025-12-01 22:45:50,813 DEBUG - __main__.DomainParser.run:
+2025-12-01 22:47:35,204 DEBUG - __main__.DomainParser.run:
 Parsed Domain Result:
 ================= Domain "(coin)" Parsing Result ================
 Domain types: ['coin', 'agent']
@@ -71,40 +71,40 @@ Effects:
 1: Effect('assign' Variable(coin: ['?c']) 0)
 
 
-2025-12-01 22:45:50,814 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,204 INFO - __main__.ProblemParser.run:
 Problem "models/coin/1" start initialization.
-2025-12-01 22:45:50,814 INFO - __main__.ProblemParser.get_files:
+2025-12-01 22:47:35,204 INFO - __main__.ProblemParser.get_files:
 Problem folder found "models/coin/1"
-2025-12-01 22:45:50,814 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,205 INFO - __main__.ProblemParser.run:
 Found 2 agent files:
 "models/coin/1/a.agtpddl"
 "models/coin/1/b.agtpddl"
-2025-12-01 22:45:50,814 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,205 INFO - __main__.ProblemParser.run:
 Found init file: "models/coin/1/init.envpddl"
-2025-12-01 22:45:50,814 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,205 INFO - __main__.ProblemParser.run:
 Complete reading environment file.
-2025-12-01 22:45:50,814 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,205 INFO - __main__.ProblemParser.run:
 Copmlete reading agent file "models/coin/1/a.agtpddl"
-2025-12-01 22:45:50,814 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,205 INFO - __main__.ProblemParser.run:
 Copmlete reading agent file "models/coin/1/b.agtpddl"
-2025-12-01 22:45:50,814 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,206 INFO - __main__.ProblemParser.run:
 Problem domain name "coin" found
 Problem name "1" found
-2025-12-01 22:45:50,815 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,206 INFO - __main__.ProblemParser.run:
 Problem agents found
-2025-12-01 22:45:50,815 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,206 INFO - __main__.ProblemParser.run:
 Problem objects found
-2025-12-01 22:45:50,816 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,206 INFO - __main__.ProblemParser.run:
 Problem ranges found
-2025-12-01 22:45:50,816 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,207 INFO - __main__.ProblemParser.run:
 Problem initial states found
-2025-12-01 22:45:50,816 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,207 INFO - __main__.ProblemParser.run:
 Problem goals found
-2025-12-01 22:45:50,816 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,207 INFO - __main__.ProblemParser.run:
 Problem acceptable goal set found
-2025-12-01 22:45:50,817 INFO - __main__.ProblemParser.run:
+2025-12-01 22:47:35,207 INFO - __main__.ProblemParser.run:
 Problem max belief depth found
-2025-12-01 22:45:50,817 DEBUG - __main__.ProblemParser.run:
+2025-12-01 22:47:35,207 DEBUG - __main__.ProblemParser.run:
 Parsed Problem Result:
 ============ Problem "(coin : 1)" Parsing Result ===========
 Agents: ['a', 'b']
@@ -129,17 +129,17 @@ Ranges:
 Range(function_name: peeking, type: integer, min: 0, max: 1)
 Range(function_name: coin, type: integer, min: 0, max: 1)
 
-2025-12-01 22:45:50,817 INFO - __main__._.load_observation_function:
+2025-12-01 22:47:35,209 INFO - __main__._.load_observation_function:
 Loaded observation function CoinObsFunc to agent a
-2025-12-01 22:45:50,818 INFO - __main__._.load_observation_function:
+2025-12-01 22:47:35,210 INFO - __main__._.load_observation_function:
 Loaded observation function CoinObsFunc to agent b
-2025-12-01 22:45:50,822 INFO - __main__._.load_policy_strategy:
+2025-12-01 22:47:35,213 INFO - __main__._.load_policy_strategy:
 Loaded strategy class ShareEXPGoalBFS for agent a
-2025-12-01 22:45:50,822 INFO - __main__._.load_policy_strategy:
+2025-12-01 22:47:35,214 INFO - __main__._.load_policy_strategy:
 Loaded strategy class ShareEXPGoalBFS for agent b
-2025-12-01 22:45:50,822 INFO - __main__.Model.init:
+2025-12-01 22:47:35,214 INFO - __main__.Model.init:
 Loaded problem type: "SHARE"
-2025-12-01 22:45:50,823 DEBUG - __main__._.build_model:
+2025-12-01 22:47:35,214 DEBUG - __main__._.build_model:
 Model:
 ================= Model Result================
 Domain name: coin
@@ -239,51 +239,79 @@ Condition(['a'] coin ['c1'] = 1)
 -----------------
 
 
-2025-12-01 22:45:50,823 INFO - __main__._.<module>:
+2025-12-01 22:47:35,214 INFO - __main__._.<module>:
 Model built successfully.
-2025-12-01 22:45:50,850 INFO - __main__.ShareEXPGoalBFS.bfs:
-Models: 2, Exapnds: 44, 0.478ms/expand
-2025-12-01 22:45:50,850 INFO - __main__.ShareEXPGoalBFS.get_policy:
+2025-12-01 22:47:35,245 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 2, Exapnds: 44, 0.535ms/expand
+2025-12-01 22:47:35,245 INFO - __main__.ShareEXPGoalBFS.get_policy:
 [("peek(['a'])", 2)]
 {'a': 1, 'b': 1}
-2025-12-01 22:45:50,851 INFO - __main__.Model.simulate:
+2025-12-01 22:47:35,245 INFO - __main__.Model.simulate:
 a takes action: peek(['a'])
-2025-12-01 22:45:50,867 INFO - __main__.ShareEXPGoalBFS.bfs:
-Models: 2, Exapnds: 33, 0.479ms/expand
-2025-12-01 22:45:50,867 INFO - __main__.ShareEXPGoalBFS.get_policy:
+2025-12-01 22:47:35,261 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 2, Exapnds: 33, 0.463ms/expand
+2025-12-01 22:47:35,261 INFO - __main__.ShareEXPGoalBFS.get_policy:
 [("peek(['b'])", 2)]
 {'a': 1, 'b': 1}
-2025-12-01 22:45:50,867 INFO - __main__.Model.simulate:
+2025-12-01 22:47:35,261 INFO - __main__.Model.simulate:
 b takes action: peek(['b'])
-2025-12-01 22:45:50,879 INFO - __main__.ShareEXPGoalBFS.bfs:
-Models: 1, Exapnds: 14, 0.801ms/expand
-2025-12-01 22:45:50,879 INFO - __main__.ShareEXPGoalBFS.get_policy:
+2025-12-01 22:47:35,272 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 14, 0.730ms/expand
+2025-12-01 22:47:35,272 INFO - __main__.ShareEXPGoalBFS.get_policy:
 [("flip_up(['a', 'c1'])", 1), ("stay(['a'])", 1)]
 {'a': 1, 'b': 1}
-2025-12-01 22:45:50,880 INFO - __main__.Model.simulate:
+2025-12-01 22:47:35,272 INFO - __main__.Model.simulate:
 a takes action: flip_up(['a', 'c1'])
-2025-12-01 22:45:50,890 INFO - __main__.ShareEXPGoalBFS.bfs:
-Models: 1, Exapnds: 14, 0.778ms/expand
-2025-12-01 22:45:50,891 INFO - __main__.ShareEXPGoalBFS.get_policy:
+2025-12-01 22:47:35,284 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 14, 0.847ms/expand
+2025-12-01 22:47:35,284 INFO - __main__.ShareEXPGoalBFS.get_policy:
 [("stay(['b'])", 1), ("flip_down(['b', 'c1'])", 1)]
 {'a': 1, 'b': 1}
-2025-12-01 22:45:50,891 INFO - __main__.Model.simulate:
+2025-12-01 22:47:35,285 INFO - __main__.Model.simulate:
+b takes action: flip_down(['b', 'c1'])
+2025-12-01 22:47:35,299 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 14, 1.034ms/expand
+2025-12-01 22:47:35,300 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("flip_up(['a', 'c1'])", 1), ("stay(['a'])", 1)]
+{'a': 1, 'b': 1}
+2025-12-01 22:47:35,300 INFO - __main__.Model.simulate:
+a takes action: flip_up(['a', 'c1'])
+2025-12-01 22:47:35,316 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 14, 1.093ms/expand
+2025-12-01 22:47:35,316 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("stay(['b'])", 1), ("flip_down(['b', 'c1'])", 1)]
+{'a': 1, 'b': 1}
+2025-12-01 22:47:35,317 INFO - __main__.Model.simulate:
+b takes action: flip_down(['b', 'c1'])
+2025-12-01 22:47:35,335 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 14, 1.286ms/expand
+2025-12-01 22:47:35,335 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("flip_up(['a', 'c1'])", 1), ("stay(['a'])", 1)]
+{'a': 1, 'b': 1}
+2025-12-01 22:47:35,336 INFO - __main__.Model.simulate:
+a takes action: flip_up(['a', 'c1'])
+2025-12-01 22:47:35,358 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 14, 1.564ms/expand
+2025-12-01 22:47:35,358 INFO - __main__.ShareEXPGoalBFS.get_policy:
+[("stay(['b'])", 1), ("flip_down(['b', 'c1'])", 1)]
+{'a': 1, 'b': 1}
+2025-12-01 22:47:35,359 INFO - __main__.Model.simulate:
 b takes action: stay(['b'])
-2025-12-01 22:45:50,899 INFO - __main__.ShareEXPGoalBFS.bfs:
-Models: 1, Exapnds: 13, 0.581ms/expand
-2025-12-01 22:45:50,899 INFO - __main__.ShareEXPGoalBFS.get_policy:
+2025-12-01 22:47:35,375 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 13, 1.171ms/expand
+2025-12-01 22:47:35,375 INFO - __main__.ShareEXPGoalBFS.get_policy:
 [("return(['a'])", 1)]
 {'a': 1, 'b': 1}
-2025-12-01 22:45:50,900 INFO - __main__.Model.simulate:
+2025-12-01 22:47:35,376 INFO - __main__.Model.simulate:
 a takes action: return(['a'])
-2025-12-01 22:45:50,902 INFO - __main__.ShareEXPGoalBFS.bfs:
-Models: 1, Exapnds: 6, 0.495ms/expand
-2025-12-01 22:45:50,902 INFO - __main__.ShareEXPGoalBFS.get_policy:
+2025-12-01 22:47:35,382 INFO - __main__.ShareEXPGoalBFS.bfs:
+Models: 1, Exapnds: 6, 0.909ms/expand
+2025-12-01 22:47:35,383 INFO - __main__.ShareEXPGoalBFS.get_policy:
 [("flip_down(['b', 'c1'])", 1)]
 {'a': 1, 'b': 1}
-2025-12-01 22:45:50,904 INFO - __main__.Model.simulate:
+2025-12-01 22:47:35,383 INFO - __main__.Model.simulate:
 b takes action: flip_down(['b', 'c1'])
-2025-12-01 22:45:50,904 DEBUG - __main__.Model.simulate:
+2025-12-01 22:47:35,383 DEBUG - __main__.Model.simulate:
 ====== Solution ======
 Step 1:
 a: peek(['a'])
@@ -298,27 +326,47 @@ a: flip_up(['a', 'c1'])
 {'a': False, 'b': True}
 -----------------
 Step 4:
-b: stay(['b'])
+b: flip_down(['b', 'c1'])
 {'a': True, 'b': False}
 -----------------
 Step 5:
-a: return(['a'])
-{'a': True, 'b': False}
+a: flip_up(['a', 'c1'])
+{'a': False, 'b': True}
 -----------------
 Step 6:
 b: flip_down(['b', 'c1'])
 {'a': True, 'b': False}
 -----------------
+Step 7:
+a: flip_up(['a', 'c1'])
+{'a': False, 'b': True}
+-----------------
+Step 8:
+b: stay(['b'])
+{'a': True, 'b': False}
+-----------------
+Step 9:
+a: return(['a'])
+{'a': True, 'b': False}
+-----------------
+Step 10:
+b: flip_down(['b', 'c1'])
+{'a': True, 'b': False}
+-----------------
 
-2025-12-01 22:45:50,904 EXP - __main__.Logger.exp:
+2025-12-01 22:47:35,383 EXP - __main__.Logger.exp:
 a takes action: peek(['a'])
 b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: flip_down(['b', 'c1'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: flip_down(['b', 'c1'])
 a takes action: flip_up(['a', 'c1'])
 b takes action: stay(['b'])
 a takes action: return(['a'])
 b takes action: flip_down(['b', 'c1'])
-Steps: 6
-Time cost: 0.074558s
-2025-12-01 22:45:50,904 EXP - __main__.Logger.exp:
-Avg Steps: 6.0
-Avg Time: 0.074558s
+Steps: 10
+Time cost: 0.162469s
+2025-12-01 22:47:35,384 EXP - __main__.Logger.exp:
+Avg Steps: 10.0
+Avg Time: 0.162469s
