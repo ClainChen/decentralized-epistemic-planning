@@ -1,12 +1,12 @@
 import util
 import logging
 from abstracts import AbstractObservationFunction
-import cache
+
 
 LOGGER_LEVEL = logging.DEBUG
 
 class GrapevineObsFunc(AbstractObservationFunction):
-    # @cache.obs_func_cache_decorator
+
     def get_observable_functions(self, model, functions, agent_name):
         """
         Agent can see all secret if they are sharing in current room

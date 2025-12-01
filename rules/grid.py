@@ -1,5 +1,5 @@
 from abstracts import AbstractRules
-from epistemic_handler.epistemic_class import Model, Function, Condition
+from dep.epistemic_class import Model, Function, Condition
 import logging
 import util
 

@@ -3,7 +3,7 @@ import logging
 import sys
 import traceback
 import util
-from epistemic_handler import model_builder, problem_builder
+from dep import model_builder
 import json
 import re
 import copy
@@ -85,9 +85,9 @@ if __name__ == '__main__':
             c_logging_level = LOGGING_LEVELS[args.c_logging_level]
         c_logging_display = args.c_logging_display
         pp = args.problem_path.split('/')
-        log_strategy = f"{args.strategy[11:-3]}.log"
+        log_strategy = f"{pp[1]}.log"
         
-        handler = util.setup_logger_handlers(f"log/{pp[0]}/{pp[1]}/{log_strategy}", log_mode='w',
+        handler = util.setup_logger_handlers(f"log/{pp[0]}/{log_strategy}", log_mode='w',
                                              c_display=c_logging_display, c_logger_level=c_logging_level)
         util.LOGGER = util.setup_logger(__name__, handlers=handler, logger_level=THIS_LOGGER_LEVEL)
         util.LOGGER.info(f"Start building the model, type: \"{args.problem_type}\"")
@@ -137,19 +137,15 @@ if __name__ == '__main__':
         print(f"Standard Path Length: {path_len}")
         print(f"Path: {path}")
 
-        if not args.generate_problem:
-            step_lst = []
-            time_lst = []
-            for i in range(1, args.num_multi_tests + 1):
-                print(f"{i}th Simulation:")
-                running_model = model.duplicate()
-                steps, time_used = running_model.simulate(running_model.agents[start_index].name)
-                step_lst.append(steps)
-                time_lst.append(time_used)
-            util.LOGGER.exp(f"Avg Steps: {sum(step_lst) / len(step_lst)}\nAvg Time: {(sum(time_lst) / len(time_lst)):.6f}s")
-        else:
-            problem_builder = problem_builder.ProblemBuilder(model)
-            problem_builder.generate_all_problem_pddl_files()
+        step_lst = []
+        time_lst = []
+        for i in range(1, args.num_multi_tests + 1):
+            print(f"{i}th Simulation:")
+            running_model = model.duplicate()
+            steps, time_used = running_model.simulate(running_model.agents[start_index].name)
+            step_lst.append(steps)
+            time_lst.append(time_used)
+        util.LOGGER.exp(f"Avg Steps: {sum(step_lst) / len(step_lst)}\nAvg Time: {(sum(time_lst) / len(time_lst)):.6f}s")
 
         print("Done.")
     except Exception as e:

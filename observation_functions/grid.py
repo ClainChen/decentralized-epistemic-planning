@@ -1,12 +1,11 @@
 import logging
 from abstracts import AbstractObservationFunction
-import cache
+
 
 LOGGER_LEVEL = logging.DEBUG
 
 class GridObsFunc(AbstractObservationFunction):
-    
-    # @cache.obs_func_cache_decorator
+
     def get_observable_functions(self, model, functions, agent_name):
         """
         1. if an agent is not receivable, it can only observe what in its own location and the common knowledge.

@@ -13,8 +13,8 @@ MEDIUM_DIVIDER = "*****************\n"
 SMALL_DIVIDER = "-----------------\n"
 
 MODEL_FOLDER_PATH = "models/"
-OBS_FUNC_FOLER_PATH = "observation_functions/"
-STRATEGY_FOLDER_PATH = "policy_strategies/"
+OBS_FUNC_FOLDER_PATH = "observation_functions/"
+STRATEGY_FOLDER_PATH = "strategy/"
 RULES_FOLDER_PATH = "rules/"
 INIT_FILE_NAME = "init.envpddl"
 AGENT_FILE_NAME = ".agtpddl"
@@ -103,8 +103,8 @@ def regex_match(regex, string):
     result = re.match(regex, string, re.M)
     return True if result else False
 
-from epistemic_handler.file_parser import *
-from epistemic_handler.epistemic_class import *
+from dep.file_parser import *
+from dep.epistemic_class import *
 
 def swap_param_orders(function_schema: FunctionSchema, variable: ParsingVariable):
     new_param_orders = variable.parameters
@@ -367,7 +367,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     virtual_model = model.copy()
     current_agent = virtual_model.get_agent_by_name(agent_name)
     # the functions of current agent will not change, other agent's functions will set to the observation functions based on current agent's functions
-    if virtual_model.problem_name == ProblemType.SHARE:
+    if virtual_model.problem_type == ProblemType.SHARE:
         for agent in virtual_model.agents:
             if agent.name != agent_name:
                 if current_agent.other_goals[agent.name]:
@@ -398,14 +398,8 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     for comb in valid_combs:
         new_model = virtual_model.copy()
         new_model.ontic_functions.extend(comb)
-        if current_agent.consider_goal:
-            for goal_set in current_agent.all_possible_goals:
-                new_model2 = new_model.copy()
-                for agent in new_model2.agents:
-                    agent.own_goals = goal_set[agent.name]
-                all_virtual_models.append(new_model2)
-        else:
-            all_virtual_models.append(new_model)
+        all_virtual_models.append(new_model)
+
     
     if len(all_virtual_models) <= 0:
         if len(unknown_functions) == 0:
@@ -523,7 +517,7 @@ def load_action_sequence(path: str, model: Model) -> list[Action]:
 
     result = []
     # each line is an action, such as a: action param1 param2 ...
-    from epistemic_handler.epistemic_class import Action
+    from dep.epistemic_class import Action
     for line in lines:
         keys = line.split(" ")
         move_agent = keys[0][:-1]

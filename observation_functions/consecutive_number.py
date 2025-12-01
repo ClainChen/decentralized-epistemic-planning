@@ -1,12 +1,10 @@
 import util
 import logging
 from abstracts import AbstractObservationFunction
-import cache
 
 LOGGER_LEVEL = logging.DEBUG
 
 class ConsecutiveNumberObsFunc(AbstractObservationFunction):
-    # @cache.obs_func_cache_decorator
     def get_observable_functions(self, model, functions, agent_name):
         agent_num = -1
         min = -1
