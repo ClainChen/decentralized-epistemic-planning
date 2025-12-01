@@ -109,6 +109,16 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
             for param in params:
                 parameters = dict(zip(func_schema.require_parameters.keys(), param))
                 header_id += 1
+                # add unknwon function
+                id += 1
+                func = Function()
+                func.id = id
+                func.header_id = header_id
+                func.name = func_schema.name
+                func.parameters = parameters
+                func.value = None
+                model.ALL_FUNCS.add_function(func)
+
                 if func_schema.type == ValueType.INTEGER:
                     minn, maxx = func_schema.range
                     for v in range(minn, maxx + 1):

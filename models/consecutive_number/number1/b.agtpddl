@@ -1,0 +1,10 @@
+(define
+    (problem number1)
+    (:domain consecutive_number)
+    (:agent b)
+
+    (:goal (and
+        (= (@ep (" b [b]") (= (agent_know b) 1)) ep.true)
+        )
+    )
+)

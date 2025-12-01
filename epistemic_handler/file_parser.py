@@ -4,6 +4,18 @@ import os
 
 import util
 
+# Custom exceptions for better error handling
+class PDDLParseError(Exception):
+    """Exception raised when PDDL parsing fails."""
+    pass
+
+def safe_regex_search(pattern, content, error_msg="Regex pattern did not match"):
+    """Safely perform regex search and raise exception if no match found."""
+    result = util.regex_search(pattern, content)
+    if not result:
+        raise PDDLParseError(f"{error_msg} - Pattern: {pattern}")
+    return result[0]
+
 DOMAIN_LOG_LEVEL = logging.INFO
 PROBLEM_LOG_LEVEL = logging.INFO
 MODEL_CHECKER_LOG_LEVEL = logging.INFO
@@ -277,7 +289,7 @@ class ParsingProblem:
         self.problem_name = None
         self.agents = []
         self.objects: dict[str, list[str]] = dict()
-        self.states: list[ParsingState] = dict()
+        self.states: list[ParsingState] = []
         self.ranges: list[ParsingRange] = []
         self.goals: dict[str, list[ParsingCondition | ParsingEpistemicCondition]] = dict()
         self.acceptable_goal_set: list[ParsingAcceptableGoal] = []
@@ -333,7 +345,7 @@ def convert_state_line_to_parsing_state(state_pair: tuple[str, str]) -> ParsingS
     return state
 
 
-def convert_str_to_parsing_condition(condition_str: str) -> ParsingCondition:
+def convert_str_to_parsing_condition(condition_str: str) -> ParsingCondition | None:
     # check whether the epistemic condition is present
     is_epistemic = '@ep' in condition_str
     epistemic_logic_operator = None
@@ -353,6 +365,8 @@ def convert_str_to_parsing_condition(condition_str: str) -> ParsingCondition:
 
     else:
         condition_str = util.regex_search(CONDITION_SPLIT_REGEX, condition_str)
+        if len(condition_str) == 0:
+            return None
         logic_operator, condition_variable, condition_value = condition_str[0]
     if is_epistemic:
         precondition = ParsingEpistemicCondition()
@@ -376,7 +390,6 @@ def convert_str_to_parsing_condition(condition_str: str) -> ParsingCondition:
         belief_sequence = (" " + belief_sequence).split(" b ")[1:]
         precondition.belief_sequence = [b[1:-1] for b in belief_sequence]
         precondition.epistemic_logic_operator = epistemic_logic_operator
-        precondition.condition = precondition
         precondition.epistemic_truth = epistemic_truth
     return precondition
 
@@ -503,7 +516,9 @@ class DomainParser:
         preconditions = []
         precondition_part = precondition_part.splitlines()
         for condition_part in precondition_part:
-            preconditions.append(convert_str_to_parsing_condition(condition_part))
+            pre_cond = convert_str_to_parsing_condition(condition_part)
+            if not pre_cond: continue
+            preconditions.append(pre_cond)
         return preconditions
     
     def get_action_effects(self, effect_part: str) -> list[ParsingEffect]:
@@ -758,7 +773,9 @@ class ProblemParser:
             goal_lines = util.regex_search(GOAL_REGEX, agt_content)
             goal_lines = goal_lines[0].splitlines()
             for goal_line in goal_lines:
-                goals[agt].append(convert_str_to_parsing_condition(goal_line))
+                g = convert_str_to_parsing_condition(goal_line)
+                if g is None: continue
+                goals[agt].append(g)
         return goals
 
     def get_goal_sets(self, env_content) -> list[ParsingAcceptableGoal]:

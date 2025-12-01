@@ -1,0 +1,17 @@
+(define
+    (problem light1)
+    (:domain light_bulb)
+    (:agent a)
+
+    (:goal (and
+        (= (@ep (" b [a]") (= (light_state l1) on)) ep.true)
+        (= (@ep (" b [a]") (= (light_state l2) on)) ep.true)
+        (= (@ep (" b [a]") (= (light_state l3) on)) ep.true)
+        (= (@ep (" b [a]") (= (light_state l4) on)) ep.true)
+        (= (light_state l1) on)
+        (= (light_state l2) on)
+        (= (light_state l3) on)
+        (= (light_state l4) on)
+        )
+    )
+)

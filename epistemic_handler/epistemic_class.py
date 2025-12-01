@@ -934,7 +934,7 @@ class Model:
 
         if self.problem_type == ProblemType.UNSHARE:
             self.update_belief_goals()
-            self.update_agent_belief_actions_in_world(agent_name, action)
+        self.update_agent_belief_actions_in_world(agent_name, action)
 
         self.move(agent_name, action)
 

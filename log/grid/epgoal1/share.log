@@ -1,0 +1,1360 @@
+2025-11-25 19:10:45,440 INFO - __main__._.<module>:
+Start building the model, type: "True"
+2025-11-25 19:10:45,441 INFO - __main__._.build:
+Start building the model, type: "True"
+2025-11-25 19:10:45,441 INFO - __main__.DomainParser.run:
+Domain "models/grid/domain.pddl" start initialization.
+2025-11-25 19:10:45,441 INFO - __main__.DomainParser.run:
+Domain Parser found "models/grid/domain.pddl"
+2025-11-25 19:10:45,442 INFO - __main__.DomainParser.run:
+Complete file reading.
+2025-11-25 19:10:45,442 INFO - __main__.DomainParser.run:
+Domain name found
+2025-11-25 19:10:45,442 INFO - __main__.DomainParser.run:
+Domain type found
+2025-11-25 19:10:45,443 INFO - __main__.DomainParser.run:
+Domain functions found
+2025-11-25 19:10:45,444 INFO - __main__.DomainParser.run:
+Domain actions found
+2025-11-25 19:10:45,444 DEBUG - __main__.DomainParser.run:
+Parsed Domain Result:
+================= Domain "(grid)" Parsing Result ================
+Domain types: ['agent', 'survivor', 'location']
+=================
+Domain functions:
+Function(name:agent_loc, parameters:{'agent': ['?a']}). 
+Function(name:survivor_loc, parameters:{'survivor': ['?s']}). 
+Function(name:movable, parameters:{'agent': ['?a']}). 
+Function(name:sharable, parameters:{'agent': ['?a']}). 
+Function(name:receivable, parameters:{'agent': ['?a']}). 
+Function(name:loc_id, parameters:{'location': ['?l']}). 
+Function(name:searched, parameters:{'location': ['?l']}). 
+Function(name:shared, parameters:{'survivor': ['?s']}). 
+Function(name:connected, parameters:{'location': ['?l1', '?l2']}). 
+Function(name:sharing, parameters:{'agent': ['?a']}). 
+Function(name:share_lock, parameters:{}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: move
+Parameters:
+    agent : ['?self']
+    location : ['?l1', '?l2']
+Preconditions:
+1: Condition(Variable(share_lock: []) = 0)
+2: Condition(Variable(movable: ['?self']) = 1)
+3: Condition(Variable(agent_loc: ['?self']) = Variable(loc_id: ['?l1']))
+4: Condition(Variable(connected: ['?l1', '?l2']) = 1)
+Effects:
+1: Effect(effect_operator:'assign' Variable(agent_loc: ['?self']) Variable(loc_id: ['?l2']))
+2: Effect('assign' Variable(searched: ['?l2']) 1)
+
+-----------------
+Action:
+Name: share_survivor
+Parameters:
+    agent : ['?self']
+    survivor : ['?s']
+    location : ['?l']
+Preconditions:
+1: Condition(Variable(share_lock: []) = 0)
+2: Condition(Variable(sharing: ['?self']) = 0)
+3: Condition(Variable(sharable: ['?self']) = 1)
+4: Condition(Variable(survivor_loc: ['?s']) = Variable(loc_id: ['?l']))
+5: Condition(Variable(agent_loc: ['?self']) = Variable(loc_id: ['?l']))
+Effects:
+1: Effect('assign' Variable(shared: ['?s']) 1)
+2: Effect('assign' Variable(share_lock: []) 1)
+3: Effect('assign' Variable(sharing: ['?self']) 1)
+
+-----------------
+Action:
+Name: share
+Parameters:
+    agent : ['?self']
+    location : ['?l']
+Preconditions:
+1: Condition(Variable(share_lock: []) = 0)
+2: Condition(Variable(sharing: ['?self']) = 0)
+3: Condition(Variable(sharable: ['?self']) = 1)
+4: Condition(Variable(agent_loc: ['?self']) = Variable(loc_id: ['?l']))
+Effects:
+1: Effect('assign' Variable(share_lock: []) 1)
+2: Effect('assign' Variable(sharing: ['?self']) 1)
+
+-----------------
+Action:
+Name: quiet
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(share_lock: []) = 1)
+2: Condition(Variable(sharing: ['?self']) = 1)
+Effects:
+1: Effect('assign' Variable(share_lock: []) 0)
+2: Effect('assign' Variable(sharing: ['?self']) 0)
+
+-----------------
+Action:
+Name: normal_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(share_lock: []) = 0)
+Effects:
+
+-----------------
+Action:
+Name: lock_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(share_lock: []) = 1)
+2: Condition(Variable(sharing: ['?self']) = 0)
+Effects:
+
+
+2025-11-25 19:10:45,444 INFO - __main__.ProblemParser.run:
+Problem "models/grid/epgoal1" start initialization.
+2025-11-25 19:10:45,445 INFO - __main__.ProblemParser.get_files:
+Problem folder found "models/grid/epgoal1"
+2025-11-25 19:10:45,445 INFO - __main__.ProblemParser.run:
+Found 3 agent files:
+"models/grid/epgoal1/a.agtpddl"
+"models/grid/epgoal1/b.agtpddl"
+"models/grid/epgoal1/c.agtpddl"
+2025-11-25 19:10:45,445 INFO - __main__.ProblemParser.run:
+Found init file: "models/grid/epgoal1/init.envpddl"
+2025-11-25 19:10:45,445 INFO - __main__.ProblemParser.run:
+Complete reading environment file.
+2025-11-25 19:10:45,446 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grid/epgoal1/a.agtpddl"
+2025-11-25 19:10:45,446 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grid/epgoal1/b.agtpddl"
+2025-11-25 19:10:45,446 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/grid/epgoal1/c.agtpddl"
+2025-11-25 19:10:45,447 INFO - __main__.ProblemParser.run:
+Problem domain name "grid" found
+Problem name "EpGoal1" found
+2025-11-25 19:10:45,447 INFO - __main__.ProblemParser.run:
+Problem agents found
+2025-11-25 19:10:45,447 INFO - __main__.ProblemParser.run:
+Problem objects found
+2025-11-25 19:10:45,447 INFO - __main__.ProblemParser.run:
+Problem ranges found
+2025-11-25 19:10:45,448 INFO - __main__.ProblemParser.run:
+Problem initial states found
+2025-11-25 19:10:45,449 INFO - __main__.ProblemParser.run:
+Problem goals found
+2025-11-25 19:10:45,449 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         survivor_loc(all)=[all]
+        searched(all)=[all]
+
+2025-11-25 19:10:45,449 INFO - __main__.ProblemParser.run:
+Problem acceptable goal set found
+2025-11-25 19:10:45,450 INFO - __main__.ProblemParser.run:
+Problem max belief depth found
+2025-11-25 19:10:45,450 DEBUG - __main__.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(grid : EpGoal1)" Parsing Result ===========
+Agents: ['a', 'b', 'c']
+=================
+Objects:
+survivor: ['s1']
+location: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9']
+=================
+States:
+State(variable: Variable(agent_loc: ['a']), value: r1, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['b']), value: r4, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['c']), value: r9, target_variable: Variable(None: []))
+State(variable: Variable(movable: ['a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(movable: ['b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(movable: ['c']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(sharable: ['a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(sharable: ['b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(sharable: ['c']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(receivable: ['a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(receivable: ['b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(receivable: ['c']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(survivor_loc: ['s1']), value: r7, target_variable: Variable(None: []))
+State(variable: Variable(shared: ['s1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(sharing: ['a']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(sharing: ['b']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(sharing: ['c']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(share_lock: []), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(searched: ['r1']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(searched: ['r2']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(searched: ['r3']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(searched: ['r4']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(searched: ['r5']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(searched: ['r6']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(searched: ['r7']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(searched: ['r8']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(searched: ['r9']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(loc_id: ['r1']), value: r1, target_variable: Variable(None: []))
+State(variable: Variable(loc_id: ['r2']), value: r2, target_variable: Variable(None: []))
+State(variable: Variable(loc_id: ['r3']), value: r3, target_variable: Variable(None: []))
+State(variable: Variable(loc_id: ['r4']), value: r4, target_variable: Variable(None: []))
+State(variable: Variable(loc_id: ['r5']), value: r5, target_variable: Variable(None: []))
+State(variable: Variable(loc_id: ['r6']), value: r6, target_variable: Variable(None: []))
+State(variable: Variable(loc_id: ['r7']), value: r7, target_variable: Variable(None: []))
+State(variable: Variable(loc_id: ['r8']), value: r8, target_variable: Variable(None: []))
+State(variable: Variable(loc_id: ['r9']), value: r9, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r1', 'r1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r1', 'r2']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r1', 'r3']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r1', 'r4']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r1', 'r5']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r1', 'r6']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r1', 'r7']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r1', 'r8']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r1', 'r9']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r2', 'r1']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r2', 'r2']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r2', 'r3']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r2', 'r4']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r2', 'r5']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r2', 'r6']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r2', 'r7']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r2', 'r8']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r2', 'r9']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r3', 'r1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r3', 'r2']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r3', 'r3']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r3', 'r4']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r3', 'r5']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r3', 'r6']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r3', 'r7']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r3', 'r8']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r3', 'r9']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r4', 'r1']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r4', 'r2']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r4', 'r3']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r4', 'r4']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r4', 'r5']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r4', 'r6']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r4', 'r7']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r4', 'r8']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r4', 'r9']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r5', 'r1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r5', 'r2']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r5', 'r3']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r5', 'r4']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r5', 'r5']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r5', 'r6']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r5', 'r7']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r5', 'r8']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r5', 'r9']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r6', 'r1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r6', 'r2']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r6', 'r3']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r6', 'r4']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r6', 'r5']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r6', 'r6']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r6', 'r7']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r6', 'r8']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r6', 'r9']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r7', 'r1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r7', 'r2']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r7', 'r3']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r7', 'r4']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r7', 'r5']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r7', 'r6']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r7', 'r7']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r7', 'r8']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r7', 'r9']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r8', 'r1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r8', 'r2']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r8', 'r3']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r8', 'r4']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r8', 'r5']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r8', 'r6']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r8', 'r7']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r8', 'r8']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r8', 'r9']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r9', 'r1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r9', 'r2']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r9', 'r3']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r9', 'r4']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r9', 'r5']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r9', 'r6']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r9', 'r7']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r9', 'r8']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['r9', 'r9']), value: 0, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "!= unknown", Condition(Variable(survivor_loc: ['s1'])  ))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(searched: ['r1']) = 1))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(searched: ['r2']) = 1))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(searched: ['r3']) = 1))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(searched: ['r4']) = 1))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(searched: ['r5']) = 1))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(searched: ['r6']) = 1))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(searched: ['r7']) = 1))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(searched: ['r8']) = 1))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(searched: ['r9']) = 1))
+-----------------
+b:
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "!= unknown", Condition(Variable(survivor_loc: ['s1'])  ))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(searched: ['r1']) = 1))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(searched: ['r2']) = 1))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(searched: ['r3']) = 1))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(searched: ['r4']) = 1))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(searched: ['r5']) = 1))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(searched: ['r6']) = 1))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(searched: ['r7']) = 1))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(searched: ['r8']) = 1))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(searched: ['r9']) = 1))
+-----------------
+c:
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "!= unknown", Condition(Variable(survivor_loc: ['s1'])  ))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(searched: ['r1']) = 1))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(searched: ['r2']) = 1))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(searched: ['r3']) = 1))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(searched: ['r4']) = 1))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(searched: ['r5']) = 1))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(searched: ['r6']) = 1))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(searched: ['r7']) = 1))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(searched: ['r8']) = 1))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(searched: ['r9']) = 1))
+=================
+Ranges:
+Range(function_name: agent_loc, type: enumerate, enumerates: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9'])
+Range(function_name: survivor_loc, type: enumerate, enumerates: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9'])
+Range(function_name: loc_id, type: enumerate, enumerates: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9'])
+Range(function_name: shared, type: integer, min: 0, max: 1)
+Range(function_name: sharing, type: integer, min: 0, max: 1)
+Range(function_name: share_lock, type: integer, min: 0, max: 1)
+Range(function_name: connected, type: integer, min: 0, max: 1)
+Range(function_name: sharable, type: integer, min: 0, max: 1)
+Range(function_name: movable, type: integer, min: 0, max: 1)
+Range(function_name: receivable, type: integer, min: 0, max: 1)
+Range(function_name: searched, type: integer, min: 0, max: 1)
+
+2025-11-25 19:10:45,450 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-25 19:10:45,450 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c', 's1', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9', 'unknown', 'agent_loc', 'survivor_loc', 'movable', 'sharable', 'receivable', 'loc_id', 'searched', 'shared', 'connected', 'sharing', 'share_lock']
+2025-11-25 19:10:45,450 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-25 19:10:45,450 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-25 19:10:45,450 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-25 19:10:45,450 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-25 19:10:45,450 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-25 19:10:45,450 INFO - __main__.ModelChecker.check_validity:
+checking the validity...
+2025-11-25 19:10:45,450 DEBUG - __main__.ModelChecker.check_validity:
+Valid names: ['a', 'b', 'c', 's1', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9', 'unknown', 'agent_loc', 'survivor_loc', 'movable', 'sharable', 'receivable', 'loc_id', 'searched', 'shared', 'connected', 'sharing', 'share_lock']
+2025-11-25 19:10:45,450 DEBUG - __main__.ModelChecker.check_validity:
+Checking the states
+2025-11-25 19:10:45,451 DEBUG - __main__.ModelChecker.check_validity:
+Checking the goals
+2025-11-25 19:10:45,451 DEBUG - __main__.ModelChecker.check_validity:
+Checking the ranges
+2025-11-25 19:10:45,451 DEBUG - __main__.ModelChecker.check_validity:
+Checking the actions
+2025-11-25 19:10:45,451 INFO - __main__.ModelChecker.check_validity:
+The domain and problem pass the checker.
+2025-11-25 19:10:45,453 INFO - __main__._.load_observation_function:
+Loaded observation function GridObsFunc to agent a
+2025-11-25 19:10:45,454 INFO - __main__._.load_observation_function:
+Loaded observation function GridObsFunc to agent b
+2025-11-25 19:10:45,454 INFO - __main__._.load_observation_function:
+Loaded observation function GridObsFunc to agent c
+2025-11-25 19:10:45,458 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent a
+2025-11-25 19:10:45,459 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent b
+2025-11-25 19:10:45,459 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent c
+2025-11-25 19:10:45,460 INFO - __main__.Model.init:
+Loaded problem type: "SHARE"
+2025-11-25 19:10:45,465 DEBUG - __main__._.build_model:
+Model:
+================= Model Result================
+Domain name: grid
+Problem name: EpGoal1
+Problem type: "SHARE"
+=================
+Function agent_loc:
+Parameters ['a']:
+Value None: Function([id:1, header_id:1]  agent_loc {'?a': 'a'} = None)
+Value r1: Function([id:2, header_id:1]  agent_loc {'?a': 'a'} = r1)
+Value r2: Function([id:3, header_id:1]  agent_loc {'?a': 'a'} = r2)
+Value r3: Function([id:4, header_id:1]  agent_loc {'?a': 'a'} = r3)
+Value r4: Function([id:5, header_id:1]  agent_loc {'?a': 'a'} = r4)
+Value r5: Function([id:6, header_id:1]  agent_loc {'?a': 'a'} = r5)
+Value r6: Function([id:7, header_id:1]  agent_loc {'?a': 'a'} = r6)
+Value r7: Function([id:8, header_id:1]  agent_loc {'?a': 'a'} = r7)
+Value r8: Function([id:9, header_id:1]  agent_loc {'?a': 'a'} = r8)
+Value r9: Function([id:10, header_id:1]  agent_loc {'?a': 'a'} = r9)
+Parameters ['b']:
+Value None: Function([id:11, header_id:2]  agent_loc {'?a': 'b'} = None)
+Value r1: Function([id:12, header_id:2]  agent_loc {'?a': 'b'} = r1)
+Value r2: Function([id:13, header_id:2]  agent_loc {'?a': 'b'} = r2)
+Value r3: Function([id:14, header_id:2]  agent_loc {'?a': 'b'} = r3)
+Value r4: Function([id:15, header_id:2]  agent_loc {'?a': 'b'} = r4)
+Value r5: Function([id:16, header_id:2]  agent_loc {'?a': 'b'} = r5)
+Value r6: Function([id:17, header_id:2]  agent_loc {'?a': 'b'} = r6)
+Value r7: Function([id:18, header_id:2]  agent_loc {'?a': 'b'} = r7)
+Value r8: Function([id:19, header_id:2]  agent_loc {'?a': 'b'} = r8)
+Value r9: Function([id:20, header_id:2]  agent_loc {'?a': 'b'} = r9)
+Parameters ['c']:
+Value None: Function([id:21, header_id:3]  agent_loc {'?a': 'c'} = None)
+Value r1: Function([id:22, header_id:3]  agent_loc {'?a': 'c'} = r1)
+Value r2: Function([id:23, header_id:3]  agent_loc {'?a': 'c'} = r2)
+Value r3: Function([id:24, header_id:3]  agent_loc {'?a': 'c'} = r3)
+Value r4: Function([id:25, header_id:3]  agent_loc {'?a': 'c'} = r4)
+Value r5: Function([id:26, header_id:3]  agent_loc {'?a': 'c'} = r5)
+Value r6: Function([id:27, header_id:3]  agent_loc {'?a': 'c'} = r6)
+Value r7: Function([id:28, header_id:3]  agent_loc {'?a': 'c'} = r7)
+Value r8: Function([id:29, header_id:3]  agent_loc {'?a': 'c'} = r8)
+Value r9: Function([id:30, header_id:3]  agent_loc {'?a': 'c'} = r9)
+Function survivor_loc:
+Parameters ['s1']:
+Value None: Function([id:31, header_id:4]  survivor_loc {'?s': 's1'} = None)
+Value r1: Function([id:32, header_id:4]  survivor_loc {'?s': 's1'} = r1)
+Value r2: Function([id:33, header_id:4]  survivor_loc {'?s': 's1'} = r2)
+Value r3: Function([id:34, header_id:4]  survivor_loc {'?s': 's1'} = r3)
+Value r4: Function([id:35, header_id:4]  survivor_loc {'?s': 's1'} = r4)
+Value r5: Function([id:36, header_id:4]  survivor_loc {'?s': 's1'} = r5)
+Value r6: Function([id:37, header_id:4]  survivor_loc {'?s': 's1'} = r6)
+Value r7: Function([id:38, header_id:4]  survivor_loc {'?s': 's1'} = r7)
+Value r8: Function([id:39, header_id:4]  survivor_loc {'?s': 's1'} = r8)
+Value r9: Function([id:40, header_id:4]  survivor_loc {'?s': 's1'} = r9)
+Function movable:
+Parameters ['a']:
+Value None: Function([id:41, header_id:5]  movable {'?a': 'a'} = None)
+Value 0: Function([id:42, header_id:5]  movable {'?a': 'a'} = 0)
+Value 1: Function([id:43, header_id:5]  movable {'?a': 'a'} = 1)
+Parameters ['b']:
+Value None: Function([id:44, header_id:6]  movable {'?a': 'b'} = None)
+Value 0: Function([id:45, header_id:6]  movable {'?a': 'b'} = 0)
+Value 1: Function([id:46, header_id:6]  movable {'?a': 'b'} = 1)
+Parameters ['c']:
+Value None: Function([id:47, header_id:7]  movable {'?a': 'c'} = None)
+Value 0: Function([id:48, header_id:7]  movable {'?a': 'c'} = 0)
+Value 1: Function([id:49, header_id:7]  movable {'?a': 'c'} = 1)
+Function sharable:
+Parameters ['a']:
+Value None: Function([id:50, header_id:8]  sharable {'?a': 'a'} = None)
+Value 0: Function([id:51, header_id:8]  sharable {'?a': 'a'} = 0)
+Value 1: Function([id:52, header_id:8]  sharable {'?a': 'a'} = 1)
+Parameters ['b']:
+Value None: Function([id:53, header_id:9]  sharable {'?a': 'b'} = None)
+Value 0: Function([id:54, header_id:9]  sharable {'?a': 'b'} = 0)
+Value 1: Function([id:55, header_id:9]  sharable {'?a': 'b'} = 1)
+Parameters ['c']:
+Value None: Function([id:56, header_id:10]  sharable {'?a': 'c'} = None)
+Value 0: Function([id:57, header_id:10]  sharable {'?a': 'c'} = 0)
+Value 1: Function([id:58, header_id:10]  sharable {'?a': 'c'} = 1)
+Function receivable:
+Parameters ['a']:
+Value None: Function([id:59, header_id:11]  receivable {'?a': 'a'} = None)
+Value 0: Function([id:60, header_id:11]  receivable {'?a': 'a'} = 0)
+Value 1: Function([id:61, header_id:11]  receivable {'?a': 'a'} = 1)
+Parameters ['b']:
+Value None: Function([id:62, header_id:12]  receivable {'?a': 'b'} = None)
+Value 0: Function([id:63, header_id:12]  receivable {'?a': 'b'} = 0)
+Value 1: Function([id:64, header_id:12]  receivable {'?a': 'b'} = 1)
+Parameters ['c']:
+Value None: Function([id:65, header_id:13]  receivable {'?a': 'c'} = None)
+Value 0: Function([id:66, header_id:13]  receivable {'?a': 'c'} = 0)
+Value 1: Function([id:67, header_id:13]  receivable {'?a': 'c'} = 1)
+Function loc_id:
+Parameters ['r1']:
+Value None: Function([id:68, header_id:14]  loc_id {'?l': 'r1'} = None)
+Value r1: Function([id:69, header_id:14]  loc_id {'?l': 'r1'} = r1)
+Value r2: Function([id:70, header_id:14]  loc_id {'?l': 'r1'} = r2)
+Value r3: Function([id:71, header_id:14]  loc_id {'?l': 'r1'} = r3)
+Value r4: Function([id:72, header_id:14]  loc_id {'?l': 'r1'} = r4)
+Value r5: Function([id:73, header_id:14]  loc_id {'?l': 'r1'} = r5)
+Value r6: Function([id:74, header_id:14]  loc_id {'?l': 'r1'} = r6)
+Value r7: Function([id:75, header_id:14]  loc_id {'?l': 'r1'} = r7)
+Value r8: Function([id:76, header_id:14]  loc_id {'?l': 'r1'} = r8)
+Value r9: Function([id:77, header_id:14]  loc_id {'?l': 'r1'} = r9)
+Parameters ['r2']:
+Value None: Function([id:78, header_id:15]  loc_id {'?l': 'r2'} = None)
+Value r1: Function([id:79, header_id:15]  loc_id {'?l': 'r2'} = r1)
+Value r2: Function([id:80, header_id:15]  loc_id {'?l': 'r2'} = r2)
+Value r3: Function([id:81, header_id:15]  loc_id {'?l': 'r2'} = r3)
+Value r4: Function([id:82, header_id:15]  loc_id {'?l': 'r2'} = r4)
+Value r5: Function([id:83, header_id:15]  loc_id {'?l': 'r2'} = r5)
+Value r6: Function([id:84, header_id:15]  loc_id {'?l': 'r2'} = r6)
+Value r7: Function([id:85, header_id:15]  loc_id {'?l': 'r2'} = r7)
+Value r8: Function([id:86, header_id:15]  loc_id {'?l': 'r2'} = r8)
+Value r9: Function([id:87, header_id:15]  loc_id {'?l': 'r2'} = r9)
+Parameters ['r3']:
+Value None: Function([id:88, header_id:16]  loc_id {'?l': 'r3'} = None)
+Value r1: Function([id:89, header_id:16]  loc_id {'?l': 'r3'} = r1)
+Value r2: Function([id:90, header_id:16]  loc_id {'?l': 'r3'} = r2)
+Value r3: Function([id:91, header_id:16]  loc_id {'?l': 'r3'} = r3)
+Value r4: Function([id:92, header_id:16]  loc_id {'?l': 'r3'} = r4)
+Value r5: Function([id:93, header_id:16]  loc_id {'?l': 'r3'} = r5)
+Value r6: Function([id:94, header_id:16]  loc_id {'?l': 'r3'} = r6)
+Value r7: Function([id:95, header_id:16]  loc_id {'?l': 'r3'} = r7)
+Value r8: Function([id:96, header_id:16]  loc_id {'?l': 'r3'} = r8)
+Value r9: Function([id:97, header_id:16]  loc_id {'?l': 'r3'} = r9)
+Parameters ['r4']:
+Value None: Function([id:98, header_id:17]  loc_id {'?l': 'r4'} = None)
+Value r1: Function([id:99, header_id:17]  loc_id {'?l': 'r4'} = r1)
+Value r2: Function([id:100, header_id:17]  loc_id {'?l': 'r4'} = r2)
+Value r3: Function([id:101, header_id:17]  loc_id {'?l': 'r4'} = r3)
+Value r4: Function([id:102, header_id:17]  loc_id {'?l': 'r4'} = r4)
+Value r5: Function([id:103, header_id:17]  loc_id {'?l': 'r4'} = r5)
+Value r6: Function([id:104, header_id:17]  loc_id {'?l': 'r4'} = r6)
+Value r7: Function([id:105, header_id:17]  loc_id {'?l': 'r4'} = r7)
+Value r8: Function([id:106, header_id:17]  loc_id {'?l': 'r4'} = r8)
+Value r9: Function([id:107, header_id:17]  loc_id {'?l': 'r4'} = r9)
+Parameters ['r5']:
+Value None: Function([id:108, header_id:18]  loc_id {'?l': 'r5'} = None)
+Value r1: Function([id:109, header_id:18]  loc_id {'?l': 'r5'} = r1)
+Value r2: Function([id:110, header_id:18]  loc_id {'?l': 'r5'} = r2)
+Value r3: Function([id:111, header_id:18]  loc_id {'?l': 'r5'} = r3)
+Value r4: Function([id:112, header_id:18]  loc_id {'?l': 'r5'} = r4)
+Value r5: Function([id:113, header_id:18]  loc_id {'?l': 'r5'} = r5)
+Value r6: Function([id:114, header_id:18]  loc_id {'?l': 'r5'} = r6)
+Value r7: Function([id:115, header_id:18]  loc_id {'?l': 'r5'} = r7)
+Value r8: Function([id:116, header_id:18]  loc_id {'?l': 'r5'} = r8)
+Value r9: Function([id:117, header_id:18]  loc_id {'?l': 'r5'} = r9)
+Parameters ['r6']:
+Value None: Function([id:118, header_id:19]  loc_id {'?l': 'r6'} = None)
+Value r1: Function([id:119, header_id:19]  loc_id {'?l': 'r6'} = r1)
+Value r2: Function([id:120, header_id:19]  loc_id {'?l': 'r6'} = r2)
+Value r3: Function([id:121, header_id:19]  loc_id {'?l': 'r6'} = r3)
+Value r4: Function([id:122, header_id:19]  loc_id {'?l': 'r6'} = r4)
+Value r5: Function([id:123, header_id:19]  loc_id {'?l': 'r6'} = r5)
+Value r6: Function([id:124, header_id:19]  loc_id {'?l': 'r6'} = r6)
+Value r7: Function([id:125, header_id:19]  loc_id {'?l': 'r6'} = r7)
+Value r8: Function([id:126, header_id:19]  loc_id {'?l': 'r6'} = r8)
+Value r9: Function([id:127, header_id:19]  loc_id {'?l': 'r6'} = r9)
+Parameters ['r7']:
+Value None: Function([id:128, header_id:20]  loc_id {'?l': 'r7'} = None)
+Value r1: Function([id:129, header_id:20]  loc_id {'?l': 'r7'} = r1)
+Value r2: Function([id:130, header_id:20]  loc_id {'?l': 'r7'} = r2)
+Value r3: Function([id:131, header_id:20]  loc_id {'?l': 'r7'} = r3)
+Value r4: Function([id:132, header_id:20]  loc_id {'?l': 'r7'} = r4)
+Value r5: Function([id:133, header_id:20]  loc_id {'?l': 'r7'} = r5)
+Value r6: Function([id:134, header_id:20]  loc_id {'?l': 'r7'} = r6)
+Value r7: Function([id:135, header_id:20]  loc_id {'?l': 'r7'} = r7)
+Value r8: Function([id:136, header_id:20]  loc_id {'?l': 'r7'} = r8)
+Value r9: Function([id:137, header_id:20]  loc_id {'?l': 'r7'} = r9)
+Parameters ['r8']:
+Value None: Function([id:138, header_id:21]  loc_id {'?l': 'r8'} = None)
+Value r1: Function([id:139, header_id:21]  loc_id {'?l': 'r8'} = r1)
+Value r2: Function([id:140, header_id:21]  loc_id {'?l': 'r8'} = r2)
+Value r3: Function([id:141, header_id:21]  loc_id {'?l': 'r8'} = r3)
+Value r4: Function([id:142, header_id:21]  loc_id {'?l': 'r8'} = r4)
+Value r5: Function([id:143, header_id:21]  loc_id {'?l': 'r8'} = r5)
+Value r6: Function([id:144, header_id:21]  loc_id {'?l': 'r8'} = r6)
+Value r7: Function([id:145, header_id:21]  loc_id {'?l': 'r8'} = r7)
+Value r8: Function([id:146, header_id:21]  loc_id {'?l': 'r8'} = r8)
+Value r9: Function([id:147, header_id:21]  loc_id {'?l': 'r8'} = r9)
+Parameters ['r9']:
+Value None: Function([id:148, header_id:22]  loc_id {'?l': 'r9'} = None)
+Value r1: Function([id:149, header_id:22]  loc_id {'?l': 'r9'} = r1)
+Value r2: Function([id:150, header_id:22]  loc_id {'?l': 'r9'} = r2)
+Value r3: Function([id:151, header_id:22]  loc_id {'?l': 'r9'} = r3)
+Value r4: Function([id:152, header_id:22]  loc_id {'?l': 'r9'} = r4)
+Value r5: Function([id:153, header_id:22]  loc_id {'?l': 'r9'} = r5)
+Value r6: Function([id:154, header_id:22]  loc_id {'?l': 'r9'} = r6)
+Value r7: Function([id:155, header_id:22]  loc_id {'?l': 'r9'} = r7)
+Value r8: Function([id:156, header_id:22]  loc_id {'?l': 'r9'} = r8)
+Value r9: Function([id:157, header_id:22]  loc_id {'?l': 'r9'} = r9)
+Function searched:
+Parameters ['r1']:
+Value None: Function([id:158, header_id:23]  searched {'?l': 'r1'} = None)
+Value 0: Function([id:159, header_id:23]  searched {'?l': 'r1'} = 0)
+Value 1: Function([id:160, header_id:23]  searched {'?l': 'r1'} = 1)
+Parameters ['r2']:
+Value None: Function([id:161, header_id:24]  searched {'?l': 'r2'} = None)
+Value 0: Function([id:162, header_id:24]  searched {'?l': 'r2'} = 0)
+Value 1: Function([id:163, header_id:24]  searched {'?l': 'r2'} = 1)
+Parameters ['r3']:
+Value None: Function([id:164, header_id:25]  searched {'?l': 'r3'} = None)
+Value 0: Function([id:165, header_id:25]  searched {'?l': 'r3'} = 0)
+Value 1: Function([id:166, header_id:25]  searched {'?l': 'r3'} = 1)
+Parameters ['r4']:
+Value None: Function([id:167, header_id:26]  searched {'?l': 'r4'} = None)
+Value 0: Function([id:168, header_id:26]  searched {'?l': 'r4'} = 0)
+Value 1: Function([id:169, header_id:26]  searched {'?l': 'r4'} = 1)
+Parameters ['r5']:
+Value None: Function([id:170, header_id:27]  searched {'?l': 'r5'} = None)
+Value 0: Function([id:171, header_id:27]  searched {'?l': 'r5'} = 0)
+Value 1: Function([id:172, header_id:27]  searched {'?l': 'r5'} = 1)
+Parameters ['r6']:
+Value None: Function([id:173, header_id:28]  searched {'?l': 'r6'} = None)
+Value 0: Function([id:174, header_id:28]  searched {'?l': 'r6'} = 0)
+Value 1: Function([id:175, header_id:28]  searched {'?l': 'r6'} = 1)
+Parameters ['r7']:
+Value None: Function([id:176, header_id:29]  searched {'?l': 'r7'} = None)
+Value 0: Function([id:177, header_id:29]  searched {'?l': 'r7'} = 0)
+Value 1: Function([id:178, header_id:29]  searched {'?l': 'r7'} = 1)
+Parameters ['r8']:
+Value None: Function([id:179, header_id:30]  searched {'?l': 'r8'} = None)
+Value 0: Function([id:180, header_id:30]  searched {'?l': 'r8'} = 0)
+Value 1: Function([id:181, header_id:30]  searched {'?l': 'r8'} = 1)
+Parameters ['r9']:
+Value None: Function([id:182, header_id:31]  searched {'?l': 'r9'} = None)
+Value 0: Function([id:183, header_id:31]  searched {'?l': 'r9'} = 0)
+Value 1: Function([id:184, header_id:31]  searched {'?l': 'r9'} = 1)
+Function shared:
+Parameters ['s1']:
+Value None: Function([id:185, header_id:32]  shared {'?s': 's1'} = None)
+Value 0: Function([id:186, header_id:32]  shared {'?s': 's1'} = 0)
+Value 1: Function([id:187, header_id:32]  shared {'?s': 's1'} = 1)
+Function connected:
+Parameters ['r1', 'r1']:
+Value None: Function([id:188, header_id:33]  connected {'?l1': 'r1', '?l2': 'r1'} = None)
+Value 0: Function([id:189, header_id:33]  connected {'?l1': 'r1', '?l2': 'r1'} = 0)
+Value 1: Function([id:190, header_id:33]  connected {'?l1': 'r1', '?l2': 'r1'} = 1)
+Parameters ['r1', 'r2']:
+Value None: Function([id:191, header_id:34]  connected {'?l1': 'r1', '?l2': 'r2'} = None)
+Value 0: Function([id:192, header_id:34]  connected {'?l1': 'r1', '?l2': 'r2'} = 0)
+Value 1: Function([id:193, header_id:34]  connected {'?l1': 'r1', '?l2': 'r2'} = 1)
+Parameters ['r1', 'r3']:
+Value None: Function([id:194, header_id:35]  connected {'?l1': 'r1', '?l2': 'r3'} = None)
+Value 0: Function([id:195, header_id:35]  connected {'?l1': 'r1', '?l2': 'r3'} = 0)
+Value 1: Function([id:196, header_id:35]  connected {'?l1': 'r1', '?l2': 'r3'} = 1)
+Parameters ['r1', 'r4']:
+Value None: Function([id:197, header_id:36]  connected {'?l1': 'r1', '?l2': 'r4'} = None)
+Value 0: Function([id:198, header_id:36]  connected {'?l1': 'r1', '?l2': 'r4'} = 0)
+Value 1: Function([id:199, header_id:36]  connected {'?l1': 'r1', '?l2': 'r4'} = 1)
+Parameters ['r1', 'r5']:
+Value None: Function([id:200, header_id:37]  connected {'?l1': 'r1', '?l2': 'r5'} = None)
+Value 0: Function([id:201, header_id:37]  connected {'?l1': 'r1', '?l2': 'r5'} = 0)
+Value 1: Function([id:202, header_id:37]  connected {'?l1': 'r1', '?l2': 'r5'} = 1)
+Parameters ['r1', 'r6']:
+Value None: Function([id:203, header_id:38]  connected {'?l1': 'r1', '?l2': 'r6'} = None)
+Value 0: Function([id:204, header_id:38]  connected {'?l1': 'r1', '?l2': 'r6'} = 0)
+Value 1: Function([id:205, header_id:38]  connected {'?l1': 'r1', '?l2': 'r6'} = 1)
+Parameters ['r1', 'r7']:
+Value None: Function([id:206, header_id:39]  connected {'?l1': 'r1', '?l2': 'r7'} = None)
+Value 0: Function([id:207, header_id:39]  connected {'?l1': 'r1', '?l2': 'r7'} = 0)
+Value 1: Function([id:208, header_id:39]  connected {'?l1': 'r1', '?l2': 'r7'} = 1)
+Parameters ['r1', 'r8']:
+Value None: Function([id:209, header_id:40]  connected {'?l1': 'r1', '?l2': 'r8'} = None)
+Value 0: Function([id:210, header_id:40]  connected {'?l1': 'r1', '?l2': 'r8'} = 0)
+Value 1: Function([id:211, header_id:40]  connected {'?l1': 'r1', '?l2': 'r8'} = 1)
+Parameters ['r1', 'r9']:
+Value None: Function([id:212, header_id:41]  connected {'?l1': 'r1', '?l2': 'r9'} = None)
+Value 0: Function([id:213, header_id:41]  connected {'?l1': 'r1', '?l2': 'r9'} = 0)
+Value 1: Function([id:214, header_id:41]  connected {'?l1': 'r1', '?l2': 'r9'} = 1)
+Parameters ['r2', 'r1']:
+Value None: Function([id:215, header_id:42]  connected {'?l1': 'r2', '?l2': 'r1'} = None)
+Value 0: Function([id:216, header_id:42]  connected {'?l1': 'r2', '?l2': 'r1'} = 0)
+Value 1: Function([id:217, header_id:42]  connected {'?l1': 'r2', '?l2': 'r1'} = 1)
+Parameters ['r2', 'r2']:
+Value None: Function([id:218, header_id:43]  connected {'?l1': 'r2', '?l2': 'r2'} = None)
+Value 0: Function([id:219, header_id:43]  connected {'?l1': 'r2', '?l2': 'r2'} = 0)
+Value 1: Function([id:220, header_id:43]  connected {'?l1': 'r2', '?l2': 'r2'} = 1)
+Parameters ['r2', 'r3']:
+Value None: Function([id:221, header_id:44]  connected {'?l1': 'r2', '?l2': 'r3'} = None)
+Value 0: Function([id:222, header_id:44]  connected {'?l1': 'r2', '?l2': 'r3'} = 0)
+Value 1: Function([id:223, header_id:44]  connected {'?l1': 'r2', '?l2': 'r3'} = 1)
+Parameters ['r2', 'r4']:
+Value None: Function([id:224, header_id:45]  connected {'?l1': 'r2', '?l2': 'r4'} = None)
+Value 0: Function([id:225, header_id:45]  connected {'?l1': 'r2', '?l2': 'r4'} = 0)
+Value 1: Function([id:226, header_id:45]  connected {'?l1': 'r2', '?l2': 'r4'} = 1)
+Parameters ['r2', 'r5']:
+Value None: Function([id:227, header_id:46]  connected {'?l1': 'r2', '?l2': 'r5'} = None)
+Value 0: Function([id:228, header_id:46]  connected {'?l1': 'r2', '?l2': 'r5'} = 0)
+Value 1: Function([id:229, header_id:46]  connected {'?l1': 'r2', '?l2': 'r5'} = 1)
+Parameters ['r2', 'r6']:
+Value None: Function([id:230, header_id:47]  connected {'?l1': 'r2', '?l2': 'r6'} = None)
+Value 0: Function([id:231, header_id:47]  connected {'?l1': 'r2', '?l2': 'r6'} = 0)
+Value 1: Function([id:232, header_id:47]  connected {'?l1': 'r2', '?l2': 'r6'} = 1)
+Parameters ['r2', 'r7']:
+Value None: Function([id:233, header_id:48]  connected {'?l1': 'r2', '?l2': 'r7'} = None)
+Value 0: Function([id:234, header_id:48]  connected {'?l1': 'r2', '?l2': 'r7'} = 0)
+Value 1: Function([id:235, header_id:48]  connected {'?l1': 'r2', '?l2': 'r7'} = 1)
+Parameters ['r2', 'r8']:
+Value None: Function([id:236, header_id:49]  connected {'?l1': 'r2', '?l2': 'r8'} = None)
+Value 0: Function([id:237, header_id:49]  connected {'?l1': 'r2', '?l2': 'r8'} = 0)
+Value 1: Function([id:238, header_id:49]  connected {'?l1': 'r2', '?l2': 'r8'} = 1)
+Parameters ['r2', 'r9']:
+Value None: Function([id:239, header_id:50]  connected {'?l1': 'r2', '?l2': 'r9'} = None)
+Value 0: Function([id:240, header_id:50]  connected {'?l1': 'r2', '?l2': 'r9'} = 0)
+Value 1: Function([id:241, header_id:50]  connected {'?l1': 'r2', '?l2': 'r9'} = 1)
+Parameters ['r3', 'r1']:
+Value None: Function([id:242, header_id:51]  connected {'?l1': 'r3', '?l2': 'r1'} = None)
+Value 0: Function([id:243, header_id:51]  connected {'?l1': 'r3', '?l2': 'r1'} = 0)
+Value 1: Function([id:244, header_id:51]  connected {'?l1': 'r3', '?l2': 'r1'} = 1)
+Parameters ['r3', 'r2']:
+Value None: Function([id:245, header_id:52]  connected {'?l1': 'r3', '?l2': 'r2'} = None)
+Value 0: Function([id:246, header_id:52]  connected {'?l1': 'r3', '?l2': 'r2'} = 0)
+Value 1: Function([id:247, header_id:52]  connected {'?l1': 'r3', '?l2': 'r2'} = 1)
+Parameters ['r3', 'r3']:
+Value None: Function([id:248, header_id:53]  connected {'?l1': 'r3', '?l2': 'r3'} = None)
+Value 0: Function([id:249, header_id:53]  connected {'?l1': 'r3', '?l2': 'r3'} = 0)
+Value 1: Function([id:250, header_id:53]  connected {'?l1': 'r3', '?l2': 'r3'} = 1)
+Parameters ['r3', 'r4']:
+Value None: Function([id:251, header_id:54]  connected {'?l1': 'r3', '?l2': 'r4'} = None)
+Value 0: Function([id:252, header_id:54]  connected {'?l1': 'r3', '?l2': 'r4'} = 0)
+Value 1: Function([id:253, header_id:54]  connected {'?l1': 'r3', '?l2': 'r4'} = 1)
+Parameters ['r3', 'r5']:
+Value None: Function([id:254, header_id:55]  connected {'?l1': 'r3', '?l2': 'r5'} = None)
+Value 0: Function([id:255, header_id:55]  connected {'?l1': 'r3', '?l2': 'r5'} = 0)
+Value 1: Function([id:256, header_id:55]  connected {'?l1': 'r3', '?l2': 'r5'} = 1)
+Parameters ['r3', 'r6']:
+Value None: Function([id:257, header_id:56]  connected {'?l1': 'r3', '?l2': 'r6'} = None)
+Value 0: Function([id:258, header_id:56]  connected {'?l1': 'r3', '?l2': 'r6'} = 0)
+Value 1: Function([id:259, header_id:56]  connected {'?l1': 'r3', '?l2': 'r6'} = 1)
+Parameters ['r3', 'r7']:
+Value None: Function([id:260, header_id:57]  connected {'?l1': 'r3', '?l2': 'r7'} = None)
+Value 0: Function([id:261, header_id:57]  connected {'?l1': 'r3', '?l2': 'r7'} = 0)
+Value 1: Function([id:262, header_id:57]  connected {'?l1': 'r3', '?l2': 'r7'} = 1)
+Parameters ['r3', 'r8']:
+Value None: Function([id:263, header_id:58]  connected {'?l1': 'r3', '?l2': 'r8'} = None)
+Value 0: Function([id:264, header_id:58]  connected {'?l1': 'r3', '?l2': 'r8'} = 0)
+Value 1: Function([id:265, header_id:58]  connected {'?l1': 'r3', '?l2': 'r8'} = 1)
+Parameters ['r3', 'r9']:
+Value None: Function([id:266, header_id:59]  connected {'?l1': 'r3', '?l2': 'r9'} = None)
+Value 0: Function([id:267, header_id:59]  connected {'?l1': 'r3', '?l2': 'r9'} = 0)
+Value 1: Function([id:268, header_id:59]  connected {'?l1': 'r3', '?l2': 'r9'} = 1)
+Parameters ['r4', 'r1']:
+Value None: Function([id:269, header_id:60]  connected {'?l1': 'r4', '?l2': 'r1'} = None)
+Value 0: Function([id:270, header_id:60]  connected {'?l1': 'r4', '?l2': 'r1'} = 0)
+Value 1: Function([id:271, header_id:60]  connected {'?l1': 'r4', '?l2': 'r1'} = 1)
+Parameters ['r4', 'r2']:
+Value None: Function([id:272, header_id:61]  connected {'?l1': 'r4', '?l2': 'r2'} = None)
+Value 0: Function([id:273, header_id:61]  connected {'?l1': 'r4', '?l2': 'r2'} = 0)
+Value 1: Function([id:274, header_id:61]  connected {'?l1': 'r4', '?l2': 'r2'} = 1)
+Parameters ['r4', 'r3']:
+Value None: Function([id:275, header_id:62]  connected {'?l1': 'r4', '?l2': 'r3'} = None)
+Value 0: Function([id:276, header_id:62]  connected {'?l1': 'r4', '?l2': 'r3'} = 0)
+Value 1: Function([id:277, header_id:62]  connected {'?l1': 'r4', '?l2': 'r3'} = 1)
+Parameters ['r4', 'r4']:
+Value None: Function([id:278, header_id:63]  connected {'?l1': 'r4', '?l2': 'r4'} = None)
+Value 0: Function([id:279, header_id:63]  connected {'?l1': 'r4', '?l2': 'r4'} = 0)
+Value 1: Function([id:280, header_id:63]  connected {'?l1': 'r4', '?l2': 'r4'} = 1)
+Parameters ['r4', 'r5']:
+Value None: Function([id:281, header_id:64]  connected {'?l1': 'r4', '?l2': 'r5'} = None)
+Value 0: Function([id:282, header_id:64]  connected {'?l1': 'r4', '?l2': 'r5'} = 0)
+Value 1: Function([id:283, header_id:64]  connected {'?l1': 'r4', '?l2': 'r5'} = 1)
+Parameters ['r4', 'r6']:
+Value None: Function([id:284, header_id:65]  connected {'?l1': 'r4', '?l2': 'r6'} = None)
+Value 0: Function([id:285, header_id:65]  connected {'?l1': 'r4', '?l2': 'r6'} = 0)
+Value 1: Function([id:286, header_id:65]  connected {'?l1': 'r4', '?l2': 'r6'} = 1)
+Parameters ['r4', 'r7']:
+Value None: Function([id:287, header_id:66]  connected {'?l1': 'r4', '?l2': 'r7'} = None)
+Value 0: Function([id:288, header_id:66]  connected {'?l1': 'r4', '?l2': 'r7'} = 0)
+Value 1: Function([id:289, header_id:66]  connected {'?l1': 'r4', '?l2': 'r7'} = 1)
+Parameters ['r4', 'r8']:
+Value None: Function([id:290, header_id:67]  connected {'?l1': 'r4', '?l2': 'r8'} = None)
+Value 0: Function([id:291, header_id:67]  connected {'?l1': 'r4', '?l2': 'r8'} = 0)
+Value 1: Function([id:292, header_id:67]  connected {'?l1': 'r4', '?l2': 'r8'} = 1)
+Parameters ['r4', 'r9']:
+Value None: Function([id:293, header_id:68]  connected {'?l1': 'r4', '?l2': 'r9'} = None)
+Value 0: Function([id:294, header_id:68]  connected {'?l1': 'r4', '?l2': 'r9'} = 0)
+Value 1: Function([id:295, header_id:68]  connected {'?l1': 'r4', '?l2': 'r9'} = 1)
+Parameters ['r5', 'r1']:
+Value None: Function([id:296, header_id:69]  connected {'?l1': 'r5', '?l2': 'r1'} = None)
+Value 0: Function([id:297, header_id:69]  connected {'?l1': 'r5', '?l2': 'r1'} = 0)
+Value 1: Function([id:298, header_id:69]  connected {'?l1': 'r5', '?l2': 'r1'} = 1)
+Parameters ['r5', 'r2']:
+Value None: Function([id:299, header_id:70]  connected {'?l1': 'r5', '?l2': 'r2'} = None)
+Value 0: Function([id:300, header_id:70]  connected {'?l1': 'r5', '?l2': 'r2'} = 0)
+Value 1: Function([id:301, header_id:70]  connected {'?l1': 'r5', '?l2': 'r2'} = 1)
+Parameters ['r5', 'r3']:
+Value None: Function([id:302, header_id:71]  connected {'?l1': 'r5', '?l2': 'r3'} = None)
+Value 0: Function([id:303, header_id:71]  connected {'?l1': 'r5', '?l2': 'r3'} = 0)
+Value 1: Function([id:304, header_id:71]  connected {'?l1': 'r5', '?l2': 'r3'} = 1)
+Parameters ['r5', 'r4']:
+Value None: Function([id:305, header_id:72]  connected {'?l1': 'r5', '?l2': 'r4'} = None)
+Value 0: Function([id:306, header_id:72]  connected {'?l1': 'r5', '?l2': 'r4'} = 0)
+Value 1: Function([id:307, header_id:72]  connected {'?l1': 'r5', '?l2': 'r4'} = 1)
+Parameters ['r5', 'r5']:
+Value None: Function([id:308, header_id:73]  connected {'?l1': 'r5', '?l2': 'r5'} = None)
+Value 0: Function([id:309, header_id:73]  connected {'?l1': 'r5', '?l2': 'r5'} = 0)
+Value 1: Function([id:310, header_id:73]  connected {'?l1': 'r5', '?l2': 'r5'} = 1)
+Parameters ['r5', 'r6']:
+Value None: Function([id:311, header_id:74]  connected {'?l1': 'r5', '?l2': 'r6'} = None)
+Value 0: Function([id:312, header_id:74]  connected {'?l1': 'r5', '?l2': 'r6'} = 0)
+Value 1: Function([id:313, header_id:74]  connected {'?l1': 'r5', '?l2': 'r6'} = 1)
+Parameters ['r5', 'r7']:
+Value None: Function([id:314, header_id:75]  connected {'?l1': 'r5', '?l2': 'r7'} = None)
+Value 0: Function([id:315, header_id:75]  connected {'?l1': 'r5', '?l2': 'r7'} = 0)
+Value 1: Function([id:316, header_id:75]  connected {'?l1': 'r5', '?l2': 'r7'} = 1)
+Parameters ['r5', 'r8']:
+Value None: Function([id:317, header_id:76]  connected {'?l1': 'r5', '?l2': 'r8'} = None)
+Value 0: Function([id:318, header_id:76]  connected {'?l1': 'r5', '?l2': 'r8'} = 0)
+Value 1: Function([id:319, header_id:76]  connected {'?l1': 'r5', '?l2': 'r8'} = 1)
+Parameters ['r5', 'r9']:
+Value None: Function([id:320, header_id:77]  connected {'?l1': 'r5', '?l2': 'r9'} = None)
+Value 0: Function([id:321, header_id:77]  connected {'?l1': 'r5', '?l2': 'r9'} = 0)
+Value 1: Function([id:322, header_id:77]  connected {'?l1': 'r5', '?l2': 'r9'} = 1)
+Parameters ['r6', 'r1']:
+Value None: Function([id:323, header_id:78]  connected {'?l1': 'r6', '?l2': 'r1'} = None)
+Value 0: Function([id:324, header_id:78]  connected {'?l1': 'r6', '?l2': 'r1'} = 0)
+Value 1: Function([id:325, header_id:78]  connected {'?l1': 'r6', '?l2': 'r1'} = 1)
+Parameters ['r6', 'r2']:
+Value None: Function([id:326, header_id:79]  connected {'?l1': 'r6', '?l2': 'r2'} = None)
+Value 0: Function([id:327, header_id:79]  connected {'?l1': 'r6', '?l2': 'r2'} = 0)
+Value 1: Function([id:328, header_id:79]  connected {'?l1': 'r6', '?l2': 'r2'} = 1)
+Parameters ['r6', 'r3']:
+Value None: Function([id:329, header_id:80]  connected {'?l1': 'r6', '?l2': 'r3'} = None)
+Value 0: Function([id:330, header_id:80]  connected {'?l1': 'r6', '?l2': 'r3'} = 0)
+Value 1: Function([id:331, header_id:80]  connected {'?l1': 'r6', '?l2': 'r3'} = 1)
+Parameters ['r6', 'r4']:
+Value None: Function([id:332, header_id:81]  connected {'?l1': 'r6', '?l2': 'r4'} = None)
+Value 0: Function([id:333, header_id:81]  connected {'?l1': 'r6', '?l2': 'r4'} = 0)
+Value 1: Function([id:334, header_id:81]  connected {'?l1': 'r6', '?l2': 'r4'} = 1)
+Parameters ['r6', 'r5']:
+Value None: Function([id:335, header_id:82]  connected {'?l1': 'r6', '?l2': 'r5'} = None)
+Value 0: Function([id:336, header_id:82]  connected {'?l1': 'r6', '?l2': 'r5'} = 0)
+Value 1: Function([id:337, header_id:82]  connected {'?l1': 'r6', '?l2': 'r5'} = 1)
+Parameters ['r6', 'r6']:
+Value None: Function([id:338, header_id:83]  connected {'?l1': 'r6', '?l2': 'r6'} = None)
+Value 0: Function([id:339, header_id:83]  connected {'?l1': 'r6', '?l2': 'r6'} = 0)
+Value 1: Function([id:340, header_id:83]  connected {'?l1': 'r6', '?l2': 'r6'} = 1)
+Parameters ['r6', 'r7']:
+Value None: Function([id:341, header_id:84]  connected {'?l1': 'r6', '?l2': 'r7'} = None)
+Value 0: Function([id:342, header_id:84]  connected {'?l1': 'r6', '?l2': 'r7'} = 0)
+Value 1: Function([id:343, header_id:84]  connected {'?l1': 'r6', '?l2': 'r7'} = 1)
+Parameters ['r6', 'r8']:
+Value None: Function([id:344, header_id:85]  connected {'?l1': 'r6', '?l2': 'r8'} = None)
+Value 0: Function([id:345, header_id:85]  connected {'?l1': 'r6', '?l2': 'r8'} = 0)
+Value 1: Function([id:346, header_id:85]  connected {'?l1': 'r6', '?l2': 'r8'} = 1)
+Parameters ['r6', 'r9']:
+Value None: Function([id:347, header_id:86]  connected {'?l1': 'r6', '?l2': 'r9'} = None)
+Value 0: Function([id:348, header_id:86]  connected {'?l1': 'r6', '?l2': 'r9'} = 0)
+Value 1: Function([id:349, header_id:86]  connected {'?l1': 'r6', '?l2': 'r9'} = 1)
+Parameters ['r7', 'r1']:
+Value None: Function([id:350, header_id:87]  connected {'?l1': 'r7', '?l2': 'r1'} = None)
+Value 0: Function([id:351, header_id:87]  connected {'?l1': 'r7', '?l2': 'r1'} = 0)
+Value 1: Function([id:352, header_id:87]  connected {'?l1': 'r7', '?l2': 'r1'} = 1)
+Parameters ['r7', 'r2']:
+Value None: Function([id:353, header_id:88]  connected {'?l1': 'r7', '?l2': 'r2'} = None)
+Value 0: Function([id:354, header_id:88]  connected {'?l1': 'r7', '?l2': 'r2'} = 0)
+Value 1: Function([id:355, header_id:88]  connected {'?l1': 'r7', '?l2': 'r2'} = 1)
+Parameters ['r7', 'r3']:
+Value None: Function([id:356, header_id:89]  connected {'?l1': 'r7', '?l2': 'r3'} = None)
+Value 0: Function([id:357, header_id:89]  connected {'?l1': 'r7', '?l2': 'r3'} = 0)
+Value 1: Function([id:358, header_id:89]  connected {'?l1': 'r7', '?l2': 'r3'} = 1)
+Parameters ['r7', 'r4']:
+Value None: Function([id:359, header_id:90]  connected {'?l1': 'r7', '?l2': 'r4'} = None)
+Value 0: Function([id:360, header_id:90]  connected {'?l1': 'r7', '?l2': 'r4'} = 0)
+Value 1: Function([id:361, header_id:90]  connected {'?l1': 'r7', '?l2': 'r4'} = 1)
+Parameters ['r7', 'r5']:
+Value None: Function([id:362, header_id:91]  connected {'?l1': 'r7', '?l2': 'r5'} = None)
+Value 0: Function([id:363, header_id:91]  connected {'?l1': 'r7', '?l2': 'r5'} = 0)
+Value 1: Function([id:364, header_id:91]  connected {'?l1': 'r7', '?l2': 'r5'} = 1)
+Parameters ['r7', 'r6']:
+Value None: Function([id:365, header_id:92]  connected {'?l1': 'r7', '?l2': 'r6'} = None)
+Value 0: Function([id:366, header_id:92]  connected {'?l1': 'r7', '?l2': 'r6'} = 0)
+Value 1: Function([id:367, header_id:92]  connected {'?l1': 'r7', '?l2': 'r6'} = 1)
+Parameters ['r7', 'r7']:
+Value None: Function([id:368, header_id:93]  connected {'?l1': 'r7', '?l2': 'r7'} = None)
+Value 0: Function([id:369, header_id:93]  connected {'?l1': 'r7', '?l2': 'r7'} = 0)
+Value 1: Function([id:370, header_id:93]  connected {'?l1': 'r7', '?l2': 'r7'} = 1)
+Parameters ['r7', 'r8']:
+Value None: Function([id:371, header_id:94]  connected {'?l1': 'r7', '?l2': 'r8'} = None)
+Value 0: Function([id:372, header_id:94]  connected {'?l1': 'r7', '?l2': 'r8'} = 0)
+Value 1: Function([id:373, header_id:94]  connected {'?l1': 'r7', '?l2': 'r8'} = 1)
+Parameters ['r7', 'r9']:
+Value None: Function([id:374, header_id:95]  connected {'?l1': 'r7', '?l2': 'r9'} = None)
+Value 0: Function([id:375, header_id:95]  connected {'?l1': 'r7', '?l2': 'r9'} = 0)
+Value 1: Function([id:376, header_id:95]  connected {'?l1': 'r7', '?l2': 'r9'} = 1)
+Parameters ['r8', 'r1']:
+Value None: Function([id:377, header_id:96]  connected {'?l1': 'r8', '?l2': 'r1'} = None)
+Value 0: Function([id:378, header_id:96]  connected {'?l1': 'r8', '?l2': 'r1'} = 0)
+Value 1: Function([id:379, header_id:96]  connected {'?l1': 'r8', '?l2': 'r1'} = 1)
+Parameters ['r8', 'r2']:
+Value None: Function([id:380, header_id:97]  connected {'?l1': 'r8', '?l2': 'r2'} = None)
+Value 0: Function([id:381, header_id:97]  connected {'?l1': 'r8', '?l2': 'r2'} = 0)
+Value 1: Function([id:382, header_id:97]  connected {'?l1': 'r8', '?l2': 'r2'} = 1)
+Parameters ['r8', 'r3']:
+Value None: Function([id:383, header_id:98]  connected {'?l1': 'r8', '?l2': 'r3'} = None)
+Value 0: Function([id:384, header_id:98]  connected {'?l1': 'r8', '?l2': 'r3'} = 0)
+Value 1: Function([id:385, header_id:98]  connected {'?l1': 'r8', '?l2': 'r3'} = 1)
+Parameters ['r8', 'r4']:
+Value None: Function([id:386, header_id:99]  connected {'?l1': 'r8', '?l2': 'r4'} = None)
+Value 0: Function([id:387, header_id:99]  connected {'?l1': 'r8', '?l2': 'r4'} = 0)
+Value 1: Function([id:388, header_id:99]  connected {'?l1': 'r8', '?l2': 'r4'} = 1)
+Parameters ['r8', 'r5']:
+Value None: Function([id:389, header_id:100]  connected {'?l1': 'r8', '?l2': 'r5'} = None)
+Value 0: Function([id:390, header_id:100]  connected {'?l1': 'r8', '?l2': 'r5'} = 0)
+Value 1: Function([id:391, header_id:100]  connected {'?l1': 'r8', '?l2': 'r5'} = 1)
+Parameters ['r8', 'r6']:
+Value None: Function([id:392, header_id:101]  connected {'?l1': 'r8', '?l2': 'r6'} = None)
+Value 0: Function([id:393, header_id:101]  connected {'?l1': 'r8', '?l2': 'r6'} = 0)
+Value 1: Function([id:394, header_id:101]  connected {'?l1': 'r8', '?l2': 'r6'} = 1)
+Parameters ['r8', 'r7']:
+Value None: Function([id:395, header_id:102]  connected {'?l1': 'r8', '?l2': 'r7'} = None)
+Value 0: Function([id:396, header_id:102]  connected {'?l1': 'r8', '?l2': 'r7'} = 0)
+Value 1: Function([id:397, header_id:102]  connected {'?l1': 'r8', '?l2': 'r7'} = 1)
+Parameters ['r8', 'r8']:
+Value None: Function([id:398, header_id:103]  connected {'?l1': 'r8', '?l2': 'r8'} = None)
+Value 0: Function([id:399, header_id:103]  connected {'?l1': 'r8', '?l2': 'r8'} = 0)
+Value 1: Function([id:400, header_id:103]  connected {'?l1': 'r8', '?l2': 'r8'} = 1)
+Parameters ['r8', 'r9']:
+Value None: Function([id:401, header_id:104]  connected {'?l1': 'r8', '?l2': 'r9'} = None)
+Value 0: Function([id:402, header_id:104]  connected {'?l1': 'r8', '?l2': 'r9'} = 0)
+Value 1: Function([id:403, header_id:104]  connected {'?l1': 'r8', '?l2': 'r9'} = 1)
+Parameters ['r9', 'r1']:
+Value None: Function([id:404, header_id:105]  connected {'?l1': 'r9', '?l2': 'r1'} = None)
+Value 0: Function([id:405, header_id:105]  connected {'?l1': 'r9', '?l2': 'r1'} = 0)
+Value 1: Function([id:406, header_id:105]  connected {'?l1': 'r9', '?l2': 'r1'} = 1)
+Parameters ['r9', 'r2']:
+Value None: Function([id:407, header_id:106]  connected {'?l1': 'r9', '?l2': 'r2'} = None)
+Value 0: Function([id:408, header_id:106]  connected {'?l1': 'r9', '?l2': 'r2'} = 0)
+Value 1: Function([id:409, header_id:106]  connected {'?l1': 'r9', '?l2': 'r2'} = 1)
+Parameters ['r9', 'r3']:
+Value None: Function([id:410, header_id:107]  connected {'?l1': 'r9', '?l2': 'r3'} = None)
+Value 0: Function([id:411, header_id:107]  connected {'?l1': 'r9', '?l2': 'r3'} = 0)
+Value 1: Function([id:412, header_id:107]  connected {'?l1': 'r9', '?l2': 'r3'} = 1)
+Parameters ['r9', 'r4']:
+Value None: Function([id:413, header_id:108]  connected {'?l1': 'r9', '?l2': 'r4'} = None)
+Value 0: Function([id:414, header_id:108]  connected {'?l1': 'r9', '?l2': 'r4'} = 0)
+Value 1: Function([id:415, header_id:108]  connected {'?l1': 'r9', '?l2': 'r4'} = 1)
+Parameters ['r9', 'r5']:
+Value None: Function([id:416, header_id:109]  connected {'?l1': 'r9', '?l2': 'r5'} = None)
+Value 0: Function([id:417, header_id:109]  connected {'?l1': 'r9', '?l2': 'r5'} = 0)
+Value 1: Function([id:418, header_id:109]  connected {'?l1': 'r9', '?l2': 'r5'} = 1)
+Parameters ['r9', 'r6']:
+Value None: Function([id:419, header_id:110]  connected {'?l1': 'r9', '?l2': 'r6'} = None)
+Value 0: Function([id:420, header_id:110]  connected {'?l1': 'r9', '?l2': 'r6'} = 0)
+Value 1: Function([id:421, header_id:110]  connected {'?l1': 'r9', '?l2': 'r6'} = 1)
+Parameters ['r9', 'r7']:
+Value None: Function([id:422, header_id:111]  connected {'?l1': 'r9', '?l2': 'r7'} = None)
+Value 0: Function([id:423, header_id:111]  connected {'?l1': 'r9', '?l2': 'r7'} = 0)
+Value 1: Function([id:424, header_id:111]  connected {'?l1': 'r9', '?l2': 'r7'} = 1)
+Parameters ['r9', 'r8']:
+Value None: Function([id:425, header_id:112]  connected {'?l1': 'r9', '?l2': 'r8'} = None)
+Value 0: Function([id:426, header_id:112]  connected {'?l1': 'r9', '?l2': 'r8'} = 0)
+Value 1: Function([id:427, header_id:112]  connected {'?l1': 'r9', '?l2': 'r8'} = 1)
+Parameters ['r9', 'r9']:
+Value None: Function([id:428, header_id:113]  connected {'?l1': 'r9', '?l2': 'r9'} = None)
+Value 0: Function([id:429, header_id:113]  connected {'?l1': 'r9', '?l2': 'r9'} = 0)
+Value 1: Function([id:430, header_id:113]  connected {'?l1': 'r9', '?l2': 'r9'} = 1)
+Function sharing:
+Parameters ['a']:
+Value None: Function([id:431, header_id:114]  sharing {'?a': 'a'} = None)
+Value 0: Function([id:432, header_id:114]  sharing {'?a': 'a'} = 0)
+Value 1: Function([id:433, header_id:114]  sharing {'?a': 'a'} = 1)
+Parameters ['b']:
+Value None: Function([id:434, header_id:115]  sharing {'?a': 'b'} = None)
+Value 0: Function([id:435, header_id:115]  sharing {'?a': 'b'} = 0)
+Value 1: Function([id:436, header_id:115]  sharing {'?a': 'b'} = 1)
+Parameters ['c']:
+Value None: Function([id:437, header_id:116]  sharing {'?a': 'c'} = None)
+Value 0: Function([id:438, header_id:116]  sharing {'?a': 'c'} = 0)
+Value 1: Function([id:439, header_id:116]  sharing {'?a': 'c'} = 1)
+Function share_lock:
+Parameters []:
+Value None: Function([id:440, header_id:117]  share_lock {} = None)
+Value 0: Function([id:441, header_id:117]  share_lock {} = 0)
+Value 1: Function([id:442, header_id:117]  share_lock {} = 1)
+
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(c - agent)
+Entity(s1 - survivor)
+Entity(r1 - location)
+Entity(r2 - location)
+Entity(r3 - location)
+Entity(r4 - location)
+Entity(r5 - location)
+Entity(r6 - location)
+Entity(r7 - location)
+Entity(r8 - location)
+Entity(r9 - location)
+=================
+FunctionSchema(name: agent_loc, range: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9'], type: enumerate, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: survivor_loc, range: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9'], type: enumerate, require_parameters: {'?s': 'survivor'})
+FunctionSchema(name: movable, range: (0, 1), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: sharable, range: (0, 1), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: receivable, range: (0, 1), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: loc_id, range: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9'], type: enumerate, require_parameters: {'?l': 'location'})
+FunctionSchema(name: searched, range: (0, 1), type: integer, require_parameters: {'?l': 'location'})
+FunctionSchema(name: shared, range: (0, 1), type: integer, require_parameters: {'?s': 'survivor'})
+FunctionSchema(name: connected, range: (0, 1), type: integer, require_parameters: {'?l1': 'location', '?l2': 'location'})
+FunctionSchema(name: sharing, range: (0, 1), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: share_lock, range: (0, 1), type: integer, require_parameters: {})
+=================
+-----------------
+Action Schema: move
+Parameters: {'?self': 'agent', '?l1': 'location', '?l2': 'location'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (share_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (movable {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (loc_id {'?l1': 'location'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (connected {'?l1': 'location', '?l2': 'location'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (agent_loc {'?self': 'agent'}) = (loc_id {'?l2': 'location'}))
+EffectSchema("ASSIGN" (searched {'?l2': 'location'}) = 1)
+
+-----------------
+Action Schema: share_survivor
+Parameters: {'?self': 'agent', '?s': 'survivor', '?l': 'location'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (share_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharable {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (survivor_loc {'?s': 'survivor'}) = (loc_id {'?l': 'location'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (loc_id {'?l': 'location'}))
+Effect Schemas:
+EffectSchema("ASSIGN" (shared {'?s': 'survivor'}) = 1)
+EffectSchema("ASSIGN" (share_lock {}) = 1)
+EffectSchema("ASSIGN" (sharing {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: share
+Parameters: {'?self': 'agent', '?l': 'location'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (share_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharable {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (loc_id {'?l': 'location'}))
+Effect Schemas:
+EffectSchema("ASSIGN" (share_lock {}) = 1)
+EffectSchema("ASSIGN" (sharing {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: quiet
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (share_lock {}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing {'?self': 'agent'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (share_lock {}) = 0)
+EffectSchema("ASSIGN" (sharing {'?self': 'agent'}) = 0)
+
+-----------------
+Action Schema: normal_stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (share_lock {}) = 0)
+Effect Schemas:
+
+-----------------
+Action Schema: lock_stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (share_lock {}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (sharing {'?self': 'agent'}) = 0)
+Effect Schemas:
+
+=================
+Function([id:2, header_id:1]  agent_loc {'?a': 'a'} = r1)
+Function([id:15, header_id:2]  agent_loc {'?a': 'b'} = r4)
+Function([id:30, header_id:3]  agent_loc {'?a': 'c'} = r9)
+Function([id:43, header_id:5]  movable {'?a': 'a'} = 1)
+Function([id:46, header_id:6]  movable {'?a': 'b'} = 1)
+Function([id:49, header_id:7]  movable {'?a': 'c'} = 1)
+Function([id:52, header_id:8]  sharable {'?a': 'a'} = 1)
+Function([id:55, header_id:9]  sharable {'?a': 'b'} = 1)
+Function([id:58, header_id:10]  sharable {'?a': 'c'} = 1)
+Function([id:61, header_id:11]  receivable {'?a': 'a'} = 1)
+Function([id:64, header_id:12]  receivable {'?a': 'b'} = 1)
+Function([id:67, header_id:13]  receivable {'?a': 'c'} = 1)
+Function([id:38, header_id:4]  survivor_loc {'?s': 's1'} = r7)
+Function([id:186, header_id:32]  shared {'?s': 's1'} = 0)
+Function([id:432, header_id:114]  sharing {'?a': 'a'} = 0)
+Function([id:435, header_id:115]  sharing {'?a': 'b'} = 0)
+Function([id:438, header_id:116]  sharing {'?a': 'c'} = 0)
+Function([id:441, header_id:117]  share_lock {} = 0)
+Function([id:160, header_id:23]  searched {'?l': 'r1'} = 1)
+Function([id:162, header_id:24]  searched {'?l': 'r2'} = 0)
+Function([id:165, header_id:25]  searched {'?l': 'r3'} = 0)
+Function([id:169, header_id:26]  searched {'?l': 'r4'} = 1)
+Function([id:171, header_id:27]  searched {'?l': 'r5'} = 0)
+Function([id:174, header_id:28]  searched {'?l': 'r6'} = 0)
+Function([id:177, header_id:29]  searched {'?l': 'r7'} = 0)
+Function([id:180, header_id:30]  searched {'?l': 'r8'} = 0)
+Function([id:184, header_id:31]  searched {'?l': 'r9'} = 1)
+Function([id:69, header_id:14]  loc_id {'?l': 'r1'} = r1)
+Function([id:80, header_id:15]  loc_id {'?l': 'r2'} = r2)
+Function([id:91, header_id:16]  loc_id {'?l': 'r3'} = r3)
+Function([id:102, header_id:17]  loc_id {'?l': 'r4'} = r4)
+Function([id:113, header_id:18]  loc_id {'?l': 'r5'} = r5)
+Function([id:124, header_id:19]  loc_id {'?l': 'r6'} = r6)
+Function([id:135, header_id:20]  loc_id {'?l': 'r7'} = r7)
+Function([id:146, header_id:21]  loc_id {'?l': 'r8'} = r8)
+Function([id:157, header_id:22]  loc_id {'?l': 'r9'} = r9)
+Function([id:189, header_id:33]  connected {'?l1': 'r1', '?l2': 'r1'} = 0)
+Function([id:193, header_id:34]  connected {'?l1': 'r1', '?l2': 'r2'} = 1)
+Function([id:195, header_id:35]  connected {'?l1': 'r1', '?l2': 'r3'} = 0)
+Function([id:199, header_id:36]  connected {'?l1': 'r1', '?l2': 'r4'} = 1)
+Function([id:201, header_id:37]  connected {'?l1': 'r1', '?l2': 'r5'} = 0)
+Function([id:204, header_id:38]  connected {'?l1': 'r1', '?l2': 'r6'} = 0)
+Function([id:207, header_id:39]  connected {'?l1': 'r1', '?l2': 'r7'} = 0)
+Function([id:210, header_id:40]  connected {'?l1': 'r1', '?l2': 'r8'} = 0)
+Function([id:213, header_id:41]  connected {'?l1': 'r1', '?l2': 'r9'} = 0)
+Function([id:217, header_id:42]  connected {'?l1': 'r2', '?l2': 'r1'} = 1)
+Function([id:219, header_id:43]  connected {'?l1': 'r2', '?l2': 'r2'} = 0)
+Function([id:223, header_id:44]  connected {'?l1': 'r2', '?l2': 'r3'} = 1)
+Function([id:225, header_id:45]  connected {'?l1': 'r2', '?l2': 'r4'} = 0)
+Function([id:229, header_id:46]  connected {'?l1': 'r2', '?l2': 'r5'} = 1)
+Function([id:231, header_id:47]  connected {'?l1': 'r2', '?l2': 'r6'} = 0)
+Function([id:234, header_id:48]  connected {'?l1': 'r2', '?l2': 'r7'} = 0)
+Function([id:237, header_id:49]  connected {'?l1': 'r2', '?l2': 'r8'} = 0)
+Function([id:240, header_id:50]  connected {'?l1': 'r2', '?l2': 'r9'} = 0)
+Function([id:243, header_id:51]  connected {'?l1': 'r3', '?l2': 'r1'} = 0)
+Function([id:247, header_id:52]  connected {'?l1': 'r3', '?l2': 'r2'} = 1)
+Function([id:249, header_id:53]  connected {'?l1': 'r3', '?l2': 'r3'} = 0)
+Function([id:252, header_id:54]  connected {'?l1': 'r3', '?l2': 'r4'} = 0)
+Function([id:255, header_id:55]  connected {'?l1': 'r3', '?l2': 'r5'} = 0)
+Function([id:259, header_id:56]  connected {'?l1': 'r3', '?l2': 'r6'} = 1)
+Function([id:261, header_id:57]  connected {'?l1': 'r3', '?l2': 'r7'} = 0)
+Function([id:264, header_id:58]  connected {'?l1': 'r3', '?l2': 'r8'} = 0)
+Function([id:267, header_id:59]  connected {'?l1': 'r3', '?l2': 'r9'} = 0)
+Function([id:271, header_id:60]  connected {'?l1': 'r4', '?l2': 'r1'} = 1)
+Function([id:273, header_id:61]  connected {'?l1': 'r4', '?l2': 'r2'} = 0)
+Function([id:276, header_id:62]  connected {'?l1': 'r4', '?l2': 'r3'} = 0)
+Function([id:279, header_id:63]  connected {'?l1': 'r4', '?l2': 'r4'} = 0)
+Function([id:283, header_id:64]  connected {'?l1': 'r4', '?l2': 'r5'} = 1)
+Function([id:285, header_id:65]  connected {'?l1': 'r4', '?l2': 'r6'} = 0)
+Function([id:289, header_id:66]  connected {'?l1': 'r4', '?l2': 'r7'} = 1)
+Function([id:291, header_id:67]  connected {'?l1': 'r4', '?l2': 'r8'} = 0)
+Function([id:294, header_id:68]  connected {'?l1': 'r4', '?l2': 'r9'} = 0)
+Function([id:297, header_id:69]  connected {'?l1': 'r5', '?l2': 'r1'} = 0)
+Function([id:301, header_id:70]  connected {'?l1': 'r5', '?l2': 'r2'} = 1)
+Function([id:303, header_id:71]  connected {'?l1': 'r5', '?l2': 'r3'} = 0)
+Function([id:307, header_id:72]  connected {'?l1': 'r5', '?l2': 'r4'} = 1)
+Function([id:309, header_id:73]  connected {'?l1': 'r5', '?l2': 'r5'} = 0)
+Function([id:313, header_id:74]  connected {'?l1': 'r5', '?l2': 'r6'} = 1)
+Function([id:315, header_id:75]  connected {'?l1': 'r5', '?l2': 'r7'} = 0)
+Function([id:319, header_id:76]  connected {'?l1': 'r5', '?l2': 'r8'} = 1)
+Function([id:321, header_id:77]  connected {'?l1': 'r5', '?l2': 'r9'} = 0)
+Function([id:324, header_id:78]  connected {'?l1': 'r6', '?l2': 'r1'} = 0)
+Function([id:327, header_id:79]  connected {'?l1': 'r6', '?l2': 'r2'} = 0)
+Function([id:331, header_id:80]  connected {'?l1': 'r6', '?l2': 'r3'} = 1)
+Function([id:333, header_id:81]  connected {'?l1': 'r6', '?l2': 'r4'} = 0)
+Function([id:337, header_id:82]  connected {'?l1': 'r6', '?l2': 'r5'} = 1)
+Function([id:339, header_id:83]  connected {'?l1': 'r6', '?l2': 'r6'} = 0)
+Function([id:342, header_id:84]  connected {'?l1': 'r6', '?l2': 'r7'} = 0)
+Function([id:345, header_id:85]  connected {'?l1': 'r6', '?l2': 'r8'} = 0)
+Function([id:349, header_id:86]  connected {'?l1': 'r6', '?l2': 'r9'} = 1)
+Function([id:351, header_id:87]  connected {'?l1': 'r7', '?l2': 'r1'} = 0)
+Function([id:354, header_id:88]  connected {'?l1': 'r7', '?l2': 'r2'} = 0)
+Function([id:357, header_id:89]  connected {'?l1': 'r7', '?l2': 'r3'} = 0)
+Function([id:361, header_id:90]  connected {'?l1': 'r7', '?l2': 'r4'} = 1)
+Function([id:363, header_id:91]  connected {'?l1': 'r7', '?l2': 'r5'} = 0)
+Function([id:366, header_id:92]  connected {'?l1': 'r7', '?l2': 'r6'} = 0)
+Function([id:369, header_id:93]  connected {'?l1': 'r7', '?l2': 'r7'} = 0)
+Function([id:373, header_id:94]  connected {'?l1': 'r7', '?l2': 'r8'} = 1)
+Function([id:375, header_id:95]  connected {'?l1': 'r7', '?l2': 'r9'} = 0)
+Function([id:378, header_id:96]  connected {'?l1': 'r8', '?l2': 'r1'} = 0)
+Function([id:381, header_id:97]  connected {'?l1': 'r8', '?l2': 'r2'} = 0)
+Function([id:384, header_id:98]  connected {'?l1': 'r8', '?l2': 'r3'} = 0)
+Function([id:387, header_id:99]  connected {'?l1': 'r8', '?l2': 'r4'} = 0)
+Function([id:391, header_id:100]  connected {'?l1': 'r8', '?l2': 'r5'} = 1)
+Function([id:393, header_id:101]  connected {'?l1': 'r8', '?l2': 'r6'} = 0)
+Function([id:397, header_id:102]  connected {'?l1': 'r8', '?l2': 'r7'} = 1)
+Function([id:399, header_id:103]  connected {'?l1': 'r8', '?l2': 'r8'} = 0)
+Function([id:403, header_id:104]  connected {'?l1': 'r8', '?l2': 'r9'} = 1)
+Function([id:405, header_id:105]  connected {'?l1': 'r9', '?l2': 'r1'} = 0)
+Function([id:408, header_id:106]  connected {'?l1': 'r9', '?l2': 'r2'} = 0)
+Function([id:411, header_id:107]  connected {'?l1': 'r9', '?l2': 'r3'} = 0)
+Function([id:414, header_id:108]  connected {'?l1': 'r9', '?l2': 'r4'} = 0)
+Function([id:417, header_id:109]  connected {'?l1': 'r9', '?l2': 'r5'} = 0)
+Function([id:421, header_id:110]  connected {'?l1': 'r9', '?l2': 'r6'} = 1)
+Function([id:423, header_id:111]  connected {'?l1': 'r9', '?l2': 'r7'} = 0)
+Function([id:427, header_id:112]  connected {'?l1': 'r9', '?l2': 'r8'} = 1)
+Function([id:429, header_id:113]  connected {'?l1': 'r9', '?l2': 'r9'} = 0)
+=================
+Agent: a
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['a'] survivor_loc ['s1'] = )
+Condition(['a'] searched ['r1'] = 1)
+Condition(['a'] searched ['r2'] = 1)
+Condition(['a'] searched ['r3'] = 1)
+Condition(['a'] searched ['r4'] = 1)
+Condition(['a'] searched ['r5'] = 1)
+Condition(['a'] searched ['r6'] = 1)
+Condition(['a'] searched ['r7'] = 1)
+Condition(['a'] searched ['r8'] = 1)
+Condition(['a'] searched ['r9'] = 1)
+Other Goals:
+b:
+Condition(['b'] survivor_loc ['s1'] = )
+Condition(['b'] searched ['r1'] = 1)
+Condition(['b'] searched ['r2'] = 1)
+Condition(['b'] searched ['r3'] = 1)
+Condition(['b'] searched ['r4'] = 1)
+Condition(['b'] searched ['r5'] = 1)
+Condition(['b'] searched ['r6'] = 1)
+Condition(['b'] searched ['r7'] = 1)
+Condition(['b'] searched ['r8'] = 1)
+Condition(['b'] searched ['r9'] = 1)
+c:
+Condition(['c'] survivor_loc ['s1'] = )
+Condition(['c'] searched ['r1'] = 1)
+Condition(['c'] searched ['r2'] = 1)
+Condition(['c'] searched ['r3'] = 1)
+Condition(['c'] searched ['r4'] = 1)
+Condition(['c'] searched ['r5'] = 1)
+Condition(['c'] searched ['r6'] = 1)
+Condition(['c'] searched ['r7'] = 1)
+Condition(['c'] searched ['r8'] = 1)
+Condition(['c'] searched ['r9'] = 1)
+All Possible Goals:
+b:
+Condition(['b'] survivor_loc ['s1'] = )
+Condition(['b'] searched ['r1'] = 1)
+Condition(['b'] searched ['r2'] = 1)
+Condition(['b'] searched ['r3'] = 1)
+Condition(['b'] searched ['r4'] = 1)
+Condition(['b'] searched ['r5'] = 1)
+Condition(['b'] searched ['r6'] = 1)
+Condition(['b'] searched ['r7'] = 1)
+Condition(['b'] searched ['r8'] = 1)
+Condition(['b'] searched ['r9'] = 1)
+c:
+Condition(['c'] survivor_loc ['s1'] = )
+Condition(['c'] searched ['r1'] = 1)
+Condition(['c'] searched ['r2'] = 1)
+Condition(['c'] searched ['r3'] = 1)
+Condition(['c'] searched ['r4'] = 1)
+Condition(['c'] searched ['r5'] = 1)
+Condition(['c'] searched ['r6'] = 1)
+Condition(['c'] searched ['r7'] = 1)
+Condition(['c'] searched ['r8'] = 1)
+Condition(['c'] searched ['r9'] = 1)
+-----------------
+
+Agent: b
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['b'] survivor_loc ['s1'] = )
+Condition(['b'] searched ['r1'] = 1)
+Condition(['b'] searched ['r2'] = 1)
+Condition(['b'] searched ['r3'] = 1)
+Condition(['b'] searched ['r4'] = 1)
+Condition(['b'] searched ['r5'] = 1)
+Condition(['b'] searched ['r6'] = 1)
+Condition(['b'] searched ['r7'] = 1)
+Condition(['b'] searched ['r8'] = 1)
+Condition(['b'] searched ['r9'] = 1)
+Other Goals:
+a:
+Condition(['a'] survivor_loc ['s1'] = )
+Condition(['a'] searched ['r1'] = 1)
+Condition(['a'] searched ['r2'] = 1)
+Condition(['a'] searched ['r3'] = 1)
+Condition(['a'] searched ['r4'] = 1)
+Condition(['a'] searched ['r5'] = 1)
+Condition(['a'] searched ['r6'] = 1)
+Condition(['a'] searched ['r7'] = 1)
+Condition(['a'] searched ['r8'] = 1)
+Condition(['a'] searched ['r9'] = 1)
+c:
+Condition(['c'] survivor_loc ['s1'] = )
+Condition(['c'] searched ['r1'] = 1)
+Condition(['c'] searched ['r2'] = 1)
+Condition(['c'] searched ['r3'] = 1)
+Condition(['c'] searched ['r4'] = 1)
+Condition(['c'] searched ['r5'] = 1)
+Condition(['c'] searched ['r6'] = 1)
+Condition(['c'] searched ['r7'] = 1)
+Condition(['c'] searched ['r8'] = 1)
+Condition(['c'] searched ['r9'] = 1)
+All Possible Goals:
+a:
+Condition(['a'] survivor_loc ['s1'] = )
+Condition(['a'] searched ['r1'] = 1)
+Condition(['a'] searched ['r2'] = 1)
+Condition(['a'] searched ['r3'] = 1)
+Condition(['a'] searched ['r4'] = 1)
+Condition(['a'] searched ['r5'] = 1)
+Condition(['a'] searched ['r6'] = 1)
+Condition(['a'] searched ['r7'] = 1)
+Condition(['a'] searched ['r8'] = 1)
+Condition(['a'] searched ['r9'] = 1)
+c:
+Condition(['c'] survivor_loc ['s1'] = )
+Condition(['c'] searched ['r1'] = 1)
+Condition(['c'] searched ['r2'] = 1)
+Condition(['c'] searched ['r3'] = 1)
+Condition(['c'] searched ['r4'] = 1)
+Condition(['c'] searched ['r5'] = 1)
+Condition(['c'] searched ['r6'] = 1)
+Condition(['c'] searched ['r7'] = 1)
+Condition(['c'] searched ['r8'] = 1)
+Condition(['c'] searched ['r9'] = 1)
+-----------------
+
+Agent: c
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['c'] survivor_loc ['s1'] = )
+Condition(['c'] searched ['r1'] = 1)
+Condition(['c'] searched ['r2'] = 1)
+Condition(['c'] searched ['r3'] = 1)
+Condition(['c'] searched ['r4'] = 1)
+Condition(['c'] searched ['r5'] = 1)
+Condition(['c'] searched ['r6'] = 1)
+Condition(['c'] searched ['r7'] = 1)
+Condition(['c'] searched ['r8'] = 1)
+Condition(['c'] searched ['r9'] = 1)
+Other Goals:
+a:
+Condition(['a'] survivor_loc ['s1'] = )
+Condition(['a'] searched ['r1'] = 1)
+Condition(['a'] searched ['r2'] = 1)
+Condition(['a'] searched ['r3'] = 1)
+Condition(['a'] searched ['r4'] = 1)
+Condition(['a'] searched ['r5'] = 1)
+Condition(['a'] searched ['r6'] = 1)
+Condition(['a'] searched ['r7'] = 1)
+Condition(['a'] searched ['r8'] = 1)
+Condition(['a'] searched ['r9'] = 1)
+b:
+Condition(['b'] survivor_loc ['s1'] = )
+Condition(['b'] searched ['r1'] = 1)
+Condition(['b'] searched ['r2'] = 1)
+Condition(['b'] searched ['r3'] = 1)
+Condition(['b'] searched ['r4'] = 1)
+Condition(['b'] searched ['r5'] = 1)
+Condition(['b'] searched ['r6'] = 1)
+Condition(['b'] searched ['r7'] = 1)
+Condition(['b'] searched ['r8'] = 1)
+Condition(['b'] searched ['r9'] = 1)
+All Possible Goals:
+a:
+Condition(['a'] survivor_loc ['s1'] = )
+Condition(['a'] searched ['r1'] = 1)
+Condition(['a'] searched ['r2'] = 1)
+Condition(['a'] searched ['r3'] = 1)
+Condition(['a'] searched ['r4'] = 1)
+Condition(['a'] searched ['r5'] = 1)
+Condition(['a'] searched ['r6'] = 1)
+Condition(['a'] searched ['r7'] = 1)
+Condition(['a'] searched ['r8'] = 1)
+Condition(['a'] searched ['r9'] = 1)
+b:
+Condition(['b'] survivor_loc ['s1'] = )
+Condition(['b'] searched ['r1'] = 1)
+Condition(['b'] searched ['r2'] = 1)
+Condition(['b'] searched ['r3'] = 1)
+Condition(['b'] searched ['r4'] = 1)
+Condition(['b'] searched ['r5'] = 1)
+Condition(['b'] searched ['r6'] = 1)
+Condition(['b'] searched ['r7'] = 1)
+Condition(['b'] searched ['r8'] = 1)
+Condition(['b'] searched ['r9'] = 1)
+-----------------
+
+
+2025-11-25 19:10:45,465 INFO - __main__._.<module>:
+Model built successfully.

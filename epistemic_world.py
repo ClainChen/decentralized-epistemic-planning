@@ -9,36 +9,47 @@ def retrieval_function(seq_worlds: list[list[Function]], ts: int, func_header_id
     
     # check ts itself
     for func in seq_worlds[ts]:
-        if func.header_id == func_header_id:
+        if func.value != None and func.header_id == func_header_id:
             return func
     
     # search left hand side
     for t in range(ts - 1, -1, -1):
         for func in seq_worlds[t]:
-            if func.header_id == func_header_id:
+            if func.value != None and func.header_id == func_header_id:
                 return func
     
     # search right hand side
     for t in range(ts + 1, len(seq_worlds)):
         for func in seq_worlds[t]:
-            if func.header_id == func_header_id:
+            if func.value != None and func.header_id == func_header_id:
                 return func
     
     return None
 
 def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[], ts=-1, debug=False, goal_filter=True) -> list[Function]:
+    """
+    This is the entrance for all agents to get the epistemic world by calling the justified function based on the first element in the belief sequence.
+    Here, i = history_functions[0] is equivalent to the $\vec{sigma}[0]$.
+    In decentralized setting, the input ontic world needs to observe by agent i first, and determine the jp world based on the observation but not the ontic world. 
+    Therefore, f([w0,...,wn]) -> f(Oi([w0,...,wn])).
+    """
     if len(history_functions) == 0:
+        # input [w0,...,wn], process to the observed world Oi([w0,...,wn])
         history_functions = model.get_history_functions()
+        if len(belief_sequence) == 0:
+            return history_functions[ts]
+        history_functions = [util.OBS_FUNC[belief_sequence[0]].
+                         get_observable_functions(model, hf, belief_sequence[0]) 
+                         for hf in history_functions]
     if len(history_functions) == 0:
+        # if no history, then return empty world
         return []
     
-    # [a,b,c] -> f_c(f_b(f_a(ws)))
-    # [] -> ws[-1]
-    
+    # f_sigma(Oi([w0,...,wn])) = [w'0,...,w'n]
     for i in range(len(belief_sequence)):
         history_functions = jp_function(history_functions, belief_sequence[:i+1], model, debug=debug, goal_filter=goal_filter)
-        # goal_filter = False
-                
+    
+    # return w'_ts
     return history_functions[ts]
 
 
@@ -64,10 +75,10 @@ def jp_function(worlds: list[list[Function]], agts: list[str], model: Model, deb
     from util import OBS_FUNC
     agt_name = agts[-1]
     worlds2 = []
-    obs_cache = [set(OBS_FUNC[agt_name].get_observable_functions(model, worlds[t], agt_name)) for t in range(len(worlds))]
+    obs_cache = [set(OBS_FUNC[agt_name].get_observable_functions(model, world, agt_name)) for world in worlds]
 
     for t in range(len(worlds)):
-        dom_wt = [v.header_id for v in worlds[t]]
+        dom_wt = [v.header_id for w in worlds for v in w]
         dom_wt = list(set(dom_wt))
         wt2 = set()
 
@@ -82,7 +93,21 @@ def jp_function(worlds: list[list[Function]], agts: list[str], model: Model, deb
                 wt2.add(e)
         owt = obs_cache[t]
         diff = wt2 - owt
-
+        # if debug and t == len(worlds) - 1:
+        #     print(agts)
+        #     print('world:')
+        #     for f in worlds[t]:
+        #         print(f)
+        #     print('wt2:')
+        #     for f in wt2:
+        #         print(f)
+        #     print('owt:')
+        #     for f in owt:
+        #         print(f)
+        #     print('diff:')
+        #     for f in diff:
+        #         print(f)
+        #     print("=====")
         for e in diff:
             v = [f for f in owt if f.header_id == e.header_id]
             if len(v) == 0:
@@ -95,11 +120,20 @@ def jp_function(worlds: list[list[Function]], agts: list[str], model: Model, deb
                 wt2 = wt2 - {v} | {e}
             else:
                 wt2 = wt2 - {e} | {v}
-        if goal_filter:
-            goal_signal_filter(wt2, owt, agts, model, t)
+        # if goal_filter:
+        #     goal_signal_filter(wt2, owt, agts, model, t)
+        wt2 = fill_unknwon(wt2, model)
         worlds2.append(list(wt2))
     return worlds2
 
+def fill_unknwon(functions: set[Function], model: Model) -> set[Function]:
+    fhids = [f.header_id for f in functions]
+    for hid in model.ALL_FUNCS.header_id_add:
+        if hid not in fhids:
+            unknown_f = model.ALL_FUNCS.get_unknown_function(hid)
+            if unknown_f is not None:
+                functions.add(unknown_f)
+    return functions
 
 def goal_signal_filter(functions: list[Function], obs_funcs: list[Function], agts: list[str], model: Model, t: int):
     if len(model.history) == 0:
@@ -125,7 +159,7 @@ def goal_signal_filter(functions: list[Function], obs_funcs: list[Function], agt
                     obs_f not in obs_funcs and 
                     util.check_regular_condition(g, functions) != goal_signal[a]):
                     # remove those functions that do not satisfy the goal signal
-                    # if t >= len(model.history):
+                    # if t >= len(model.hstory):
                     #     print(agts, g.belief_sequence)
                     #     print(obs_f)
                     #     for f in functions:
@@ -135,7 +169,7 @@ def goal_signal_filter(functions: list[Function], obs_funcs: list[Function], agt
                     if target is not None:
                         functions.remove(target)
 
-# def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[]) -> list[Function]:
+# def get_epistemic_world(model: Model, belief_sequence: list[str], history_functions=[], goal_filter=False) -> list[Function]:
 #     from util import OBS_FUNC
 #     """
 #     if belief_sequence = [a,b,c], history = [S0, S1, ..., Sn]
@@ -145,6 +179,11 @@ def goal_signal_filter(functions: list[Function], obs_funcs: list[Function], agt
 #     """
 #     if len(history_functions) == 0:
 #         history_functions = model.get_history_functions()
+#         if len(belief_sequence) == 0:
+#             return history_functions[-1]
+#         history_functions = [util.OBS_FUNC[belief_sequence[0]].
+#                          get_observable_functions(model, hf, belief_sequence[0]) 
+#                          for hf in history_functions]
 #     if len(history_functions) == 0:
 #         return []
 #     if len(belief_sequence) == 0:

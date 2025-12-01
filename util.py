@@ -95,7 +95,8 @@ def regex_search(regex, string):
     result = re.findall(regex, string, re.M)
     if not result :
         LOGGER.error(f"result not found: {regex} in {string}")
-        raise Exception(f"result not found: {regex} in {string}")
+        return []
+        # raise Exception(f"result not found: {regex} in {string}")
     return result
 
 def regex_match(regex, string):
@@ -195,6 +196,9 @@ def load_rules(rules_path: str):
         raise ValueError(f"Failed to load rules class from {path}")
 
 def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOperator) -> bool:
+    if a is None or b is None:
+        return False
+
     strategies = {
         ConditionOperator.EQUAL: lambda a, b: a == b,
         ConditionOperator.NOT_EQUAL: lambda a, b: a != b,
@@ -205,6 +209,7 @@ def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOper
     }
 
     if strategy not in strategies:
+        print(a,b,strategy)
         raise ValueError(f"strategy {strategy} is not supported")
     if not isinstance(a, type(b)) or (isinstance(a, str) and strategy not in [ConditionOperator.EQUAL, ConditionOperator.NOT_EQUAL]):
         raise ValueError(f"strategy {strategy} is not supported for type {type(a)} and {type(b)}")
@@ -257,7 +262,7 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
     # solve the situation when it is an epistemic condition with an ep.none operator in it
     # if it is ep.none, then we only need to check whther the checking_function is exist or not depends on the epistemic operator
     if condition.ep_truth == EpistemicTruth.UNKNOWN:
-        return checking_function is None if condition.ep_operator == EpistemicOperator.EQUAL else checking_function is not None
+        return checking_function is None or checking_function.value is None if condition.ep_operator == EpistemicOperator.EQUAL else not (checking_function is None or checking_function.value is None) 
     
     if checking_function is None:
         return False
@@ -281,6 +286,7 @@ def get_function_with_name_and_params(functions: list[Function], name: str, para
     get the function with the given locator
     """
     for function in functions:
+        assert isinstance(function, Function), f"function {function} is not a Function"
         if function.name == name and frozenset(function.parameters.values()) == frozenset(params.values()):
             return function
     return None
@@ -298,20 +304,14 @@ def get_unknown_functions(model: Model, functions: list[Function], agent_name: s
     """
     get agent's unknown functions based on what agent knows
     """
-    all_functions = model.generate_all_possible_functions()
     # remove the functions that agent already knows
+    funcs_hid = [f.header_id for f in functions if f.value != None]
 
-    all_functions = [function for function in all_functions if function not in functions]
+    unknown_headers = [hid for hid in model.ALL_FUNCS.header_id_add if hid not in funcs_hid]
     unknown_functions = []
     # filter the functions that are conflict with what agent knows
-    for func in all_functions:
-        is_conflict = False
-        for known_func in functions:
-            if util.is_conflict_functions(func, known_func):
-                is_conflict = True
-                break
-        if not is_conflict:
-            unknown_functions.append(func)
+    for hid in unknown_headers:
+        unknown_functions.extend([f for f in model.ALL_FUNCS.get_functions_with_head_id(hid) if f.value != None])
     return unknown_functions
 
 def function_belongs_to(model: Model, function: Function) -> str:
@@ -343,6 +343,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     """
 
     known_functions = get_epistemic_world(model, [agent_name])
+    known_functions = [f for f in known_functions if f.value != None]
     unknown_functions = get_unknown_functions(model, known_functions, agent_name)
 
     # group the functions by name and parameters
@@ -384,9 +385,8 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     # update the model history to the history based on current_agent's perspective 
     current_history = []
     new_history_functions = []
-    for history in virtual_model.history:
-        current_history.append(history['functions'])
-        new_history = {'functions': get_epistemic_world(virtual_model, [agent_name], history_functions=current_history), 
+    for history, ts in zip(virtual_model.history, range(len(virtual_model.history))):
+        new_history = {'functions': get_epistemic_world(virtual_model, [agent_name], ts=ts), 
                        'agent': history['agent'],
                        'action': history['action'],
                        'signal': history['signal']}
@@ -585,6 +585,13 @@ class FinalFunctions:
         if params not in self.all[function.name]:
             self.all[function.name][params] = {}
         self.all[function.name][params][str(function.value)] = function
+    
+    def get_unknown_function(self, header_id: int) -> Function | None:
+        if header_id in self.header_id_add:
+            for function in self.header_id_add[header_id]:
+                if function.value == None:
+                    return function
+        return None
     
     def get_function(self, function_name: str, parameters: dict[str, str], value: str) -> Function:
         params = f"{list(parameters.values())}"

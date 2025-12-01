@@ -1,3 +1,4 @@
-a: peek a
-a: return a
 b: peek b
+b: return b
+a: peek a
+a: flip_up a c1
