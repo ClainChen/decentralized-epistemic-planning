@@ -6,7 +6,7 @@ LOGGER_LEVEL = logging.DEBUG
 
 class GridObsFunc(AbstractObservationFunction):
 
-    def get_observable_functions(self, model, functions, agent_name):
+    def get_observable_functions(self, functions, agent_name, all_funcs, ontic_functions):
         """
         1. if an agent is not receivable, it can only observe what in its own location and the common knowledge.
         2. if an agent is receivable, it can observe:

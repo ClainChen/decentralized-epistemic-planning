@@ -120,7 +120,7 @@ if __name__ == '__main__':
             # for f in model.ontic_functions:
             #     print(f)
             # for f in util.OBS_FUNC['a'].get_observable_functions(model, model.ontic_functions, 'a'):
-            for f in util.get_epistemic_world(model, ['c','a'], debug=True):
+            for f in util.get_epistemic_world(model, ['c','a']):
                 print(f)
             # for act in model.get_agent_successors('b'):
             #     print(act.header())

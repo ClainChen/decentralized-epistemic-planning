@@ -1,0 +1,62 @@
+(define
+    (problem 2r4a4i)
+    (:domain deliver2r)
+
+    (:agents 
+        a b c d
+    )
+
+    (:objects
+        o1 o2 o3 o4 nothing - item
+    )
+
+    (:init
+        (assign (agent_loc a) 1)
+        (assign (agent_loc b) 1)
+        (assign (agent_loc c) 1)
+        (assign (agent_loc d) 1)
+
+        (assign (item_id o1) o1)
+        (assign (item_id o2) o2)
+        (assign (item_id o3) o3)
+        (assign (item_id o4) o4)
+        (assign (item_id nothing) nothing)
+
+        (assign (hold a) nothing)
+        (assign (hold b) nothing)
+        (assign (hold c) nothing)
+        (assign (hold d) nothing)
+
+        (assign (item_loc o1) 1)
+        (assign (item_loc o2) 1)
+        (assign (item_loc o3) 1)
+        (assign (item_loc o4) 1)
+        (assign (item_loc nothing) 1)
+
+        (assign (is_free o1) 1)
+        (assign (is_free o2) 1)
+        (assign (is_free o3) 1)
+        (assign (is_free o4) 1)
+        (assign (is_free nothing) 1)
+    )
+
+    (:ranges
+        (agent_loc integer [1,2])
+        (item_id enumerate [o1,o2,o3,o4,nothing])
+        (item_loc integer [1,2])
+        (hold enumerate [o1,o2,o3,o4,nothing])
+        (is_free integer [0,1])
+    )
+
+    (:goal_sets
+        hold(a)=[all]
+        hold(b)=[all]
+        hold(c)=[all]
+        hold(d)=[all]
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

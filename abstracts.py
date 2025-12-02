@@ -7,7 +7,7 @@ class AbstractObservationFunction:
     2. Make sure to extend this class and implement the abstract method when you are defining a new observation function class, that is really important\n
     """
 
-    def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
+    def get_observable_functions(self, functions: list[Function], agent_name: str, all_funcs, ontic_functions) -> list[Function]:
         pass
 
     def get_observable_agents(self, model: Model, functions: list[Function], agent_name: str) -> list[str]:

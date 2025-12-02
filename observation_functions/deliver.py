@@ -7,7 +7,7 @@ from collections import defaultdict
 LOGGER_LEVEL = logging.DEBUG
 
 class DeliverObsFunc(AbstractObservationFunction):
-    def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
+    def get_observable_functions(self, functions: list[Function], agent_name: str, all_funcs, ontic_functions) -> list[Function]:
         """
         1. agent能看见所有与自己相关的functions
         2. agent能看见所有与自己当前所在房间相关的functions
@@ -38,7 +38,7 @@ class DeliverObsFunc(AbstractObservationFunction):
                 hold_by_funcs.append(func)
             elif func.name == 'is_free':
                 is_free_funcs.append(func)
-        
+
         agent_at = defaultdict(str)
         for func in agent_loc_funcs:
             agent_at[func.parameters['?a']] = func.value
@@ -73,7 +73,7 @@ class DeliverObsFunc(AbstractObservationFunction):
         except Exception as e:
             util.LOGGER.error(e)
             raise e
-        
+
     def get_observable_agents(self, model, functions, agent_name):
         agent_room = {}
         for func in functions:

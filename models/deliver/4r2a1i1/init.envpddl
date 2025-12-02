@@ -15,19 +15,19 @@
         (assign (connected r1 r1) 0)
         (assign (connected r1 r2) 1)
         (assign (connected r1 r3) 1)
-        (assign (connected r1 r4) 0)
+        (assign (connected r1 r4) 1)
 
         (assign (connected r2 r1) 1)
         (assign (connected r2 r2) 0)
-        (assign (connected r2 r3) 0)
+        (assign (connected r2 r3) 1)
         (assign (connected r2 r4) 1)
 
         (assign (connected r3 r1) 1)
-        (assign (connected r3 r2) 0)
+        (assign (connected r3 r2) 1)
         (assign (connected r3 r3) 0)
         (assign (connected r3 r4) 1)
         
-        (assign (connected r4 r1) 0)
+        (assign (connected r4 r1) 1)
         (assign (connected r4 r2) 1)
         (assign (connected r4 r3) 1)
         (assign (connected r4 r4) 0)
@@ -61,7 +61,6 @@
     )
 
     (:goal_sets
-        hold_by(i,b)=[all]
     )
 
     (:max_belief_depth 1)

@@ -7,7 +7,7 @@ LOGGER_LEVEL = logging.DEBUG
 
 class MuddyChildrenObsFunc(AbstractObservationFunction):
 
-    def get_observable_functions(self, model, functions, agent_name):
+    def get_observable_functions(self, functions, agent_name, all_funcs, ontic_functions):
         """
         Agent can see all other muddy children except itself
         Agent think itself is muddy if the question has been asked more than the number of observed muddy children.

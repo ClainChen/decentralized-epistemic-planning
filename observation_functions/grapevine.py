@@ -7,7 +7,7 @@ LOGGER_LEVEL = logging.DEBUG
 
 class GrapevineObsFunc(AbstractObservationFunction):
 
-    def get_observable_functions(self, model, functions, agent_name):
+    def get_observable_functions(self, functions, agent_name, all_funcs, ontic_functions):
         """
         Agent can see all secret if they are sharing in current room
         Agent can see all other agent's location
@@ -36,7 +36,7 @@ class GrapevineObsFunc(AbstractObservationFunction):
                 result.add(func)
                 result.add(shared_value_funcs[s])
             else:
-                result.add(model.ALL_FUNCS.get_function(func.name, func.parameters, 0))
+                result.add(all_funcs.get_function(func.name, func.parameters, 0))
         # use the old jp setting, if agent didn't see the secret is sharing, agent suppose the secret is in 0
         for func in agent_sharing_funcs:
             if agent_loc[agent_name] == agent_loc[func.parameters['?a']]:

@@ -26,29 +26,41 @@
         "enabled": 1,
         "model_name": "deliver2r",
         "problems": [
-            {"enabled": 1, "limit": 1, "name": "2a1i1", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 2, "name": "2a1i2", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 2, "name": "2a1i3", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 2, "name": "2a1i4", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 1, "name": "2a2i1", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 1, "name": "2a2i2", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 2, "name": "2a2i3", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 3, "name": "2a2i4", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 1, "name": "4a4i1", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a4i2", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 2, "name": "4a4i3", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 2, "name": "4a4i4", "agents": ["a", "b", "c", "d"]}
+            {"enabled": 1, "limit": 1, "name": "2a1i", "agents": ["a", "b"]},
+            {"enabled": 1, "limit": 1, "name": "2a2i", "agents": ["a", "b"]},
+            {"enabled": 1, "limit": 1, "name": "3a3i", "agents": ["a", "b", "c"]},
+            {"enabled": 1, "limit": 1, "name": "4a4i", "agents": ["a", "b", "c", "d"]}
         ],
         "ob": "deliver2r.py",
         "rules": "deliver2r.py",
         "tests": [
-            {"enabled": 1, "num":1, "strategy": "share"},
+            {"enabled": 1, "num":5, "strategy": "share"},
             {"enabled": 0, "num":5, "strategy": "stay"},
             {"enabled": 0, "num":5, "strategy": "stayexp"},
             {"enabled": 0, "num":5, "strategy": "coop"},
             {"enabled": 0, "num":5, "strategy": "coopexp"},
             {"enabled": 0, "num":2, "strategy": "filtergoal"},
             {"enabled": 0, "num":2, "strategy": "filtergoalexp"}
+        ]
+    },
+
+    {
+        "enabled": 1,
+        "model_name": "deliver",
+        "problems": [
+            {"enabled": 1, "limit": 1, "name": "3r2a1i1", "agents": ["a", "b"]},
+            {"enabled": 1, "limit": 1, "name": "4r2a1i1", "agents": ["a", "b"]}
+        ],
+        "ob": "deliver.py",
+        "rules": "deliver.py",
+        "tests": [
+            {"enabled": 1, "num":5, "strategy": "share"},
+            {"enabled": 0, "num":2, "strategy": "stay"},
+            {"enabled": 0, "num":2, "strategy": "stayexp"},
+            {"enabled": 0, "num":2, "strategy": "coop"},
+            {"enabled": 0, "num":2, "strategy": "coopexp"},
+            {"enabled": 0, "num":1, "strategy": "filtergoal"},
+            {"enabled": 0, "num":1, "strategy": "filtergoalexp"}
         ]
     },
 
@@ -84,61 +96,5 @@
             {"enabled": 0, "num":2, "strategy": "filtergoal"},
             {"enabled": 0, "num":2, "strategy": "filtergoalexp"}
         ]
-    },
-
-    {
-        "enabled": 0,
-        "model_name": "mapf",
-        "problems": [
-            {"enabled": 0, "limit": 1, "name": "2a4r", "agents": ["a", "b"]}, 
-            {"enabled": 0, "limit": 1, "name": "2a7r1", "agents": ["a", "b"]}, 
-            {"enabled": 0, "limit": 1, "name": "2a7r2", "agents": ["a", "b"]}, 
-            {"enabled": 0, "limit": 1, "name": "2a7r3", "agents": ["a", "b"]}, 
-            {"enabled": 0, "limit": 1, "name": "2a7r4", "agents": ["a", "b"]},
-            {"enabled": 0, "limit": 1, "name": "3a9r1", "agents": ["a", "b", "c"]},
-            {"enabled": 0, "limit": 1, "name": "3a9r2", "agents": ["a", "b", "c"]},
-            {"enabled": 0, "limit": 1, "name": "3a9r3", "agents": ["a", "b", "c"]},
-            {"enabled": 0, "limit": 1, "name": "4a9r1", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 0, "limit": 1, "name": "4a9r2", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 0, "limit": 1, "name": "4a9r3", "agents": ["a", "b", "c", "d"]},
-            {"enabled": 1, "limit": 1, "name": "4a9r4", "agents": ["a", "b", "c", "d"]}
-        ],
-        "ob": "mapf.py",
-        "rules": "mapf.py",
-        "tests": [
-            {"enabled": 0, "num":3, "strategy": "share"},
-            {"enabled": 0, "num":3, "strategy": "stay"},
-            {"enabled": 0, "num":3, "strategy": "stayexp"},
-            {"enabled": 1, "num":3, "strategy": "coop"},
-            {"enabled": 0, "num":3, "strategy": "coopexp"},
-            {"enabled": 0, "num":3, "strategy": "filtergoal"},
-            {"enabled": 0, "num":3, "strategy": "filtergoalexp"}
-        ]
-    },
-
-    {
-        "enabled": 0,
-        "model_name": "deliver",
-        "problems": [
-            {"enabled": 0, "limit": 1, "name": "3r2a1i1", "agents": ["a", "b"]}, 
-            {"enabled": 0, "limit": 1, "name": "3r2a1i2", "agents": ["a", "b"]}, 
-            {"enabled": 0, "limit": 1, "name": "3r2a1i3", "agents": ["a", "b"]}, 
-            {"enabled": 1, "limit": 2, "name": "3r2a1i4", "agents": ["a", "b"]}, 
-            {"enabled": 0, "limit": 1, "name": "4r2a1i1", "agents": ["a", "b"]},
-            {"enabled": 0, "limit": 1, "name": "4r2a1i2", "agents": ["a", "b"]},
-            {"enabled": 0, "limit": 1, "name": "4r2a1i3", "agents": ["a", "b"]},
-            {"enabled": 0, "limit": 2, "name": "4r2a1i4", "agents": ["a", "b"]}
-        ],
-        "ob": "deliver.py",
-        "rules": "deliver.py",
-        "tests": [
-            {"enabled": 0, "num":2, "strategy": "share"},
-            {"enabled": 0, "num":2, "strategy": "stay"},
-            {"enabled": 0, "num":2, "strategy": "stayexp"},
-            {"enabled": 0, "num":2, "strategy": "coop"},
-            {"enabled": 0, "num":2, "strategy": "coopexp"},
-            {"enabled": 1, "num":1, "strategy": "filtergoal"},
-            {"enabled": 0, "num":1, "strategy": "filtergoalexp"}
-        ]
-    }    
+    }
 ]

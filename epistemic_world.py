@@ -1,7 +1,9 @@
 from dep.epistemic_class import Function, Model
 import util
+import cache_helper as ch
+from cachetools import cached, LRUCache
 
-
+# @cached(LRUCache(maxsize=256), key=ch.freeze)
 def retrieval_function(seq_worlds: list[list[Function]], ts: int, func_header_id: int) -> Function | None:
     if ts == -1:
         return None
@@ -40,7 +42,10 @@ def get_epistemic_world(model: Model, belief_sequence: list[str], history_functi
         if len(belief_sequence) == 0:
             return history_functions[ts]
         history_functions = [util.OBS_FUNC[belief_sequence[0]].
-                             get_observable_functions(model, hf, belief_sequence[0])
+                             get_observable_functions(hf,
+                                                      belief_sequence[0],
+                                                      model.ALL_FUNCS,
+                                                      model.ontic_functions)
                              for hf in history_functions]
     if len(history_functions) == 0:
         # if no history, then return empty world
@@ -48,19 +53,22 @@ def get_epistemic_world(model: Model, belief_sequence: list[str], history_functi
 
     # f_sigma(Oi([w0,...,wn])) = [w'0,...,w'n]
     for i in range(len(belief_sequence)):
-        history_functions = jp_function(history_functions, belief_sequence[:i + 1], model, debug=debug,
-                                        goal_filter=goal_filter)
+        history_functions = jp_function(history_functions,
+                                        belief_sequence[:i + 1],
+                                        model.ALL_FUNCS,
+                                        model.ontic_functions)
 
     # return w'_ts
     return history_functions[ts]
 
-
-def jp_function(worlds: list[list[Function]], agts: list[str], model: Model, debug=False, goal_filter=False) -> list[
+@cached(LRUCache(maxsize=512), key=ch.freeze)
+def jp_function(worlds: list[list[Function]], agts: list[str], all_funcs, ontic_functions) -> list[
     list[Function]]:
     from util import OBS_FUNC
     agt_name = agts[-1]
     worlds2 = []
-    obs_cache = [set(OBS_FUNC[agt_name].get_observable_functions(model, world, agt_name)) for world in worlds]
+    obs_cache = [set(
+        OBS_FUNC[agt_name].get_observable_functions(world, agt_name, all_funcs, ontic_functions)) for world in worlds]
 
     for t in range(len(worlds)):
         dom_wt = [v.header_id for w in worlds for v in w]
@@ -85,21 +93,24 @@ def jp_function(worlds: list[list[Function]], agts: list[str], model: Model, deb
             else:
                 v = v[0]
             owte = owt - {v} | {e}
-            oowte = OBS_FUNC[agt_name].get_observable_functions(model, list(owte), agt_name)
+            oowte = OBS_FUNC[agt_name].get_observable_functions(list(owte),
+                                                                agt_name,
+                                                                all_funcs,
+                                                                ontic_functions)
             if v not in oowte:
                 wt2 = wt2 - {v} | {e}
             else:
                 wt2 = wt2 - {e} | {v}
-        wt2 = fill_unknwon(wt2, model)
+        wt2 = fill_unknwon(wt2, all_funcs)
         worlds2.append(list(wt2))
     return worlds2
 
-
-def fill_unknwon(functions: set[Function], model: Model) -> set[Function]:
+# @cached(LRUCache(maxsize=256), key=ch.freeze)
+def fill_unknwon(functions: set[Function], all_funcs) -> set[Function]:
     fhids = [f.header_id for f in functions]
-    for hid in model.ALL_FUNCS.header_id_add:
+    for hid in all_funcs.header_id_add:
         if hid not in fhids:
-            unknown_f = model.ALL_FUNCS.get_unknown_function(hid)
+            unknown_f = all_funcs.get_unknown_function(hid)
             if unknown_f is not None:
                 functions.add(unknown_f)
     return functions
