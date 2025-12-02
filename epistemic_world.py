@@ -55,24 +55,6 @@ def get_epistemic_world(model: Model, belief_sequence: list[str], history_functi
     return history_functions[ts]
 
 
-def get_unfiltered_st(world_seq: list[list[Function]]) -> list[Function]:
-    """
-    get the epistemic world from the given function sequence\n
-    this usually use when checking the epistemic condition and generating the virtual world\n
-    """
-    if len(world_seq) == 0:
-        return []
-
-    world = []
-    headers = set()
-    for functions in reversed(world_seq):
-        for func in functions:
-            if func.header_id not in headers:
-                headers.add(func.header_id)
-                world.append(func)
-    return world
-
-
 def jp_function(worlds: list[list[Function]], agts: list[str], model: Model, debug=False, goal_filter=False) -> list[
     list[Function]]:
     from util import OBS_FUNC

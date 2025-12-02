@@ -15,34 +15,37 @@ class ShareGoalBFS(AbstractPolicyStrategy):
     2. Agent will not consider the experience
     """
 
-    def get_policy(self, model: Model, agent_name: str) -> Action:
+    def get_policy(self, model: Model, agent_name: str) -> tuple[Action, int]:
         model_copy = copy.deepcopy(model)
         successors = model_copy.get_agent_successors(agent_name)
+        nv = 0
         # print(f"{agent_name}: {[succ.header() for succ in successors]}")
         if len(successors) > 1:
             possible_successors = [succ.header() for succ in successors]
-            samples = self.bfs(model_copy, agent_name)
+            samples, num_vms = self.bfs(model_copy, agent_name)
+            nv += num_vms
             output = f"{[(key, value[1]) for key, value in samples.items()]}\n"
             output += f"{dict([(agent.name, len(agent.all_possible_goals)) for agent in model_copy.agents])}"
             util.LOGGER.info(f"{output}")
             
             succs = [value for value in samples.values() if value[0].header() in possible_successors]
             if len(succs) == 0:
-                return Action.stay_action(agent_name)
+                return Action.stay_action(agent_name), nv
             succs.sort(reverse=True, key=lambda x: x[1])
             maxx = succs[0][1]
             succs = [value[0] for value in succs if value[1] == maxx]
-            return random.choice(succs)
+            return random.choice(succs), nv
         elif len(successors) == 1:
             util.LOGGER.info(f"Only one successor: {successors[0].header()}")
-            return successors[0]
+            return successors[0], 0
         else:
             stay = Action.stay_action(agent_name)
             util.LOGGER.info(f"No successor, use stay action: {stay.header()}")
-            return stay
+            return stay, 0
         
     def bfs(self, model: Model, agent_name: str):
         all_virtual_model = util.generate_virtual_model(model, agent_name)
+        num_vms = len(all_virtual_model)
         # print(f"{agent_name} vms: {len(all_virtual_model)}")
         samples = {}
         expands = 0
@@ -56,7 +59,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
                 else:
                     samples[key] = value
         util.LOGGER.info(f"Models: {len(all_virtual_model)}, Exapnds: {expands}, {(((time.perf_counter() - start) / expands) * 1e3):.3f}ms/expand")
-        return samples
+        return samples, num_vms
 
     def single_bfs(self, virtual_model: Model, agent_name: str):
         expand = 1
@@ -69,7 +72,9 @@ class ShareGoalBFS(AbstractPolicyStrategy):
             node = heapq.heappop(heap)
             # if agent_name == 'b':
             #     print([act.header() for act in node.actions])
-            
+            if len(node.actions) > 0 and node.actions[0].header() in samples:
+                continue
+
             if ((find_solution_depth != -1 and len(node.actions) > find_solution_depth)):
                 break
 
@@ -82,7 +87,7 @@ class ShareGoalBFS(AbstractPolicyStrategy):
                             samples[string] = [action, 1]
                         # else:
                         #     samples[string][1] += 1
-                    util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
+                    # util.LOGGER.debug(f"Complete path: {[action.header() for action in node.actions]}")
                     continue
             if node.current_index == 0:
                 current_agent = [agent_name]

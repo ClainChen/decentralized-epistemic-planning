@@ -139,15 +139,20 @@ if __name__ == '__main__':
 
         step_lst = []
         time_lst = []
+        vms = []
         for i in range(1, args.num_multi_tests + 1):
             print(f"{i}th Simulation:")
             running_model = model.duplicate()
-            steps, time_used = running_model.simulate(running_model.agents[start_index].name)
+            steps, time_used, num_vms = running_model.simulate(running_model.agents[start_index].name)
             step_lst.append(steps)
             time_lst.append(time_used)
-        util.LOGGER.exp(f"Avg Steps: {sum(step_lst) / len(step_lst)}\nAvg Time: {(sum(time_lst) / len(time_lst)):.6f}s")
-
-        print("Done.")
+            vms.append(num_vms)
+        util.LOGGER.exp(f"Avg Steps: {sum(step_lst) / len(step_lst)}\n"
+                        f"Avg Time: {(sum(time_lst) / len(time_lst)):.6f}s\n"
+                        f"Avg VMS: {sum(vms)/len(vms)}\n")
+        print(f"Avg Steps: {sum(step_lst) / len(step_lst)}\n"
+              f"Avg Time: {(sum(time_lst) / len(time_lst)):.6f}s\n"
+              f"Avg VMS: {sum(vms)/len(vms)}\n")
     except Exception as e:
         util.LOGGER.error(f"{traceback.format_exc()}\n")
         print(f"{traceback.format_exc()}\n")

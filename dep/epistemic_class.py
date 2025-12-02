@@ -780,9 +780,11 @@ class Model:
         else:
             agent_name = start_agent
         steps = 0
+        nv = 0
         while not self.full_goal_complete():
             # decide the action and do the action
-            action = util.STRATEGY[agent_name].get_policy(self, agent_name)
+            action, num_vms = util.STRATEGY[agent_name].get_policy(self, agent_name)
+            nv += num_vms
 
             self.update_agent_belief_actions_in_world(agent_name, action)
             self.move(agent_name, action)
@@ -804,10 +806,10 @@ class Model:
         time_used = end - start
 
         util.LOGGER.debug(f"{self.show_solution()}")
-        exp_log += f"Steps: {steps}\nTime cost: {time_used:.6f}s"
+        exp_log += f"Steps: {steps}\nTime cost: {time_used:.6f}s\nNumber of Generated Virtual Problems: {nv}\n"
         # print(f"Steps: {steps}\nTime cost: {time_used:.6f}s")
         util.LOGGER.exp(f"{exp_log}")
-        return steps, time_used
+        return steps, time_used, nv
 
     def move(self, agent_name: str, action: Action):
         history = {'functions': self.ontic_functions[:],

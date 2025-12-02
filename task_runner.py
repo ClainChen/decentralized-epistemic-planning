@@ -104,7 +104,7 @@ def analyze_tasks(tasks):
                 strategy: str = test['strategy']
                 num_tests: int = test['num']
                 if strategy == 'share':
-                    command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy experiment/{strategy}.py --share -tests {num_tests}"
+                    command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy {strategy}.py --share -tests {num_tests} > out/{domain}-{problem['name']}.out"
                 elif strategy == 'stay':
                     command = f"python entrance.py -d {domain}/domain.pddl -p {domain}/{problem['name']} -ob {ob} --rules {rules} --strategy experiment/{strategy}.py --without_agt_goal '{agents}' --without_agt_exp '{agents}' -tests {num_tests}"
                 elif strategy == 'stayexp':
@@ -141,13 +141,13 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
             if result['stderr']:
                 output += f"错误: {result['stderr']}"
             
-            if not dire.exists():
-                dire.mkdir(parents=True)
-            with open(dire / filename, 'w') as f:
-                f.write(output)
+            # if not dire.exists():
+            #     dire.mkdir(parents=True)
+            # with open(dire / filename, 'w') as f:
+            #     f.write(output)
 
             
-            task = f"{parse['problem'].replace('/', '-')}-{parse['strategy'][11:-3]}"
+            task = f"{parse['problem'].replace('/', '-')}-{parse['strategy'][:-3]}"
             print(f"任务 {task} 执行完成")
         except Exception as exc:
             print(f"任务 {command} 执行时发生异常: {exc}")

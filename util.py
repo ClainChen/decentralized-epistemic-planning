@@ -18,8 +18,6 @@ STRATEGY_FOLDER_PATH = "strategy/"
 RULES_FOLDER_PATH = "rules/"
 INIT_FILE_NAME = "init.envpddl"
 AGENT_FILE_NAME = ".agtpddl"
-INIT_TEMPLATE_PATH = "models/init_template.txt"
-AGENT_TEMPLATE_PATH = "models/agt_template.txt"
 
 LOGGER = None
 OBS_FUNC = {}
@@ -30,11 +28,15 @@ RULES = None
 LIMIT = 2
 
 logging.addLevelName(25, "EXP")
+
+
 def exp(self, message, *args, **kws):
     if self.isEnabledFor(25):
         self._log(25, message, args, **kws)
 
+
 logging.Logger.exp = exp
+
 
 class ClassNameFormatter(logging.Formatter):
     def format(self, record):
@@ -49,8 +51,9 @@ class ClassNameFormatter(logging.Formatter):
                     record.classname = '_'
                 break
             frame = frame.f_back
-        
+
         return super().format(record)
+
 
 def record_time(func):
     @wraps(func)
@@ -60,7 +63,9 @@ def record_time(func):
         end = perf_counter()
         print(f"{func.__name__} 耗时: {end - start:.6f}秒")
         return result
+
     return wrapper
+
 
 def setup_logger_handlers(log_filename, log_mode='a', c_display=False, c_logger_level=logging.INFO):
     if not Path(log_filename).parent.exists():
@@ -83,6 +88,7 @@ def setup_logger_handlers(log_filename, log_mode='a', c_display=False, c_logger_
         handlers.append(c_handler)
     return handlers
 
+
 def setup_logger(name, handlers=[], logger_level=logging.INFO):
     """To setup as many loggers as you want"""
     logger = logging.getLogger(name)
@@ -91,20 +97,24 @@ def setup_logger(name, handlers=[], logger_level=logging.INFO):
 
     return logger
 
+
 def regex_search(regex, string):
     result = re.findall(regex, string, re.M)
-    if not result :
+    if not result:
         LOGGER.error(f"result not found: {regex} in {string}")
         return []
         # raise Exception(f"result not found: {regex} in {string}")
     return result
 
+
 def regex_match(regex, string):
     result = re.match(regex, string, re.M)
     return True if result else False
 
+
 from dep.file_parser import *
 from dep.epistemic_class import *
+
 
 def swap_param_orders(function_schema: FunctionSchema, variable: ParsingVariable):
     new_param_orders = variable.parameters
@@ -113,8 +123,10 @@ def swap_param_orders(function_schema: FunctionSchema, variable: ParsingVariable
         if old != new:
             function_schema.require_parameters[new] = function_schema.require_parameters.pop(old)
 
+
 def check_duplication(list: list | tuple):
     return len(list) != len(set(list))
+
 
 def load_observation_function(obs_func_mapper: dict):
     global OBS_FUNC
@@ -128,20 +140,21 @@ def load_observation_function(obs_func_mapper: dict):
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
 
-            valid_classes = [cls for cls in module.__dict__.values() 
-                            if inspect.isclass(cls) 
-                            and issubclass(cls, AbstractObservationFunction)
-                            and cls != AbstractObservationFunction]
+            valid_classes = [cls for cls in module.__dict__.values()
+                             if inspect.isclass(cls)
+                             and issubclass(cls, AbstractObservationFunction)
+                             and cls != AbstractObservationFunction]
 
             if not valid_classes:
                 LOGGER.error(f"No valid observation function class found in {path}")
                 raise ValueError(f"file {path} do not have a subclass of {AbstractObservationFunction.__name__}")
-            
+
             OBS_FUNC[agt_name] = valid_classes[0]()
             LOGGER.info(f"Loaded observation function {valid_classes[0].__name__} to agent {agt_name}")
         except:
             LOGGER.error(f"Failed to load observation function {obs_func_path} to agent {agt_name}")
             raise Exception(f"Failed to load observation function {obs_func_path} to agent {agt_name}")
+
 
 def load_policy_strategy(policy_strategy_mapper: dict):
     global STRATEGY
@@ -155,20 +168,21 @@ def load_policy_strategy(policy_strategy_mapper: dict):
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
 
-            valid_classes = [cls for cls in module.__dict__.values() 
-                            if inspect.isclass(cls) 
-                            and issubclass(cls, AbstractPolicyStrategy)
-                            and cls != AbstractPolicyStrategy]
+            valid_classes = [cls for cls in module.__dict__.values()
+                             if inspect.isclass(cls)
+                             and issubclass(cls, AbstractPolicyStrategy)
+                             and cls != AbstractPolicyStrategy]
 
             if not valid_classes:
                 LOGGER.error(f"No valid strategy class found in {path}")
                 raise ValueError(f"file {path} do not have a subclass of {AbstractPolicyStrategy.__name__}")
-        
+
             STRATEGY[agt_name] = valid_classes[0]()
             LOGGER.info(f"Loaded strategy class {valid_classes[0].__name__} for agent {agt_name}")
         except:
             LOGGER.error(f"Failed to load strategy class from {path}")
             raise ValueError(f"Failed to load strategy class from {path}")
+
 
 def load_rules(rules_path: str):
     global RULES
@@ -181,19 +195,20 @@ def load_rules(rules_path: str):
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-        valid_classes = [cls for cls in module.__dict__.values() 
-                        if inspect.isclass(cls) 
-                        and issubclass(cls, AbstractRules)
-                        and cls != AbstractRules]
+        valid_classes = [cls for cls in module.__dict__.values()
+                         if inspect.isclass(cls)
+                         and issubclass(cls, AbstractRules)
+                         and cls != AbstractRules]
 
         if not valid_classes:
             LOGGER.error(f"No valid rules class found in {path}")
             raise ValueError(f"file {path} do not have a subclass of {AbstractRules.__name__}")
-    
+
         RULES = valid_classes[0]()
     except:
         LOGGER.error(f"Failed to load rules class from {path}")
         raise ValueError(f"Failed to load rules class from {path}")
+
 
 def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOperator) -> bool:
     if a is None or b is None:
@@ -209,11 +224,13 @@ def compare_condition_values(a: int | str, b: int | str, strategy: ConditionOper
     }
 
     if strategy not in strategies:
-        print(a,b,strategy)
+        print(a, b, strategy)
         raise ValueError(f"strategy {strategy} is not supported")
-    if not isinstance(a, type(b)) or (isinstance(a, str) and strategy not in [ConditionOperator.EQUAL, ConditionOperator.NOT_EQUAL]):
+    if not isinstance(a, type(b)) or (
+            isinstance(a, str) and strategy not in [ConditionOperator.EQUAL, ConditionOperator.NOT_EQUAL]):
         raise ValueError(f"strategy {strategy} is not supported for type {type(a)} and {type(b)}")
     return strategies[strategy](a, b)
+
 
 def update_effect_value(a: int | str, b: int | str, strategy: EffectType) -> int | str:
     strategies = {
@@ -221,12 +238,13 @@ def update_effect_value(a: int | str, b: int | str, strategy: EffectType) -> int
         EffectType.INCREASE: lambda a, b: a + b,
         EffectType.DECREASE: lambda a, b: a - b
     }
-    
+
     if strategy not in strategies:
         raise ValueError(f"strategy {strategy} is not supported")
     if not isinstance(a, type(b)) or (isinstance(a, str) and strategy != EffectType.ASSIGN):
         raise ValueError(f"strategy {strategy} is not supported for string value")
     return strategies[strategy](a, b)
+
 
 def check_in_range(function: Function):
     if isinstance(function.range, list):
@@ -234,6 +252,7 @@ def check_in_range(function: Function):
     else:
         min, max = function.range
         return min <= function.value <= max
+
 
 def is_valid_action(model: Model, action: Action) -> bool:
     """
@@ -245,6 +264,7 @@ def is_valid_action(model: Model, action: Action) -> bool:
         if not check_condition(model, condition):
             return False
     return True
+
 
 def check_condition(model: Model, condition: Condition):
     epistemic_world_functions = get_epistemic_world(model, condition.belief_sequence, goal_filter=False)
@@ -262,8 +282,9 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
     # solve the situation when it is an epistemic condition with an ep.none operator in it
     # if it is ep.none, then we only need to check whther the checking_function is exist or not depends on the epistemic operator
     if condition.ep_truth == EpistemicTruth.UNKNOWN:
-        return checking_function is None or checking_function.value is None if condition.ep_operator == EpistemicOperator.EQUAL else not (checking_function is None or checking_function.value is None) 
-    
+        return checking_function is None or checking_function.value is None if condition.ep_operator == EpistemicOperator.EQUAL else not (
+                    checking_function is None or checking_function.value is None)
+
     if checking_function is None:
         return False
 
@@ -281,6 +302,7 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
 
     return True
 
+
 def get_function_with_name_and_params(functions: list[Function], name: str, params: dict[str, str]):
     """
     get the function with the given locator
@@ -291,6 +313,7 @@ def get_function_with_name_and_params(functions: list[Function], name: str, para
             return function
     return None
 
+
 def is_conflict_functions(function1: Function, function2: Function) -> bool:
     """
     check whether two functions are conflict with each other
@@ -299,6 +322,7 @@ def is_conflict_functions(function1: Function, function2: Function) -> bool:
         if function1.id != function2.id:
             return True
     return False
+
 
 def get_unknown_functions(model: Model, functions: list[Function], agent_name: str) -> list[Function]:
     """
@@ -314,6 +338,7 @@ def get_unknown_functions(model: Model, functions: list[Function], agent_name: s
         unknown_functions.extend([f for f in model.ALL_FUNCS.get_functions_with_head_id(hid) if f.value != None])
     return unknown_functions
 
+
 def function_belongs_to(model: Model, function: Function) -> str:
     """
     Normally, an agent will know a function if it is clearly belongs to it.\n
@@ -327,12 +352,14 @@ def function_belongs_to(model: Model, function: Function) -> str:
             return agent.name
     return None
 
+
 def function_is_exist(functions: list[Function], func_name: str, func_params: dict[str, str]) -> int:
     count = 0
     for function in functions:
         if function.name == func_name and function.parameters == func_params:
             count += 1
     return count
+
 
 def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     """
@@ -381,18 +408,18 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
                         new_goal.belief_sequence = remove_continue_duplicates(new_goal.belief_sequence)
                         goals.append(new_goal)
                     agent.own_goals = goals
-    
+
     # update the model history to the history based on current_agent's perspective 
     current_history = []
     new_history_functions = []
     for history, ts in zip(virtual_model.history, range(len(virtual_model.history))):
-        new_history = {'functions': get_epistemic_world(virtual_model, [agent_name], ts=ts), 
+        new_history = {'functions': get_epistemic_world(virtual_model, [agent_name], ts=ts),
                        'agent': history['agent'],
                        'action': history['action'],
                        'signal': history['signal']}
         new_history_functions.append(new_history)
     virtual_model.history = new_history_functions
-    
+
     virtual_model.ontic_functions = known_functions
     all_virtual_models = []
     for comb in valid_combs:
@@ -400,7 +427,6 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
         new_model.ontic_functions.extend(comb)
         all_virtual_models.append(new_model)
 
-    
     if len(all_virtual_models) <= 0:
         if len(unknown_functions) == 0:
             all_virtual_models.append(virtual_model)
@@ -409,7 +435,8 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
             if model.problem_type == ProblemType.UNSHARE:
                 LOGGER.debug(f"agent belief goals num: {len(current_agent.all_possible_goals)}")
             print("unable to generate the virtual world")
-            LOGGER.debug(f"valid combs num: {len(valid_combs)}, valid possible goals num: {len(current_agent.all_possible_goals)}")
+            LOGGER.debug(
+                f"valid combs num: {len(valid_combs)}, valid possible goals num: {len(current_agent.all_possible_goals)}")
             kf = ""
             for f in known_functions:
                 kf += f"{f}\n"
@@ -421,6 +448,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
             exit(0)
     return all_virtual_models
 
+
 def remove_continue_duplicates(lst):
     if not lst:
         return []
@@ -430,10 +458,13 @@ def remove_continue_duplicates(lst):
             new_list.append(ele)
     return new_list
 
+
 sim_timeout = 300
 
 import heapq
-def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
+
+
+def check_bfs(virtual_model: Model, max_action_length=-1):
     global sim_timeout
     heap: list[BFSNode] = []
     heapq.heappush(heap, BFSNode(1, [], virtual_model))
@@ -443,11 +474,11 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
         node = heapq.heappop(heap)
         # util.LOGGER.debug(f"{[act.header() for act in node.actions]}")
         if node.model.full_goal_complete():
-            if (time.perf_counter() - start)*5 < sim_timeout:
+            if (time.perf_counter() - start) * 5 < sim_timeout:
                 sim_timeout = max(20, sim_timeout * 0.7)
             # print([act.header() for act in node.actions])
             return len(node.actions), [act.header() for act in node.actions]
-        
+
         if max_action_length > 0 and len(node.actions) == max_action_length:
             break
         successors = {}
@@ -469,12 +500,13 @@ def check_bfs(virtual_model: Model, max_action_length=-1) -> int:
                     continue
                 existed_epistemic_world.add(observe_funcs)
 
-                heapq.heappush(heap, 
-                            BFSNode(1,
-                                        node.actions + [succ],
-                                        next_model))
-    
+                heapq.heappush(heap,
+                               BFSNode(1,
+                                       node.actions + [succ],
+                                       next_model))
+
     return -1, -1
+
 
 class BFSNode:
     def __init__(self, current_index, action, model):
@@ -482,12 +514,12 @@ class BFSNode:
         self.actions: list[Action] = action[:]
         self.model: Model = model
         self.h = -1
-    
+
     @property
     def heuristic(self):
         if self.h >= 0:
             return self.h
-        
+
         # the number of goals that didn't achieve yet
         count = 0
         for agt in self.model.agents:
@@ -496,17 +528,18 @@ class BFSNode:
                     count += 1
         self.h = count
         return self.h
-    
+
     # @property
     # def priority(self):
     #     return len(self.actions) + (self.heuristic)
-    
+
     @property
     def priority(self):
         return len(self.actions) + (self.heuristic)
 
     def __lt__(self, other):
         return self.priority < other.priority
+
 
 def load_action_sequence(path: str, model: Model) -> list[Action]:
     path = f"models/{path}"
@@ -533,13 +566,14 @@ def load_action_sequence(path: str, model: Model) -> list[Action]:
                 new_action = Action.create_action(action_schema, params)
                 result.append([move_agent, new_action])
                 break
-    
+
     output = ""
     for action in result:
         output += f"{action[0]}: {action[1].header()}\n"
     LOGGER.info(f"Complete parsing the actions:\n{output}")
     print(f"Complete parsing the actions:\n{output}")
     return result
+
 
 class FinalFunctions:
     """
@@ -548,6 +582,7 @@ class FinalFunctions:
     The update of a function will now delete the function pointer from the original list and add a target function pointer to the list.
     Well, basically, this class maintains all possible functions.
     """
+
     def __init__(self):
         """
         the structure of the dict is:
@@ -560,11 +595,11 @@ class FinalFunctions:
             function_name2:
                 ...
         """
-        
+
         self.all: dict[str, dict[str, dict[str, Function]]] = {}
         self.id_add: dict[int, Function] = {}
         self.header_id_add: dict[int, list[Function]] = {}
-    
+
     def add_function(self, function: Function) -> None:
         # get the parameters of function
         # to make sure no order problem will happen during the "get" method, we should use frozenset
@@ -579,14 +614,14 @@ class FinalFunctions:
         if params not in self.all[function.name]:
             self.all[function.name][params] = {}
         self.all[function.name][params][str(function.value)] = function
-    
+
     def get_unknown_function(self, header_id: int) -> Function | None:
         if header_id in self.header_id_add:
             for function in self.header_id_add[header_id]:
                 if function.value == None:
                     return function
         return None
-    
+
     def get_function(self, function_name: str, parameters: dict[str, str], value: str) -> Function:
         params = f"{list(parameters.values())}"
         try:
@@ -594,13 +629,13 @@ class FinalFunctions:
             return result
         except KeyError:
             raise Exception(f"Function {function_name} with parameters {parameters} and value {value} is not found.")
-    
-    def get_function_with_cond(self, cond:Condition) -> Function:
+
+    def get_function_with_cond(self, cond: Condition) -> Function:
         return self.get_function(cond.condition_function_name, cond.condition_function_parameters, cond.value)
-    
+
     def get_function_with_id(self, id) -> Function:
         return self.id_add[id]
-    
+
     def get_functions_with_head_id(self, header_id: str) -> list[Function]:
         return self.header_id_add[header_id]
 
@@ -612,7 +647,6 @@ class FinalFunctions:
             for v3 in v2.values()
         ]
 
-
     def __str__(self):
         output = ""
         for function_name, function_dict in self.all.items():
@@ -622,6 +656,6 @@ class FinalFunctions:
                 for value, function in value_dict.items():
                     output += f"Value {value}: {function}\n"
         return output
-    
+
     def __repr__(self):
         return self.__str__()
