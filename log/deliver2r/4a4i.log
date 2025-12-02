@@ -1,0 +1,660 @@
+2025-12-02 17:35:21,811 INFO - __main__._.<module>:
+Start building the model, type: "True"
+2025-12-02 17:35:21,811 INFO - __main__._.build:
+Start building the model, type: "True"
+2025-12-02 17:35:21,811 INFO - __main__.DomainParser.run:
+Domain "models/deliver2r/domain.pddl" start initialization.
+2025-12-02 17:35:21,811 INFO - __main__.DomainParser.run:
+Domain Parser found "models/deliver2r/domain.pddl"
+2025-12-02 17:35:21,811 INFO - __main__.DomainParser.run:
+Complete file reading.
+2025-12-02 17:35:21,811 INFO - __main__.DomainParser.run:
+Domain name found
+2025-12-02 17:35:21,811 INFO - __main__.DomainParser.run:
+Domain type found
+2025-12-02 17:35:21,811 INFO - __main__.DomainParser.run:
+Domain functions found
+2025-12-02 17:35:21,812 INFO - __main__.DomainParser.run:
+Domain actions found
+2025-12-02 17:35:21,812 DEBUG - __main__.DomainParser.run:
+Parsed Domain Result:
+================= Domain "(deliver2r)" Parsing Result ================
+Domain types: ['item', 'agent']
+=================
+Domain functions:
+Function(name:agent_loc, parameters:{'agent': ['?a']}). 
+Function(name:item_id, parameters:{'item': ['?i']}). 
+Function(name:item_loc, parameters:{'item': ['?i']}). 
+Function(name:hold, parameters:{'agent': ['?a']}). 
+Function(name:is_free, parameters:{'item': ['?i']}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: move_right_without_item
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(hold: ['?self']) = nothing)
+2: Condition(Variable(agent_loc: ['?self']) = 1)
+Effects:
+1: Effect('increase' Variable(agent_loc: ['?self']) 1)
+
+-----------------
+Action:
+Name: move_left_without_item
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(hold: ['?self']) = nothing)
+2: Condition(Variable(agent_loc: ['?self']) = 2)
+Effects:
+1: Effect('decrease' Variable(agent_loc: ['?self']) 1)
+
+-----------------
+Action:
+Name: move_right_with_item
+Parameters:
+    agent : ['?self']
+    item : ['?i']
+Preconditions:
+1: Condition(Variable(item_id: ['?i']) != nothing)
+2: Condition(Variable(agent_loc: ['?self']) = 1)
+3: Condition(Variable(hold: ['?self']) = Variable(item_id: ['?i']))
+4: Condition(Variable(is_free: ['?i']) = 0)
+Effects:
+1: Effect('increase' Variable(agent_loc: ['?self']) 1)
+2: Effect('increase' Variable(item_loc: ['?i']) 1)
+
+-----------------
+Action:
+Name: move_left_with_item
+Parameters:
+    agent : ['?self']
+    item : ['?i']
+Preconditions:
+1: Condition(Variable(item_id: ['?i']) != nothing)
+2: Condition(Variable(agent_loc: ['?self']) = 2)
+3: Condition(Variable(hold: ['?self']) = Variable(item_id: ['?i']))
+4: Condition(Variable(is_free: ['?i']) = 0)
+Effects:
+1: Effect('decrease' Variable(agent_loc: ['?self']) 1)
+2: Effect('decrease' Variable(item_loc: ['?i']) 1)
+
+-----------------
+Action:
+Name: pick
+Parameters:
+    agent : ['?self']
+    item : ['?i']
+Preconditions:
+1: Condition(Variable(item_id: ['?i']) != nothing)
+2: Condition(Variable(agent_loc: ['?self']) = Variable(item_loc: ['?i']))
+3: Condition(Variable(hold: ['?self']) = nothing)
+4: Condition(Variable(is_free: ['?i']) = 1)
+Effects:
+1: Effect(effect_operator:'assign' Variable(hold: ['?self']) Variable(item_id: ['?i']))
+2: Effect('assign' Variable(is_free: ['?i']) 0)
+
+-----------------
+Action:
+Name: drop
+Parameters:
+    agent : ['?self']
+    item : ['?i']
+Preconditions:
+1: Condition(Variable(item_id: ['?i']) != nothing)
+2: Condition(Variable(hold: ['?self']) = Variable(item_id: ['?i']))
+3: Condition(Variable(is_free: ['?i']) = 0)
+Effects:
+1: Effect('assign' Variable(hold: ['?self']) nothing)
+2: Effect('assign' Variable(is_free: ['?i']) 1)
+
+
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Problem "models/deliver2r/4a4i" start initialization.
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.get_files:
+Problem folder found "models/deliver2r/4a4i"
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Found 4 agent files:
+"models/deliver2r/4a4i/b.agtpddl"
+"models/deliver2r/4a4i/a.agtpddl"
+"models/deliver2r/4a4i/c.agtpddl"
+"models/deliver2r/4a4i/d.agtpddl"
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Found init file: "models/deliver2r/4a4i/init.envpddl"
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Complete reading environment file.
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/deliver2r/4a4i/b.agtpddl"
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/deliver2r/4a4i/a.agtpddl"
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/deliver2r/4a4i/c.agtpddl"
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/deliver2r/4a4i/d.agtpddl"
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Problem domain name "deliver2r" found
+Problem name "2r4a4i" found
+2025-12-02 17:35:21,812 INFO - __main__.ProblemParser.run:
+Problem agents found
+2025-12-02 17:35:21,813 INFO - __main__.ProblemParser.run:
+Problem objects found
+2025-12-02 17:35:21,813 INFO - __main__.ProblemParser.run:
+Problem ranges found
+2025-12-02 17:35:21,813 INFO - __main__.ProblemParser.run:
+Problem initial states found
+2025-12-02 17:35:21,813 INFO - __main__.ProblemParser.run:
+Problem goals found
+2025-12-02 17:35:21,813 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         hold(a)=[all]
+        hold(b)=[all]
+        hold(c)=[all]
+        hold(d)=[all]
+
+2025-12-02 17:35:21,813 INFO - __main__.ProblemParser.run:
+Problem acceptable goal set found
+2025-12-02 17:35:21,813 INFO - __main__.ProblemParser.run:
+Problem max belief depth found
+2025-12-02 17:35:21,814 DEBUG - __main__.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(deliver2r : 2r4a4i)" Parsing Result ===========
+Agents: ['a', 'b', 'c', 'd']
+=================
+Objects:
+item: ['o1', 'o2', 'o3', 'o4', 'nothing']
+=================
+States:
+State(variable: Variable(agent_loc: ['a']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['b']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['c']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(agent_loc: ['d']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(item_id: ['o1']), value: o1, target_variable: Variable(None: []))
+State(variable: Variable(item_id: ['o2']), value: o2, target_variable: Variable(None: []))
+State(variable: Variable(item_id: ['o3']), value: o3, target_variable: Variable(None: []))
+State(variable: Variable(item_id: ['o4']), value: o4, target_variable: Variable(None: []))
+State(variable: Variable(item_id: ['nothing']), value: nothing, target_variable: Variable(None: []))
+State(variable: Variable(hold: ['a']), value: nothing, target_variable: Variable(None: []))
+State(variable: Variable(hold: ['b']), value: nothing, target_variable: Variable(None: []))
+State(variable: Variable(hold: ['c']), value: nothing, target_variable: Variable(None: []))
+State(variable: Variable(hold: ['d']), value: nothing, target_variable: Variable(None: []))
+State(variable: Variable(item_loc: ['o1']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(item_loc: ['o2']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(item_loc: ['o3']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(item_loc: ['o4']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(item_loc: ['nothing']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(is_free: ['o1']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(is_free: ['o2']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(is_free: ['o3']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(is_free: ['o4']), value: 1, target_variable: Variable(None: []))
+State(variable: Variable(is_free: ['nothing']), value: 1, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(hold: ['a']) = nothing))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(hold: ['b']) = nothing))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(hold: ['c']) = o3))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(hold: ['d']) = o4))
+-----------------
+b:
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(hold: ['a']) = nothing))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(hold: ['b']) = nothing))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(hold: ['c']) = o3))
+EpistemicCondition(Belief sequence: ['b'], epistemic truth: "= true", Condition(Variable(hold: ['d']) = o4))
+-----------------
+c:
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(hold: ['a']) = o1))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(hold: ['b']) = o2))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(hold: ['c']) = nothing))
+EpistemicCondition(Belief sequence: ['c'], epistemic truth: "= true", Condition(Variable(hold: ['d']) = nothing))
+-----------------
+d:
+EpistemicCondition(Belief sequence: ['d'], epistemic truth: "= true", Condition(Variable(hold: ['a']) = o1))
+EpistemicCondition(Belief sequence: ['d'], epistemic truth: "= true", Condition(Variable(hold: ['b']) = o2))
+EpistemicCondition(Belief sequence: ['d'], epistemic truth: "= true", Condition(Variable(hold: ['c']) = nothing))
+EpistemicCondition(Belief sequence: ['d'], epistemic truth: "= true", Condition(Variable(hold: ['d']) = nothing))
+=================
+Ranges:
+Range(function_name: agent_loc, type: integer, min: 1, max: 2)
+Range(function_name: item_id, type: enumerate, enumerates: ['o1', 'o2', 'o3', 'o4', 'nothing'])
+Range(function_name: item_loc, type: integer, min: 1, max: 2)
+Range(function_name: hold, type: enumerate, enumerates: ['o1', 'o2', 'o3', 'o4', 'nothing'])
+Range(function_name: is_free, type: integer, min: 0, max: 1)
+
+2025-12-02 17:35:21,814 INFO - __main__._.load_observation_function:
+Loaded observation function Deliver2rObsFunc to agent a
+2025-12-02 17:35:21,814 INFO - __main__._.load_observation_function:
+Loaded observation function Deliver2rObsFunc to agent b
+2025-12-02 17:35:21,814 INFO - __main__._.load_observation_function:
+Loaded observation function Deliver2rObsFunc to agent c
+2025-12-02 17:35:21,814 INFO - __main__._.load_observation_function:
+Loaded observation function Deliver2rObsFunc to agent d
+2025-12-02 17:35:21,815 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent a
+2025-12-02 17:35:21,815 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent b
+2025-12-02 17:35:21,815 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent c
+2025-12-02 17:35:21,815 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent d
+2025-12-02 17:35:21,815 INFO - __main__.Model.init:
+Loaded problem type: "SHARE"
+2025-12-02 17:35:21,817 DEBUG - __main__._.build_model:
+Model:
+================= Model Result================
+Domain name: deliver2r
+Problem name: 2r4a4i
+Problem type: "SHARE"
+=================
+Function agent_loc:
+Parameters ['a']:
+Value None: Function([id:1, header_id:1]  agent_loc {'?a': 'a'} = None)
+Value 1: Function([id:2, header_id:1]  agent_loc {'?a': 'a'} = 1)
+Value 2: Function([id:3, header_id:1]  agent_loc {'?a': 'a'} = 2)
+Parameters ['b']:
+Value None: Function([id:4, header_id:2]  agent_loc {'?a': 'b'} = None)
+Value 1: Function([id:5, header_id:2]  agent_loc {'?a': 'b'} = 1)
+Value 2: Function([id:6, header_id:2]  agent_loc {'?a': 'b'} = 2)
+Parameters ['c']:
+Value None: Function([id:7, header_id:3]  agent_loc {'?a': 'c'} = None)
+Value 1: Function([id:8, header_id:3]  agent_loc {'?a': 'c'} = 1)
+Value 2: Function([id:9, header_id:3]  agent_loc {'?a': 'c'} = 2)
+Parameters ['d']:
+Value None: Function([id:10, header_id:4]  agent_loc {'?a': 'd'} = None)
+Value 1: Function([id:11, header_id:4]  agent_loc {'?a': 'd'} = 1)
+Value 2: Function([id:12, header_id:4]  agent_loc {'?a': 'd'} = 2)
+Function item_id:
+Parameters ['o1']:
+Value None: Function([id:13, header_id:5]  item_id {'?i': 'o1'} = None)
+Value o1: Function([id:14, header_id:5]  item_id {'?i': 'o1'} = o1)
+Value o2: Function([id:15, header_id:5]  item_id {'?i': 'o1'} = o2)
+Value o3: Function([id:16, header_id:5]  item_id {'?i': 'o1'} = o3)
+Value o4: Function([id:17, header_id:5]  item_id {'?i': 'o1'} = o4)
+Value nothing: Function([id:18, header_id:5]  item_id {'?i': 'o1'} = nothing)
+Parameters ['o2']:
+Value None: Function([id:19, header_id:6]  item_id {'?i': 'o2'} = None)
+Value o1: Function([id:20, header_id:6]  item_id {'?i': 'o2'} = o1)
+Value o2: Function([id:21, header_id:6]  item_id {'?i': 'o2'} = o2)
+Value o3: Function([id:22, header_id:6]  item_id {'?i': 'o2'} = o3)
+Value o4: Function([id:23, header_id:6]  item_id {'?i': 'o2'} = o4)
+Value nothing: Function([id:24, header_id:6]  item_id {'?i': 'o2'} = nothing)
+Parameters ['o3']:
+Value None: Function([id:25, header_id:7]  item_id {'?i': 'o3'} = None)
+Value o1: Function([id:26, header_id:7]  item_id {'?i': 'o3'} = o1)
+Value o2: Function([id:27, header_id:7]  item_id {'?i': 'o3'} = o2)
+Value o3: Function([id:28, header_id:7]  item_id {'?i': 'o3'} = o3)
+Value o4: Function([id:29, header_id:7]  item_id {'?i': 'o3'} = o4)
+Value nothing: Function([id:30, header_id:7]  item_id {'?i': 'o3'} = nothing)
+Parameters ['o4']:
+Value None: Function([id:31, header_id:8]  item_id {'?i': 'o4'} = None)
+Value o1: Function([id:32, header_id:8]  item_id {'?i': 'o4'} = o1)
+Value o2: Function([id:33, header_id:8]  item_id {'?i': 'o4'} = o2)
+Value o3: Function([id:34, header_id:8]  item_id {'?i': 'o4'} = o3)
+Value o4: Function([id:35, header_id:8]  item_id {'?i': 'o4'} = o4)
+Value nothing: Function([id:36, header_id:8]  item_id {'?i': 'o4'} = nothing)
+Parameters ['nothing']:
+Value None: Function([id:37, header_id:9]  item_id {'?i': 'nothing'} = None)
+Value o1: Function([id:38, header_id:9]  item_id {'?i': 'nothing'} = o1)
+Value o2: Function([id:39, header_id:9]  item_id {'?i': 'nothing'} = o2)
+Value o3: Function([id:40, header_id:9]  item_id {'?i': 'nothing'} = o3)
+Value o4: Function([id:41, header_id:9]  item_id {'?i': 'nothing'} = o4)
+Value nothing: Function([id:42, header_id:9]  item_id {'?i': 'nothing'} = nothing)
+Function item_loc:
+Parameters ['o1']:
+Value None: Function([id:43, header_id:10]  item_loc {'?i': 'o1'} = None)
+Value 1: Function([id:44, header_id:10]  item_loc {'?i': 'o1'} = 1)
+Value 2: Function([id:45, header_id:10]  item_loc {'?i': 'o1'} = 2)
+Parameters ['o2']:
+Value None: Function([id:46, header_id:11]  item_loc {'?i': 'o2'} = None)
+Value 1: Function([id:47, header_id:11]  item_loc {'?i': 'o2'} = 1)
+Value 2: Function([id:48, header_id:11]  item_loc {'?i': 'o2'} = 2)
+Parameters ['o3']:
+Value None: Function([id:49, header_id:12]  item_loc {'?i': 'o3'} = None)
+Value 1: Function([id:50, header_id:12]  item_loc {'?i': 'o3'} = 1)
+Value 2: Function([id:51, header_id:12]  item_loc {'?i': 'o3'} = 2)
+Parameters ['o4']:
+Value None: Function([id:52, header_id:13]  item_loc {'?i': 'o4'} = None)
+Value 1: Function([id:53, header_id:13]  item_loc {'?i': 'o4'} = 1)
+Value 2: Function([id:54, header_id:13]  item_loc {'?i': 'o4'} = 2)
+Parameters ['nothing']:
+Value None: Function([id:55, header_id:14]  item_loc {'?i': 'nothing'} = None)
+Value 1: Function([id:56, header_id:14]  item_loc {'?i': 'nothing'} = 1)
+Value 2: Function([id:57, header_id:14]  item_loc {'?i': 'nothing'} = 2)
+Function hold:
+Parameters ['a']:
+Value None: Function([id:58, header_id:15]  hold {'?a': 'a'} = None)
+Value o1: Function([id:59, header_id:15]  hold {'?a': 'a'} = o1)
+Value o2: Function([id:60, header_id:15]  hold {'?a': 'a'} = o2)
+Value o3: Function([id:61, header_id:15]  hold {'?a': 'a'} = o3)
+Value o4: Function([id:62, header_id:15]  hold {'?a': 'a'} = o4)
+Value nothing: Function([id:63, header_id:15]  hold {'?a': 'a'} = nothing)
+Parameters ['b']:
+Value None: Function([id:64, header_id:16]  hold {'?a': 'b'} = None)
+Value o1: Function([id:65, header_id:16]  hold {'?a': 'b'} = o1)
+Value o2: Function([id:66, header_id:16]  hold {'?a': 'b'} = o2)
+Value o3: Function([id:67, header_id:16]  hold {'?a': 'b'} = o3)
+Value o4: Function([id:68, header_id:16]  hold {'?a': 'b'} = o4)
+Value nothing: Function([id:69, header_id:16]  hold {'?a': 'b'} = nothing)
+Parameters ['c']:
+Value None: Function([id:70, header_id:17]  hold {'?a': 'c'} = None)
+Value o1: Function([id:71, header_id:17]  hold {'?a': 'c'} = o1)
+Value o2: Function([id:72, header_id:17]  hold {'?a': 'c'} = o2)
+Value o3: Function([id:73, header_id:17]  hold {'?a': 'c'} = o3)
+Value o4: Function([id:74, header_id:17]  hold {'?a': 'c'} = o4)
+Value nothing: Function([id:75, header_id:17]  hold {'?a': 'c'} = nothing)
+Parameters ['d']:
+Value None: Function([id:76, header_id:18]  hold {'?a': 'd'} = None)
+Value o1: Function([id:77, header_id:18]  hold {'?a': 'd'} = o1)
+Value o2: Function([id:78, header_id:18]  hold {'?a': 'd'} = o2)
+Value o3: Function([id:79, header_id:18]  hold {'?a': 'd'} = o3)
+Value o4: Function([id:80, header_id:18]  hold {'?a': 'd'} = o4)
+Value nothing: Function([id:81, header_id:18]  hold {'?a': 'd'} = nothing)
+Function is_free:
+Parameters ['o1']:
+Value None: Function([id:82, header_id:19]  is_free {'?i': 'o1'} = None)
+Value 0: Function([id:83, header_id:19]  is_free {'?i': 'o1'} = 0)
+Value 1: Function([id:84, header_id:19]  is_free {'?i': 'o1'} = 1)
+Parameters ['o2']:
+Value None: Function([id:85, header_id:20]  is_free {'?i': 'o2'} = None)
+Value 0: Function([id:86, header_id:20]  is_free {'?i': 'o2'} = 0)
+Value 1: Function([id:87, header_id:20]  is_free {'?i': 'o2'} = 1)
+Parameters ['o3']:
+Value None: Function([id:88, header_id:21]  is_free {'?i': 'o3'} = None)
+Value 0: Function([id:89, header_id:21]  is_free {'?i': 'o3'} = 0)
+Value 1: Function([id:90, header_id:21]  is_free {'?i': 'o3'} = 1)
+Parameters ['o4']:
+Value None: Function([id:91, header_id:22]  is_free {'?i': 'o4'} = None)
+Value 0: Function([id:92, header_id:22]  is_free {'?i': 'o4'} = 0)
+Value 1: Function([id:93, header_id:22]  is_free {'?i': 'o4'} = 1)
+Parameters ['nothing']:
+Value None: Function([id:94, header_id:23]  is_free {'?i': 'nothing'} = None)
+Value 0: Function([id:95, header_id:23]  is_free {'?i': 'nothing'} = 0)
+Value 1: Function([id:96, header_id:23]  is_free {'?i': 'nothing'} = 1)
+
+=================
+Entity(a - agent)
+Entity(b - agent)
+Entity(c - agent)
+Entity(d - agent)
+Entity(o1 - item)
+Entity(o2 - item)
+Entity(o3 - item)
+Entity(o4 - item)
+Entity(nothing - item)
+=================
+FunctionSchema(name: agent_loc, range: (1, 2), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: item_id, range: ['o1', 'o2', 'o3', 'o4', 'nothing'], type: enumerate, require_parameters: {'?i': 'item'})
+FunctionSchema(name: item_loc, range: (1, 2), type: integer, require_parameters: {'?i': 'item'})
+FunctionSchema(name: hold, range: ['o1', 'o2', 'o3', 'o4', 'nothing'], type: enumerate, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: is_free, range: (0, 1), type: integer, require_parameters: {'?i': 'item'})
+=================
+-----------------
+Action Schema: move_right_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold {'?self': 'agent'}) = nothing)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_left_without_item
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold {'?self': 'agent'}) = nothing)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+
+-----------------
+Action Schema: move_right_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (item_id {'?i': 'item'}) = nothing)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold {'?self': 'agent'}) = (item_id {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("INCREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("INCREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: move_left_with_item
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (item_id {'?i': 'item'}) = nothing)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = 2)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold {'?self': 'agent'}) = (item_id {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("DECREASE" (agent_loc {'?self': 'agent'}) = 1)
+EffectSchema("DECREASE" (item_loc {'?i': 'item'}) = 1)
+
+-----------------
+Action Schema: pick
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (item_id {'?i': 'item'}) = nothing)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_loc {'?self': 'agent'}) = (item_loc {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold {'?self': 'agent'}) = nothing)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 1)
+Effect Schemas:
+EffectSchema("ASSIGN" (hold {'?self': 'agent'}) = (item_id {'?i': 'item'}))
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 0)
+
+-----------------
+Action Schema: drop
+Parameters: {'?self': 'agent', '?i': 'item'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (item_id {'?i': 'item'}) = nothing)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (hold {'?self': 'agent'}) = (item_id {'?i': 'item'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (is_free {'?i': 'item'}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (hold {'?self': 'agent'}) = nothing)
+EffectSchema("ASSIGN" (is_free {'?i': 'item'}) = 1)
+
+=================
+Function([id:2, header_id:1]  agent_loc {'?a': 'a'} = 1)
+Function([id:5, header_id:2]  agent_loc {'?a': 'b'} = 1)
+Function([id:8, header_id:3]  agent_loc {'?a': 'c'} = 1)
+Function([id:11, header_id:4]  agent_loc {'?a': 'd'} = 1)
+Function([id:14, header_id:5]  item_id {'?i': 'o1'} = o1)
+Function([id:21, header_id:6]  item_id {'?i': 'o2'} = o2)
+Function([id:28, header_id:7]  item_id {'?i': 'o3'} = o3)
+Function([id:35, header_id:8]  item_id {'?i': 'o4'} = o4)
+Function([id:42, header_id:9]  item_id {'?i': 'nothing'} = nothing)
+Function([id:63, header_id:15]  hold {'?a': 'a'} = nothing)
+Function([id:69, header_id:16]  hold {'?a': 'b'} = nothing)
+Function([id:75, header_id:17]  hold {'?a': 'c'} = nothing)
+Function([id:81, header_id:18]  hold {'?a': 'd'} = nothing)
+Function([id:44, header_id:10]  item_loc {'?i': 'o1'} = 1)
+Function([id:47, header_id:11]  item_loc {'?i': 'o2'} = 1)
+Function([id:50, header_id:12]  item_loc {'?i': 'o3'} = 1)
+Function([id:53, header_id:13]  item_loc {'?i': 'o4'} = 1)
+Function([id:56, header_id:14]  item_loc {'?i': 'nothing'} = 1)
+Function([id:84, header_id:19]  is_free {'?i': 'o1'} = 1)
+Function([id:87, header_id:20]  is_free {'?i': 'o2'} = 1)
+Function([id:90, header_id:21]  is_free {'?i': 'o3'} = 1)
+Function([id:93, header_id:22]  is_free {'?i': 'o4'} = 1)
+Function([id:96, header_id:23]  is_free {'?i': 'nothing'} = 1)
+=================
+Agent: a
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['a'] hold ['a'] = nothing)
+Condition(['a'] hold ['b'] = nothing)
+Condition(['a'] hold ['c'] = o3)
+Condition(['a'] hold ['d'] = o4)
+Other Goals:
+b:
+Condition(['b'] hold ['a'] = nothing)
+Condition(['b'] hold ['b'] = nothing)
+Condition(['b'] hold ['c'] = o3)
+Condition(['b'] hold ['d'] = o4)
+c:
+Condition(['c'] hold ['a'] = o1)
+Condition(['c'] hold ['b'] = o2)
+Condition(['c'] hold ['c'] = nothing)
+Condition(['c'] hold ['d'] = nothing)
+d:
+Condition(['d'] hold ['a'] = o1)
+Condition(['d'] hold ['b'] = o2)
+Condition(['d'] hold ['c'] = nothing)
+Condition(['d'] hold ['d'] = nothing)
+All Possible Goals:
+b:
+Condition(['b'] hold ['a'] = nothing)
+Condition(['b'] hold ['b'] = nothing)
+Condition(['b'] hold ['c'] = o3)
+Condition(['b'] hold ['d'] = o4)
+c:
+Condition(['c'] hold ['a'] = o1)
+Condition(['c'] hold ['b'] = o2)
+Condition(['c'] hold ['c'] = nothing)
+Condition(['c'] hold ['d'] = nothing)
+d:
+Condition(['d'] hold ['a'] = o1)
+Condition(['d'] hold ['b'] = o2)
+Condition(['d'] hold ['c'] = nothing)
+Condition(['d'] hold ['d'] = nothing)
+-----------------
+
+Agent: b
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['b'] hold ['a'] = nothing)
+Condition(['b'] hold ['b'] = nothing)
+Condition(['b'] hold ['c'] = o3)
+Condition(['b'] hold ['d'] = o4)
+Other Goals:
+a:
+Condition(['a'] hold ['a'] = nothing)
+Condition(['a'] hold ['b'] = nothing)
+Condition(['a'] hold ['c'] = o3)
+Condition(['a'] hold ['d'] = o4)
+c:
+Condition(['c'] hold ['a'] = o1)
+Condition(['c'] hold ['b'] = o2)
+Condition(['c'] hold ['c'] = nothing)
+Condition(['c'] hold ['d'] = nothing)
+d:
+Condition(['d'] hold ['a'] = o1)
+Condition(['d'] hold ['b'] = o2)
+Condition(['d'] hold ['c'] = nothing)
+Condition(['d'] hold ['d'] = nothing)
+All Possible Goals:
+a:
+Condition(['a'] hold ['a'] = nothing)
+Condition(['a'] hold ['b'] = nothing)
+Condition(['a'] hold ['c'] = o3)
+Condition(['a'] hold ['d'] = o4)
+c:
+Condition(['c'] hold ['a'] = o1)
+Condition(['c'] hold ['b'] = o2)
+Condition(['c'] hold ['c'] = nothing)
+Condition(['c'] hold ['d'] = nothing)
+d:
+Condition(['d'] hold ['a'] = o1)
+Condition(['d'] hold ['b'] = o2)
+Condition(['d'] hold ['c'] = nothing)
+Condition(['d'] hold ['d'] = nothing)
+-----------------
+
+Agent: c
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['c'] hold ['a'] = o1)
+Condition(['c'] hold ['b'] = o2)
+Condition(['c'] hold ['c'] = nothing)
+Condition(['c'] hold ['d'] = nothing)
+Other Goals:
+a:
+Condition(['a'] hold ['a'] = nothing)
+Condition(['a'] hold ['b'] = nothing)
+Condition(['a'] hold ['c'] = o3)
+Condition(['a'] hold ['d'] = o4)
+b:
+Condition(['b'] hold ['a'] = nothing)
+Condition(['b'] hold ['b'] = nothing)
+Condition(['b'] hold ['c'] = o3)
+Condition(['b'] hold ['d'] = o4)
+d:
+Condition(['d'] hold ['a'] = o1)
+Condition(['d'] hold ['b'] = o2)
+Condition(['d'] hold ['c'] = nothing)
+Condition(['d'] hold ['d'] = nothing)
+All Possible Goals:
+a:
+Condition(['a'] hold ['a'] = nothing)
+Condition(['a'] hold ['b'] = nothing)
+Condition(['a'] hold ['c'] = o3)
+Condition(['a'] hold ['d'] = o4)
+b:
+Condition(['b'] hold ['a'] = nothing)
+Condition(['b'] hold ['b'] = nothing)
+Condition(['b'] hold ['c'] = o3)
+Condition(['b'] hold ['d'] = o4)
+d:
+Condition(['d'] hold ['a'] = o1)
+Condition(['d'] hold ['b'] = o2)
+Condition(['d'] hold ['c'] = nothing)
+Condition(['d'] hold ['d'] = nothing)
+-----------------
+
+Agent: d
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['d'] hold ['a'] = o1)
+Condition(['d'] hold ['b'] = o2)
+Condition(['d'] hold ['c'] = nothing)
+Condition(['d'] hold ['d'] = nothing)
+Other Goals:
+a:
+Condition(['a'] hold ['a'] = nothing)
+Condition(['a'] hold ['b'] = nothing)
+Condition(['a'] hold ['c'] = o3)
+Condition(['a'] hold ['d'] = o4)
+b:
+Condition(['b'] hold ['a'] = nothing)
+Condition(['b'] hold ['b'] = nothing)
+Condition(['b'] hold ['c'] = o3)
+Condition(['b'] hold ['d'] = o4)
+c:
+Condition(['c'] hold ['a'] = o1)
+Condition(['c'] hold ['b'] = o2)
+Condition(['c'] hold ['c'] = nothing)
+Condition(['c'] hold ['d'] = nothing)
+All Possible Goals:
+a:
+Condition(['a'] hold ['a'] = nothing)
+Condition(['a'] hold ['b'] = nothing)
+Condition(['a'] hold ['c'] = o3)
+Condition(['a'] hold ['d'] = o4)
+b:
+Condition(['b'] hold ['a'] = nothing)
+Condition(['b'] hold ['b'] = nothing)
+Condition(['b'] hold ['c'] = o3)
+Condition(['b'] hold ['d'] = o4)
+c:
+Condition(['c'] hold ['a'] = o1)
+Condition(['c'] hold ['b'] = o2)
+Condition(['c'] hold ['c'] = nothing)
+Condition(['c'] hold ['d'] = nothing)
+-----------------
+
+
+2025-12-02 17:35:21,817 INFO - __main__._.<module>:
+Model built successfully.

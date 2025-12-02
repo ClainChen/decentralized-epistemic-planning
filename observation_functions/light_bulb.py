@@ -7,7 +7,7 @@ LOGGER_LEVEL = logging.DEBUG
 
 class LightBulbObsFunc(AbstractObservationFunction):
 
-    def get_observable_functions(self, model, functions, agent_name):
+    def get_observable_functions(self, functions, agent_name, all_funcs, ontic_functions):
         """
         - Common Knowledge: agent_id, light_id, tell_lock, telling, a_observable
         1. Agent A:
@@ -26,7 +26,7 @@ class LightBulbObsFunc(AbstractObservationFunction):
         button_states = {}
         button_light_relation = {}
         connect_relation = {}
-        for func in model.ontic_functions:
+        for func in ontic_functions:
             if func.name == 'light_state':
                 light_states[func.parameters['?l']] = func
             elif func.name == 'button_light_state':

@@ -10,42 +10,31 @@ class Deliver2rRules(AbstractRules):
     verification_cache = {}
 
     def check_functions(self, functions: list[Function]):
-        """
-        1. if hold_by ?i ?a = 1, then holding ?a = 1 and is_free ?i = 0, and this agent cannot hold any other item, and this item cannot be held by any other agent.
-        2. if holding ?a = 1, then there must have one hold_by ?i ?a = 1
-        3. if is_free ?i = 1, then there must all hold_by ?i ?a = 0
-        4. if agent_loc ?a = ?v and hold_by ?i ?a = 1, then item_loc ?i = ?v
-        5. if item_loc ?i = ?v and hold_by ?i ?a = 1, then agent_loc ?a = ?v
-        """
-
         agent_loc_funcs = []
         item_loc_funcs = []
-        holding_funcs = []
-        hold_by_funcs = []
-        is_free_funcs = []
+        hold_funcs = []
+        is_free_funcs = {}
         for func in functions:
             if func.name == 'agent_loc':
                 agent_loc_funcs.append(func)
             elif func.name == 'item_loc':
                 item_loc_funcs.append(func)
-            elif func.name == 'holding':
-                holding_funcs.append(func)
-            elif func.name == 'hold_by':
-                hold_by_funcs.append(func)
+            elif func.name == 'hold':
+                hold_funcs.append(func)
             elif func.name == 'is_free':
-                is_free_funcs.append(func)
+                is_free_funcs[func.parameters['?i']] = func.value
 
         # get the location of the agent and item
-        agent_loc = {}
+        agent_locs = {}
         agents = []
-        item_loc = {}
+        item_locs = {}
         items = []
 
         for function in agent_loc_funcs:
             if function.parameters['?a'] not in agents:
                 agents.append(function.parameters['?a'])
-            if function.parameters['?a'] not in agent_loc:
-                agent_loc[function.parameters['?a']] = function.value
+            if function.parameters['?a'] not in agent_locs:
+                agent_locs[function.parameters['?a']] = function.value
             else:
                 # util.LOGGER.info(f"Agent {function.parameters['?a']} has multiple locations")
                 return False
@@ -54,144 +43,29 @@ class Deliver2rRules(AbstractRules):
         for function in item_loc_funcs:
             if function.parameters['?i'] not in items:
                 items.append(function.parameters['?i'])
-            if function.parameters['?i'] not in item_loc:
-                item_loc[function.parameters['?i']] = function.value
+            if function.parameters['?i'] not in item_locs:
+                item_locs[function.parameters['?i']] = function.value
             else:
                 # util.LOGGER.info(f"Item {function.parameters['?i']} has multiple locations")
                 return False
 
 
-        if len(agents) != len(agent_loc) or len(items) != len(item_loc):
+        if len(agents) != len(agent_locs) or len(items) != len(item_locs):
             # util.LOGGER.info("Not all agents and items have locations")
             return False
-        
-        # If agent holding is true, there must have one hold by agent item is true
-        for holding_func in holding_funcs:
-            count_hold_by = 0
-            for hold_by_func in hold_by_funcs:
-                if (holding_func.parameters['?a'] == hold_by_func.parameters['?a']
-                    and hold_by_func.value == 1):
-                    count_hold_by += 1
-            if (count_hold_by > 1
-                or (holding_func.value == 1 and count_hold_by == 0)
-                or (holding_func.value == 0 and count_hold_by != 0)):
-                # util.LOGGER.info(f"holding functions has invalid settings")
-                return False
 
         
-        #if hold by is true, then:
+        # if hold is true, then:
         # 1. agent and item must be in the same room.
-        # 2. agent must holding item = 1
-        # 3. item must is free = 0
-        # 4. there must not have another agent holding the same item
-        for hold_by_func in hold_by_funcs:
-            if hold_by_func.value == 1:
-                if agent_loc[hold_by_func.parameters['?a']] != item_loc[hold_by_func.parameters['?i']]:
-                    # util.LOGGER.info(f"hold by functions has invalid settings")
-                    return False
-                for hold_by_func2 in hold_by_funcs:
-                    if (hold_by_func2.value == 1
-                        and hold_by_func2.parameters['?a'] != hold_by_func.parameters['?a']
-                        and hold_by_func2.parameters['?i'] == hold_by_func.parameters['?i']):
-                        # util.LOGGER.info(f"hold by functions has invalid settings")
-                        return False
-                for holding_func in holding_funcs:
-                    if (holding_func.parameters['?a'] == hold_by_func.parameters['?a']
-                        and holding_func.value == 0):
-                        # util.LOGGER.info(f"hold by functions has invalid settings")
-                        return False
-                for is_free_func in is_free_funcs:
-                    if (is_free_func.parameters['?i'] == hold_by_func.parameters['?i']
-                        and is_free_func.value == 1):
-                        # util.LOGGER.info(f"hold by functions has invalid settings")
-                        return False
-        
-        # if is free is true, then no agent holds the item
-        for is_free_func in is_free_funcs:
-            count = 0
-            for hold_by_func in hold_by_funcs:
-                if (hold_by_func.parameters['?i'] == is_free_func.parameters['?i']
-                    and hold_by_func.value == 1):
-                    count += 1
-            if ((is_free_func.value == 1 and count != 0)
-                or (is_free_func.value == 0 and count == 0)):
-                # util.LOGGER.info(f"is free functions has invalid settings")
+        # 2. item must is free = 0 unless it is a nothing
+        # 3. there must not have another agent holding the same item unless it is a nothing
+        for hold_func in hold_funcs:
+            agt = hold_func.parameters['?a']
+            agt_loc = agent_locs[agt]
+            item = hold_func.value
+            item_loc = item_locs[item]
+            item_is_free = is_free_funcs[item] == 1
+            if item != 'nothing' and (item_is_free or (agt_loc != item_loc)):
                 return False
 
         return True
-    
-    def belongs_to(self, function: Function):
-        # now only consider the belonging of 'hold_by'
-        return function.parameters['?a']
-    
-    def companion_funcs(self, func: Function, model:Model) -> list[Function]:
-        result = []
-        if func.name == 'hold_by':
-            if func.value == 1:
-                cur_agt = func.parameters['?a']
-                for agt in model.get_all_agent_names():
-                    if agt != cur_agt:
-                        func_param = {'?i': func.parameters['?i'], '?a': agt}
-                        result.append(model.ALL_FUNCS.get_function(func.name, func_param, "0"))
-        return result + [func]
-    
-    def check_valid_pair(self, cond1: Condition, cond2: Condition, model: Model):
-        # related functions of condition 1
-        rela1 = set(cond1.belief_sequence)
-        func1 = model.ALL_FUNCS.get_function(cond1.condition_function_name, cond1.condition_function_parameters, cond1.value)
-        if func1.id not in self.compain_cache:
-            self.compain_cache[func1.id] = [f.id for f in self.companion_funcs(func1, model)]
-        for id in self.compain_cache[func1.id]:
-            func = model.ALL_FUNCS.get_function_with_id(id)
-            rela1.add(self.belongs_to(func))
-        
-        # related functions of condition 2
-        rela2 = set(cond2.belief_sequence)
-        func2 = model.ALL_FUNCS.get_function(cond2.condition_function_name, cond2.condition_function_parameters, cond2.value)
-        if func2.id not in self.compain_cache:
-            self.compain_cache[func2.id] = [f.id for f in self.companion_funcs(func2, model)]
-        for id in self.compain_cache[func2.id]:
-            func = model.ALL_FUNCS.get_function_with_id(id)
-            rela2.add(self.belongs_to(func))
-        
-        # if the included agent are different, then they are not related
-        if rela1 != rela2:
-            self.verification_cache[frozenset([cond1, cond2])] = True
-            return True
-        
-        # if the included agent are the same, do further verification
-        funcs = self.compain_cache[func1.id] + self.compain_cache[func2.id]
-        for i in range(len(funcs) - 1):
-            for j in range(i + 1, len(funcs)):
-                id1 = funcs[i]
-                id2 = funcs[j]
-                
-                fs = frozenset([id1, id2])
-                if fs in self.verification_cache:
-                    if self.verification_cache[fs]:
-                        continue
-                    return False
-
-                func1 = model.ALL_FUNCS.get_function_with_id(id1)
-                func2 = model.ALL_FUNCS.get_function_with_id(id2)
-                # different agent carrying the same item
-                if (func1.value == 1 and 
-                    func2.value == 1 and 
-                    func1.parameters['?a'] != func2.parameters['?a'] and 
-                    func1.parameters['?i'] == func2.parameters['?i']):
-                    self.verification_cache[fs] = False
-                    return False
-                
-                # same agent, hi = 1 and hi = 0 in the same time
-                if (func1.value != func2.value and 
-                    func1.parameters['?a'] == func2.parameters['?a'] and 
-                    func1.parameters['?i'] == func2.parameters['?i']):
-                    self.verification_cache[fs] = False
-                    return False
-
-                self.verification_cache[fs] = True
-        return True
-
-
-        
-

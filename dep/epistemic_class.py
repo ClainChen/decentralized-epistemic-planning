@@ -729,12 +729,15 @@ class Model:
         return [history['functions'] for history in self.history] + [self.ontic_functions]
 
     def get_functions_of_agent(self, agent_name: str) -> list[Function]:
-        return util.OBS_FUNC[agent_name].get_observable_functions(self, self.ontic_functions, agent_name)
+        return util.OBS_FUNC[agent_name].get_observable_functions(self.ALL_FUNCS, self.ontic_functions, self.ALL_FUNCS,
+                                                                  self.ontic_functions)
 
     def get_history_functions_of_agent(self, agent_name: str) -> list[list[Function]]:
         result = []
         for history in self.history:
-            result.append(util.OBS_FUNC[agent_name].get_observable_functions(self, history['functions'], agent_name))
+            result.append(
+                util.OBS_FUNC[agent_name].get_observable_functions(history['functions'], agent_name, self.ALL_FUNCS,
+                                                                   self.ontic_functions))
         return result
 
     def get_next_agent(self, current_agent: str) -> str:
@@ -760,8 +763,10 @@ class Model:
                 continue
             if not agent.consider_E:
                 continue
-            if last_agent not in util.OBS_FUNC[agent.name].get_observable_agents(self, self.ontic_functions,
-                                                                                 agent.name):
+            if (last_agent not in
+                    util.OBS_FUNC[agent.name].get_observable_agents(self,
+                                                                    self.ontic_functions,
+                                                                    agent.name)):
                 continue
             agent_last_jp_world = [f.id for f in util.get_epistemic_world(self, [agent.name])]
             hash_set_agent_last_jp_world = frozenset(agent_last_jp_world)
@@ -814,8 +819,7 @@ class Model:
     def move(self, agent_name: str, action: Action):
         history = {'functions': self.ontic_functions[:],
                    'agent': agent_name,
-                   'action': action,
-                   'signal': {agent.name: agent.complete_signal for agent in self.agents}}
+                   'action': action}
         self.history.append(history)
         for effect in action.effect:
             self.update_functions(effect)
@@ -900,7 +904,6 @@ class Model:
             result += f"Step {i + 1}:\n"
             history = self.history[i]
             result += f"{history['agent']}: {history['action'].header()}\n"
-            result += f"{history['signal']}\n"
             result += f"{util.SMALL_DIVIDER}"
         return result
 

@@ -5,7 +5,7 @@ from abstracts import AbstractObservationFunction
 LOGGER_LEVEL = logging.DEBUG
 
 class ConsecutiveNumberObsFunc(AbstractObservationFunction):
-    def get_observable_functions(self, model, functions, agent_name):
+    def get_observable_functions(self, functions, agent_name, all_funcs, ontic_functions):
         agent_num = -1
         min = -1
         max = -1

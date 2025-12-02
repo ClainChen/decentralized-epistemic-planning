@@ -6,17 +6,7 @@ from abstracts import AbstractObservationFunction
 LOGGER_LEVEL = logging.DEBUG
 
 class Deliver2rObsFunc(AbstractObservationFunction):
-
-    def get_observable_functions(self, model: Model, functions: list[Function], agent_name: str) -> list[Function]:
-        """
-        Get all observable functions for an agent based on the given ontic_functions\n
-        
-        Agent's own observable functions:\n
-        1. agent knows all functions in the same room with them.
-        2. agent knows all other agent's room and all item's room.
-        3. if agent knows an item is in the same room with agent, then he knows whether or not this item is holding by the agent.
-        4. if all items are in the same room with agent, then agent knows all agents in another room is not holding any item.
-        """
+    def get_observable_functions(self, functions: list[Function], agent_name: str, all_funcs, ontic_functions) -> list[Function]:
         observable_functions = set()
         agent_at_room = {}
         item_at_room = {}
@@ -26,32 +16,29 @@ class Deliver2rObsFunc(AbstractObservationFunction):
                 if function.name == 'agent_loc':
                     agent_at_room[function.parameters['?a']] = function.value
                     observable_functions.add(function)
+                elif function.name == 'item_id':
+                    observable_functions.add(function)
 
             for function in functions:
                 if function.name == 'item_loc':
                     item_at_room[function.parameters['?i']] = function.value
                     observable_functions.add(function)
-                    if function.value != agent_at_room[agent_name]:
+                    if function.parameters['?i'] != 'nothing' and function.value != agent_at_room[agent_name]:
                         all_item_in_same_room = False
 
             # util.LOGGER.debug(f"agent at room: {agent_at_room}\nitem at room: {item_at_room}")
 
             for function in functions:
-                if function.name == 'holding':
+                if function.name == 'hold':
                     # check whether the holding agent is at the same room as current agent
                     if (all_item_in_same_room
                         or agent_at_room[function.parameters['?a']] == agent_at_room[agent_name]):
                         observable_functions.add(function)
 
-                elif function.name == 'hold_by':
-                    # check whether the holding agent is at the same room as current agent
-                    if (agent_at_room[function.parameters['?a']] == agent_at_room[agent_name]
-                        or item_at_room[function.parameters['?i']] == agent_at_room[agent_name]):
-                        observable_functions.add(function)
-
                 elif function.name == 'is_free':
                     # check whether the item is at the same room as current agent
-                    if item_at_room[function.parameters['?i']] == agent_at_room[agent_name]:
+                    if (function.parameters['?i'] == 'nothing' or
+                            item_at_room[function.parameters['?i']] == agent_at_room[agent_name]):
                         observable_functions.add(function)
             
             return list(observable_functions)

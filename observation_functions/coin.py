@@ -4,7 +4,7 @@ from abstracts import AbstractObservationFunction
 LOGGER_LEVEL = logging.DEBUG
 
 class CoinObsFunc(AbstractObservationFunction):
-    def get_observable_functions(self, model, functions, agent_name):
+    def get_observable_functions(self, functions, agent_name, all_funcs, ontic_functions):
         """
         When agent is peeking, he can see everything.
         When agent is not peeking, he can see only other agent's peeking state.

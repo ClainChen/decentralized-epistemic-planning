@@ -6,7 +6,7 @@ import util
 THIS_LOGGER_LEVEL = logging.DEBUG
 
 class DeliverRules(AbstractRules):
-    
+
     def check_functions(self, functions: list[Function]):
         """
         1. if hold_by ?i ?a = 1, then holding ?a = 1 and is_free ?i = 0, and this agent cannot hold any other item, and this item cannot be held by any other agent.
@@ -43,7 +43,7 @@ class DeliverRules(AbstractRules):
             s.add(func.value)
             if len(s) == before:
                 return False
-        
+
         agent_loc = {func.parameters['?a']: func.value for func in agent_loc_funcs}
         item_loc = {func.parameters['?i']: func.value for func in item_loc_funcs}
 
@@ -53,14 +53,14 @@ class DeliverRules(AbstractRules):
             count_hold_by = 0
             for hold_by_func in hold_by_funcs:
                 if (holding_func.parameters['?a'] == hold_by_func.parameters['?a']
-                    and hold_by_func.value == 1):
+                        and hold_by_func.value == 1):
                     count_hold_by += 1
             if (count_hold_by > 1
-                or (holding_func.value == 1 and count_hold_by == 0)
-                or (holding_func.value == 0 and count_hold_by == 1)):
+                    or (holding_func.value == 1 and count_hold_by == 0)
+                    or (holding_func.value == 0 and count_hold_by == 1)):
                 return False
 
-       
+
         # if hold by is true, then:
         # 1. agent and item must be in the same room.
         # 2. agent must be holding item = 1
@@ -71,26 +71,25 @@ class DeliverRules(AbstractRules):
                     return False
                 for holding_func in holding_funcs:
                     if (holding_func.parameters['?a'] == hold_by_func.parameters['?a']
-                        and holding_func.value == 0):
+                            and holding_func.value == 0):
                         return False
                 for is_free_func in is_free_funcs:
                     if (is_free_func.parameters['?i'] == hold_by_func.parameters['?i']
-                        and is_free_func.value == 1):
+                            and is_free_func.value == 1):
                         return False
-        
+
         # if is free is true, then no agent holds the item
         for is_free_func in is_free_funcs:
             count = 0
             for hold_by_func in hold_by_funcs:
                 if (hold_by_func.parameters['?i'] == is_free_func.parameters['?i']
-                    and hold_by_func.value == 1):
+                        and hold_by_func.value == 1):
                     count += 1
             if ((is_free_func.value == 1 and count != 0)
-                or (is_free_func.value == 0 and count == 0)):
+                    or (is_free_func.value == 0 and count == 0)):
                 return False
 
         return True
-
 
 
 

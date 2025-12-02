@@ -29,7 +29,6 @@ LIMIT = 2
 
 logging.addLevelName(25, "EXP")
 
-
 def exp(self, message, *args, **kws):
     if self.isEnabledFor(25):
         self._log(25, message, args, **kws)
@@ -267,7 +266,7 @@ def is_valid_action(model: Model, action: Action) -> bool:
 
 
 def check_condition(model: Model, condition: Condition):
-    epistemic_world_functions = get_epistemic_world(model, condition.belief_sequence, goal_filter=False)
+    epistemic_world_functions = get_epistemic_world(model, condition.belief_sequence)
     return check_regular_condition(condition, epistemic_world_functions)
 
 
@@ -415,8 +414,7 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     for history, ts in zip(virtual_model.history, range(len(virtual_model.history))):
         new_history = {'functions': get_epistemic_world(virtual_model, [agent_name], ts=ts),
                        'agent': history['agent'],
-                       'action': history['action'],
-                       'signal': history['signal']}
+                       'action': history['action']}
         new_history_functions.append(new_history)
     virtual_model.history = new_history_functions
 

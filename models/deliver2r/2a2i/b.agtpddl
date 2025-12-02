@@ -1,0 +1,11 @@
+(define
+    (problem 2r2a2i)
+    (:domain deliver2r)
+    (:agent b)
+
+    (:goal (and
+        (= (@ep (" b [b]") (= (hold a) o1)) ep.true)
+        (= (@ep (" b [b]") (= (hold b) o2)) ep.true)
+        )
+    )
+)
