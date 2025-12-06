@@ -1,0 +1,42 @@
+-------------------
+Centralized Planning Result:
+Time spent: 0.011625s
+Number of Expansions: 18
+Path Length: 5
+Path: ["peek(['a'])", "peek(['b'])", "flip_up(['a', 'c1'])", "return(['b'])", "flip_down(['a', 'c1'])"]
+-------------------
+1th Simulation:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+2th Simulation:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+3th Simulation:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+4th Simulation:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+5th Simulation:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: return(['b'])
+a takes action: flip_down(['a', 'c1'])
+Avg Steps: 5.0
+Avg Time: 0.049220s
+Avg VMS: 7.0
+Avg Call of JP: 376.0
+

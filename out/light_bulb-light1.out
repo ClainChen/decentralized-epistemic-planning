@@ -1,0 +1,36 @@
+-------------------
+Centralized Planning Result:
+Time spent: 0.198314s
+Number of Expansions: 71
+Path Length: 7
+Path: ["press_on_button(['a', 'b1'])", "change_light_state(['external', 'b1', 'l1', 'on'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b2'])", "change_light_state(['external', 'b2', 'l2', 'on'])", "tell(['c', 'l2'])"]
+-------------------
+1th Simulation:
+a takes action: press_on_button(['a', 'b2'])
+external takes action: change_light_state(['external', 'b2', 'l2', 'on'])
+b takes action: normal_stay(['b'])
+c takes action: tell(['c', 'l2'])
+a takes action: lock_stay(['a'])
+external takes action: lock_stay(['external'])
+b takes action: lock_stay(['b'])
+c takes action: quiet(['c', 'l2'])
+a takes action: press_on_button(['a', 'b1'])
+external takes action: change_light_state(['external', 'b1', 'l1', 'on'])
+b takes action: tell(['b', 'l1'])
+2th Simulation:
+a takes action: press_on_button(['a', 'b2'])
+external takes action: change_light_state(['external', 'b2', 'l2', 'on'])
+b takes action: normal_stay(['b'])
+c takes action: tell(['c', 'l2'])
+a takes action: lock_stay(['a'])
+external takes action: lock_stay(['external'])
+b takes action: lock_stay(['b'])
+c takes action: quiet(['c', 'l2'])
+a takes action: press_on_button(['a', 'b1'])
+external takes action: change_light_state(['external', 'b1', 'l1', 'on'])
+b takes action: tell(['b', 'l1'])
+Avg Steps: 11.0
+Avg Time: 3.360897s
+Avg VMS: 30.0
+Avg Call of JP: 4321.5
+

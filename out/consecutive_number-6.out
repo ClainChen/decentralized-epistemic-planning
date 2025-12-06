@@ -1,0 +1,57 @@
+-------------------
+Centralized Planning Result:
+Time spent: 0.004663s
+Number of Expansions: 11
+Path Length: 8
+Path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['a', 'b'])", "say_known(['b', 'a'])"]
+-------------------
+1th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+2th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+3th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+4th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+5th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+Avg Steps: 8.0
+Avg Time: 0.016970s
+Avg VMS: 14.0
+Avg Call of JP: 35.2
+

@@ -1,0 +1,42 @@
+-------------------
+Centralized Planning Result:
+Time spent: 0.036660s
+Number of Expansions: 35
+Path Length: 4
+Path: ["pick(['a', 'o1'])", "move_right_with_item(['a', 'o1'])", "drop(['a', 'o1'])", "pick(['b', 'o2'])"]
+-------------------
+1th Simulation:
+a takes action: pick(['a', 'o1'])
+b takes action: stay(['b'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: pick(['b', 'o2'])
+a takes action: drop(['a', 'o1'])
+2th Simulation:
+a takes action: pick(['a', 'o1'])
+b takes action: stay(['b'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: pick(['b', 'o2'])
+a takes action: drop(['a', 'o1'])
+3th Simulation:
+a takes action: pick(['a', 'o1'])
+b takes action: stay(['b'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: pick(['b', 'o2'])
+a takes action: drop(['a', 'o1'])
+4th Simulation:
+a takes action: pick(['a', 'o1'])
+b takes action: stay(['b'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: pick(['b', 'o2'])
+a takes action: drop(['a', 'o1'])
+5th Simulation:
+a takes action: pick(['a', 'o1'])
+b takes action: stay(['b'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: pick(['b', 'o2'])
+a takes action: drop(['a', 'o1'])
+Avg Steps: 5.0
+Avg Time: 0.234401s
+Avg VMS: 5.0
+Avg Call of JP: 463.4
+

@@ -1,0 +1,60 @@
+-------------------
+Centralized Planning Result:
+Time spent: 6.055636s
+Number of Expansions: 1543
+Path Length: 8
+Path: ["pick(['a', 'o1'])", "pick(['c', 'o3'])", "move_right_with_item(['c', 'o3'])", "drop(['c', 'o3'])", "pick(['b', 'o2'])", "move_right_with_item(['b', 'o2'])", "drop(['b', 'o2'])", "drop(['a', 'o1'])"]
+-------------------
+1th Simulation:
+a takes action: pick(['a', 'o1'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+2th Simulation:
+a takes action: stay(['a'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: pick(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: move_right_with_item(['c', 'o3'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+3th Simulation:
+a takes action: pick(['a', 'o1'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+4th Simulation:
+a takes action: stay(['a'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: pick(['a', 'o1'])
+b takes action: move_right_with_item(['b', 'o2'])
+c takes action: move_right_with_item(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+5th Simulation:
+a takes action: stay(['a'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: pick(['a', 'o1'])
+b takes action: move_right_with_item(['b', 'o2'])
+c takes action: move_right_with_item(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+Avg Steps: 8.6
+Avg Time: 12.910271s
+Avg VMS: 8.6
+Avg Call of JP: 18552.6
+

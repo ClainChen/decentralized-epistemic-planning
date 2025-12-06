@@ -1,0 +1,62 @@
+-------------------
+Centralized Planning Result:
+Time spent: 0.004854s
+Number of Expansions: 11
+Path Length: 8
+Path: ["say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_unknown(['a'])", "say_known(['b', 'a'])", "say_known(['a', 'b'])"]
+-------------------
+1th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+2th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+3th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+4th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+5th Simulation:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Avg Steps: 9.0
+Avg Time: 0.021423s
+Avg VMS: 16.0
+Avg Call of JP: 49.2
+

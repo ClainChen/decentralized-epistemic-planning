@@ -1,0 +1,77 @@
+-------------------
+Centralized Planning Result:
+Time spent: 0.002600s
+Number of Expansions: 5
+Path Length: 3
+Path: ["ask(['t'])", "ask(['t'])", "ask(['t'])"]
+-------------------
+1th Simulation:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+2th Simulation:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: say_yes(['c'])
+t takes action: ask(['t'])
+3th Simulation:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: say_yes(['c'])
+t takes action: ask(['t'])
+4th Simulation:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: say_yes(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+5th Simulation:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: say_yes(['c'])
+t takes action: ask(['t'])
+Avg Steps: 12.0
+Avg Time: 0.002938s
+Avg VMS: 1.8
+Avg Call of JP: 9.2
+

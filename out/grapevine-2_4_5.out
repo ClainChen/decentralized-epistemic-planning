@@ -1,0 +1,42 @@
+-------------------
+Centralized Planning Result:
+Time spent: 0.011194s
+Number of Expansions: 14
+Path Length: 4
+Path: ["sharing_own_secret(['a', 'as'])", "quiet(['a', 'as'])", "move_right(['b'])", "lying_own_secret(['a', 'as'])"]
+-------------------
+1th Simulation:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+2th Simulation:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+3th Simulation:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+4th Simulation:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+5th Simulation:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+Avg Steps: 5.0
+Avg Time: 0.043582s
+Avg VMS: 4.0
+Avg Call of JP: 82.4
+

@@ -1,0 +1,60 @@
+-------------------
+Centralized Planning Result:
+Time spent: 0.228262s
+Number of Expansions: 124
+Path Length: 5
+Path: ["move_without_item(['b', 'r2', 'r3'])", "move_without_item(['a', 'r1', 'r3'])", "pick_up(['a', 'i', 'r3'])", "move_without_item(['b', 'r3', 'r2'])", "drop_item(['a', 'i'])"]
+-------------------
+1th Simulation:
+a takes action: move_without_item(['a', 'r1', 'r3'])
+b takes action: move_without_item(['b', 'r2', 'r1'])
+a takes action: pick_up(['a', 'i', 'r3'])
+b takes action: move_without_item(['b', 'r1', 'r3'])
+a takes action: move_with_item(['a', 'i', 'r3', 'r1'])
+b takes action: move_without_item(['b', 'r3', 'r2'])
+a takes action: drop_item(['a', 'i'])
+2th Simulation:
+a takes action: move_without_item(['a', 'r1', 'r3'])
+b takes action: move_without_item(['b', 'r2', 'r1'])
+a takes action: pick_up(['a', 'i', 'r3'])
+b takes action: move_without_item(['b', 'r1', 'r3'])
+a takes action: move_with_item(['a', 'i', 'r3', 'r1'])
+b takes action: move_without_item(['b', 'r3', 'r2'])
+a takes action: drop_item(['a', 'i'])
+3th Simulation:
+a takes action: move_without_item(['a', 'r1', 'r3'])
+b takes action: move_without_item(['b', 'r2', 'r3'])
+a takes action: pick_up(['a', 'i', 'r3'])
+b takes action: move_without_item(['b', 'r3', 'r2'])
+a takes action: move_with_item(['a', 'i', 'r3', 'r2'])
+b takes action: move_without_item(['b', 'r2', 'r1'])
+a takes action: move_with_item(['a', 'i', 'r2', 'r3'])
+b takes action: stay(['b'])
+a takes action: drop_item(['a', 'i'])
+4th Simulation:
+a takes action: move_without_item(['a', 'r1', 'r2'])
+b takes action: move_without_item(['b', 'r2', 'r1'])
+a takes action: move_without_item(['a', 'r2', 'r1'])
+b takes action: move_without_item(['b', 'r1', 'r2'])
+a takes action: move_without_item(['a', 'r1', 'r3'])
+b takes action: move_without_item(['b', 'r2', 'r1'])
+a takes action: pick_up(['a', 'i', 'r3'])
+b takes action: move_without_item(['b', 'r1', 'r3'])
+a takes action: move_with_item(['a', 'i', 'r3', 'r1'])
+b takes action: move_without_item(['b', 'r3', 'r2'])
+a takes action: drop_item(['a', 'i'])
+5th Simulation:
+a takes action: move_without_item(['a', 'r1', 'r3'])
+b takes action: move_without_item(['b', 'r2', 'r1'])
+a takes action: pick_up(['a', 'i', 'r3'])
+b takes action: move_without_item(['b', 'r1', 'r3'])
+a takes action: move_with_item(['a', 'i', 'r3', 'r2'])
+b takes action: move_without_item(['b', 'r3', 'r2'])
+a takes action: move_with_item(['a', 'i', 'r2', 'r1'])
+b takes action: move_without_item(['b', 'r2', 'r3'])
+a takes action: drop_item(['a', 'i'])
+Avg Steps: 8.6
+Avg Time: 3.764559s
+Avg VMS: 22.4
+Avg Call of JP: 8768.2
+
