@@ -1,0 +1,58 @@
+-------------------
+Centralized Planning Result:
+Time spent: 4.446328s
+Number of Expansions: 586
+Path Length: 11
+Path: ["press_on_button(['a', 'b1'])", "change_light_state(['external', 'b1', 'l1', 'on'])", "press_on_button(['a', 'b3'])", "change_light_state(['external', 'b3', 'l3', 'on'])", "tell(['c', 'l3'])", "quiet(['c', 'l3'])", "tell(['b', 'l1'])", "quiet(['b', 'l1'])", "press_on_button(['a', 'b2'])", "change_light_state(['external', 'b2', 'l2', 'on'])", "tell(['b', 'l2'])"]
+-------------------
+1th Simulation:
+a takes action: press_on_button(['a', 'b1'])
+external takes action: change_light_state(['external', 'b1', 'l1', 'on'])
+b takes action: tell(['b', 'l1'])
+c takes action: lock_stay(['c'])
+a takes action: lock_stay(['a'])
+external takes action: lock_stay(['external'])
+b takes action: quiet(['b', 'l1'])
+c takes action: normal_stay(['c'])
+a takes action: press_on_button(['a', 'b2'])
+external takes action: change_light_state(['external', 'b2', 'l2', 'on'])
+b takes action: tell(['b', 'l2'])
+c takes action: lock_stay(['c'])
+a takes action: lock_stay(['a'])
+external takes action: lock_stay(['external'])
+b takes action: quiet(['b', 'l2'])
+c takes action: normal_stay(['c'])
+a takes action: press_on_button(['a', 'b3'])
+external takes action: change_light_state(['external', 'b3', 'l3', 'on'])
+b takes action: normal_stay(['b'])
+c takes action: tell(['c', 'l3'])
+2th Simulation:
+a takes action: press_on_button(['a', 'b2'])
+external takes action: change_light_state(['external', 'b2', 'l2', 'on'])
+b takes action: tell(['b', 'l2'])
+c takes action: lock_stay(['c'])
+a takes action: lock_stay(['a'])
+external takes action: lock_stay(['external'])
+b takes action: quiet(['b', 'l2'])
+c takes action: normal_stay(['c'])
+a takes action: press_on_button(['a', 'b1'])
+external takes action: change_light_state(['external', 'b1', 'l1', 'on'])
+b takes action: tell(['b', 'l1'])
+c takes action: lock_stay(['c'])
+a takes action: lock_stay(['a'])
+external takes action: lock_stay(['external'])
+b takes action: quiet(['b', 'l1'])
+c takes action: normal_stay(['c'])
+a takes action: normal_stay(['a'])
+external takes action: normal_stay(['external'])
+b takes action: normal_stay(['b'])
+c takes action: normal_stay(['c'])
+a takes action: press_on_button(['a', 'b3'])
+external takes action: change_light_state(['external', 'b3', 'l3', 'on'])
+b takes action: normal_stay(['b'])
+c takes action: tell(['c', 'l3'])
+Avg Steps: 22.0
+Avg Time: 370.885978s
+Avg VMS: 183.0
+Avg Call of JP: 222665.5
+

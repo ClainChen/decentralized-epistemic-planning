@@ -56,5 +56,4 @@ models/*/auto_generate*/
 # log/
 # possible_goals_backup/
 documents/
-out/
 github-mcp-server/

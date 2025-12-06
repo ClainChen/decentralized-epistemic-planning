@@ -1,10 +1,10 @@
-2025-12-06 20:43:15,034 ERROR - __main__._.regex_search:
+2025-12-06 20:47:34,435 ERROR - __main__._.regex_search:
 result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
-2025-12-06 20:43:15,034 ERROR - __main__._.regex_search:
+2025-12-06 20:47:34,435 ERROR - __main__._.regex_search:
 result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
-2025-12-06 20:43:15,035 ERROR - __main__._.regex_search:
+2025-12-06 20:47:34,435 ERROR - __main__._.regex_search:
 result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
-2025-12-06 20:43:15,035 ERROR - __main__._.regex_search:
+2025-12-06 20:47:34,436 ERROR - __main__._.regex_search:
 result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         survivor_loc(all)=[all]
         searched(all)=[all]
 
