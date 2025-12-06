@@ -1,0 +1,9 @@
+2025-12-06 20:43:24,022 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 20:43:24,022 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 20:43:24,022 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 20:43:24,022 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         b[a] light_state(all) = on
+

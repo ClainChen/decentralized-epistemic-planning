@@ -1,0 +1,65 @@
+2025-12-06 19:47:27,482 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 7
+Time cost: 0.032312s
+Number of Generated Virtual Problems: 12
+
+2025-12-06 19:47:27,496 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 7
+Time cost: 0.011766s
+Number of Generated Virtual Problems: 12
+
+2025-12-06 19:47:27,509 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 7
+Time cost: 0.010886s
+Number of Generated Virtual Problems: 12
+
+2025-12-06 19:47:27,522 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 7
+Time cost: 0.011006s
+Number of Generated Virtual Problems: 12
+
+2025-12-06 19:47:27,535 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 7
+Time cost: 0.010989s
+Number of Generated Virtual Problems: 12
+
+2025-12-06 19:47:27,535 EXP - __main__.Logger.exp:
+Avg Steps: 7.0
+Avg Time: 0.015392s
+Avg VMS: 12.0
+

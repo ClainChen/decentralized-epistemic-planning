@@ -1,0 +1,70 @@
+2025-12-06 19:46:47,384 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+Steps: 8
+Time cost: 0.038506s
+Number of Generated Virtual Problems: 14
+
+2025-12-06 19:46:47,399 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+Steps: 8
+Time cost: 0.013172s
+Number of Generated Virtual Problems: 14
+
+2025-12-06 19:46:47,414 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+Steps: 8
+Time cost: 0.013161s
+Number of Generated Virtual Problems: 14
+
+2025-12-06 19:46:47,430 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+Steps: 8
+Time cost: 0.013164s
+Number of Generated Virtual Problems: 14
+
+2025-12-06 19:46:47,445 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_unknown(['a'])
+b takes action: say_unknown(['b'])
+a takes action: say_known(['a', 'b'])
+b takes action: say_known(['b', 'a'])
+Steps: 8
+Time cost: 0.013187s
+Number of Generated Virtual Problems: 14
+
+2025-12-06 19:46:47,445 EXP - __main__.Logger.exp:
+Avg Steps: 8.0
+Avg Time: 0.018238s
+Avg VMS: 14.0
+

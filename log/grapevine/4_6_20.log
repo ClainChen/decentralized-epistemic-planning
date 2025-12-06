@@ -1,0 +1,130 @@
+2025-12-06 20:01:20,731 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         shared_value(as)=[all]
+
+2025-12-06 20:01:59,875 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: normal_stay(['c'])
+d takes action: normal_stay(['d'])
+a takes action: move_right(['a'])
+b takes action: normal_stay(['b'])
+c takes action: normal_stay(['c'])
+d takes action: move_right(['d'])
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_left(['b'])
+c takes action: normal_stay(['c'])
+d takes action: normal_stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 21
+Time cost: 35.134646s
+Number of Generated Virtual Problems: 14
+
+2025-12-06 20:02:20,694 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: move_right(['c'])
+d takes action: move_right(['d'])
+a takes action: normal_stay(['a'])
+b takes action: move_left(['b'])
+c takes action: normal_stay(['c'])
+d takes action: normal_stay(['d'])
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: normal_stay(['c'])
+d takes action: normal_stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 21
+Time cost: 20.817045s
+Number of Generated Virtual Problems: 14
+
+2025-12-06 20:02:32,061 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: normal_stay(['b'])
+c takes action: move_right(['c'])
+d takes action: move_right(['d'])
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: normal_stay(['c'])
+d takes action: move_left(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 17
+Time cost: 11.364744s
+Number of Generated Virtual Problems: 10
+
+2025-12-06 20:02:48,544 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: normal_stay(['c'])
+d takes action: move_right(['d'])
+a takes action: move_right(['a'])
+b takes action: normal_stay(['b'])
+c takes action: normal_stay(['c'])
+d takes action: move_left(['d'])
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_left(['b'])
+c takes action: move_right(['c'])
+d takes action: move_right(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 21
+Time cost: 16.481280s
+Number of Generated Virtual Problems: 14
+
+2025-12-06 20:02:59,922 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: normal_stay(['b'])
+c takes action: move_right(['c'])
+d takes action: move_right(['d'])
+a takes action: lying_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+c takes action: sharing_stay(['c'])
+d takes action: sharing_stay(['d'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+c takes action: normal_stay(['c'])
+d takes action: normal_stay(['d'])
+a takes action: sharing_own_secret(['a', 'as'])
+Steps: 17
+Time cost: 11.372980s
+Number of Generated Virtual Problems: 10
+
+2025-12-06 20:02:59,922 EXP - __main__.Logger.exp:
+Avg Steps: 19.4
+Avg Time: 19.034139s
+Avg VMS: 12.4
+

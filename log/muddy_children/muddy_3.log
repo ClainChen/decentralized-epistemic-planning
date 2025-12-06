@@ -1,0 +1,97 @@
+2025-12-06 19:46:46,852 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 19:46:46,852 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         muddy(a)=[all]
+        muddy(b)=[all]
+        muddy(c)=[all]
+
+2025-12-06 19:46:46,861 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+Steps: 12
+Time cost: 0.004549s
+Number of Generated Virtual Problems: 2
+
+2025-12-06 19:46:46,864 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: say_yes(['c'])
+t takes action: ask(['t'])
+Steps: 12
+Time cost: 0.002856s
+Number of Generated Virtual Problems: 2
+
+2025-12-06 19:46:46,868 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: say_yes(['c'])
+t takes action: ask(['t'])
+Steps: 12
+Time cost: 0.002708s
+Number of Generated Virtual Problems: 2
+
+2025-12-06 19:46:46,870 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: say_yes(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+Steps: 12
+Time cost: 0.001962s
+Number of Generated Virtual Problems: 1
+
+2025-12-06 19:46:46,873 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: stay(['c'])
+t takes action: ask(['t'])
+a takes action: stay(['a'])
+b takes action: stay(['b'])
+c takes action: say_yes(['c'])
+t takes action: ask(['t'])
+Steps: 12
+Time cost: 0.002615s
+Number of Generated Virtual Problems: 2
+
+2025-12-06 19:46:46,873 EXP - __main__.Logger.exp:
+Avg Steps: 12.0
+Avg Time: 0.002938s
+Avg VMS: 1.8
+

@@ -1,0 +1,59 @@
+2025-12-06 19:28:13,640 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+a takes action: flip_up(['a', 'c1'])
+Steps: 5
+Time cost: 0.012723s
+Number of Generated Virtual Problems: 7
+
+2025-12-06 19:28:13,661 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: flip_down(['b', 'c1'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: flip_down(['b', 'c1'])
+Steps: 8
+Time cost: 0.020672s
+Number of Generated Virtual Problems: 10
+
+2025-12-06 19:28:13,670 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: flip_up(['a', 'c1'])
+b takes action: stay(['b'])
+a takes action: return(['a'])
+b takes action: flip_down(['b', 'c1'])
+Steps: 6
+Time cost: 0.009279s
+Number of Generated Virtual Problems: 8
+
+2025-12-06 19:28:13,678 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+a takes action: flip_up(['a', 'c1'])
+Steps: 5
+Time cost: 0.007106s
+Number of Generated Virtual Problems: 7
+
+2025-12-06 19:28:13,686 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: stay(['a'])
+b takes action: return(['b'])
+a takes action: flip_up(['a', 'c1'])
+Steps: 5
+Time cost: 0.007393s
+Number of Generated Virtual Problems: 7
+
+2025-12-06 19:28:13,686 EXP - __main__.Logger.exp:
+Avg Steps: 5.8
+Avg Time: 0.011435s
+Avg VMS: 7.8
+

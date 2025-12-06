@@ -1,0 +1,78 @@
+2025-12-06 19:28:13,883 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         hold(a)=[all]
+        hold(b)=[all]
+        hold(c)=[all]
+
+2025-12-06 19:28:39,335 EXP - __main__.Logger.exp:
+a takes action: pick(['a', 'o1'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+Steps: 7
+Time cost: 19.387831s
+Number of Generated Virtual Problems: 7
+
+2025-12-06 19:28:52,852 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: pick(['a', 'o1'])
+b takes action: stay(['b'])
+c takes action: move_right_with_item(['c', 'o3'])
+a takes action: stay(['a'])
+b takes action: move_right_with_item(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+Steps: 11
+Time cost: 13.515829s
+Number of Generated Virtual Problems: 11
+
+2025-12-06 19:29:02,435 EXP - __main__.Logger.exp:
+a takes action: pick(['a', 'o1'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: move_right_with_item(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+Steps: 7
+Time cost: 9.581921s
+Number of Generated Virtual Problems: 7
+
+2025-12-06 19:29:13,567 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: pick(['a', 'o1'])
+b takes action: move_right_with_item(['b', 'o2'])
+c takes action: move_right_with_item(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+Steps: 9
+Time cost: 11.131187s
+Number of Generated Virtual Problems: 9
+
+2025-12-06 19:29:24,503 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: pick(['b', 'o2'])
+c takes action: pick(['c', 'o3'])
+a takes action: pick(['a', 'o1'])
+b takes action: move_right_with_item(['b', 'o2'])
+c takes action: move_right_with_item(['c', 'o3'])
+a takes action: drop(['a', 'o1'])
+b takes action: drop(['b', 'o2'])
+c takes action: drop(['c', 'o3'])
+Steps: 9
+Time cost: 10.934587s
+Number of Generated Virtual Problems: 9
+
+2025-12-06 19:29:24,503 EXP - __main__.Logger.exp:
+Avg Steps: 8.6
+Avg Time: 12.910271s
+Avg VMS: 8.6
+

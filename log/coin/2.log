@@ -1,0 +1,53 @@
+2025-12-06 19:28:13,620 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         coin(c1)=[all]
+
+2025-12-06 19:28:13,639 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: return(['a'])
+b takes action: flip_up(['b', 'c1'])
+Steps: 4
+Time cost: 0.010029s
+Number of Generated Virtual Problems: 6
+
+2025-12-06 19:28:13,648 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: return(['a'])
+b takes action: flip_up(['b', 'c1'])
+Steps: 4
+Time cost: 0.008854s
+Number of Generated Virtual Problems: 6
+
+2025-12-06 19:28:13,656 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: return(['a'])
+b takes action: flip_up(['b', 'c1'])
+Steps: 4
+Time cost: 0.007162s
+Number of Generated Virtual Problems: 6
+
+2025-12-06 19:28:13,663 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: return(['a'])
+b takes action: flip_up(['b', 'c1'])
+Steps: 4
+Time cost: 0.006854s
+Number of Generated Virtual Problems: 6
+
+2025-12-06 19:28:13,670 EXP - __main__.Logger.exp:
+a takes action: peek(['a'])
+b takes action: peek(['b'])
+a takes action: return(['a'])
+b takes action: flip_up(['b', 'c1'])
+Steps: 4
+Time cost: 0.006690s
+Number of Generated Virtual Problems: 6
+
+2025-12-06 19:28:13,670 EXP - __main__.Logger.exp:
+Avg Steps: 4.0
+Avg Time: 0.007918s
+Avg VMS: 6.0
+

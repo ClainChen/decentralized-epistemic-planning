@@ -1,0 +1,49 @@
+2025-12-06 19:28:13,735 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         hold(a)=[all]
+        hold(b)=[all]
+
+2025-12-06 19:28:13,771 EXP - __main__.Logger.exp:
+a takes action: pick(['a', 'o1'])
+b takes action: move_right_without_item(['b'])
+a takes action: drop(['a', 'o1'])
+Steps: 3
+Time cost: 0.021977s
+Number of Generated Virtual Problems: 3
+
+2025-12-06 19:28:13,789 EXP - __main__.Logger.exp:
+a takes action: pick(['a', 'o1'])
+b takes action: move_right_without_item(['b'])
+a takes action: drop(['a', 'o1'])
+Steps: 3
+Time cost: 0.017021s
+Number of Generated Virtual Problems: 3
+
+2025-12-06 19:28:13,805 EXP - __main__.Logger.exp:
+a takes action: pick(['a', 'o1'])
+b takes action: move_right_without_item(['b'])
+a takes action: drop(['a', 'o1'])
+Steps: 3
+Time cost: 0.014683s
+Number of Generated Virtual Problems: 3
+
+2025-12-06 19:28:13,820 EXP - __main__.Logger.exp:
+a takes action: pick(['a', 'o1'])
+b takes action: move_right_without_item(['b'])
+a takes action: drop(['a', 'o1'])
+Steps: 3
+Time cost: 0.014670s
+Number of Generated Virtual Problems: 3
+
+2025-12-06 19:28:13,835 EXP - __main__.Logger.exp:
+a takes action: pick(['a', 'o1'])
+b takes action: move_right_without_item(['b'])
+a takes action: drop(['a', 'o1'])
+Steps: 3
+Time cost: 0.014718s
+Number of Generated Virtual Problems: 3
+
+2025-12-06 19:28:13,836 EXP - __main__.Logger.exp:
+Avg Steps: 3.0
+Avg Time: 0.016614s
+Avg VMS: 3.0
+

@@ -1,0 +1,33 @@
+2025-12-06 20:43:31,023 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 20:43:31,023 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 20:43:31,023 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         survivor_loc(all)=[all]
+        searched(all)=[all]
+
+2025-12-06 20:45:46,982 EXP - __main__.Logger.exp:
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r3', 'r5'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r5', 'r3'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r3', 'r2'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r2', 'r1'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r1', 'r4'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move(['b', 'r4', 'r1'])
+qhb takes action: normal_stay(['qhb'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share_survivor(['b', 's1', 'r1', 'r4'])
+Steps: 20
+Time cost: 132.268604s
+Number of Generated Virtual Problems: 27
+

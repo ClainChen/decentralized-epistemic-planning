@@ -1,6 +1,6 @@
 [
     {
-        "enabled": 1,
+        "enabled": 0,
         "model_name": "coin",
         "problems": [
             {"enabled": 1, "limit": 1, "name": "1", "agents": ["a", "b"]},
@@ -17,23 +17,23 @@
     },
 
     {
-        "enabled": 1,
+        "enabled": 0,
         "model_name": "deliver2r",
         "problems": [
-            {"enabled": 1, "limit": 1, "name": "2a1i", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 1, "name": "2a2i", "agents": ["a", "b"]},
-            {"enabled": 1, "limit": 1, "name": "3a3i", "agents": ["a", "b", "c"]},
+            {"enabled": 0, "limit": 1, "name": "2a1i", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 1, "name": "2a2i", "agents": ["a", "b"]},
+            {"enabled": 0, "limit": 1, "name": "3a3i", "agents": ["a", "b", "c"]},
             {"enabled": 1, "limit": 1, "name": "4a4i", "agents": ["a", "b", "c", "d"]}
         ],
         "ob": "deliver2r.py",
         "rules": "deliver2r.py",
         "tests": [
-            {"enabled": 1, "num":5, "strategy": "share"}
+            {"enabled": 1, "num":1, "strategy": "share"}
         ]
     },
 
     {
-        "enabled": 1,
+        "enabled": 0,
         "model_name": "deliver",
         "problems": [
             {"enabled": 1, "limit": 1, "name": "3r2a1i1", "agents": ["a", "b"]},
@@ -196,7 +196,7 @@
     },
 
     {
-        "enabled": 0,
+        "enabled": 1,
         "model_name": "light_bulb",
         "problems": [
             {"enabled": 1, "limit": 1, "name": "light1", "agents": []},
@@ -206,7 +206,23 @@
         "ob": "light_bulb.py",
         "rules": "light_bulb.py",
         "tests": [
-            {"enabled": 1, "num":5, "strategy": "share"}
+            {"enabled": 1, "num":2, "strategy": "share"}
+        ]
+    },
+
+    {
+        "enabled": 1,
+        "model_name": "grid",
+        "problems": [
+            {"enabled": 1, "limit": 1, "name": "5r2a1", "agents": []},
+            {"enabled": 1, "limit": 1, "name": "5r2a2", "agents": []},
+            {"enabled": 1, "limit": 1, "name": "6r3a1", "agents": []},
+            {"enabled": 1, "limit": 1, "name": "6r3a2", "agents": []}
+        ],
+        "ob": "grid.py",
+        "rules": "grid.py",
+        "tests": [
+            {"enabled": 1, "num":2, "strategy": "share"}
         ]
     }
 ]

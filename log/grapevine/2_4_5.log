@@ -1,0 +1,58 @@
+2025-12-06 20:01:19,167 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         shared_value(as)=[all]
+
+2025-12-06 20:01:19,251 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+Steps: 5
+Time cost: 0.067193s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 20:01:19,289 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+Steps: 5
+Time cost: 0.037729s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 20:01:19,329 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+Steps: 5
+Time cost: 0.038290s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 20:01:19,367 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+Steps: 5
+Time cost: 0.037351s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 20:01:19,405 EXP - __main__.Logger.exp:
+a takes action: sharing_own_secret(['a', 'as'])
+b takes action: sharing_stay(['b'])
+a takes action: quiet(['a', 'as'])
+b takes action: move_right(['b'])
+a takes action: lying_own_secret(['a', 'as'])
+Steps: 5
+Time cost: 0.037347s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 20:01:19,405 EXP - __main__.Logger.exp:
+Avg Steps: 5.0
+Avg Time: 0.043582s
+Avg VMS: 4.0
+

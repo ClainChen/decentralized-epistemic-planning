@@ -1,0 +1,23 @@
+2025-12-06 19:46:46,918 ERROR - __main__.ProblemParser.check_validity:
+The name of the problem in the agent file "a2" is not valid.
+Problem name: "muddy_children", Domain name: "muddy_10"
+2025-12-06 19:46:46,918 ERROR - __main__.ProblemParser.run:
+Problem is not valid
+2025-12-06 19:46:46,920 ERROR - __main__._.<module>:
+Traceback (most recent call last):
+  File "/root/workspace/decentralized-epistemic-planning/entrance.py", line 127, in <module>
+    model = model_builder.build(args)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/workspace/decentralized-epistemic-planning/dep/model_builder.py", line 21, in build
+    raise e
+  File "/root/workspace/decentralized-epistemic-planning/dep/model_builder.py", line 17, in build
+    domain, problem = parse_file(args)
+                      ^^^^^^^^^^^^^^^^
+  File "/root/workspace/decentralized-epistemic-planning/dep/model_builder.py", line 31, in parse_file
+    problem: ParsingProblem = problem_parser.run(problem_path)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/workspace/decentralized-epistemic-planning/dep/file_parser.py", line 592, in run
+    raise Exception("Problem naming is not valid, may be one of the agtpddl has a wrong domain or problem name")
+Exception: Problem naming is not valid, may be one of the agtpddl has a wrong domain or problem name
+
+

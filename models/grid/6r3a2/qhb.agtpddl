@@ -1,0 +1,10 @@
+(define
+    (problem 6r3a2)
+    (:domain grid)
+    (:agent qhb)
+
+    (:goal (and
+
+        )
+    )
+)

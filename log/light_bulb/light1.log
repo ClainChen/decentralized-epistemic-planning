@@ -1,0 +1,46 @@
+2025-12-06 20:43:24,021 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 20:43:24,021 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 20:43:24,021 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 20:43:24,021 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         b[a] light_state(all) = on
+
+2025-12-06 20:43:27,550 EXP - __main__.Logger.exp:
+a takes action: press_on_button(['a', 'b2'])
+external takes action: change_light_state(['external', 'b2', 'l2', 'on'])
+b takes action: normal_stay(['b'])
+c takes action: tell(['c', 'l2'])
+a takes action: lock_stay(['a'])
+external takes action: lock_stay(['external'])
+b takes action: lock_stay(['b'])
+c takes action: quiet(['c', 'l2'])
+a takes action: press_on_button(['a', 'b1'])
+external takes action: change_light_state(['external', 'b1', 'l1', 'on'])
+b takes action: tell(['b', 'l1'])
+Steps: 11
+Time cost: 3.326242s
+Number of Generated Virtual Problems: 30
+
+2025-12-06 20:43:30,947 EXP - __main__.Logger.exp:
+a takes action: press_on_button(['a', 'b2'])
+external takes action: change_light_state(['external', 'b2', 'l2', 'on'])
+b takes action: normal_stay(['b'])
+c takes action: tell(['c', 'l2'])
+a takes action: lock_stay(['a'])
+external takes action: lock_stay(['external'])
+b takes action: lock_stay(['b'])
+c takes action: quiet(['c', 'l2'])
+a takes action: press_on_button(['a', 'b1'])
+external takes action: change_light_state(['external', 'b1', 'l1', 'on'])
+b takes action: tell(['b', 'l1'])
+Steps: 11
+Time cost: 3.395552s
+Number of Generated Virtual Problems: 30
+
+2025-12-06 20:43:30,947 EXP - __main__.Logger.exp:
+Avg Steps: 11.0
+Avg Time: 3.360897s
+Avg VMS: 30.0
+

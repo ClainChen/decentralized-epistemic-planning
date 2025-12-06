@@ -1,0 +1,159 @@
+2025-12-06 19:46:46,852 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-06 19:46:46,852 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in 
+2025-12-06 19:46:46,884 EXP - __main__.Logger.exp:
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+Steps: 25
+Time cost: 0.020836s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 19:46:46,894 EXP - __main__.Logger.exp:
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: say_yes(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+Steps: 25
+Time cost: 0.010105s
+Number of Generated Virtual Problems: 2
+
+2025-12-06 19:46:46,904 EXP - __main__.Logger.exp:
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: say_yes(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+Steps: 25
+Time cost: 0.009176s
+Number of Generated Virtual Problems: 2
+
+2025-12-06 19:46:46,914 EXP - __main__.Logger.exp:
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: say_yes(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+Steps: 25
+Time cost: 0.009230s
+Number of Generated Virtual Problems: 2
+
+2025-12-06 19:46:46,922 EXP - __main__.Logger.exp:
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: stay(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+a1 takes action: say_yes(['a1'])
+a2 takes action: stay(['a2'])
+a3 takes action: stay(['a3'])
+a4 takes action: stay(['a4'])
+a5 takes action: stay(['a5'])
+teacher takes action: ask(['teacher'])
+Steps: 25
+Time cost: 0.007911s
+Number of Generated Virtual Problems: 1
+
+2025-12-06 19:46:46,923 EXP - __main__.Logger.exp:
+Avg Steps: 25.0
+Avg Time: 0.011451s
+Avg VMS: 2.2
+

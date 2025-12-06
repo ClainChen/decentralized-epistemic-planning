@@ -1,0 +1,45 @@
+2025-12-06 19:47:27,500 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 3
+Time cost: 0.008409s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 19:47:27,506 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 3
+Time cost: 0.003976s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 19:47:27,512 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 3
+Time cost: 0.003931s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 19:47:27,518 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 3
+Time cost: 0.003982s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 19:47:27,524 EXP - __main__.Logger.exp:
+a takes action: say_unknown(['a'])
+b takes action: say_known(['b', 'a'])
+a takes action: say_known(['a', 'b'])
+Steps: 3
+Time cost: 0.004005s
+Number of Generated Virtual Problems: 4
+
+2025-12-06 19:47:27,524 EXP - __main__.Logger.exp:
+Avg Steps: 3.0
+Avg Time: 0.004861s
+Avg VMS: 4.0
+
