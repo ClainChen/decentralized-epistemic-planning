@@ -7,20 +7,23 @@
     )
 
     (:objects
-        l1 l2 - light
-        b1 b2 - button
+        l1 l2 l3 - light
+        b1 b2 b3 - button
         on off - bs
     )
 
     (:init
         (assign (light_state l1) off)
         (assign (light_state l2) off)
+        (assign (light_state l3) off)
 
         (assign (light_id l1) l1)
         (assign (light_id l2) l2)
+        (assign (light_id l3) l3)
 
         (assign (button_state b1) off)
         (assign (button_state b2) off)
+        (assign (button_state b3) off)
 
         (assign (button_light_state b1 on) on)
         (assign (button_light_state b1 off) off)
@@ -28,11 +31,15 @@
         (assign (button_light_state b2 on) on)
         (assign (button_light_state b2 off) off)
 
+        (assign (button_light_state b3 on) on)
+        (assign (button_light_state b3 off) off)
+
         (assign (bs_id on) on)
         (assign (bs_id off) off)
 
         (assign (connected b1) l1)
         (assign (connected b2) l2)
+        (assign (connected b3) l3)
 
         (assign (agent_id a) a)
         (assign (agent_id b) b)
@@ -40,6 +47,7 @@
         (assign (agent_id external) external)
 
         (assign (tell_lock) 0)
+        (assign (change_lock) 0)
 
         (assign (telling a) 0)
         (assign (telling b) 0)
@@ -48,21 +56,24 @@
 
         (assign (a_observable l1) 0)
         (assign (a_observable l2) 0)
+        (assign (a_observable l3) 0)
 
         (assign (observable l1) b)
-        (assign (observable l2) c)
+        (assign (observable l2) b)
+        (assign (observable l3) c)
 
     )
 
     (:ranges
         (light_state enumerate [on,off])
-        (light_id enumerate [l1,l2])
+        (light_id enumerate [l1,l2,l3])
         (button_state enumerate [on,off])
         (button_light_state enumerate [on,off])
         (bs_id enumerate [on,off])
-        (connected enumerate [l1,l2])
+        (connected enumerate [l1,l2,l3])
         (agent_id enumerate [a,b,c,external])
         (tell_lock integer [0,1])
+        (change_lock integer [0,1])
         (telling integer [0,1])
         (a_observable integer [0,1])
         (observable enumerate [b,c])

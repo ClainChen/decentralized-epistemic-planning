@@ -4,7 +4,7 @@
     (:agent b)
 
     (:goal (and
-        (= (@ep (" b [b]") (= (coin c1) 0)) ep.true)
+        (= (@ep (" b [b]") (= (coin c1) 1)) ep.true)
         (= (@ep (" b [b] b [a]") (= (coin c1) 1)) ep.true)
         )
     )

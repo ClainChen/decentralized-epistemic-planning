@@ -5,6 +5,7 @@ from itertools import combinations, product, chain
 import copy
 from dataclasses import dataclass, field
 import time
+# from memory_profiler import profile
 
 MODEL_LOGGER_LEVEL = logging.DEBUG
 
@@ -608,6 +609,9 @@ class Agent:
             result += f"  {goal}\n"
         return result
 
+    def goal_key(self):
+        return id(tuple(id(g) for g in self.own_goals))
+
 
 class AcceptableGoal:
     from dep.file_parser import ParsingAcceptableGoal
@@ -755,7 +759,7 @@ class Model:
 
     def update_agent_belief_actions_in_world(self, last_agent, action):
         # to avoid the exp mechanism error in grapevine
-        if action.name in ['sharing_stay']:
+        if 'saty' in action.name != 'stay':
             return
 
         for agent in self.agents:
@@ -773,6 +777,7 @@ class Model:
             # agent.add_E(hash_set_agent_last_jp_world, last_agent, action)
             agent.set_E(hash_set_agent_last_jp_world, last_agent, action)
 
+    # @profile
     def simulate(self, start_agent=""):
         """
         Simulate the model until all agents have reached a terminal state
@@ -802,10 +807,10 @@ class Model:
 
             agent_name = self.get_next_agent(agent_name)
             steps += 1
-            if steps == 100:
-                print("No result, maybe due to a deadlock")
-                util.LOGGER.exp(exp_log)
-                exit(0)
+            # if steps == 100:
+            #     print("No result, maybe due to a deadlock")
+            #     util.LOGGER.exp(exp_log)
+            #     exit(0)
 
         end = time.perf_counter()
         time_used = end - start
@@ -817,6 +822,8 @@ class Model:
         return steps, time_used, nv
 
     def move(self, agent_name: str, action: Action):
+        if len(action.effect) == 0:
+            return
         history = {'functions': self.ontic_functions[:],
                    'agent': agent_name,
                    'action': action}
@@ -955,3 +962,14 @@ class Model:
 
     def __setstate__(self, state):
         self.__dict__.update(state)
+
+    def bfs_key(self):
+        observe_funcs = tuple(tuple(sorted([''.join(bs)] + [s.id for s in util.get_epistemic_world(self, bs)], key=str))
+                              for bs in sorted(self.possible_belief_sequences))
+        ontic = tuple(f.id for f in sorted(self.ontic_functions))
+        return hash(
+            (
+                observe_funcs,
+                ontic
+            )
+        )

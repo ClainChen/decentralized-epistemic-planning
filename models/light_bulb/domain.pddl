@@ -8,28 +8,32 @@
     )
 
     (:functions
-        (light_state ?l - light)
         (light_id ?l - light)
-        (button_state ?b - button)
-        (button_light_state ?b - button ?bs - bs)
         (bs_id ?bs - bs)
-        (connected ?b - button)
         (agent_id ?a - agent)
         (tell_lock)
+        (change_lock)
         (telling ?a - agent)
         (a_observable ?l - light)
         (observable ?l - light)
+
+        (light_state ?l - light)
+        (connected ?b - button)
+        (button_state ?b - button)
+        (button_light_state ?b - button ?bs - bs)
     )
 
     (:action press_on_button
         :parameters (?self - agent ?b - button)
         :precondition (
             (= (tell_lock) 0)
+            (= (change_lock) 0)
             (= (agent_id ?self) a)
             (= (button_state ?b) off)
         )
         :effect (
             (assign (button_state ?b) on)
+            (assign (change_lock) 1)
         )
     )
 
@@ -37,11 +41,13 @@
         :parameters (?self - agent ?b - button)
         :precondition (
             (= (tell_lock) 0)
+            (= (change_lock) 0)
             (= (agent_id ?self) a)
             (= (button_state ?b) on)
         )
         :effect (
             (assign (button_state ?b) off)
+            (assign (change_lock) 1)
         )
     )
 
@@ -49,6 +55,7 @@
         :parameters (?self - agent ?b - button ?l - light ?bs - bs)
         :precondition (
             (= (tell_lock) 0)
+            (= (change_lock) 1)
             (= (agent_id ?self) external)
             (= (connected ?b) (light_id ?l))
             (= (button_state ?b) (bs_id ?bs))
@@ -56,6 +63,7 @@
         )
         :effect (
             (assign (light_state ?l) (button_light_state ?b ?bs))
+            (assign (change_lock) 0)
         )
     )
 
@@ -65,8 +73,10 @@
             (!= (agent_id ?self) a)
             (!= (agent_id ?self) external)
             (= (observable ?l) (agent_id ?self))
+            (= (a_observable ?l) 0)
             (= (telling ?self) 0)
             (= (tell_lock) 0)
+            (= (change_lock) 0)
         )
         :effect (
             (assign (telling ?self) 1)
@@ -81,8 +91,10 @@
             (!= (agent_id ?self) a)
             (!= (agent_id ?self) external)
             (= (observable ?l) (agent_id ?self))
+            (= (a_observable ?l) 1)
             (= (telling ?self) 1)
             (= (tell_lock) 1)
+            (= (change_lock) 0)
         )
         :effect (
             (assign (telling ?self) 0)
@@ -95,6 +107,7 @@
         :parameters (?self - agent)
         :precondition (
             (= (tell_lock) 0)
+            (= (change_lock) 0)
         )
         :effect (
 
@@ -106,6 +119,7 @@
         :precondition (
             (= (tell_lock) 1)
             (= (telling ?self) 0)
+            (= (change_lock) 0)
         )
         :effect (
 

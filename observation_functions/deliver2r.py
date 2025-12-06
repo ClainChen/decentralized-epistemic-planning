@@ -1,52 +1,39 @@
-import util
+from util import QuickQueryFunctions
 import logging
 from dep.epistemic_class import Model, Function
 from abstracts import AbstractObservationFunction
 
 LOGGER_LEVEL = logging.DEBUG
 
+
 class Deliver2rObsFunc(AbstractObservationFunction):
     def get_observable_functions(self, functions: list[Function], agent_name: str, all_funcs, ontic_functions) -> list[Function]:
-        observable_functions = set()
-        agent_at_room = {}
-        item_at_room = {}
-        all_item_in_same_room = True
-        try:
-            for function in functions:
-                if function.name == 'agent_loc':
-                    agent_at_room[function.parameters['?a']] = function.value
-                    observable_functions.add(function)
-                elif function.name == 'item_id':
-                    observable_functions.add(function)
+        ff: QuickQueryFunctions = QuickQueryFunctions.build_qqf(functions)
+        result = set()
+        current_agent_loc = ff.get('agent_loc', {'?a': agent_name})
+        all_item_in_same_loc = all(f.value == current_agent_loc for f in ff.get_by_name('item_loc'))
 
-            for function in functions:
-                if function.name == 'item_loc':
-                    item_at_room[function.parameters['?i']] = function.value
-                    observable_functions.add(function)
-                    if function.parameters['?i'] != 'nothing' and function.value != agent_at_room[agent_name]:
-                        all_item_in_same_room = False
+        for func in functions:
+            if func.name == 'hold':
+                """
+                hold: '?a' = item
+                1. if the agent in the same place as this agent, then agent know it
+                2. if all item in the same loc as this agent, then agent know it
+                """
+                agt = func.parameters['?a']
+                if all_item_in_same_loc or current_agent_loc == ff.get('agent_loc', {'?a': agt}):
+                    result.add(func)
+            elif func.name == 'is_free':
+                """
+                1. if the agent can see the item, then agent know it
+                """
+                item = func.parameters['?i']
+                if current_agent_loc == ff.get('item_loc', {'?i': item}) or item == 'nothing':
+                    result.add(func)
+            else:
+                result.add(func)
 
-            # util.LOGGER.debug(f"agent at room: {agent_at_room}\nitem at room: {item_at_room}")
-
-            for function in functions:
-                if function.name == 'hold':
-                    # check whether the holding agent is at the same room as current agent
-                    if (all_item_in_same_room
-                        or agent_at_room[function.parameters['?a']] == agent_at_room[agent_name]):
-                        observable_functions.add(function)
-
-                elif function.name == 'is_free':
-                    # check whether the item is at the same room as current agent
-                    if (function.parameters['?i'] == 'nothing' or
-                            item_at_room[function.parameters['?i']] == agent_at_room[agent_name]):
-                        observable_functions.add(function)
-            
-            return list(observable_functions)
-        except KeyError as e:
-            return False
-        except Exception as e:
-            util.LOGGER.error(e)
-            raise e
+        return list(result)
 
     def get_observable_agents(self, model, functions, agent_name):
         agent_room = {}
@@ -55,5 +42,6 @@ class Deliver2rObsFunc(AbstractObservationFunction):
                 agent_room[func.parameters['?a']] = func.value
         current_agent_room = agent_room[agent_name]
         return [agent for agent, room in agent_room.items() if room == current_agent_room]
-        
-        
+
+    def post_process_jp(self, functions, agent_name, all_funcs, ontic_functions):
+        return functions[:]

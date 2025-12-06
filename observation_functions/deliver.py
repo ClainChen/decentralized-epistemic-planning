@@ -81,3 +81,6 @@ class DeliverObsFunc(AbstractObservationFunction):
                 agent_room[func.parameters['?a']] = func.value
         current_agent_room = agent_room[agent_name]
         return [agent for agent, room in agent_room.items() if room == current_agent_room]
+
+    def post_process_jp(self, functions, agent_name, all_funcs, ontic_functions):
+        return functions[:]

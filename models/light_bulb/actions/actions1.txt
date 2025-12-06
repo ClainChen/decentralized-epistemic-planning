@@ -1,8 +1,8 @@
-a: press_on_button a b1
 a: press_on_button a b2
-external: change_light_state external b1 l1 on
 external: change_light_state external b2 l2 on
 b: tell b l1
 b: quiet b l1
 c: tell c l2
 c: quiet c l2
+a: press_on_button a b1
+external: change_light_state external b1 l1 on

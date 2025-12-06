@@ -5,9 +5,8 @@ import util
 
 THIS_LOGGER_LEVEL = logging.DEBUG
 
+
 class LightBulbRules(AbstractRules):
-    cache = {}
-    
     def check_functions(self, functions: list[Function]):
         """
         the button state needs to consistent with the light state in a certain logic
@@ -17,7 +16,7 @@ class LightBulbRules(AbstractRules):
         connected = {}
         light_state = {}
         button_state = {}
-        
+
         for func in functions:
             if func.name == 'button_light_state':
                 button = func.parameters['?b']
@@ -30,16 +29,16 @@ class LightBulbRules(AbstractRules):
                 light_state[func.parameters['?l']] = func.value
             elif func.name == 'button_state':
                 button_state[func.parameters['?b']] = func.value
-        
+
         for v in button_light_state.values():
             vs = list(v.values())
             if len(vs) != len(set(vs)):
                 return False
-        
+
         vs = list(connected.values())
         if len(vs) != len(set(vs)):
             return False
-        
+
         for b, l in connected.items():
             ls = light_state[l]
             bs = button_state[b]

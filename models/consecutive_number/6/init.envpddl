@@ -1,0 +1,46 @@
+
+    (define
+        (problem 6)
+        (:domain consecutive_number)
+    
+        (:agents 
+            a b
+        )
+    
+        (:objects
+    
+        )
+    
+        (:init
+            (assign (number_range_min) 0)
+            (assign (number_range_max) 100)
+    
+            (assign (agent_id a) a)
+            (assign (agent_id b) b)
+    
+            (assign (agent_number a) 6)
+            (assign (agent_number b) 7)
+    
+            (assign (agent_know a) 0)
+            (assign (agent_know b) 0)
+        )
+    
+        (:ranges
+            (number_range_min integer [0,100])
+            (number_range_max integer [0,100])
+            (agent_id enumerate [a,b])
+            (agent_number integer [0,100])
+            (agent_know integer [0,1])
+        )
+    
+        (:goal_sets
+            b[a] agent_know(a)=[all]
+            b[b] agent_know(b)=[all]
+        )
+    
+        (:max_belief_depth 1)
+    
+        (:rules
+        )
+    )
+    

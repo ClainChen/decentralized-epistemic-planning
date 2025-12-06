@@ -1,0 +1,47 @@
+(define
+    (problem muddy_4)
+    (:domain muddy_children)
+
+    (:agents 
+        teacher a1 a2 a3 a4
+    )
+
+    (:objects
+
+    )
+
+    (:init
+        (assign (number_of_questions) 0)
+
+        (assign (muddy a1) 1)
+        (assign (muddy a2) 1)
+        (assign (muddy a3) 1)
+        (assign (muddy a4) 0)
+        (assign (muddy teacher) 0)
+
+        (assign (is_type a1) child)
+        (assign (is_type a2) child)
+        (assign (is_type a3) child)
+        (assign (is_type a4) child)
+        (assign (is_type teacher) teacher)
+
+        (assign (shouted) 0)
+    )
+
+    (:ranges
+        (number_of_questions integer [0,5])
+        (is_type enumerate [child,teacher])
+        (muddy integer [0,1])
+        (shouted integer [0,1])
+    )
+    
+
+    (:goal_sets
+
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

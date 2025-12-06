@@ -12,7 +12,7 @@ LOGGER_LEVEL = logging.DEBUG
 
 def build(args) -> Model:
     try:
-        util.LOGGER.info(f"Start building the model, type: \"{args.problem_type}\"")
+        util.LOGGER.info(f"Start building the model, type: \"{ProblemType.SHARE if args.problem_type else ProblemType.UNSHARE}\"")
 
         domain, problem = parse_file(args)
         model = build_model(domain, problem, args)
@@ -224,7 +224,7 @@ def build_model(domain: ParsingDomain, problem: ParsingProblem, args):
         for agent in problem.agents:
             new_agent = Agent()
             new_agent.name = agent
-            new_agent.consider_E = model.problem_type == ProblemType.UNSHARE and agent not in args.without_agt_exp
+            new_agent.consider_E = args.consider_exp
             new_agent.consider_goal = model.problem_type == ProblemType.UNSHARE and agent not in args.without_agt_goal
             parsing_goals = problem.goals[agent]
             for parsing_goal in parsing_goals:

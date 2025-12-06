@@ -33,4 +33,5 @@ class ConsecutiveNumberObsFunc(AbstractObservationFunction):
         agents = [agent.name for agent in model.agents]
         return agents
         
-        
+    def post_process_jp(self, functions, agent_name, all_funcs, ontic_functions):
+        return functions[:]

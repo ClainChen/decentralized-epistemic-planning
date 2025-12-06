@@ -20,7 +20,7 @@ class MuddyChildrenObsFunc(AbstractObservationFunction):
         muddies = 0
         for func in functions:
             if func.name == "muddy":
-                if func.parameters['?a'] != agent_name:
+                if func.parameters['?a'] != agent_name and func.value in [0,1]:
                     result.add(func)
                     muddies += func.value
                 else:
@@ -39,4 +39,5 @@ class MuddyChildrenObsFunc(AbstractObservationFunction):
         agents = [agent.name for agent in model.agents]
         return agents
         
-        
+    def post_process_jp(self, functions, agent_name, all_funcs, ontic_functions):
+        return functions[:]

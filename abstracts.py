@@ -16,6 +16,14 @@ class AbstractObservationFunction:
         """
         pass
 
+    def post_process_jp(self, functions, agent_name, all_funcs, ontic_functions):
+        """
+        Post Process to modified JP results
+        Usually use to change agent's belief to a certain default value other than unknown
+        """
+        pass
+
+
 class AbstractPolicyStrategy:
     """
     Abstract class for agent policy decision strategy\n

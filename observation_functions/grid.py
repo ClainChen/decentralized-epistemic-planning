@@ -1,10 +1,14 @@
 import logging
-from abstracts import AbstractObservationFunction
 
+import util
+from abstracts import AbstractObservationFunction
+from util import QuickQueryFunctions
 
 LOGGER_LEVEL = logging.DEBUG
 
+
 class GridObsFunc(AbstractObservationFunction):
+    # agent_searched = {}
 
     def get_observable_functions(self, functions, agent_name, all_funcs, ontic_functions):
         """
@@ -18,71 +22,80 @@ class GridObsFunc(AbstractObservationFunction):
                 - connected
                 - sharing
                 - share_lock
+                - agent_type
             - what in its own location
             - the survivor locations that have been shared to it
             - other agent's location if they are in sharing state
         """
+        if 'qh' in agent_name:
+            return functions[:]
+
+        ff: util.QuickQueryFunctions = QuickQueryFunctions.build_qqf(functions)
         result = set()
-        sharing_agent = ''
-        survivor_loc_shared = {}
-        survivor_loc = {}
-        agent_loc = {}
-        searched = {}
-        receivable = {}
+
+        current_agent_loc = ff.get('agent_loc', {'?a': agent_name})
+        receivable = ff.get('receivable', {'?a': agent_name}) == 1
+        sharing = [ff.get('agent_loc', {'?a': f.parameters['?a']})
+                   for f in ff.get_by_name('sharing') if f.value == 1]
 
         for func in functions:
             if func.name == 'agent_loc':
-                agent_loc[func.parameters['?a']] = func
-            elif func.name == 'shared' and func.value == 1:
-                survivor_loc_shared[func.parameters['?s']] = func
+                """
+                1. assume agent will always knows the agents that not movable
+                2. agent will always knows the special quieter agents
+                3. agent can observe the other agents in the same location
+                4. receivable agent can observe the other agents if they are sharing
+                """
+                agt = func.parameters['?a']
+                if (ff.get('movable', {'?a': agt}) == 0  #1
+                        or 'qh' in agt  #2
+                        or current_agent_loc == func.value  #3
+                        or (receivable and ff.get('sharing', {'?a': agt}) == 1)):  #4
+                    result.add(func)
             elif func.name == 'survivor_loc':
-                survivor_loc[func.parameters['?s']] = func
+                """
+                1. if the survivor is being shared, receivable agent will know it
+                2. if the survivor in the same location, agent will know it
+                """
+                sur = func.parameters['?s']
+                if ((receivable and ff.get('shared', {'?s': sur}) == 1)
+                        or ff.get('survivor_loc', {'?s': sur}) == current_agent_loc):
+                    result.add(func)
+            elif func.name == 'shared':
+                """
+                1. if an survivor is being shared, receivable agent will know it
+                2. if this agent is currently sharing and in the same location with the this survivor, agent will know it
+                """
+                sur = func.parameters['?s']
+                if ((receivable and func.value == 1)
+                        or (ff.get('sharing', {'?a': agent_name})
+                            and ff.get('survivor_loc', {'?s': sur}) == current_agent_loc)):
+                    result.add(func)
             elif func.name == 'searched':
-                searched[func.parameters['?l']] = func
+                """
+                1. if this agent is receivable, then this agent will know it
+                2. if this agent in this location, then this agent will know it
+                """
+                loc = func.parameters['?l']
+                if current_agent_loc == loc or (receivable and loc in sharing):
+                    result.add(func)
             else:
                 result.add(func)
-                if func.name == 'receivable':
-                    receivable[func.parameters['?a']] = func.value
-                elif func.name == 'sharing' and func.value == 1:
-                    sharing_agent = func.parameters['?a']
-
-        # if this agent's location is not in the function (in nesting observation), that means the last agent cannot observe this agent, then it should have only common knowledge
-        if agent_name not in agent_loc:
-            return list(result)
-        
-        # agent location
-        for loc_func in agent_loc.values():
-            if loc_func.value == agent_loc[agent_name].value:
-                result.add(loc_func)
-        # searched status of its own location
-        result.add(searched[agent_loc[agent_name].value])
-        # if this agent is sharing, then it knows the survivor in this location is shared
-        for s, loc_func in survivor_loc.items():
-            if loc_func.value == agent_loc[agent_name].value:
-                result.add(loc_func)
-                if sharing_agent == agent_name and s in survivor_loc_shared:
-                    result.add(survivor_loc_shared[s])
-
-        # if this agent is not receivable, then it will only observe what in its own location
-        if receivable[agent_name] == 0:
-            return list(result)
-        
-        # if this agent is receivable, then it will also observe other sharing agent's location information, and the location of the shared survivors.
-        if sharing_agent in agent_loc and sharing_agent != agent_name and sharing_agent != '':
-            result.add(agent_loc[sharing_agent])
-            # searched status of the sharing agent's location
-            if agent_loc[sharing_agent].value in searched:
-                result.add(searched[agent_loc[sharing_agent].value])
-        for s, f in survivor_loc_shared.items():
-            result.add(f)
-            if f.value == 1 and s in survivor_loc:
-                result.add(survivor_loc[s])
 
         return list(result)
-        
-    
+
     def get_observable_agents(self, model, functions, agent_name):
-        agents = [agent.name for agent in model.agents]
-        return agents
-        
-        
+        agent_room = {}
+        for func in functions:
+            if func.name == 'agent_loc':
+                agent_room[func.parameters['?a']] = func.value
+        current_agent_room = agent_room[agent_name]
+        return [agent for agent, room in agent_room.items() if room == current_agent_room]
+
+    def post_process_jp(self, functions, agent_name, all_funcs, ontic_functions):
+        return [
+            all_funcs.get_function(f.name, f.parameters, 0)
+            if (f.name == 'searched' and f.value != 1) or (f.name == 'shared' and f.value != 1)
+            else f
+            for f in functions
+        ]

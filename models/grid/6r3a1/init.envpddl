@@ -1,0 +1,162 @@
+(define
+    (problem 6r3a1)
+    (:domain grid)
+
+    (:agents 
+        a qha b qhb c qhc
+    )
+
+    (:objects
+        s1 - survivor
+        r0 r1 r2 r3 r4 r5 r6 - location
+    )
+
+    (:init
+        (assign (agent_loc a) r1)
+        (assign (agent_loc b) r3)
+        (assign (agent_loc c) r6)
+        (assign (agent_loc qha) r0)
+        (assign (agent_loc qhb) r0)
+        (assign (agent_loc qhc) r0)
+
+        (assign (agent_type a) agent)
+        (assign (agent_type b) agent)
+        (assign (agent_type c) agent)
+        (assign (agent_type qha) quiet_helper)
+        (assign (agent_type qhb) quiet_helper)
+        (assign (agent_type qhc) quiet_helper)
+
+        (assign (movable a) 1)
+        (assign (movable b) 1)
+        (assign (movable c) 1)
+        (assign (movable qha) 0)
+        (assign (movable qhb) 0)
+        (assign (movable qhc) 0)
+
+        (assign (sharable a) 1)
+        (assign (sharable b) 1)
+        (assign (sharable c) 1)
+        (assign (sharable qha) 0)
+        (assign (sharable qhb) 0)
+        (assign (sharable qhc) 0)
+
+        (assign (receivable a) 1)
+        (assign (receivable b) 1)
+        (assign (receivable c) 1)
+        (assign (receivable qha) 0)
+        (assign (receivable qhb) 0)
+        (assign (receivable qhc) 0)
+
+        (assign (survivor_loc s1) r4)
+
+        (assign (shared s1) 0)
+
+        (assign (sharing a) 0)
+        (assign (sharing b) 0)
+        (assign (sharing c) 0)
+        (assign (sharing qha) 0)
+        (assign (sharing qhb) 0)
+        (assign (sharing qhc) 0)
+
+        (assign (share_lock) 0)
+
+        (assign (searched r0) 1)
+        (assign (searched r1) 1)
+        (assign (searched r2) 0)
+        (assign (searched r3) 1)
+        (assign (searched r4) 0)
+        (assign (searched r5) 0)
+        (assign (searched r6) 1)
+
+        (assign (loc_id r0) r0)
+        (assign (loc_id r1) r1)
+        (assign (loc_id r2) r2)
+        (assign (loc_id r3) r3)
+        (assign (loc_id r4) r4)
+        (assign (loc_id r5) r5)
+        (assign (loc_id r6) r6)
+
+        (assign (connected r0 r0) 0)
+        (assign (connected r0 r1) 0)
+        (assign (connected r0 r2) 0)
+        (assign (connected r0 r3) 0)
+        (assign (connected r0 r4) 0)
+        (assign (connected r0 r5) 0)
+        (assign (connected r0 r6) 0)
+
+        (assign (connected r1 r0) 0)
+        (assign (connected r1 r1) 0)
+        (assign (connected r1 r2) 1)
+        (assign (connected r1 r3) 0)
+        (assign (connected r1 r4) 1)
+        (assign (connected r1 r5) 0)
+        (assign (connected r1 r6) 0)
+
+        (assign (connected r2 r0) 0)
+        (assign (connected r2 r1) 1)
+        (assign (connected r2 r2) 0)
+        (assign (connected r2 r3) 1)
+        (assign (connected r2 r4) 0)
+        (assign (connected r2 r5) 1)
+        (assign (connected r2 r6) 0)
+
+        (assign (connected r3 r0) 0)
+        (assign (connected r3 r1) 0)
+        (assign (connected r3 r2) 1)
+        (assign (connected r3 r3) 0)
+        (assign (connected r3 r4) 0)
+        (assign (connected r3 r5) 0)
+        (assign (connected r3 r6) 1)
+
+        (assign (connected r4 r0) 0)
+        (assign (connected r4 r1) 1)
+        (assign (connected r4 r2) 0)
+        (assign (connected r4 r3) 0)
+        (assign (connected r4 r4) 0)
+        (assign (connected r4 r5) 1)
+        (assign (connected r4 r6) 0)
+
+        (assign (connected r5 r0) 0)
+        (assign (connected r5 r1) 0)
+        (assign (connected r5 r2) 1)
+        (assign (connected r5 r3) 0)
+        (assign (connected r5 r4) 1)
+        (assign (connected r5 r5) 0)
+        (assign (connected r5 r6) 1)
+
+        (assign (connected r6 r0) 0)
+        (assign (connected r6 r1) 0)
+        (assign (connected r6 r2) 0)
+        (assign (connected r6 r3) 1)
+        (assign (connected r6 r4) 0)
+        (assign (connected r6 r5) 1)
+        (assign (connected r6 r6) 0)
+
+    )
+
+    (:ranges
+        (agent_loc enumerate [r0,r1,r2,r3,r4,r5,r6])
+        (agent_type enumerate [agent,quiet_helper])
+        (survivor_loc enumerate [r0,r1,r2,r3,r4,r5,r6])
+        (loc_id enumerate [r0,r1,r2,r3,r4,r5,r6])
+        (shared integer [0,1])
+        (sharing integer [0,1])
+        (share_lock integer [0,1])
+        (connected integer [0,1])
+        (sharable integer [0,1])
+        (movable integer [0,1])
+        (receivable integer [0,1])
+        (searched integer [0,1])
+    )
+    
+
+    (:goal_sets
+        survivor_loc(all)=[all]
+        searched(all)=[all]
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

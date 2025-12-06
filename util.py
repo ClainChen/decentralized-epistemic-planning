@@ -7,6 +7,8 @@ from pathlib import Path
 from time import perf_counter
 from functools import wraps
 from epistemic_world import get_epistemic_world
+import cache_helper as ch
+from cachetools import cached, LRUCache
 
 BIG_DIVIDER = "=================\n"
 MEDIUM_DIVIDER = "*****************\n"
@@ -24,10 +26,13 @@ OBS_FUNC = {}
 STRATEGY = {}
 RULES = None
 
+CALL_OF_JP = 0
+
 # Limitation of num of goals for each agent
 LIMIT = 2
 
 logging.addLevelName(25, "EXP")
+
 
 def exp(self, message, *args, **kws):
     if self.isEnabledFor(25):
@@ -282,7 +287,7 @@ def check_regular_condition(condition: Condition, functions: list[Function]) -> 
     # if it is ep.none, then we only need to check whther the checking_function is exist or not depends on the epistemic operator
     if condition.ep_truth == EpistemicTruth.UNKNOWN:
         return checking_function is None or checking_function.value is None if condition.ep_operator == EpistemicOperator.EQUAL else not (
-                    checking_function is None or checking_function.value is None)
+                checking_function is None or checking_function.value is None)
 
     if checking_function is None:
         return False
@@ -371,6 +376,9 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     known_functions = get_epistemic_world(model, [agent_name])
     known_functions = [f for f in known_functions if f.value != None]
     unknown_functions = get_unknown_functions(model, known_functions, agent_name)
+    # for f in unknown_functions:
+    #     print(f)
+    # exit(0)
 
     # group the functions by name and parameters
     group_functions = {}
@@ -387,32 +395,29 @@ def generate_virtual_model(model: Model, agent_name: str) -> list[Model]:
     valid_combs = []
     for comb in all_combs:
         combi = known_functions + list(comb)
-        if util.RULES.check_functions(combi):
+        if (util.RULES.check_functions(combi) and
+                OBS_FUNC[agent_name].get_observable_functions(known_functions, agent_name, model.ALL_FUNCS,
+                                                              model.ontic_functions) ==
+                OBS_FUNC[agent_name].get_observable_functions(combi, agent_name, model.ALL_FUNCS,
+                                                              model.ontic_functions)):
             valid_combs.append(comb)
 
     virtual_model = model.copy()
     current_agent = virtual_model.get_agent_by_name(agent_name)
     # the functions of current agent will not change, other agent's functions will set to the observation functions based on current agent's functions
-    if virtual_model.problem_type == ProblemType.SHARE:
-        for agent in virtual_model.agents:
-            if agent.name != agent_name:
-                if current_agent.other_goals[agent.name]:
-                    agent.own_goals = current_agent.other_goals[agent.name]
-                else:
-                    # 转化goal
-                    goals = []
-                    for goal in current_agent.own_goals:
-                        new_goal = copy.deepcopy(goal)
-                        new_goal.belief_sequence[0] = agent.name
-                        new_goal.belief_sequence = remove_continue_duplicates(new_goal.belief_sequence)
-                        goals.append(new_goal)
-                    agent.own_goals = goals
+    # if virtual_model.problem_type == ProblemType.SHARE:
+    #     for agt in virtual_model.agents:
+    #         agt.own_goals = model.get_agent_by_name(agt.name).own_goals
 
     # update the model history to the history based on current_agent's perspective 
     current_history = []
     new_history_functions = []
+    history_functions = model.get_history_functions()
     for history, ts in zip(virtual_model.history, range(len(virtual_model.history))):
-        new_history = {'functions': get_epistemic_world(virtual_model, [agent_name], ts=ts),
+        new_history = {'functions': get_epistemic_world(virtual_model,
+                                                        [agent_name],
+                                                        history_functions=history_functions[:ts+1],
+                                                        ts=ts),
                        'agent': history['agent'],
                        'action': history['action']}
         new_history_functions.append(new_history)
@@ -457,7 +462,7 @@ def remove_continue_duplicates(lst):
     return new_list
 
 
-sim_timeout = 300
+# sim_timeout = 300
 
 import heapq
 
@@ -465,34 +470,45 @@ import heapq
 def check_bfs(virtual_model: Model, max_action_length=-1):
     global sim_timeout
     heap: list[BFSNode] = []
-    heapq.heappush(heap, BFSNode(1, [], virtual_model))
+    heapq.heappush(heap, BFSNode(1, [], [virtual_model], []))
     existed_epistemic_world = set()
     start = time.perf_counter()
+    expands = 0
     while heap:
         node = heapq.heappop(heap)
+        cur_model = node.model[-1]
+        l = ch.BFS_CACHE.get_cache(cur_model)
+        if len(node.model) > 1 and l:
+            return len(node.actions) + l, [act.header() for act in node.actions]
         # util.LOGGER.debug(f"{[act.header() for act in node.actions]}")
-        if node.model.full_goal_complete():
-            if (time.perf_counter() - start) * 5 < sim_timeout:
-                sim_timeout = max(20, sim_timeout * 0.7)
+        if cur_model.full_goal_complete():
+            # if (time.perf_counter() - start) * 5 < sim_timeout:
+            #     sim_timeout = max(20, sim_timeout * 0.7)
             # print([act.header() for act in node.actions])
+            ch.BFS_CACHE.add_cache(node)
+            print(f"Centralized Planning Result:")
+            print(f"Time spent: {(time.perf_counter() - start):.6f}s")
+            print(f"Number of Expansions: {expands}")
             return len(node.actions), [act.header() for act in node.actions]
 
-        if max_action_length > 0 and len(node.actions) == max_action_length:
+        if 0 < max_action_length == len(node.actions):
             break
+
         successors = {}
-        for agent in node.model.agents:
-            successors[agent.name] = node.model.get_agent_successors(agent.name)
+        for agent in cur_model.agents:
+            successors[agent.name] = cur_model.get_agent_successors(agent.name)
         for name, succs in successors.items():
             for succ in succs:
-                if time.perf_counter() - start > sim_timeout:
-                    sim_timeout = min(120, sim_timeout * 1.3)
-                    return -1, -1
-                next_model = node.model.copy()
+                if 'stay' in succ.name and len(node.actions) > 0:
+                    continue
+                # if time.perf_counter() - start > sim_timeout:
+                #     sim_timeout = min(120, sim_timeout * 1.3)
+                #     return -1, -1
+                next_model = cur_model.copy()
                 next_model.move(name, succ)
                 # 过滤机制
-                observe_funcs = []
-                for bs in next_model.possible_belief_sequences:
-                    observe_funcs.append(frozenset([tuple(bs)] + [s.id for s in get_epistemic_world(next_model, bs)]))
+                observe_funcs = tuple(tuple([''.join(bs)] + [s.id for s in util.get_epistemic_world(next_model, bs)])
+                                      for bs in next_model.possible_belief_sequences)
                 observe_funcs = frozenset(observe_funcs)
                 if observe_funcs in existed_epistemic_world:
                     continue
@@ -501,16 +517,19 @@ def check_bfs(virtual_model: Model, max_action_length=-1):
                 heapq.heappush(heap,
                                BFSNode(1,
                                        node.actions + [succ],
-                                       next_model))
+                                       node.model + [next_model],
+                                       node.agents + [name]))
+                expands += 1
 
     return -1, -1
 
 
 class BFSNode:
-    def __init__(self, current_index, action, model):
+    def __init__(self, current_index, action, model, agts):
         self.current_index: int = current_index
         self.actions: list[Action] = action[:]
-        self.model: Model = model
+        self.model: list[Model] = model[:]
+        self.agents: list[str] = agts[:]
         self.h = -1
 
     @property
@@ -520,9 +539,9 @@ class BFSNode:
 
         # the number of goals that didn't achieve yet
         count = 0
-        for agt in self.model.agents:
+        for agt in self.model[-1].agents:
             for goal in agt.own_goals:
-                if not check_condition(self.model, goal):
+                if not check_condition(self.model[-1], goal):
                     count += 1
         self.h = count
         return self.h
@@ -533,7 +552,7 @@ class BFSNode:
 
     @property
     def priority(self):
-        return len(self.actions) + (self.heuristic)
+        return len(self.actions) + self.heuristic
 
     def __lt__(self, other):
         return self.priority < other.priority
@@ -657,3 +676,48 @@ class FinalFunctions:
 
     def __repr__(self):
         return self.__str__()
+
+
+@cached(LRUCache(maxsize=1024))
+def qqf_key(function: Function) -> str:
+    params = tuple(sorted(function.parameters.items()))
+    return f"{function.name}:{params}"
+
+
+class QuickQueryFunctions:
+    def __init__(self):
+        self.functions = {}
+
+    def add_function(self, function: Function) -> None:
+        self.functions[f"{qqf_key(function)}"] = function
+
+    @staticmethod
+    @cached(LRUCache(maxsize=1024), key=ch.freeze_lst_to_tuple)
+    def build_qqf(functions: list[Function]) -> "QuickQueryFunctions":
+        qqf = QuickQueryFunctions()
+        for function in functions:
+            qqf.add_function(function)
+        return qqf
+
+    def get(self, function_name: str, parameters: dict[str, str]) -> int | str | None:
+        key = f"{function_name}:{tuple(sorted(parameters.items()))}"
+        if key in self.functions:
+            return self.functions[key].value
+        return None
+
+    def get_func(self, function_name: str, parameters: dict[str, str]) -> Function | None:
+        key = f"{function_name}:{tuple(sorted(parameters.items()))}"
+        if key in self.functions:
+            return self.functions[key]
+        return None
+
+    def get_by_name(self, function_name: str) -> list[Function]:
+        return [
+            function for key, function in self.functions.items() if f'{function_name}:' in key
+        ]
+
+    def __str__(self):
+        output = ""
+        for key, value in self.functions.items():
+            output += f"{key}: {value}\n"
+        return output

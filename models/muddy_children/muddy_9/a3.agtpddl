@@ -1,0 +1,10 @@
+(define
+    (problem muddy_9)
+    (:domain muddy_children)
+    (:agent a3)
+
+    (:goal (and
+        (= (@ep (" b [a3]") (= (muddy a3) 1)) ep.true)
+        )
+    )
+)

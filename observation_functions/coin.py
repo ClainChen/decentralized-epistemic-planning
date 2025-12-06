@@ -22,5 +22,8 @@ class CoinObsFunc(AbstractObservationFunction):
     def get_observable_agents(self, model, functions, agent_name):
         agents = [agent.name for agent in model.agents]
         return agents
+
+    def post_process_jp(self, functions, agent_name, all_funcs, ontic_functions):
+        return functions[:]
         
         

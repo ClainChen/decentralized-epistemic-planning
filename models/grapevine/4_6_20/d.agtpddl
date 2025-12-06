@@ -1,0 +1,10 @@
+(define
+    (problem 4_6_20)
+    (:domain grapevine)
+    (:agent d)
+
+    (:goal (and
+        (= (@ep (" b [d]") (= (shared_value as) t)) ep.true)
+        )
+    )
+)

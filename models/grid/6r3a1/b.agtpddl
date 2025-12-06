@@ -1,0 +1,16 @@
+(define
+    (problem 6r3a1)
+    (:domain grid)
+    (:agent b)
+
+    (:goal (and
+        (!= (@ep (" b [b]") (survivor_loc s1)) ep.unknown)
+        (= (@ep (" b [b]") (= (searched r1) 1)) ep.true)
+        (= (@ep (" b [b]") (= (searched r2) 1)) ep.true)
+        (= (@ep (" b [b]") (= (searched r3) 1)) ep.true)
+        (= (@ep (" b [b]") (= (searched r4) 1)) ep.true)
+        (= (@ep (" b [b]") (= (searched r5) 1)) ep.true)
+        (= (@ep (" b [b]") (= (searched r6) 1)) ep.true)
+        )
+    )
+)

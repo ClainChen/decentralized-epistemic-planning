@@ -36,5 +36,15 @@
             (increase (number_of_questions) 1)
         )
     )
+
+    (:action stay
+        :parameters (?self - agent)
+        :precondition (
+            (!= (is_type ?self) teacher)
+        )
+        :effect (
+
+        )
+    )
     
 )

@@ -1,0 +1,72 @@
+(define
+    (problem 8_8_17)
+    (:domain grapevine)
+
+    (:agents 
+        a1 a2 a3 a4 a5 a6 a7 a8
+    )
+
+    (:objects
+        a1s - secret
+    )
+
+    (:init
+        (assign (agent_loc a1) 1)
+        (assign (agent_loc a2) 1)
+        (assign (agent_loc a3) 1)
+        (assign (agent_loc a4) 1)
+        (assign (agent_loc a5) 1)
+        (assign (agent_loc a6) 1)
+        (assign (agent_loc a7) 1)
+        (assign (agent_loc a8) 1)
+
+        (assign (secret_id a1s) a1s)
+
+        (assign (agent_id a1) a1)
+        (assign (agent_id a2) a2)
+        (assign (agent_id a3) a3)
+        (assign (agent_id a4) a4)
+        (assign (agent_id a5) a5)
+        (assign (agent_id a6) a6)
+        (assign (agent_id a7) a7)
+        (assign (agent_id a8) a8)
+
+        (assign (shared_value a1s) t)
+
+        (assign (shared_loc a1s) 0)
+
+        (assign (own a1s) a1)
+
+        (assign (sharing_lock) 0)
+
+        (assign (agent_sharing a1) none)
+        (assign (agent_sharing a2) none)
+        (assign (agent_sharing a3) none)
+        (assign (agent_sharing a4) none)
+        (assign (agent_sharing a5) none)
+        (assign (agent_sharing a6) none)
+        (assign (agent_sharing a7) none)
+        (assign (agent_sharing a8) none)
+    )
+
+    (:ranges
+        (agent_loc integer [1,2])
+        (secret_id enumerate [a1s])
+        (agent_id enumerate [a1,a2,a3,a4,a5,a6,a7,a8])
+        (own enumerate [a1])
+        (sharing_lock integer [0,1])
+        (agent_sharing enumerate [none,a1s])
+        (shared_value enumerate [t,f])
+        (shared_loc integer [0,2])
+    )
+    
+
+    (:goal_sets
+        shared_value(a1s)=[all]
+    )
+
+    (:max_belief_depth 1)
+
+    (:rules
+    )
+)

@@ -1,0 +1,10 @@
+(define
+    (problem light1)
+    (:domain light_bulb)
+    (:agent external)
+
+    (:goal (and
+
+        )
+    )
+)

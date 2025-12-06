@@ -1,9 +1,9 @@
-import util
+from util import QuickQueryFunctions
 import logging
 from abstracts import AbstractObservationFunction
 
-
 LOGGER_LEVEL = logging.DEBUG
+
 
 class LightBulbObsFunc(AbstractObservationFunction):
 
@@ -20,50 +20,45 @@ class LightBulbObsFunc(AbstractObservationFunction):
         """
         if agent_name == 'external':
             return functions[:]
-        result = [f for f in functions if f.name in ['agent_id', 'light_id', 'bs_id', 'tell_lock', 'telling', 'a_observable', 'observable']]
 
-        light_states = {}
-        button_states = {}
-        button_light_relation = {}
-        connect_relation = {}
-        for func in ontic_functions:
-            if func.name == 'light_state':
-                light_states[func.parameters['?l']] = func
-            elif func.name == 'button_light_state':
-                button = func.parameters['?b']
-                if button not in button_light_relation:
-                    button_light_relation[button] = {}
-                button_light_relation[button][func.parameters['?bs']] = func.value
-            elif func.name == 'connected':
-                connect_relation[func.parameters['?b']] = func.value
-            elif func.name == 'button_state':
-                button_states[func.parameters['?b']] = func
+        ff: QuickQueryFunctions = QuickQueryFunctions.build_qqf(functions)
+        # ontic_ff: QuickQueryFunctions = QuickQueryFunctions.build_qqf(ontic_functions)
+        result = set(f for f in functions if f.name in ['agent_id',
+                                                        'light_id',
+                                                        'bs_id',
+                                                        'tell_lock',
+                                                        'telling',
+                                                        'a_observable',
+                                                        'observable',
+                                                        'change_lock',
+                                                        'connected'])
 
-        """
-        The state of the light is determined by the button_light_relation:
-        (light_state ?l) = (button_light_state ?b ?bs) where (connected ?b) = ?l and (button_state ?b) = ?bs
-        """
         if agent_name == 'a':
-            a_observable = {}
             for func in functions:
                 if func.name == 'button_state':
-                    result.append(func)
-                elif func.name == 'a_observable':
-                    a_observable[func.parameters['?l']] = func.value
-            
-            for l, is_observable in a_observable.items():
-                if is_observable == 1:
-                    result.append(light_states[l])
-            return result
-        else:
+                    result.add(func)
+                elif func.name == 'light_state':
+                    """
+                    1. if a is observable to this light, then a knows that
+                    """
+                    light = func.parameters['?l']
+                    if ff.get('a_observable', {'?l': light}) == 1:
+                        result.add(func)
+        elif agent_name in ['b', 'c']:
             for func in functions:
-                if func.name == 'observable':
-                    if func.value == agent_name:
-                        result.append(light_states[func.parameters['?l']])
-            return result
-    
+                if func.name == 'light_state':
+                    """
+                    1. if b or c is observable to this light, then a knows that
+                    """
+                    light = func.parameters['?l']
+                    if ff.get('observable', {'?l': light}) == agent_name:
+                        result.add(func)
+
+        return list(result)
+
     def get_observable_agents(self, model, functions, agent_name):
         agents = [agent.name for agent in model.agents]
         return agents
-        
-        
+
+    def post_process_jp(self, functions, agent_name, all_funcs, ontic_functions):
+        return functions[:]

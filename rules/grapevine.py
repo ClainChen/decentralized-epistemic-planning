@@ -17,14 +17,16 @@ class GrapevineRules(AbstractRules):
         secret_info = {} # secret: [sharing_value, loc]
         # print(functions)
         for func in functions:
+            if func.name == 'secret_id':
+                if func.parameters['?s'] != func.value:
+                    return False
+                secret_info[func.value] = {}
+
+        for func in functions:
             if func.name == 'agent_loc':
                 if func.value not in [1,2]:
                     return False
                 agent_loc[func.parameters['?a']] = func.value
-            elif func.name == 'secret_id':
-                if func.parameters['?s'] != func.value:
-                    return False
-                secret_info[func.value] = {}
             elif func.name == 'agent_id':
                 if func.parameters['?a'] != func.value:
                     return False
