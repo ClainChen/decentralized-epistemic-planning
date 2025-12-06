@@ -66,17 +66,17 @@
     },
 
     {
-        "enabled": 0,
+        "enabled": 1,
         "model_name": "muddy_children",
         "problems": [
-            {"enabled": 1, "limit": 1, "name": "muddy_3", "agents": []},
-            {"enabled": 1, "limit": 1, "name": "muddy_4", "agents": []},
-            {"enabled": 1, "limit": 1, "name": "muddy_5", "agents": []},
-            {"enabled": 1, "limit": 1, "name": "muddy_6", "agents": []},
+            {"enabled": 0, "limit": 1, "name": "muddy_3", "agents": []},
+            {"enabled": 0, "limit": 1, "name": "muddy_4", "agents": []},
+            {"enabled": 0, "limit": 1, "name": "muddy_5", "agents": []},
+            {"enabled": 0, "limit": 1, "name": "muddy_6", "agents": []},
             {"enabled": 1, "limit": 1, "name": "muddy_7", "agents": []},
-            {"enabled": 1, "limit": 1, "name": "muddy_8", "agents": []},
-            {"enabled": 1, "limit": 1, "name": "muddy_9", "agents": []},
-            {"enabled": 1, "limit": 1, "name": "muddy_10", "agents": []}
+            {"enabled": 0, "limit": 1, "name": "muddy_8", "agents": []},
+            {"enabled": 0, "limit": 1, "name": "muddy_9", "agents": []},
+            {"enabled": 0, "limit": 1, "name": "muddy_10", "agents": []}
         ],
         "ob": "muddy_children.py",
         "rules": "muddy_children.py",
@@ -196,7 +196,7 @@
     },
 
     {
-        "enabled": 1,
+        "enabled": 0,
         "model_name": "light_bulb",
         "problems": [
             {"enabled": 1, "limit": 1, "name": "light1", "agents": []},
@@ -211,7 +211,7 @@
     },
 
     {
-        "enabled": 1,
+        "enabled": 0,
         "model_name": "grid",
         "problems": [
             {"enabled": 1, "limit": 1, "name": "5r2a1", "agents": []},

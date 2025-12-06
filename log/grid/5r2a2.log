@@ -31,3 +31,30 @@ Steps: 20
 Time cost: 132.268604s
 Number of Generated Virtual Problems: 27
 
+2025-12-06 20:47:34,355 EXP - __main__.Logger.exp:
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r3', 'r2'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r2', 'r3'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r3', 'r5'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r5', 'r4'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share(['b', 'r4', 'r1'])
+qhb takes action: quiet(['qhb', 'b'])
+a takes action: normal_stay(['a'])
+b takes action: move_and_share_survivor(['b', 's1', 'r1', 'r4'])
+Steps: 17
+Time cost: 107.371089s
+Number of Generated Virtual Problems: 22
+
+2025-12-06 20:47:34,355 EXP - __main__.Logger.exp:
+Avg Steps: 18.5
+Avg Time: 119.819846s
+Avg VMS: 24.5
+

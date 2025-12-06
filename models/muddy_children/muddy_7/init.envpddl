@@ -1,5 +1,5 @@
 (define
-    (problem muddy_10)
+    (problem muddy_7)
     (:domain muddy_children)
 
     (:agents 
