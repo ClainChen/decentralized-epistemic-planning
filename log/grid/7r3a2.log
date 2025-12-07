@@ -1,0 +1,44 @@
+2025-12-07 17:26:20,391 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-07 17:26:20,391 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-07 17:26:20,391 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         survivor_loc(all)=[all]
+        searched(all)=[all]
+
+2025-12-07 17:42:29,765 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r3', 'r6'])
+c takes action: move_and_share(['c', 'r6', 'r5'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r6', 'r3'])
+c takes action: move_and_share(['c', 'r5', 'r7'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r3', 'r2'])
+c takes action: move_and_share(['c', 'r7', 'r5'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r2', 'r1'])
+c takes action: move_and_share(['c', 'r5', 'r4'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r1', 'r4'])
+c takes action: move(['c', 'r4', 'r1'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r4', 'r5'])
+c takes action: move_and_share(['c', 'r1', 'r2'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r5', 'r7'])
+c takes action: move_and_share(['c', 'r2', 'r3'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r7', 'r5'])
+c takes action: move_and_share(['c', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move_and_share_survivor(['b', 's1', 'r5', 'r4'])
+Steps: 26
+Time cost: 967.631333s
+Number of Generated Virtual Problems: 92
+
+2025-12-07 17:42:29,765 EXP - __main__.Logger.exp:
+Avg Steps: 26.0
+Avg Time: 967.631333s
+Avg VMS: 92.0
+

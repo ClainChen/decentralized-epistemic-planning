@@ -1,0 +1,29 @@
+2025-12-07 17:11:35,077 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-07 17:11:35,077 ERROR - __main__._.regex_search:
+result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
+2025-12-07 17:11:35,077 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         survivor_loc(all)=[all]
+        searched(all)=[all]
+
+2025-12-07 17:12:46,391 EXP - __main__.Logger.exp:
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r3', 'r5'])
+c takes action: move_and_share(['c', 'r5', 'r4'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r5', 'r4'])
+c takes action: move_and_share(['c', 'r4', 'r1'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r4', 'r2'])
+c takes action: move_and_share_survivor(['c', 's1', 'r1', 'r4'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r2', 'r3'])
+Steps: 11
+Time cost: 70.289102s
+Number of Generated Virtual Problems: 28
+
+2025-12-07 17:12:46,392 EXP - __main__.Logger.exp:
+Avg Steps: 11.0
+Avg Time: 70.289102s
+Avg VMS: 28.0
+

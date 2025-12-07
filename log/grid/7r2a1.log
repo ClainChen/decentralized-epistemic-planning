@@ -1,0 +1,23 @@
+2025-12-07 17:26:20,391 ERROR - __main__._.regex_search:
+result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         survivor_loc(all)=[all]
+        searched(all)=[all]
+
+2025-12-07 17:30:30,144 EXP - __main__.Logger.exp:
+a takes action: move_and_share(['a', 'r1', 'r2'])
+b takes action: move_and_share(['b', 'r6', 'r3'])
+a takes action: move_and_share(['a', 'r2', 'r1'])
+b takes action: move_and_share(['b', 'r3', 'r6'])
+a takes action: move_and_share(['a', 'r1', 'r4'])
+b takes action: move_and_share(['b', 'r6', 'r5'])
+a takes action: move(['a', 'r4', 'r1'])
+b takes action: move_and_share(['b', 'r5', 'r7'])
+a takes action: move_and_share_survivor(['a', 's1', 'r1', 'r4'])
+Steps: 9
+Time cost: 248.886348s
+Number of Generated Virtual Problems: 74
+
+2025-12-07 17:30:30,144 EXP - __main__.Logger.exp:
+Avg Steps: 9.0
+Avg Time: 248.886348s
+Avg VMS: 74.0
+

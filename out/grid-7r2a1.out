@@ -1,0 +1,22 @@
+-------------------
+Centralized Planning Result:
+Time spent: 0.858336s
+Number of Expansions: 89
+Path Length: 8
+Path: ["move_and_share_survivor(['a', 's1', 'r1', 'r4'])", "move_and_share(['a', 'r4', 'r5'])", "move(['a', 'r5', 'r6'])", "move_and_share(['a', 'r6', 'r3'])", "move_and_share(['a', 'r3', 'r2'])", "move(['b', 'r6', 'r5'])", "move_and_share(['b', 'r5', 'r7'])", "move_and_share(['a', 'r2', 'r1'])"]
+-------------------
+1th Simulation:
+a takes action: move_and_share(['a', 'r1', 'r2'])
+b takes action: move_and_share(['b', 'r6', 'r3'])
+a takes action: move_and_share(['a', 'r2', 'r1'])
+b takes action: move_and_share(['b', 'r3', 'r6'])
+a takes action: move_and_share(['a', 'r1', 'r4'])
+b takes action: move_and_share(['b', 'r6', 'r5'])
+a takes action: move(['a', 'r4', 'r1'])
+b takes action: move_and_share(['b', 'r5', 'r7'])
+a takes action: move_and_share_survivor(['a', 's1', 'r1', 'r4'])
+Avg Steps: 9.0
+Avg Time: 248.886348s
+Avg VMS: 74.0
+Avg Call of JP: 44130.0
+

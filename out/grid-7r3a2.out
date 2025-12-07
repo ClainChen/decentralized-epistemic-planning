@@ -1,0 +1,39 @@
+-------------------
+Centralized Planning Result:
+Time spent: 1.734109s
+Number of Expansions: 174
+Path Length: 7
+Path: ["move_and_share(['b', 'r3', 'r2'])", "move_and_share(['b', 'r2', 'r1'])", "move_and_share_survivor(['b', 's1', 'r1', 'r4'])", "move_and_share(['b', 'r4', 'r5'])", "move_and_share(['c', 'r6', 'r3'])", "move_and_share(['b', 'r5', 'r7'])", "move_and_share(['c', 'r3', 'r6'])"]
+-------------------
+1th Simulation:
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r3', 'r6'])
+c takes action: move_and_share(['c', 'r6', 'r5'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r6', 'r3'])
+c takes action: move_and_share(['c', 'r5', 'r7'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r3', 'r2'])
+c takes action: move_and_share(['c', 'r7', 'r5'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r2', 'r1'])
+c takes action: move_and_share(['c', 'r5', 'r4'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r1', 'r4'])
+c takes action: move(['c', 'r4', 'r1'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r4', 'r5'])
+c takes action: move_and_share(['c', 'r1', 'r2'])
+a takes action: stay(['a'])
+b takes action: move_and_share(['b', 'r5', 'r7'])
+c takes action: move_and_share(['c', 'r2', 'r3'])
+a takes action: stay(['a'])
+b takes action: move(['b', 'r7', 'r5'])
+c takes action: move_and_share(['c', 'r3', 'r2'])
+a takes action: stay(['a'])
+b takes action: move_and_share_survivor(['b', 's1', 'r5', 'r4'])
+Avg Steps: 26.0
+Avg Time: 967.631333s
+Avg VMS: 92.0
+Avg Call of JP: 235118.0
+
