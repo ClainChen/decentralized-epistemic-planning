@@ -1,5 +1,5 @@
 (define
-    (problem 6r3a1)
+    (problem 5r3a1)
     (:domain grid)
     (:agent a)
 
@@ -10,7 +10,6 @@
         (= (@ep (" b [a]") (= (searched r3) 1)) ep.true)
         (= (@ep (" b [a]") (= (searched r4) 1)) ep.true)
         (= (@ep (" b [a]") (= (searched r5) 1)) ep.true)
-        (= (@ep (" b [a]") (= (searched r6) 1)) ep.true)
         )
     )
 )

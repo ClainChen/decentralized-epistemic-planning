@@ -216,8 +216,12 @@
         "problems": [
             {"enabled": 1, "limit": 1, "name": "5r2a1", "agents": []},
             {"enabled": 1, "limit": 1, "name": "5r2a2", "agents": []},
-            {"enabled": 1, "limit": 1, "name": "6r3a1", "agents": []},
-            {"enabled": 1, "limit": 1, "name": "6r3a2", "agents": []}
+            {"enabled": 1, "limit": 1, "name": "5r3a1", "agents": []},
+            {"enabled": 1, "limit": 1, "name": "5r3a2", "agents": []},
+            {"enabled": 1, "limit": 1, "name": "6r2a1", "agents": []},
+            {"enabled": 1, "limit": 1, "name": "6r3a2", "agents": []},
+            {"enabled": 1, "limit": 1, "name": "7r2a1", "agents": []},
+            {"enabled": 1, "limit": 1, "name": "7r3a2", "agents": []}
         ],
         "ob": "grid.py",
         "rules": "grid.py",

@@ -1,7 +1,7 @@
 (define
-    (problem 5r2a2)
+    (problem 7r3a2)
     (:domain grid)
-    (:agent qhb)
+    (:agent c)
 
     (:goal (and
 

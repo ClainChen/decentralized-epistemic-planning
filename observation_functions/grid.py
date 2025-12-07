@@ -21,15 +21,10 @@ class GridObsFunc(AbstractObservationFunction):
                 - loc_id
                 - connected
                 - sharing
-                - share_lock
-                - agent_type
             - what in its own location
             - the survivor locations that have been shared to it
             - other agent's location if they are in sharing state
         """
-        if 'qh' in agent_name:
-            return functions[:]
-
         ff: util.QuickQueryFunctions = QuickQueryFunctions.build_qqf(functions)
         result = set()
 
@@ -42,15 +37,13 @@ class GridObsFunc(AbstractObservationFunction):
             if func.name == 'agent_loc':
                 """
                 1. assume agent will always knows the agents that not movable
-                2. agent will always knows the special quieter agents
-                3. agent can observe the other agents in the same location
-                4. receivable agent can observe the other agents if they are sharing
+                2. agent can observe the other agents in the same location
+                3. receivable agent can observe the other agents if they are sharing
                 """
                 agt = func.parameters['?a']
                 if (ff.get('movable', {'?a': agt}) == 0  #1
-                        or 'qh' in agt  #2
-                        or current_agent_loc == func.value  #3
-                        or (receivable and ff.get('sharing', {'?a': agt}) == 1)):  #4
+                        or current_agent_loc == func.value  #2
+                        or (receivable and ff.get('sharing', {'?a': agt}) == 1)):  #3
                     result.add(func)
             elif func.name == 'survivor_loc':
                 """

@@ -1,9 +1,772 @@
-2025-12-06 20:43:24,022 ERROR - __main__._.regex_search:
+2025-12-07 19:50:04,799 INFO - __main__._.build:
+Start building the model, type: ""SHARE""
+2025-12-07 19:50:04,800 INFO - __main__.DomainParser.run:
+Domain "models/light_bulb/domain.pddl" start initialization.
+2025-12-07 19:50:04,801 INFO - __main__.DomainParser.run:
+Domain Parser found "models/light_bulb/domain.pddl"
+2025-12-07 19:50:04,801 INFO - __main__.DomainParser.run:
+Complete file reading.
+2025-12-07 19:50:04,801 INFO - __main__.DomainParser.run:
+Domain name found
+2025-12-07 19:50:04,802 INFO - __main__.DomainParser.run:
+Domain type found
+2025-12-07 19:50:04,803 INFO - __main__.DomainParser.run:
+Domain functions found
+2025-12-07 19:50:04,805 INFO - __main__.DomainParser.run:
+Domain actions found
+2025-12-07 19:50:04,805 DEBUG - __main__.DomainParser.run:
+Parsed Domain Result:
+================= Domain "(light_bulb)" Parsing Result ================
+Domain types: ['agent', 'light', 'button', 'bs']
+=================
+Domain functions:
+Function(name:light_id, parameters:{'light': ['?l']}). 
+Function(name:bs_id, parameters:{'bs': ['?bs']}). 
+Function(name:agent_id, parameters:{'agent': ['?a']}). 
+Function(name:tell_lock, parameters:{}). 
+Function(name:change_lock, parameters:{}). 
+Function(name:telling, parameters:{'agent': ['?a']}). 
+Function(name:a_observable, parameters:{'light': ['?l']}). 
+Function(name:observable, parameters:{'light': ['?l']}). 
+Function(name:light_state, parameters:{'light': ['?l']}). 
+Function(name:connected, parameters:{'button': ['?b']}). 
+Function(name:button_state, parameters:{'button': ['?b']}). 
+Function(name:button_light_state, parameters:{'button': ['?b'], 'bs': ['?bs']}). 
+=================
+Domain actions:
+-----------------
+Action:
+Name: press_on_button
+Parameters:
+    agent : ['?self']
+    button : ['?b']
+Preconditions:
+1: Condition(Variable(tell_lock: []) = 0)
+2: Condition(Variable(change_lock: []) = 0)
+3: Condition(Variable(agent_id: ['?self']) = a)
+4: Condition(Variable(button_state: ['?b']) = off)
+Effects:
+1: Effect('assign' Variable(button_state: ['?b']) on)
+2: Effect('assign' Variable(change_lock: []) 1)
+
+-----------------
+Action:
+Name: press_off_button
+Parameters:
+    agent : ['?self']
+    button : ['?b']
+Preconditions:
+1: Condition(Variable(tell_lock: []) = 0)
+2: Condition(Variable(change_lock: []) = 0)
+3: Condition(Variable(agent_id: ['?self']) = a)
+4: Condition(Variable(button_state: ['?b']) = on)
+Effects:
+1: Effect('assign' Variable(button_state: ['?b']) off)
+2: Effect('assign' Variable(change_lock: []) 1)
+
+-----------------
+Action:
+Name: change_light_state
+Parameters:
+    agent : ['?self']
+    button : ['?b']
+    light : ['?l']
+    bs : ['?bs']
+Preconditions:
+1: Condition(Variable(tell_lock: []) = 0)
+2: Condition(Variable(change_lock: []) = 1)
+3: Condition(Variable(agent_id: ['?self']) = external)
+4: Condition(Variable(connected: ['?b']) = Variable(light_id: ['?l']))
+5: Condition(Variable(button_state: ['?b']) = Variable(bs_id: ['?bs']))
+6: Condition(Variable(light_state: ['?l']) != Variable(button_light_state: ['?b', '?bs']))
+Effects:
+1: Effect(effect_operator:'assign' Variable(light_state: ['?l']) Variable(button_light_state: ['?b', '?bs']))
+2: Effect('assign' Variable(change_lock: []) 0)
+
+-----------------
+Action:
+Name: tell
+Parameters:
+    agent : ['?self']
+    light : ['?l']
+Preconditions:
+1: Condition(Variable(agent_id: ['?self']) != a)
+2: Condition(Variable(agent_id: ['?self']) != external)
+3: Condition(Variable(observable: ['?l']) = Variable(agent_id: ['?self']))
+4: Condition(Variable(a_observable: ['?l']) = 0)
+5: Condition(Variable(telling: ['?self']) = 0)
+6: Condition(Variable(tell_lock: []) = 0)
+7: Condition(Variable(change_lock: []) = 0)
+Effects:
+1: Effect('assign' Variable(telling: ['?self']) 1)
+2: Effect('assign' Variable(tell_lock: []) 1)
+3: Effect('assign' Variable(a_observable: ['?l']) 1)
+
+-----------------
+Action:
+Name: quiet
+Parameters:
+    agent : ['?self']
+    light : ['?l']
+Preconditions:
+1: Condition(Variable(agent_id: ['?self']) != a)
+2: Condition(Variable(agent_id: ['?self']) != external)
+3: Condition(Variable(observable: ['?l']) = Variable(agent_id: ['?self']))
+4: Condition(Variable(a_observable: ['?l']) = 1)
+5: Condition(Variable(telling: ['?self']) = 1)
+6: Condition(Variable(tell_lock: []) = 1)
+7: Condition(Variable(change_lock: []) = 0)
+Effects:
+1: Effect('assign' Variable(telling: ['?self']) 0)
+2: Effect('assign' Variable(tell_lock: []) 0)
+3: Effect('assign' Variable(a_observable: ['?l']) 0)
+
+-----------------
+Action:
+Name: normal_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(tell_lock: []) = 0)
+2: Condition(Variable(change_lock: []) = 0)
+Effects:
+
+-----------------
+Action:
+Name: lock_stay
+Parameters:
+    agent : ['?self']
+Preconditions:
+1: Condition(Variable(tell_lock: []) = 1)
+2: Condition(Variable(telling: ['?self']) = 0)
+3: Condition(Variable(change_lock: []) = 0)
+Effects:
+
+
+2025-12-07 19:50:04,805 INFO - __main__.ProblemParser.run:
+Problem "models/light_bulb/light3" start initialization.
+2025-12-07 19:50:04,806 INFO - __main__.ProblemParser.get_files:
+Problem folder found "models/light_bulb/light3"
+2025-12-07 19:50:04,806 INFO - __main__.ProblemParser.run:
+Found 4 agent files:
+"models/light_bulb/light3/a.agtpddl"
+"models/light_bulb/light3/b.agtpddl"
+"models/light_bulb/light3/c.agtpddl"
+"models/light_bulb/light3/external.agtpddl"
+2025-12-07 19:50:04,807 INFO - __main__.ProblemParser.run:
+Found init file: "models/light_bulb/light3/init.envpddl"
+2025-12-07 19:50:04,807 INFO - __main__.ProblemParser.run:
+Complete reading environment file.
+2025-12-07 19:50:04,807 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/light_bulb/light3/a.agtpddl"
+2025-12-07 19:50:04,808 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/light_bulb/light3/b.agtpddl"
+2025-12-07 19:50:04,808 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/light_bulb/light3/c.agtpddl"
+2025-12-07 19:50:04,808 INFO - __main__.ProblemParser.run:
+Copmlete reading agent file "models/light_bulb/light3/external.agtpddl"
+2025-12-07 19:50:04,809 INFO - __main__.ProblemParser.run:
+Problem domain name "light_bulb" found
+Problem name "light3" found
+2025-12-07 19:50:04,809 INFO - __main__.ProblemParser.run:
+Problem agents found
+2025-12-07 19:50:04,810 INFO - __main__.ProblemParser.run:
+Problem objects found
+2025-12-07 19:50:04,811 INFO - __main__.ProblemParser.run:
+Problem ranges found
+2025-12-07 19:50:04,811 INFO - __main__.ProblemParser.run:
+Problem initial states found
+2025-12-07 19:50:04,813 ERROR - __main__._.regex_search:
 result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
-2025-12-06 20:43:24,022 ERROR - __main__._.regex_search:
+2025-12-07 19:50:04,813 ERROR - __main__._.regex_search:
 result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
-2025-12-06 20:43:24,022 ERROR - __main__._.regex_search:
+2025-12-07 19:50:04,813 ERROR - __main__._.regex_search:
 result not found: \(([!=><]=?|>|<) \(([^\)]+)\) \(?(\d|[^\)]+)\){1,2} in 
-2025-12-06 20:43:24,022 ERROR - __main__._.regex_search:
+2025-12-07 19:50:04,813 INFO - __main__.ProblemParser.run:
+Problem goals found
+2025-12-07 19:50:04,813 ERROR - __main__._.regex_search:
 result not found: \s+b\[([\w,]+)\]\s(.+)\((.+)\)=\[(.+)\] in         b[a] light_state(all) = on
 
+2025-12-07 19:50:04,814 INFO - __main__.ProblemParser.run:
+Problem acceptable goal set found
+2025-12-07 19:50:04,814 INFO - __main__.ProblemParser.run:
+Problem max belief depth found
+2025-12-07 19:50:04,815 DEBUG - __main__.ProblemParser.run:
+Parsed Problem Result:
+============ Problem "(light_bulb : light3)" Parsing Result ===========
+Agents: ['a', 'external', 'b', 'c']
+=================
+Objects:
+light: ['l1', 'l2', 'l3', 'l4']
+button: ['b1', 'b2', 'b3', 'b4']
+bs: ['on', 'off']
+=================
+States:
+State(variable: Variable(light_state: ['l1']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(light_state: ['l2']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(light_state: ['l3']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(light_state: ['l4']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(light_id: ['l1']), value: l1, target_variable: Variable(None: []))
+State(variable: Variable(light_id: ['l2']), value: l2, target_variable: Variable(None: []))
+State(variable: Variable(light_id: ['l3']), value: l3, target_variable: Variable(None: []))
+State(variable: Variable(light_id: ['l4']), value: l4, target_variable: Variable(None: []))
+State(variable: Variable(button_state: ['b1']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_state: ['b2']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_state: ['b3']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_state: ['b4']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b1', 'on']), value: on, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b1', 'off']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b2', 'on']), value: on, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b2', 'off']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b3', 'on']), value: on, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b3', 'off']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b4', 'on']), value: on, target_variable: Variable(None: []))
+State(variable: Variable(button_light_state: ['b4', 'off']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(bs_id: ['on']), value: on, target_variable: Variable(None: []))
+State(variable: Variable(bs_id: ['off']), value: off, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['b1']), value: l1, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['b2']), value: l2, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['b3']), value: l3, target_variable: Variable(None: []))
+State(variable: Variable(connected: ['b4']), value: l4, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['a']), value: a, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['b']), value: b, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['c']), value: c, target_variable: Variable(None: []))
+State(variable: Variable(agent_id: ['external']), value: external, target_variable: Variable(None: []))
+State(variable: Variable(tell_lock: []), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(change_lock: []), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(telling: ['a']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(telling: ['b']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(telling: ['c']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(telling: ['external']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(a_observable: ['l1']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(a_observable: ['l2']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(a_observable: ['l3']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(a_observable: ['l4']), value: 0, target_variable: Variable(None: []))
+State(variable: Variable(observable: ['l1']), value: b, target_variable: Variable(None: []))
+State(variable: Variable(observable: ['l2']), value: b, target_variable: Variable(None: []))
+State(variable: Variable(observable: ['l3']), value: c, target_variable: Variable(None: []))
+State(variable: Variable(observable: ['l4']), value: c, target_variable: Variable(None: []))
+=================
+Goals:
+-----------------
+a:
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(light_state: ['l1']) = on))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(light_state: ['l2']) = on))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(light_state: ['l3']) = on))
+EpistemicCondition(Belief sequence: ['a'], epistemic truth: "= true", Condition(Variable(light_state: ['l4']) = on))
+-----------------
+external:
+-----------------
+b:
+-----------------
+c:
+=================
+Ranges:
+Range(function_name: light_state, type: enumerate, enumerates: ['on', 'off'])
+Range(function_name: light_id, type: enumerate, enumerates: ['l1', 'l2', 'l3', 'l4'])
+Range(function_name: button_state, type: enumerate, enumerates: ['on', 'off'])
+Range(function_name: button_light_state, type: enumerate, enumerates: ['on', 'off'])
+Range(function_name: bs_id, type: enumerate, enumerates: ['on', 'off'])
+Range(function_name: connected, type: enumerate, enumerates: ['l1', 'l2', 'l3', 'l4'])
+Range(function_name: agent_id, type: enumerate, enumerates: ['a', 'b', 'c', 'external'])
+Range(function_name: tell_lock, type: integer, min: 0, max: 1)
+Range(function_name: change_lock, type: integer, min: 0, max: 1)
+Range(function_name: telling, type: integer, min: 0, max: 1)
+Range(function_name: a_observable, type: integer, min: 0, max: 1)
+Range(function_name: observable, type: enumerate, enumerates: ['b', 'c'])
+
+2025-12-07 19:50:04,817 INFO - __main__._.load_observation_function:
+Loaded observation function LightBulbObsFunc to agent a
+2025-12-07 19:50:04,817 INFO - __main__._.load_observation_function:
+Loaded observation function LightBulbObsFunc to agent external
+2025-12-07 19:50:04,818 INFO - __main__._.load_observation_function:
+Loaded observation function LightBulbObsFunc to agent b
+2025-12-07 19:50:04,819 INFO - __main__._.load_observation_function:
+Loaded observation function LightBulbObsFunc to agent c
+2025-12-07 19:50:04,820 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent a
+2025-12-07 19:50:04,821 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent external
+2025-12-07 19:50:04,821 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent b
+2025-12-07 19:50:04,822 INFO - __main__._.load_policy_strategy:
+Loaded strategy class ShareGoalBFS for agent c
+2025-12-07 19:50:04,822 INFO - __main__.Model.init:
+Loaded problem type: "SHARE"
+2025-12-07 19:50:04,830 DEBUG - __main__._.build_model:
+Model:
+================= Model Result================
+Domain name: light_bulb
+Problem name: light3
+Problem type: "SHARE"
+=================
+Function light_id:
+Parameters ['l1']:
+Value None: Function([id:1, header_id:1]  light_id {'?l': 'l1'} = None)
+Value l1: Function([id:2, header_id:1]  light_id {'?l': 'l1'} = l1)
+Value l2: Function([id:3, header_id:1]  light_id {'?l': 'l1'} = l2)
+Value l3: Function([id:4, header_id:1]  light_id {'?l': 'l1'} = l3)
+Value l4: Function([id:5, header_id:1]  light_id {'?l': 'l1'} = l4)
+Parameters ['l2']:
+Value None: Function([id:6, header_id:2]  light_id {'?l': 'l2'} = None)
+Value l1: Function([id:7, header_id:2]  light_id {'?l': 'l2'} = l1)
+Value l2: Function([id:8, header_id:2]  light_id {'?l': 'l2'} = l2)
+Value l3: Function([id:9, header_id:2]  light_id {'?l': 'l2'} = l3)
+Value l4: Function([id:10, header_id:2]  light_id {'?l': 'l2'} = l4)
+Parameters ['l3']:
+Value None: Function([id:11, header_id:3]  light_id {'?l': 'l3'} = None)
+Value l1: Function([id:12, header_id:3]  light_id {'?l': 'l3'} = l1)
+Value l2: Function([id:13, header_id:3]  light_id {'?l': 'l3'} = l2)
+Value l3: Function([id:14, header_id:3]  light_id {'?l': 'l3'} = l3)
+Value l4: Function([id:15, header_id:3]  light_id {'?l': 'l3'} = l4)
+Parameters ['l4']:
+Value None: Function([id:16, header_id:4]  light_id {'?l': 'l4'} = None)
+Value l1: Function([id:17, header_id:4]  light_id {'?l': 'l4'} = l1)
+Value l2: Function([id:18, header_id:4]  light_id {'?l': 'l4'} = l2)
+Value l3: Function([id:19, header_id:4]  light_id {'?l': 'l4'} = l3)
+Value l4: Function([id:20, header_id:4]  light_id {'?l': 'l4'} = l4)
+Function bs_id:
+Parameters ['on']:
+Value None: Function([id:21, header_id:5]  bs_id {'?bs': 'on'} = None)
+Value on: Function([id:22, header_id:5]  bs_id {'?bs': 'on'} = on)
+Value off: Function([id:23, header_id:5]  bs_id {'?bs': 'on'} = off)
+Parameters ['off']:
+Value None: Function([id:24, header_id:6]  bs_id {'?bs': 'off'} = None)
+Value on: Function([id:25, header_id:6]  bs_id {'?bs': 'off'} = on)
+Value off: Function([id:26, header_id:6]  bs_id {'?bs': 'off'} = off)
+Function agent_id:
+Parameters ['a']:
+Value None: Function([id:27, header_id:7]  agent_id {'?a': 'a'} = None)
+Value a: Function([id:28, header_id:7]  agent_id {'?a': 'a'} = a)
+Value b: Function([id:29, header_id:7]  agent_id {'?a': 'a'} = b)
+Value c: Function([id:30, header_id:7]  agent_id {'?a': 'a'} = c)
+Value external: Function([id:31, header_id:7]  agent_id {'?a': 'a'} = external)
+Parameters ['external']:
+Value None: Function([id:32, header_id:8]  agent_id {'?a': 'external'} = None)
+Value a: Function([id:33, header_id:8]  agent_id {'?a': 'external'} = a)
+Value b: Function([id:34, header_id:8]  agent_id {'?a': 'external'} = b)
+Value c: Function([id:35, header_id:8]  agent_id {'?a': 'external'} = c)
+Value external: Function([id:36, header_id:8]  agent_id {'?a': 'external'} = external)
+Parameters ['b']:
+Value None: Function([id:37, header_id:9]  agent_id {'?a': 'b'} = None)
+Value a: Function([id:38, header_id:9]  agent_id {'?a': 'b'} = a)
+Value b: Function([id:39, header_id:9]  agent_id {'?a': 'b'} = b)
+Value c: Function([id:40, header_id:9]  agent_id {'?a': 'b'} = c)
+Value external: Function([id:41, header_id:9]  agent_id {'?a': 'b'} = external)
+Parameters ['c']:
+Value None: Function([id:42, header_id:10]  agent_id {'?a': 'c'} = None)
+Value a: Function([id:43, header_id:10]  agent_id {'?a': 'c'} = a)
+Value b: Function([id:44, header_id:10]  agent_id {'?a': 'c'} = b)
+Value c: Function([id:45, header_id:10]  agent_id {'?a': 'c'} = c)
+Value external: Function([id:46, header_id:10]  agent_id {'?a': 'c'} = external)
+Function tell_lock:
+Parameters []:
+Value None: Function([id:47, header_id:11]  tell_lock {} = None)
+Value 0: Function([id:48, header_id:11]  tell_lock {} = 0)
+Value 1: Function([id:49, header_id:11]  tell_lock {} = 1)
+Function change_lock:
+Parameters []:
+Value None: Function([id:50, header_id:12]  change_lock {} = None)
+Value 0: Function([id:51, header_id:12]  change_lock {} = 0)
+Value 1: Function([id:52, header_id:12]  change_lock {} = 1)
+Function telling:
+Parameters ['a']:
+Value None: Function([id:53, header_id:13]  telling {'?a': 'a'} = None)
+Value 0: Function([id:54, header_id:13]  telling {'?a': 'a'} = 0)
+Value 1: Function([id:55, header_id:13]  telling {'?a': 'a'} = 1)
+Parameters ['external']:
+Value None: Function([id:56, header_id:14]  telling {'?a': 'external'} = None)
+Value 0: Function([id:57, header_id:14]  telling {'?a': 'external'} = 0)
+Value 1: Function([id:58, header_id:14]  telling {'?a': 'external'} = 1)
+Parameters ['b']:
+Value None: Function([id:59, header_id:15]  telling {'?a': 'b'} = None)
+Value 0: Function([id:60, header_id:15]  telling {'?a': 'b'} = 0)
+Value 1: Function([id:61, header_id:15]  telling {'?a': 'b'} = 1)
+Parameters ['c']:
+Value None: Function([id:62, header_id:16]  telling {'?a': 'c'} = None)
+Value 0: Function([id:63, header_id:16]  telling {'?a': 'c'} = 0)
+Value 1: Function([id:64, header_id:16]  telling {'?a': 'c'} = 1)
+Function a_observable:
+Parameters ['l1']:
+Value None: Function([id:65, header_id:17]  a_observable {'?l': 'l1'} = None)
+Value 0: Function([id:66, header_id:17]  a_observable {'?l': 'l1'} = 0)
+Value 1: Function([id:67, header_id:17]  a_observable {'?l': 'l1'} = 1)
+Parameters ['l2']:
+Value None: Function([id:68, header_id:18]  a_observable {'?l': 'l2'} = None)
+Value 0: Function([id:69, header_id:18]  a_observable {'?l': 'l2'} = 0)
+Value 1: Function([id:70, header_id:18]  a_observable {'?l': 'l2'} = 1)
+Parameters ['l3']:
+Value None: Function([id:71, header_id:19]  a_observable {'?l': 'l3'} = None)
+Value 0: Function([id:72, header_id:19]  a_observable {'?l': 'l3'} = 0)
+Value 1: Function([id:73, header_id:19]  a_observable {'?l': 'l3'} = 1)
+Parameters ['l4']:
+Value None: Function([id:74, header_id:20]  a_observable {'?l': 'l4'} = None)
+Value 0: Function([id:75, header_id:20]  a_observable {'?l': 'l4'} = 0)
+Value 1: Function([id:76, header_id:20]  a_observable {'?l': 'l4'} = 1)
+Function observable:
+Parameters ['l1']:
+Value None: Function([id:77, header_id:21]  observable {'?l': 'l1'} = None)
+Value b: Function([id:78, header_id:21]  observable {'?l': 'l1'} = b)
+Value c: Function([id:79, header_id:21]  observable {'?l': 'l1'} = c)
+Parameters ['l2']:
+Value None: Function([id:80, header_id:22]  observable {'?l': 'l2'} = None)
+Value b: Function([id:81, header_id:22]  observable {'?l': 'l2'} = b)
+Value c: Function([id:82, header_id:22]  observable {'?l': 'l2'} = c)
+Parameters ['l3']:
+Value None: Function([id:83, header_id:23]  observable {'?l': 'l3'} = None)
+Value b: Function([id:84, header_id:23]  observable {'?l': 'l3'} = b)
+Value c: Function([id:85, header_id:23]  observable {'?l': 'l3'} = c)
+Parameters ['l4']:
+Value None: Function([id:86, header_id:24]  observable {'?l': 'l4'} = None)
+Value b: Function([id:87, header_id:24]  observable {'?l': 'l4'} = b)
+Value c: Function([id:88, header_id:24]  observable {'?l': 'l4'} = c)
+Function light_state:
+Parameters ['l1']:
+Value None: Function([id:89, header_id:25]  light_state {'?l': 'l1'} = None)
+Value on: Function([id:90, header_id:25]  light_state {'?l': 'l1'} = on)
+Value off: Function([id:91, header_id:25]  light_state {'?l': 'l1'} = off)
+Parameters ['l2']:
+Value None: Function([id:92, header_id:26]  light_state {'?l': 'l2'} = None)
+Value on: Function([id:93, header_id:26]  light_state {'?l': 'l2'} = on)
+Value off: Function([id:94, header_id:26]  light_state {'?l': 'l2'} = off)
+Parameters ['l3']:
+Value None: Function([id:95, header_id:27]  light_state {'?l': 'l3'} = None)
+Value on: Function([id:96, header_id:27]  light_state {'?l': 'l3'} = on)
+Value off: Function([id:97, header_id:27]  light_state {'?l': 'l3'} = off)
+Parameters ['l4']:
+Value None: Function([id:98, header_id:28]  light_state {'?l': 'l4'} = None)
+Value on: Function([id:99, header_id:28]  light_state {'?l': 'l4'} = on)
+Value off: Function([id:100, header_id:28]  light_state {'?l': 'l4'} = off)
+Function connected:
+Parameters ['b1']:
+Value None: Function([id:101, header_id:29]  connected {'?b': 'b1'} = None)
+Value l1: Function([id:102, header_id:29]  connected {'?b': 'b1'} = l1)
+Value l2: Function([id:103, header_id:29]  connected {'?b': 'b1'} = l2)
+Value l3: Function([id:104, header_id:29]  connected {'?b': 'b1'} = l3)
+Value l4: Function([id:105, header_id:29]  connected {'?b': 'b1'} = l4)
+Parameters ['b2']:
+Value None: Function([id:106, header_id:30]  connected {'?b': 'b2'} = None)
+Value l1: Function([id:107, header_id:30]  connected {'?b': 'b2'} = l1)
+Value l2: Function([id:108, header_id:30]  connected {'?b': 'b2'} = l2)
+Value l3: Function([id:109, header_id:30]  connected {'?b': 'b2'} = l3)
+Value l4: Function([id:110, header_id:30]  connected {'?b': 'b2'} = l4)
+Parameters ['b3']:
+Value None: Function([id:111, header_id:31]  connected {'?b': 'b3'} = None)
+Value l1: Function([id:112, header_id:31]  connected {'?b': 'b3'} = l1)
+Value l2: Function([id:113, header_id:31]  connected {'?b': 'b3'} = l2)
+Value l3: Function([id:114, header_id:31]  connected {'?b': 'b3'} = l3)
+Value l4: Function([id:115, header_id:31]  connected {'?b': 'b3'} = l4)
+Parameters ['b4']:
+Value None: Function([id:116, header_id:32]  connected {'?b': 'b4'} = None)
+Value l1: Function([id:117, header_id:32]  connected {'?b': 'b4'} = l1)
+Value l2: Function([id:118, header_id:32]  connected {'?b': 'b4'} = l2)
+Value l3: Function([id:119, header_id:32]  connected {'?b': 'b4'} = l3)
+Value l4: Function([id:120, header_id:32]  connected {'?b': 'b4'} = l4)
+Function button_state:
+Parameters ['b1']:
+Value None: Function([id:121, header_id:33]  button_state {'?b': 'b1'} = None)
+Value on: Function([id:122, header_id:33]  button_state {'?b': 'b1'} = on)
+Value off: Function([id:123, header_id:33]  button_state {'?b': 'b1'} = off)
+Parameters ['b2']:
+Value None: Function([id:124, header_id:34]  button_state {'?b': 'b2'} = None)
+Value on: Function([id:125, header_id:34]  button_state {'?b': 'b2'} = on)
+Value off: Function([id:126, header_id:34]  button_state {'?b': 'b2'} = off)
+Parameters ['b3']:
+Value None: Function([id:127, header_id:35]  button_state {'?b': 'b3'} = None)
+Value on: Function([id:128, header_id:35]  button_state {'?b': 'b3'} = on)
+Value off: Function([id:129, header_id:35]  button_state {'?b': 'b3'} = off)
+Parameters ['b4']:
+Value None: Function([id:130, header_id:36]  button_state {'?b': 'b4'} = None)
+Value on: Function([id:131, header_id:36]  button_state {'?b': 'b4'} = on)
+Value off: Function([id:132, header_id:36]  button_state {'?b': 'b4'} = off)
+Function button_light_state:
+Parameters ['b1', 'on']:
+Value None: Function([id:133, header_id:37]  button_light_state {'?b': 'b1', '?bs': 'on'} = None)
+Value on: Function([id:134, header_id:37]  button_light_state {'?b': 'b1', '?bs': 'on'} = on)
+Value off: Function([id:135, header_id:37]  button_light_state {'?b': 'b1', '?bs': 'on'} = off)
+Parameters ['b1', 'off']:
+Value None: Function([id:136, header_id:38]  button_light_state {'?b': 'b1', '?bs': 'off'} = None)
+Value on: Function([id:137, header_id:38]  button_light_state {'?b': 'b1', '?bs': 'off'} = on)
+Value off: Function([id:138, header_id:38]  button_light_state {'?b': 'b1', '?bs': 'off'} = off)
+Parameters ['b2', 'on']:
+Value None: Function([id:139, header_id:39]  button_light_state {'?b': 'b2', '?bs': 'on'} = None)
+Value on: Function([id:140, header_id:39]  button_light_state {'?b': 'b2', '?bs': 'on'} = on)
+Value off: Function([id:141, header_id:39]  button_light_state {'?b': 'b2', '?bs': 'on'} = off)
+Parameters ['b2', 'off']:
+Value None: Function([id:142, header_id:40]  button_light_state {'?b': 'b2', '?bs': 'off'} = None)
+Value on: Function([id:143, header_id:40]  button_light_state {'?b': 'b2', '?bs': 'off'} = on)
+Value off: Function([id:144, header_id:40]  button_light_state {'?b': 'b2', '?bs': 'off'} = off)
+Parameters ['b3', 'on']:
+Value None: Function([id:145, header_id:41]  button_light_state {'?b': 'b3', '?bs': 'on'} = None)
+Value on: Function([id:146, header_id:41]  button_light_state {'?b': 'b3', '?bs': 'on'} = on)
+Value off: Function([id:147, header_id:41]  button_light_state {'?b': 'b3', '?bs': 'on'} = off)
+Parameters ['b3', 'off']:
+Value None: Function([id:148, header_id:42]  button_light_state {'?b': 'b3', '?bs': 'off'} = None)
+Value on: Function([id:149, header_id:42]  button_light_state {'?b': 'b3', '?bs': 'off'} = on)
+Value off: Function([id:150, header_id:42]  button_light_state {'?b': 'b3', '?bs': 'off'} = off)
+Parameters ['b4', 'on']:
+Value None: Function([id:151, header_id:43]  button_light_state {'?b': 'b4', '?bs': 'on'} = None)
+Value on: Function([id:152, header_id:43]  button_light_state {'?b': 'b4', '?bs': 'on'} = on)
+Value off: Function([id:153, header_id:43]  button_light_state {'?b': 'b4', '?bs': 'on'} = off)
+Parameters ['b4', 'off']:
+Value None: Function([id:154, header_id:44]  button_light_state {'?b': 'b4', '?bs': 'off'} = None)
+Value on: Function([id:155, header_id:44]  button_light_state {'?b': 'b4', '?bs': 'off'} = on)
+Value off: Function([id:156, header_id:44]  button_light_state {'?b': 'b4', '?bs': 'off'} = off)
+
+=================
+Entity(a - agent)
+Entity(external - agent)
+Entity(b - agent)
+Entity(c - agent)
+Entity(l1 - light)
+Entity(l2 - light)
+Entity(l3 - light)
+Entity(l4 - light)
+Entity(b1 - button)
+Entity(b2 - button)
+Entity(b3 - button)
+Entity(b4 - button)
+Entity(on - bs)
+Entity(off - bs)
+=================
+FunctionSchema(name: light_id, range: ['l1', 'l2', 'l3', 'l4'], type: enumerate, require_parameters: {'?l': 'light'})
+FunctionSchema(name: bs_id, range: ['on', 'off'], type: enumerate, require_parameters: {'?bs': 'bs'})
+FunctionSchema(name: agent_id, range: ['a', 'b', 'c', 'external'], type: enumerate, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: tell_lock, range: (0, 1), type: integer, require_parameters: {})
+FunctionSchema(name: change_lock, range: (0, 1), type: integer, require_parameters: {})
+FunctionSchema(name: telling, range: (0, 1), type: integer, require_parameters: {'?a': 'agent'})
+FunctionSchema(name: a_observable, range: (0, 1), type: integer, require_parameters: {'?l': 'light'})
+FunctionSchema(name: observable, range: ['b', 'c'], type: enumerate, require_parameters: {'?l': 'light'})
+FunctionSchema(name: light_state, range: ['on', 'off'], type: enumerate, require_parameters: {'?l': 'light'})
+FunctionSchema(name: connected, range: ['l1', 'l2', 'l3', 'l4'], type: enumerate, require_parameters: {'?b': 'button'})
+FunctionSchema(name: button_state, range: ['on', 'off'], type: enumerate, require_parameters: {'?b': 'button'})
+FunctionSchema(name: button_light_state, range: ['on', 'off'], type: enumerate, require_parameters: {'?b': 'button', '?bs': 'bs'})
+=================
+-----------------
+Action Schema: press_on_button
+Parameters: {'?self': 'agent', '?b': 'button'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (change_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_id {'?self': 'agent'}) = a)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (button_state {'?b': 'button'}) = off)
+Effect Schemas:
+EffectSchema("ASSIGN" (button_state {'?b': 'button'}) = on)
+EffectSchema("ASSIGN" (change_lock {}) = 1)
+
+-----------------
+Action Schema: press_off_button
+Parameters: {'?self': 'agent', '?b': 'button'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (change_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_id {'?self': 'agent'}) = a)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (button_state {'?b': 'button'}) = on)
+Effect Schemas:
+EffectSchema("ASSIGN" (button_state {'?b': 'button'}) = off)
+EffectSchema("ASSIGN" (change_lock {}) = 1)
+
+-----------------
+Action Schema: change_light_state
+Parameters: {'?self': 'agent', '?b': 'button', '?l': 'light', '?bs': 'bs'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (change_lock {}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (agent_id {'?self': 'agent'}) = external)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (connected {'?b': 'button'}) = (light_id {'?l': 'light'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (button_state {'?b': 'button'}) = (bs_id {'?bs': 'bs'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (light_state {'?l': 'light'}) = (button_light_state {'?b': 'button', '?bs': 'bs'}))
+Effect Schemas:
+EffectSchema("ASSIGN" (light_state {'?l': 'light'}) = (button_light_state {'?b': 'button', '?bs': 'bs'}))
+EffectSchema("ASSIGN" (change_lock {}) = 0)
+
+-----------------
+Action Schema: tell
+Parameters: {'?self': 'agent', '?l': 'light'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (agent_id {'?self': 'agent'}) = a)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (agent_id {'?self': 'agent'}) = external)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (observable {'?l': 'light'}) = (agent_id {'?self': 'agent'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (a_observable {'?l': 'light'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (telling {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (change_lock {}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (telling {'?self': 'agent'}) = 1)
+EffectSchema("ASSIGN" (tell_lock {}) = 1)
+EffectSchema("ASSIGN" (a_observable {'?l': 'light'}) = 1)
+
+-----------------
+Action Schema: quiet
+Parameters: {'?self': 'agent', '?l': 'light'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (agent_id {'?self': 'agent'}) = a)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "NOT_EQUAL" (agent_id {'?self': 'agent'}) = external)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (observable {'?l': 'light'}) = (agent_id {'?self': 'agent'}))
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (a_observable {'?l': 'light'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (telling {'?self': 'agent'}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (change_lock {}) = 0)
+Effect Schemas:
+EffectSchema("ASSIGN" (telling {'?self': 'agent'}) = 0)
+EffectSchema("ASSIGN" (tell_lock {}) = 0)
+EffectSchema("ASSIGN" (a_observable {'?l': 'light'}) = 0)
+
+-----------------
+Action Schema: normal_stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (change_lock {}) = 0)
+Effect Schemas:
+
+-----------------
+Action Schema: lock_stay
+Parameters: {'?self': 'agent'}
+Precondition Schemas:
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (tell_lock {}) = 1)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (telling {'?self': 'agent'}) = 0)
+ConditionSchema(("EP_NONE" [] "EP_NONE") "EQUAL" (change_lock {}) = 0)
+Effect Schemas:
+
+=================
+Function([id:91, header_id:25]  light_state {'?l': 'l1'} = off)
+Function([id:94, header_id:26]  light_state {'?l': 'l2'} = off)
+Function([id:97, header_id:27]  light_state {'?l': 'l3'} = off)
+Function([id:100, header_id:28]  light_state {'?l': 'l4'} = off)
+Function([id:2, header_id:1]  light_id {'?l': 'l1'} = l1)
+Function([id:8, header_id:2]  light_id {'?l': 'l2'} = l2)
+Function([id:14, header_id:3]  light_id {'?l': 'l3'} = l3)
+Function([id:20, header_id:4]  light_id {'?l': 'l4'} = l4)
+Function([id:123, header_id:33]  button_state {'?b': 'b1'} = off)
+Function([id:126, header_id:34]  button_state {'?b': 'b2'} = off)
+Function([id:129, header_id:35]  button_state {'?b': 'b3'} = off)
+Function([id:132, header_id:36]  button_state {'?b': 'b4'} = off)
+Function([id:134, header_id:37]  button_light_state {'?b': 'b1', '?bs': 'on'} = on)
+Function([id:138, header_id:38]  button_light_state {'?b': 'b1', '?bs': 'off'} = off)
+Function([id:140, header_id:39]  button_light_state {'?b': 'b2', '?bs': 'on'} = on)
+Function([id:144, header_id:40]  button_light_state {'?b': 'b2', '?bs': 'off'} = off)
+Function([id:146, header_id:41]  button_light_state {'?b': 'b3', '?bs': 'on'} = on)
+Function([id:150, header_id:42]  button_light_state {'?b': 'b3', '?bs': 'off'} = off)
+Function([id:152, header_id:43]  button_light_state {'?b': 'b4', '?bs': 'on'} = on)
+Function([id:156, header_id:44]  button_light_state {'?b': 'b4', '?bs': 'off'} = off)
+Function([id:22, header_id:5]  bs_id {'?bs': 'on'} = on)
+Function([id:26, header_id:6]  bs_id {'?bs': 'off'} = off)
+Function([id:102, header_id:29]  connected {'?b': 'b1'} = l1)
+Function([id:108, header_id:30]  connected {'?b': 'b2'} = l2)
+Function([id:114, header_id:31]  connected {'?b': 'b3'} = l3)
+Function([id:120, header_id:32]  connected {'?b': 'b4'} = l4)
+Function([id:28, header_id:7]  agent_id {'?a': 'a'} = a)
+Function([id:39, header_id:9]  agent_id {'?a': 'b'} = b)
+Function([id:45, header_id:10]  agent_id {'?a': 'c'} = c)
+Function([id:36, header_id:8]  agent_id {'?a': 'external'} = external)
+Function([id:48, header_id:11]  tell_lock {} = 0)
+Function([id:51, header_id:12]  change_lock {} = 0)
+Function([id:54, header_id:13]  telling {'?a': 'a'} = 0)
+Function([id:60, header_id:15]  telling {'?a': 'b'} = 0)
+Function([id:63, header_id:16]  telling {'?a': 'c'} = 0)
+Function([id:57, header_id:14]  telling {'?a': 'external'} = 0)
+Function([id:66, header_id:17]  a_observable {'?l': 'l1'} = 0)
+Function([id:69, header_id:18]  a_observable {'?l': 'l2'} = 0)
+Function([id:72, header_id:19]  a_observable {'?l': 'l3'} = 0)
+Function([id:75, header_id:20]  a_observable {'?l': 'l4'} = 0)
+Function([id:78, header_id:21]  observable {'?l': 'l1'} = b)
+Function([id:81, header_id:22]  observable {'?l': 'l2'} = b)
+Function([id:85, header_id:23]  observable {'?l': 'l3'} = c)
+Function([id:88, header_id:24]  observable {'?l': 'l4'} = c)
+=================
+Agent: a
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Condition(['a'] light_state ['l1'] = on)
+Condition(['a'] light_state ['l2'] = on)
+Condition(['a'] light_state ['l3'] = on)
+Condition(['a'] light_state ['l4'] = on)
+Other Goals:
+external:
+b:
+c:
+All Possible Goals:
+external:
+b:
+c:
+-----------------
+
+Agent: external
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Other Goals:
+a:
+Condition(['a'] light_state ['l1'] = on)
+Condition(['a'] light_state ['l2'] = on)
+Condition(['a'] light_state ['l3'] = on)
+Condition(['a'] light_state ['l4'] = on)
+b:
+c:
+All Possible Goals:
+a:
+Condition(['a'] light_state ['l1'] = on)
+Condition(['a'] light_state ['l2'] = on)
+Condition(['a'] light_state ['l3'] = on)
+Condition(['a'] light_state ['l4'] = on)
+b:
+c:
+-----------------
+
+Agent: b
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Other Goals:
+a:
+Condition(['a'] light_state ['l1'] = on)
+Condition(['a'] light_state ['l2'] = on)
+Condition(['a'] light_state ['l3'] = on)
+Condition(['a'] light_state ['l4'] = on)
+external:
+c:
+All Possible Goals:
+a:
+Condition(['a'] light_state ['l1'] = on)
+Condition(['a'] light_state ['l2'] = on)
+Condition(['a'] light_state ['l3'] = on)
+Condition(['a'] light_state ['l4'] = on)
+external:
+c:
+-----------------
+
+Agent: c
+Max move time: inf
+Goal completed: 'False'
+Consider goal: 'False'
+Consider exp: 'False'
+Own Goals:
+Other Goals:
+a:
+Condition(['a'] light_state ['l1'] = on)
+Condition(['a'] light_state ['l2'] = on)
+Condition(['a'] light_state ['l3'] = on)
+Condition(['a'] light_state ['l4'] = on)
+external:
+b:
+All Possible Goals:
+a:
+Condition(['a'] light_state ['l1'] = on)
+Condition(['a'] light_state ['l2'] = on)
+Condition(['a'] light_state ['l3'] = on)
+Condition(['a'] light_state ['l4'] = on)
+external:
+b:
+-----------------
+
+
+2025-12-07 19:50:04,831 INFO - __main__._.<module>:
+Model built successfully.

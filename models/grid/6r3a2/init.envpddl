@@ -3,7 +3,7 @@
     (:domain grid)
 
     (:agents 
-        a b qhb c qhc
+        a b c
     )
 
     (:objects
@@ -15,32 +15,18 @@
         (assign (agent_loc a) r0)
         (assign (agent_loc b) r3)
         (assign (agent_loc c) r6)
-        (assign (agent_loc qhb) r0)
-        (assign (agent_loc qhc) r0)
-
-        (assign (agent_type a) agent)
-        (assign (agent_type b) agent)
-        (assign (agent_type c) agent)
-        (assign (agent_type qhb) quiet_helper)
-        (assign (agent_type qhc) quiet_helper)
 
         (assign (movable a) 0)
         (assign (movable b) 1)
         (assign (movable c) 1)
-        (assign (movable qhb) 0)
-        (assign (movable qhc) 0)
 
         (assign (sharable a) 0)
         (assign (sharable b) 1)
         (assign (sharable c) 1)
-        (assign (sharable qhb) 0)
-        (assign (sharable qhc) 0)
 
         (assign (receivable a) 1)
         (assign (receivable b) 0)
         (assign (receivable c) 0)
-        (assign (receivable qhb) 0)
-        (assign (receivable qhc) 0)
 
         (assign (survivor_loc s1) r4)
 
@@ -49,10 +35,6 @@
         (assign (sharing a) 0)
         (assign (sharing b) 0)
         (assign (sharing c) 0)
-        (assign (sharing qhb) 0)
-        (assign (sharing qhc) 0)
-
-        (assign (share_lock) 0)
 
         (assign (searched r0) 1)
         (assign (searched r1) 1)
@@ -60,7 +42,7 @@
         (assign (searched r3) 1)
         (assign (searched r4) 0)
         (assign (searched r5) 0)
-        (assign (searched r6) 1)
+        (assign (searched r6) 0)
 
         (assign (loc_id r0) r0)
         (assign (loc_id r1) r1)
@@ -125,17 +107,14 @@
         (assign (connected r6 r4) 0)
         (assign (connected r6 r5) 1)
         (assign (connected r6 r6) 0)
-
     )
 
     (:ranges
         (agent_loc enumerate [r0,r1,r2,r3,r4,r5,r6])
-        (agent_type enumerate [agent,quiet_helper])
         (survivor_loc enumerate [r0,r1,r2,r3,r4,r5,r6])
         (loc_id enumerate [r0,r1,r2,r3,r4,r5,r6])
         (shared integer [0,1])
         (sharing integer [0,1])
-        (share_lock integer [0,1])
         (connected integer [0,1])
         (sharable integer [0,1])
         (movable integer [0,1])

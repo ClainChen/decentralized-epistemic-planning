@@ -10,7 +10,7 @@ import re
 import copy
 
 c_logging_level = logging.INFO
-THIS_LOGGER_LEVEL = 25
+THIS_LOGGER_LEVEL = logging.DEBUG
 LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'fatal': logging.FATAL,
                   'error': logging.ERROR,
@@ -103,9 +103,12 @@ if __name__ == '__main__':
             domain_name = args.quick_test.split('/')[0]
             args.problem_path = args.quick_test
             args.domain_path = f"{domain_name}/domain.pddl"
-            args.observation_function = f"{domain_name}.py"
-            args.rules = f"{domain_name}.py"
-            args.problem_type = True
+            if not args.observation_function:
+                args.observation_function = f"{domain_name}.py"
+            if not args.rules:
+                args.rules = f"{domain_name}.py"
+            if not args.problem_type:
+                args.problem_type = True
         if args.strategy == 'shareexp.py':
             args.consider_exp = True
         else:
@@ -162,7 +165,7 @@ if __name__ == '__main__':
             start_index = model.get_agent_index_by_name(model.get_next_agent(action_sequence[-1][0]))
         print("-------------------")
         path_len, path = util.check_bfs(model.copy())
-        # exit(0)
+        exit(0)
         if path_len == -1:
             util.LOGGER.error(f"Model's goal setting do not have solution")
             print("Model's goal setting do not have solution")

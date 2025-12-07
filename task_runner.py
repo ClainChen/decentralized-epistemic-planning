@@ -3,7 +3,6 @@ import re
 import subprocess
 import argparse
 import shlex
-from pathlib import Path
 import json
 
 
@@ -62,7 +61,7 @@ def run_command(command):
     """执行单条命令并返回结果"""
     try:
 
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=3600)
+        result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=6000)
         result = {
             'command': command,
             'returncode': result.returncode,
