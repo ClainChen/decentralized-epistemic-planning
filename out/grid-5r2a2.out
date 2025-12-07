@@ -1,51 +1,31 @@
 -------------------
 Centralized Planning Result:
-Time spent: 3.683589s
-Number of Expansions: 373
-Path Length: 9
-Path: ["move_and_share(['b', 'r3', 'r2'])", "quiet(['qhb', 'b'])", "move_and_share(['b', 'r2', 'r1'])", "quiet(['qhb', 'b'])", "move_and_share_survivor(['b', 's1', 'r1', 'r4'])", "quiet(['qhb', 'b'])", "move_and_share(['b', 'r4', 'r5'])", "quiet(['qhb', 'b'])", "move_and_share(['b', 'r5', 'r3'])"]
+Time spent: 0.381148s
+Number of Expansions: 78
+Path Length: 6
+Path: ["move_and_share(['b', 'r3', 'r2'])", "move_and_share_survivor(['b', 's1', 'r2', 'r4'])", "move_and_share(['b', 'r4', 'r1'])", "move_and_share(['b', 'r1', 'r4'])", "move_and_share(['b', 'r4', 'r5'])", "move_and_share(['b', 'r5', 'r3'])"]
 -------------------
 1th Simulation:
-a takes action: normal_stay(['a'])
+a takes action: stay(['a'])
+b vms: 4
 b takes action: move_and_share(['b', 'r3', 'r5'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
+a takes action: stay(['a'])
+b vms: 4
 b takes action: move_and_share(['b', 'r5', 'r3'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
+a takes action: stay(['a'])
+b vms: 4
 b takes action: move_and_share(['b', 'r3', 'r2'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
-b takes action: move_and_share(['b', 'r2', 'r1'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
-b takes action: move_and_share(['b', 'r1', 'r4'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
-b takes action: move(['b', 'r4', 'r1'])
-qhb takes action: normal_stay(['qhb'])
-a takes action: normal_stay(['a'])
-b takes action: move_and_share_survivor(['b', 's1', 'r1', 'r4'])
-2th Simulation:
-a takes action: normal_stay(['a'])
-b takes action: move_and_share(['b', 'r3', 'r2'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
-b takes action: move_and_share(['b', 'r2', 'r3'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
-b takes action: move_and_share(['b', 'r3', 'r5'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
-b takes action: move_and_share(['b', 'r5', 'r4'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
+a takes action: stay(['a'])
+b vms: 4
+b takes action: move_and_share(['b', 'r2', 'r4'])
+a takes action: stay(['a'])
+b vms: 1
 b takes action: move_and_share(['b', 'r4', 'r1'])
-qhb takes action: quiet(['qhb', 'b'])
-a takes action: normal_stay(['a'])
+a takes action: stay(['a'])
+b vms: 1
 b takes action: move_and_share_survivor(['b', 's1', 'r1', 'r4'])
-Avg Steps: 18.5
-Avg Time: 119.819846s
-Avg VMS: 24.5
-Avg Call of JP: 48212.5
+Avg Steps: 12.0
+Avg Time: 11.614066s
+Avg VMS: 18.0
+Avg Call of JP: 5438.0
 
